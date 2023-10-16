@@ -5,6 +5,10 @@ import storage from 'redux-persist/lib/storage';
 // reducer import
 import customizationReducer from './customizationReducer';
 import accountReducer from './accountReducer';
+import GlobalCategoryGroupReducer from './GlobalCategoryGroupReducer';
+import GlobalCategoryReducer from './GlobalCategoryReducer';
+import userReducer from './userReducer';
+
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
 
@@ -17,7 +21,11 @@ const reducer = combineReducers({
         },
         accountReducer
     ),
-    customization: customizationReducer
+    userReducer: userReducer,
+    customization: customizationReducer,
+    globalCategoryGroupReducer: GlobalCategoryGroupReducer,
+    globalCategoryReducer: GlobalCategoryReducer
+
 });
 
 export default reducer;

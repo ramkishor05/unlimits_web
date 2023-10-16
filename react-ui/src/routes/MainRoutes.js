@@ -5,6 +5,8 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 import MainLayout from './../layout/MainLayout';
 import Loadable from '../ui-component/Loadable';
 import AuthGuard from './../utils/route-guard/AuthGuard';
+import CustCategoryGroup from '../views/cust/category/CustCategoryGroup';
+import CustCategoryList from '../views/cust/category/CustCategoryList';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -28,13 +30,13 @@ const MainRoutes = () => {
         <Route
             path={[
                 '/dashboard/default',
-
+                '/category/group',
+                '/category/list',
                 '/utils/util-typography',
                 '/utils/util-color',
                 '/utils/util-shadow',
                 '/icons/tabler-icons',
                 '/icons/material-icons',
-
                 '/sample-page'
             ]}
         >
@@ -42,13 +44,13 @@ const MainRoutes = () => {
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
                         <Route path="/dashboard/default" component={DashboardDefault} />
-
+                        <Route path="/category/group" component={CustCategoryGroup} />
+                        <Route path="/category/list" component={CustCategoryList} />
                         <Route path="/utils/util-typography" component={UtilsTypography} />
                         <Route path="/utils/util-color" component={UtilsColor} />
                         <Route path="/utils/util-shadow" component={UtilsShadow} />
                         <Route path="/icons/tabler-icons" component={UtilsTablerIcons} />
                         <Route path="/icons/material-icons" component={UtilsMaterialIcons} />
-
                         <Route path="/sample-page" component={SamplePage} />
                     </AuthGuard>
                 </Switch>

@@ -3,7 +3,7 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 import Loadable from '../ui-component/Loadable';
 
 // project imports
-import MinimalLayout from './../layout/MinimalLayout';
+import MinimalLayout from '../layout/MinimalLayout';
 
 // login option 3 routing
 const AuthLogin3 = Loadable(lazy(() => import('../views/pages/authentication/authentication3/Login3')));

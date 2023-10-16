@@ -148,17 +148,17 @@ const FirebaseLogin = (props, { ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    username: 'ADMIN',
+                    password: 'ADMIN',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                    username: Yup.string().max(255).required('Username is required'),
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     axios
-                        .post('https://api-server-nodejs.appseed.us/api/users/login', {
+                        .post('http://localhost:2222/api/authentication/token/generate', {
                             firstName: 'Fred',
                             lastName: 'Flintstone'
                         })
@@ -185,13 +185,13 @@ const FirebaseLogin = (props, { ...others }) => {
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
-                        <FormControl fullWidth error={Boolean(touched.email && errors.email)} className={classes.loginInput}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+                        <FormControl fullWidth error={Boolean(touched.username && errors.username)} className={classes.loginInput}>
+                            <InputLabel htmlFor="outlined-adornment-username-login">Email Address / Username</InputLabel>
                             <OutlinedInput
-                                id="outlined-adornment-email-login"
-                                type="email"
-                                value={values.email}
-                                name="email"
+                                id="outlined-adornment-username-login"
+                                type="text"
+                                value={values.username}
+                                name="username"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 label="Email Address / Username"
@@ -201,10 +201,10 @@ const FirebaseLogin = (props, { ...others }) => {
                                     }
                                 }}
                             />
-                            {touched.email && errors.email && (
-                                <FormHelperText error id="standard-weight-helper-text-email-login">
+                            {touched.username && errors.username && (
+                                <FormHelperText error id="standard-weight-helper-text-username-login">
                                     {' '}
-                                    {errors.email}{' '}
+                                    {errors.username}{' '}
                                 </FormHelperText>
                             )}
                         </FormControl>
