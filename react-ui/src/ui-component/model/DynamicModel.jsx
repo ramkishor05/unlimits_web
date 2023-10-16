@@ -9,6 +9,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
 
 export default class DynamicModel extends React.Component {
+
+  getValue=(data, keyStr)=>{
+    let keys=keyStr.split("\.");
+    let val=data;
+    for (let i = 0; i < keys.length; i++){
+      if( typeof val === 'object')
+      val=val[keys[i]];
+    }
+    return val;
+  }
   
   setField= (event, name, data)=>{
     data[name]=event.target.value;
@@ -24,11 +34,12 @@ export default class DynamicModel extends React.Component {
                   {
                 field.type==='select' ? 
                   <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                  <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={data[field.name]}
+                    value={this.getValue(data,field.key)}
+                    defaultValue={this.getValue(data,field.key)}
                     label="{field.label}"
                     onChange={(event)=>this.setField(event, field.name, data)}
                   >

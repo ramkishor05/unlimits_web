@@ -7,7 +7,7 @@ import {
     ADD_GLOBAL_UNIT_GROUP_SUCCESS, 
     ADD_GLOBAL_UNIT_GROUP_FAIL,
     RENDER_GLOBAL_UNIT_GROUP_TO_EDIT,
-} from '../types';
+} from '../../types';
 
 const INITIAL_STATE = {
     globalUnitGroupList: [],

@@ -4,15 +4,8 @@ export * from './UserActionTypes';
 
 export * from './AuthActionTypes';
 
+export * from './Global/GlobalIndexActionType';
 
-export * from './GlobalCategoryGroupTypes';
+export * from './Cust/CustIndexActionTypes';
 
-export * from './GlobalCategorySubTypes';
 
-export * from './GlobalUnitGroupActionTypes';
-
-export * from './GlobalUnitActionTypes';
-
-export * from './GlobalCountFreqActionTypes';
-
-export * from './CustProductActionTypes';

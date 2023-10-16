@@ -10,7 +10,7 @@ import DynamicModel from '../../../ui-component/model/DynamicModel';
 import ConfirmModel from '../../../ui-component/model/ConfirmModel';
 
 import { getGlobalUnitList, addGlobalUnit, editGlobalUnit, deleteGlobalUnit } 
-from '../../../actions/GlobalUnitActions';
+from '../../../actions';
 import { connect } from 'react-redux';
 
 function createData(name, description, typeId, actions) {

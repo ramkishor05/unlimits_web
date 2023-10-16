@@ -9,7 +9,7 @@ import MainCard from '../../../ui-component/cards/MainCard';
 import DynamicTable from '../../../ui-component/table/DynamicTable';
 import DynamicModel from '../../../ui-component/model/DynamicModel';
 import ConfirmModel from '../../../ui-component/model/ConfirmModel';
-import { getGlobalCategoryGroupList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup } from '../../../actions/GlobalCategoryGroupActions';
+import { getGlobalCategoryGroupList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup } from '../../../actions';
 
 function createData(name, description, typeId, actions) {
     return { name, description, typeId, actions};

@@ -6,8 +6,8 @@ import {
    ADD_GLOBAL_CATEGERY_SUCCESS,
    EDIT_GLOBAL_CATEGERY_SUCCESS,
    RENDER_GLOBAL_CATEGERY_TO_EDIT
-} from '../types';
-import GlobalCategoryService from '../services/GlobalCategoryService';
+} from '../../types';
+import GlobalCategoryService from '../../services/GlobalCategoryService';
 
 // Action creator for getting all items --<
 export const getGlobalCategoryList = () => async dispatch => {

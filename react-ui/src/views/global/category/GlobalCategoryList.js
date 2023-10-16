@@ -10,7 +10,7 @@ import DynamicModel from '../../../ui-component/model/DynamicModel';
 import ConfirmModel from '../../../ui-component/model/ConfirmModel';
 
 import { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory } 
-from '../../../actions/GlobalCategoryActions';
+from '../../../actions';
 import { connect } from 'react-redux';
 
 function createData(name, description, typeId, actions) {

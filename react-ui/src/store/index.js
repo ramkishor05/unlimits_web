@@ -2,11 +2,11 @@ import { createStore ,compose, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
 import { persistStore } from 'redux-persist';
-import reducer from './reducer';
+import reducers from '../reducers/index';
 
 //-----------------------|| REDUX - MAIN STORE ||-----------------------//
 
-const store = createStore(reducer, {}, compose(applyMiddleware(thunk)));
+const store = createStore(reducers, {}, compose(applyMiddleware(thunk)));
 const persister = persistStore(store);
 
 export { store, persister };

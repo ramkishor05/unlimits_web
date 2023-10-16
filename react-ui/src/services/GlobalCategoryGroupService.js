@@ -1,6 +1,7 @@
 import axios  from 'axios';
+import config from '../config';
 
-const GGLOBAL_CATEGERY_GROUP_URL=`http://localhost:4444/api/global/categorygroup`
+const GGLOBAL_CATEGERY_GROUP_URL=`${config.API_ITEM_SERVER}/api/global/categorygroup`
 
 export default {
     getAll() {

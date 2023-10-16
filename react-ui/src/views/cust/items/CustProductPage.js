@@ -9,80 +9,83 @@ import MainCard from '../../../ui-component/cards/MainCard';
 import DynamicTable from '../../../ui-component/table/DynamicTable';
 import DynamicModel from '../../../ui-component/model/DynamicModel';
 import ConfirmModel from '../../../ui-component/model/ConfirmModel';
-import { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct } from '../../../actions/CustProductActions';
+import { 
+    getCustProductList, addCustProduct, editCustProduct, deleteCustProduct,
+    getCustUnitList
+ } from '../../../actions';
 
 function createData(name, description, typeId, actions) {
     return { name, description, typeId, actions};
 }
 const headers = [
     {
-        name: "title",
-        label: "Title",
-        type: 'text'
-    },{
-        name: "name",
-        label: "Name",
-        type: 'text'
+        "key": "title",
+        "name": "title",
+        "label": "Title",
+        "type": "text"
     },
     {
-        name: "description",
-        label: "Description",
-        type: 'text'
+        "key": "name",
+        "name": "name",
+        "label": "Name",
+        "type": "text"
     },
     {
-        name: "typeId",
-        label: "Type",
-        type: 'text'
+        "key": "desc",
+        "name": "desc",
+        "label": "Description",
+        "type": "text"
     },
     {
-        name: "purchasePrice",
-        label: "Purchase",
-        type: 'text'
+        "key": "title",
+        "name": "purchasePrice",
+        "label": "Purchase",
+        "type": "text"
     },
     {
-        name: "purchaseUnitId",
-        label: "Unit",
-        type: 'select',
-        items: [
-            {
-            "id": 1,
-            "name" : "KG"
-            },
-            {
-                "id": 2,
-                "name" : "Gram"
-            }
-        ],
-        itemKey: 'id',
-        itemVal: 'name'
+        "key": "purchaseUnit.id",
+        "name": "purchaseUnitId",
+        "label": "Unit",
+        "type": "select",
+        "items": [],
+        "itemKey": "id",
+        "itemVal": "name"
     },
     {
-        name: "retailPrice",
-        label: "Retail",
-        type: 'text'
+        "key": "retailPrice",
+        "name": "retailPrice",
+        "label": "Retail",
+        "type": "text"
     },
     {
-        name: "retailUnitId",
-        label: "Unit",
-        type: 'select',
-        items: [
-            {
-            "id": 1,
-            "name" : "KG"
-            },
-            {
-                "id": 2,
-                "name" : "Gram"
-            }
-        ],
-        itemKey: 'id',
-        itemVal: 'name'
+        "key": "retailUnit.id",
+        "name": "retailUnitId",
+        "label": "Unit",
+        "type": "select",
+        "items": [],
+        "itemKey": "id",
+        "itemVal": "name"
+    },
+    {
+        "key": "wholePrice",
+        "name": "wholePrice",
+        "label": "Whole",
+        "type": "text"
+    },
+    {
+        "key": "wholeUnit.id",
+        "name": "wholeUnitId",
+        "label": "Unit",
+        "type": "select",
+        "items": [],
+        "itemKey": "id",
+        "itemVal": "name"
     },
     {
         name: "actions",
         label: "Actions"
     }
-]
+];
 
 function actions(){
     return ['edit', 'update']
@@ -115,6 +118,7 @@ class CustCategoryGroup extends Component {
     }
     
     _edit = row => {
+       console.log("row=",row)
        this.setState({ dataObject: row, title:"Edit category group", type:"Edit", saveModel: true  });
     }
 
@@ -131,7 +135,7 @@ class CustCategoryGroup extends Component {
         if(type=='Add')
             this.props.addCustProduct(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustProduct(row, this.clearAndRefresh)
+            this.props.editCustProduct(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteCustProduct(row.id, this.clearAndRefresh)
 
@@ -142,8 +146,18 @@ class CustCategoryGroup extends Component {
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
-    componentDidMount() {
-        this.props.getCustProductList();
+    async componentDidMount() {
+        await this.props.getCustProductList();
+        await this.props.getCustUnitList();
+         headers.forEach(header=>{
+            if(header.type==='select'){
+                let custUnitList=this.props.custUnitList;
+                if(custUnitList){
+                    header['items']=custUnitList;
+                }
+                console.log("header=",header)
+            }
+        })
     }
 
  render() {
@@ -197,12 +211,12 @@ class CustCategoryGroup extends Component {
 
 const mapStateToProps = state => {
     const { custProductList} = state.custProductReducer;
-
-    console.log("custProductList=",custProductList)
-    return { custProductList};
+    const { custUnitList} = state.custUnitReducer;
+    console.log("custUnitList=",custUnitList)
+    return { custProductList, custUnitList};
 };
 
 
-export default connect(mapStateToProps, { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct })(CustCategoryGroup);
+export default connect(mapStateToProps, { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct, getCustUnitList })(CustCategoryGroup);
 
 

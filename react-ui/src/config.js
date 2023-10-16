@@ -12,7 +12,9 @@ const config = {
     defaultPath: '/dashboard/default',
     fontFamily: `'Roboto', sans-serif`,
     borderRadius: 12,
-    API_SERVER: BACKEND_SERVER
+    API_SERVER: BACKEND_SERVER,
+    PRODUCTION_APP_ID: 36,
+    API_ITEM_SERVER: 'http://localhost:4444'
 };
 
 export default config;

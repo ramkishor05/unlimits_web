@@ -1,10 +1,11 @@
 import axios from 'axios';
+import config from '../config';
 
-const GLOBAL_UNIT_URL=`http://localhost:4444/api/global/unit`;
+const GLOBAL_UNIT_URL=`${config.API_ITEM_SERVER}/api/global/unit`;
 
 const headers = {
     'Content-Type': 'application/json',
-    'custAppId': 1
+    'custAppId': config.PRODUCTION_APP_ID
   };
 export default {
     getAll() {

@@ -6,8 +6,8 @@ import {
    ADD_GLOBAL_COUNT_FREQ_SUCCESS,
    EDIT_GLOBAL_COUNT_FREQ_SUCCESS,
    RENDER_GLOBAL_COUNT_FREQ_TO_EDIT
-} from '../types';
-import GlobalCountFreqService from '../services/GlobalCountFreqService';
+} from '../../types';
+import GlobalCountFreqService from '../../services/GlobalCountFreqService';
 
 // Action creator for getting all items --<
 export const getGlobalCountFreqList = () => async dispatch => {

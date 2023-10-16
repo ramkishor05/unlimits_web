@@ -3,8 +3,8 @@ import {
     CUST_PRODUCT_DELETE_SUCCESS,
     SHOW_CUST_PRODUCT_LOADER, REMOVE_CUST_PRODUCT_LOADER,
     CUST_PRODUCT_TO_EDIT, CUST_PRODUCT_EDIT_SUCCESS, GET_FINISHING_CUST_PRODUCTS
-} from '../types';
-import CustProductService from '../services/CustProductService';
+} from '../../types';
+import CustProductService from '../../services/CustProductService';
 
 // Action creator for getting all items --<
 export const getCustProductList = () => async dispatch => {

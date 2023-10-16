@@ -7,7 +7,7 @@ import {
    ADD_GLOBAL_COUNT_FREQ_SUCCESS,
    ADD_GLOBAL_COUNT_FREQ_FAIL,
    RENDER_GLOBAL_COUNT_FREQ_TO_EDIT
-} from '../types';
+} from '../../types';
 
 const INITIAL_STATE = {
     globalCountFreqList: [],

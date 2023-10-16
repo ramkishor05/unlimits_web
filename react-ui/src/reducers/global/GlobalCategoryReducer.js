@@ -7,7 +7,7 @@ import {
    ADD_GLOBAL_CATEGERY_SUCCESS,
    ADD_GLOBAL_CATEGERY_FAIL,
    RENDER_GLOBAL_CATEGERY_TO_EDIT
-} from '../types';
+} from '../../types';
 
 const INITIAL_STATE = {
     globalCategoryList: [],

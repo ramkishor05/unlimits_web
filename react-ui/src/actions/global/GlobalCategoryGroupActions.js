@@ -6,8 +6,8 @@ import {
    ADD_GLOBAL_CATEGERY_GROUP_SUCCESS,
    EDIT_GLOBAL_CATEGERY_GROUP_SUCCESS,
    RENDER_GLOBAL_CATEGERY_GROUP_TO_EDIT
-} from '../types/GlobalCategoryGroupTypes';
-import GlobalCategoryGroupService from '../services/GlobalCategoryGroupService';
+} from '../../types/Global/GlobalCategoryGroupTypes';
+import GlobalCategoryGroupService from '../../services/GlobalCategoryGroupService';
 
 // Action creator for getting all items --<
 export const getGlobalCategoryGroupList = () => async dispatch => {

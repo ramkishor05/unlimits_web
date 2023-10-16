@@ -7,9 +7,9 @@ import {
     ADD_GLOBAL_UNIT_SUCCESS, 
     ADD_GLOBAL_UNIT_FAIL, EDIT_GLOBAL_UNIT_SUCCESS,
     RENDER_GLOBAL_UNIT_TO_EDIT,
-} from '../types';
+} from '../../types';
 
-import GlobalUnit from '../services/GlobalUnitService';
+import GlobalUnit from '../../services/GlobalUnitService';
 
 // Action creator for getting all Unit entries in the system.
 export const getGlobalUnitList = () => async dispatch => {
