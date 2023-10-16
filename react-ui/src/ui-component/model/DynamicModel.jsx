@@ -20,7 +20,7 @@ export default class DynamicModel extends React.Component {
         {
           fields.map(field=>
               (
-                <Grid item xs={6}>
+                <Grid key={field.name} item xs={6}>
                   {
                 field.type==='select' ? 
                   <FormControl fullWidth>
@@ -33,7 +33,7 @@ export default class DynamicModel extends React.Component {
                     onChange={(event)=>this.setField(event, field.name, data)}
                   >
                     {
-                      field.items.map(item=> <MenuItem value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
+                      field.items.map(item=> <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
                     }
                   </Select>
                 </FormControl>
