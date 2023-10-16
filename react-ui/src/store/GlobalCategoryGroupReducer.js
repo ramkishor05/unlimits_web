@@ -7,7 +7,7 @@ import {
    ADD_GLOBAL_CATEGERY_GROUP_SUCCESS,
    ADD_GLOBAL_CATEGERY_GROUP_FAIL,
    RENDER_GLOBAL_CATEGERY_GROUP_TO_EDIT
-} from '../types/GlobalCategoryGroupTypes';
+} from '../types';
 
 const INITIAL_STATE = {
     globalCategoryGroupList: [],

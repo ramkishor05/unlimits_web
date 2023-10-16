@@ -30,6 +30,30 @@ export const setups = {
             url: '/category/list',
             icon: icons['IconHelp'],
             breadcrumbs: false
+        },
+        {
+            id: 'unit-group',
+            title: 'Unit Group',
+            type: 'item',
+            url: '/unit/group',
+            icon: icons['IconHelp'],
+            breadcrumbs: false
+        },
+        {
+            id: 'unit-list',
+            title: 'Unit List',
+            type: 'item',
+            url: '/unit/list',
+            icon: icons['IconHelp'],
+            breadcrumbs: false
+        },
+        {
+            id: 'count-freq',
+            title: 'Count Freq',
+            type: 'item',
+            url: '/count/freq',
+            icon: icons['IconHelp'],
+            breadcrumbs: false
         }
     ]
 };

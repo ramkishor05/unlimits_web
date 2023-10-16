@@ -10,7 +10,7 @@ import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
-import { getUser } from '../../../actions/userActions';
+import { getUser } from '../../../actions/UserActions';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
@@ -45,17 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ handleLeftDrawerToggle }) => {
     const classes = useStyles();
-    const account = useSelector((state) => state.account);
-    const _clearCredentials= ()=>{
-
-    }
-    
-    getUser(account.token, _clearCredentials);
-
-    const userReducer = useSelector((state) => state.userReducer);
-
-    console.log("userReducer=",userReducer.user);
-
+   
     return (
         <React.Fragment>
             {/* logo & toggler button */}

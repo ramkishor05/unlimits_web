@@ -4,11 +4,16 @@ import storage from 'redux-persist/lib/storage';
 
 // reducer import
 import customizationReducer from './customizationReducer';
-import accountReducer from './accountReducer';
+import accountReducer from './AccountReducer';
+import userReducer from './UserReducer';
+
 import GlobalCategoryGroupReducer from './GlobalCategoryGroupReducer';
 import GlobalCategoryReducer from './GlobalCategoryReducer';
-import userReducer from './userReducer';
+import GlobalUnitGroupReducer from './GlobalUnitGroupReducer';
+import GlobalUnitReducer from './GlobalUnitReducer';
+import GlobalCountFreqReducer from './GlobalCountFreqReducer';
 
+import CustProductReducer from './CustProductReducer';
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
 
@@ -24,8 +29,12 @@ const reducer = combineReducers({
     userReducer: userReducer,
     customization: customizationReducer,
     globalCategoryGroupReducer: GlobalCategoryGroupReducer,
-    globalCategoryReducer: GlobalCategoryReducer
+    globalCategoryReducer: GlobalCategoryReducer,
+    globalUnitGroupReducer:GlobalUnitGroupReducer,
+    globalUnitReducer: GlobalUnitReducer,
+    globalCountFreqReducer: GlobalCountFreqReducer,
 
+    custProductReducer: CustProductReducer
 });
 
 export default reducer;

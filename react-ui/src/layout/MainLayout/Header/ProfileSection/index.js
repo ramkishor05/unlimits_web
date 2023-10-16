@@ -122,6 +122,9 @@ const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
     const account = useSelector((state) => state.account);
+    const userReducer = useSelector((state) => state.userReducer);
+    const {userDetail} =userReducer
+
     const dispatcher = useDispatch();
 
     const [sdm, setSdm] = React.useState(true);
@@ -219,11 +222,11 @@ const ProfileSection = () => {
                                             <Grid item className={classes.flex}>
                                                 <Typography variant="h4">Good Morning,</Typography>
                                                 <Typography component="span" variant="h4" className={classes.name}>
-                                                    John
+                                                    {userDetail.accountName}
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
-                                                <Typography variant="subtitle2">Project Admin</Typography>
+                                                <Typography variant="subtitle2">{userDetail.type}</Typography>
                                             </Grid>
                                         </Grid>
                                         <OutlinedInput

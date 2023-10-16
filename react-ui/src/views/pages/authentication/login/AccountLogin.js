@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import configData from '../../../../config';
-import { getUser } from '../../../../actions/UserActions';
-
+import { login } from '../../../../actions/AuthActions';
 // material-ui
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -25,12 +23,10 @@ import {
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import axios from 'axios';
 
 // project imports
 import useScriptRef from '../../../../hooks/useScriptRef';
 import AnimateButton from '../../../../ui-component/extended/AnimateButton';
-import { ACCOUNT_INITIALIZE } from './../../../../store/actions';
 
 // assets
 import Visibility from '@material-ui/icons/Visibility';
@@ -77,10 +73,10 @@ const useStyles = makeStyles((theme) => ({
 
 //============================|| API JWT - LOGIN ||============================//
 
-const RestLogin = (props, { ...others }) => {
+const AccountLogin = (props, { ...others }) => {
     const classes = useStyles();
     const dispatcher = useDispatch();
-    const userReducer = useSelector((state) => state.userReducer);
+
     const scriptedRef = useScriptRef();
     const [checked, setChecked] = React.useState(true);
 
@@ -102,40 +98,18 @@ const RestLogin = (props, { ...others }) => {
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    username: Yup.string().max(255).required('Email is required'),
+                    username: Yup.string().max(255).required('Username is required'),
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
+                    let password= values.password;
+                    let username= values.username;
                     try {
-                        axios
-                            .post( 'http://localhost:2222/api/authentication/token/generate', {
-                                password: values.password,
-                                username: values.username
-                            })
-                            .then(function (response) {
-                                console.log(response.data);
-                                if (response) {
-                                    console.log(response.data);
-                                    dispatcher(getUser(response.data));
-                                    dispatcher({
-                                        type: ACCOUNT_INITIALIZE,
-                                        payload: { isLoggedIn: true, user: userReducer.userDetail, token: response.data}
-                                    });
-                                    if (scriptedRef.current) {
-                                        setStatus({ success: true });
-                                        setSubmitting(false);
-                                    }
-                                } else {
-                                    setStatus({ success: false });
-                                    setErrors({ submit: response.data.msg });
-                                    setSubmitting(false);
-                                }
-                            })
-                            .catch(function (error) {
-                                setStatus({ success: false });
-                                setErrors({ submit: error.response.data.msg });
-                                setSubmitting(false);
-                            });
+                        dispatcher(login({username,password}));
+                        if (scriptedRef.current) {
+                            setStatus({ success: true });
+                            setSubmitting(false);
+                        }
                     } catch (err) {
                         console.error(err);
                         if (scriptedRef.current) {
@@ -265,4 +239,4 @@ const RestLogin = (props, { ...others }) => {
     );
 };
 
-export default RestLogin;
+export default AccountLogin;
