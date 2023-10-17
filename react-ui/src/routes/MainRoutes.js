@@ -11,6 +11,7 @@ import GlobalCountFreq from '../views/global/count_freq/GlobalCountFreq';
 import GlobalUnitList from '../views/global/unit/GlobalUnitList';
 import GlobalUnitGroup from '../views/global/unit/GlobalUnitGroup';
 import CustProductPage from '../views/cust/items/CustProductPage';
+import CustSalePage from '../views/cust/sales/CustSalePage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -34,6 +35,7 @@ const MainRoutes = () => {
         <Route
             path={[
                 '/dashboard/default',
+                '/cust/sales',
                 '/cust/products',
                 '/category/group',
                 '/category/list',
@@ -52,6 +54,7 @@ const MainRoutes = () => {
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
                         <Route path="/dashboard/default" component={DashboardDefault} />
+                        <Route path="/cust/sales" component={CustSalePage} />
                         <Route path="/cust/products" component={CustProductPage} />
                         <Route path="/category/group" component={GlobalCategoryGroup} />
                         <Route path="/category/list" component={GlobalCategoryList} />

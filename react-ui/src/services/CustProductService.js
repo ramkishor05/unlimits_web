@@ -21,6 +21,12 @@ export default {
                     .catch(error => Promise.reject(error.response.data));
     },
 
+    serach(text) {
+        return axios.get(CUST_PRODUCT_URL+'/filter', { params: {text} },{headers: headers})
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
+
     add(PRODUCT) {
         return axios.post(CUST_PRODUCT_URL, PRODUCT,{headers: headers})
                     .then(response => Promise.resolve(response.data))

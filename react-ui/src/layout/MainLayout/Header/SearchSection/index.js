@@ -80,9 +80,17 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| SEARCH INPUT ||-----------------------//
 
-const SearchSection = () => {
+const SearchSection = (props) => {
     const classes = useStyles();
     const [value, setValue] = useState('');
+
+    const onSeach =(event)=>{
+        console.log("========onSeach=====")
+        setValue(event.target.value);
+        console.log("========onSeach=====")
+        props.onSeach(event.target.value);
+    }
+
 
     return (
         <React.Fragment>
@@ -112,7 +120,7 @@ const SearchSection = () => {
                                                             className={classes.searchControl}
                                                             id="input-search-header"
                                                             value={value}
-                                                            onChange={(e) => setValue(e.target.value)}
+                                                            onChange={(e) => onSeach(e)}
                                                             placeholder="Search"
                                                             startAdornment={
                                                                 <InputAdornment position="start">
@@ -168,7 +176,7 @@ const SearchSection = () => {
                     className={classes.searchControl}
                     id="input-search-header"
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e) => onSeach(e)}
                     placeholder="Search"
                     startAdornment={
                         <InputAdornment position="start">
