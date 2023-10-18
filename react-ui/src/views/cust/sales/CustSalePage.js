@@ -16,6 +16,8 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import { fetchProducts } from "./dataApi";
+import CartPage from './CartPage';
+import Shoppingcard from '../../../ui-component/cards/ShoppingCard';
 
 
 
@@ -118,7 +120,7 @@ function getStepContent(step) {
     case 0:
       return <ProductPage products={productData} />;
     case 1:
-      return 'What is an ad group anyways?';
+      return <Shoppingcard products={productData} ></Shoppingcard>;
     case 2:
       return 'This is the bit I really care about!';
     default:

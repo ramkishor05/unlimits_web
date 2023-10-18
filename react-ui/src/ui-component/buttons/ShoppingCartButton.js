@@ -3,8 +3,8 @@ import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
-class CounterButton extends React.Component {
-  state = { counter: 0 };
+class ShoppingCartButton extends React.Component {
+  state = { counter: Number.parseInt(this.props.counter)};
 
   handleIncrement = () => {
     this.setState(state => ({ counter: state.counter + 1 }));
@@ -26,4 +26,4 @@ class CounterButton extends React.Component {
   }
 }
 
-export default CounterButton;
+export default ShoppingCartButton;
