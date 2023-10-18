@@ -2,13 +2,13 @@ import React from "react";
 import { DataGrid  , GridFooter, GridFooterContainer , useGridApiContext, useGridSelectors} from "@mui/x-data-grid";
 import { Rating } from "@mui/material";
 import { Button, ButtonBase } from "@material-ui/core";
-import CounterButton from "../../../ui-component/buttons/CounterButton";
+import CounterButton from "../../../ui-component/buttons/ShoppingCartButton";
 
 const columns = [
   {
     field: "image",
     headerName: "IMG",
-    width: 80,
+    width: 30,
     sortable: false,
     renderCell: (params) => (
       <img

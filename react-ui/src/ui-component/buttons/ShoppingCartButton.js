@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 class CounterButton extends React.Component {
   state = { counter: 0 };
@@ -17,7 +18,7 @@ class CounterButton extends React.Component {
 
     return (
       <ButtonGroup size="small" aria-label="small outlined button group">
-        <Button onClick={this.handleIncrement}>+</Button>
+        <Button onClick={this.handleIncrement} sx={{width: !displayCounter? 120: 20}}>{!displayCounter? <AddShoppingCartIcon/>: '+' }</Button>
         {displayCounter && <Button disabled>{this.state.counter}</Button>}
         {displayCounter && <Button onClick={this.handleDecrement}>-</Button>}
       </ButtonGroup>
