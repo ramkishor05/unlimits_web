@@ -4,18 +4,20 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 class ShoppingCartButton extends React.Component {
-  state = { counter: Number.parseInt(this.props.counter)};
+  state = { counter: this.props.counter };
 
   handleIncrement = () => {
     this.setState(state => ({ counter: state.counter + 1 }));
+    this.props.updateCounter(this.state.counter);
   };
 
   handleDecrement = () => {
     this.setState(state => ({ counter: state.counter - 1 }));
+    this.props.updateCounter(this.state.counter);
   };
+
   render() {
     const displayCounter = this.state.counter > 0;
-
     return (
       <ButtonGroup size="small" aria-label="small outlined button group">
         <Button onClick={this.handleIncrement} sx={{width: !displayCounter? 120: 20}}>{!displayCounter? <AddShoppingCartIcon/>: '+' }</Button>

@@ -1,30 +1,33 @@
 import { Component } from "react";
 import ShoppingCartButton from "../buttons/ShoppingCartButton";
+import { Button } from "@material-ui/core";
+import { DeleteOutlineOutlined } from "@material-ui/icons";
 
 const Item  = ({ product }) =>  {
     return (
         <div className="card mb-3">
-            <div className="card-body">
+            <div className="card-body" >
                 <div className="d-flex">
                     <div className="d-flex flex-row align-items-center">
-                        <div className="ms-3" style={{width: '80px'}}>
+                        <div className="ms-1" style={{width: '80px'}}>
                             <img
                                 src={product.image}
                                 className="img-fluid rounded-3" alt="Shopping item" />
                         </div>
-                        <div className="ms-3" style={{width: '300px'}}>
-                            <h5 className="justify-content">{product.title}</h5>
+                        <div className="ms-1" style={{width: '150px'}}>
+                            <p className="justify-content">{product.title}</p>
                             <p className="small mb-0">{product.category}</p>
                         </div>
                     </div>
-                    <div className="d-flex flex-row align-items-center">
-                        <div style={{width: '150px'}}>
-                                <ShoppingCartButton counter={2} /> 
-                        </div>
-                        <div style={{width: '80px'}}>
+                    <div className="d-flex flex-row align-items-center" style={{width: '150px'}}>
+                        <div className="ms-1">
                             <h5 className="mb-0">{product.price}</h5>
                         </div>
-                        <a href="#!" style={{color: 'red'}}><i className="fas fa-trash-alt"></i></a>
+                        <div className="ms-1" >
+                            <ShoppingCartButton counter={2} /> 
+                            <Button variant="outlined"><DeleteOutlineOutlined/></Button>
+                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -61,11 +64,13 @@ export default class Shoppingcard extends Component{
                                             className="text-body">price <i className="fas fa-angle-down mt-1"></i></a></p>
                                     </div>
                                     </div>
+                                    <div style={{overflowX: 'auto', maxHeight:400}}>
                                     {
                                         products.map(product=>
                                             <Item product={product}></Item>
                                         )
                                     }
+                                    </div>
                     {/*
                                     <div className="card mb-3">
                                         <div className="card-body">

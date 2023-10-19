@@ -40,7 +40,7 @@ const columns = [
     width: 150,
     aligment: 'center',
     renderCell: (params) => (
-      <ShoppingCartButton></ShoppingCartButton>
+      <ShoppingCartButton counter={2} params={params}></ShoppingCartButton>
     )
   }
 ];
@@ -52,8 +52,6 @@ const ProductPage = ({ products }) => {
       <DataGrid
         rows={products}
         columns={columns}
-        pageSizeOptions={0}
-       
         sx={{padding: 0, margin:0, border:0 }}
         
       />
