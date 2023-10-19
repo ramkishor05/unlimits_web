@@ -75,12 +75,12 @@ const CustomerBill = () => {
         <>
             {
             selectedItems && selectedItems.map(selectedItem=>
-                <ListItem alignItems="flex-start" key={selectedItem.title}>
+                <ListItem alignItems="flex-start" key={selectedItem.id}>
                     <ListItemAvatar>
                         <Avatar alt="Remy Sharp" src={selectedItem.image} />
                     </ListItemAvatar>
-                    <ListItemText key={selectedItem.id}>{selectedItem.title}
-                    </ListItemText>
+                    <ListItemText key={selectedItem.id} sx={{textSizeAdjust: 50}}>{selectedItem.title}</ListItemText>
+                    <ListItemText key={selectedItem.id}>{selectedItem.price}</ListItemText>
                     <ShoppingCartButton counter={selectedItem.qnt} updateCounter={(counter)=>itemQnt(selectedItem, counter )}></ShoppingCartButton>
                 </ListItem>
             )}
@@ -137,10 +137,21 @@ const CustomerBill = () => {
                         </React.Fragment>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2} >
+
+            </CardContent>
+            <Divider />
+            <CardContent>
+                    <Grid container spacing={2} >
                     <Grid item xs={6}>
-                        <div style={{border:5}}>
-                            <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
+                        <div>
+                            <List sx={{border:5}}
+                            style={{
+                                minWidth: '20%',
+                                maxWidth: 500,
+                                minHeight: '10%',
+                                maxHeight: 350,
+                                overflowX: 'auto'
+                              }}>
                             {
                                 getSelectedItems()
                             }
@@ -149,11 +160,7 @@ const CustomerBill = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <div style={{border:5}}>
-                            <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
-                            {
-                                getSelectedCarts()
-                            }
-                            </List>
+                             
                         </div>
                     </Grid>
                </Grid>
