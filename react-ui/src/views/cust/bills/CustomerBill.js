@@ -154,7 +154,7 @@ const CustomerBill = () => {
     return (
         <>
         <Card variant="outlined">
-           <CardHeader title="Customer Bill" >  </CardHeader>
+           <CardHeader title="Bill Information" >  </CardHeader>
             <Divider />
            <CardContent>
                 <Grid container spacing={3}>
@@ -184,7 +184,7 @@ const CustomerBill = () => {
             
         </Card>
          <Card variant="outlined">
-            <CardHeader title="Customer Bill" >  </CardHeader>
+            <CardHeader title="Bill Details" >  </CardHeader>
             <Divider />
                 <CardContent>
                     <Grid container spacing={2} >
@@ -194,7 +194,7 @@ const CustomerBill = () => {
                                     minWidth: '20%',
                                     maxWidth: '100%',
                                     minHeight: '100%',
-                                    maxHeight: 350,
+                                    maxHeight: 600,
                                     overflowX: 'auto'
                                 }}>
                                 {
@@ -203,14 +203,7 @@ const CustomerBill = () => {
                             </List>
                         </Grid>
                         <Grid item xs={12} sm={12} md={4}>
-                             <List sx={{border:1, borderStyle: 'groove'}}
-                                style={{
-                                    minWidth: '20%',
-                                    maxWidth: 500,
-                                    minHeight: '10%',
-                                    maxHeight: 350,
-                                    overflowX: 'auto'
-                                }}>
+                             <List sx={{border:1, borderStyle: 'groove'}}>
                                 {
                                     getSelectedCarts()
                                 }
@@ -225,11 +218,11 @@ const CustomerBill = () => {
                             }}>
                                 <ListItem>
                                     <Grid container spacing={2}>
-                                        <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={3}>
-                                            <Button variant='outlined'>Total Bill : {getTotalBill()}</Button>
+                                        <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
+                                            <Button variant='text'>Total Bill : {getTotalBill()}</Button>
                                         </Grid>
-                                        <Grid item xs={6} sx={{textAlign: 'right'}}>
-                                        <Button variant='outlined'>Bill</Button>
+                                        <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
+                                            <Button variant='contained'>Bill Generate</Button>
                                         </Grid>
                                     </Grid>
                             </ListItem>
