@@ -4,10 +4,10 @@ import { Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
 
-import MainCard from '../../../ui-component/cards/MainCard';
-import DynamicTable from '../../../ui-component/table/DynamicTable';
-import DynamicModel from '../../../ui-component/model/DynamicModel';
-import ConfirmModel from '../../../ui-component/model/ConfirmModel';
+import MainCard from '../../../component/cards/MainCard';
+import DynamicTable from '../../../component/table/DynamicTable';
+import DynamicModel from '../../../component/model/DynamicModel';
+import ConfirmModel from '../../../component/model/ConfirmModel';
 
 import { getGlobalUnitGroupList, addGlobalUnitGroup, editGlobalUnitGroup, deleteGlobalUnitGroup } 
 from '../../../actions';

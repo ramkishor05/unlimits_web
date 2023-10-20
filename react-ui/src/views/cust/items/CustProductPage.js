@@ -5,10 +5,10 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
 // project imports
-import MainCard from '../../../ui-component/cards/MainCard';
-import DynamicTable from '../../../ui-component/table/DynamicTable';
-import DynamicModel from '../../../ui-component/model/DynamicModel';
-import ConfirmModel from '../../../ui-component/model/ConfirmModel';
+import MainCard from '../../../component/cards/MainCard';
+import DynamicTable from '../../../component/table/DynamicTable';
+import DynamicModel from '../../../component/model/DynamicModel';
+import ConfirmModel from '../../../component/model/ConfirmModel';
 import { 
     getCustProductList, addCustProduct, editCustProduct, deleteCustProduct,
     getCustUnitList

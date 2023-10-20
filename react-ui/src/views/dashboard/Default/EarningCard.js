@@ -6,8 +6,8 @@ import { makeStyles } from '@material-ui/styles';
 import { Avatar, Grid, Menu, MenuItem, Typography } from '@material-ui/core';
 
 // project imports
-import MainCard from './../../../ui-component/cards/MainCard';
-import SkeletonEarningCard from './../../../ui-component/cards/Skeleton/EarningCard';
+import MainCard from './../../../component/cards/MainCard';
+import SkeletonEarningCard from './../../../component/cards/Skeleton/EarningCard';
 
 // assets
 import EarningIcon from './../../../assets/images/icons/earning.svg';

@@ -4,17 +4,17 @@ import 'date-fns';
 // material-ui
 import { Avatar, Box, Card, CardContent, CardHeader, Divider, FormControl, FormControlUnstyled, FormLabel, Grid, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@material-ui/core';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import CustomerDropDwon from '../../../ui-component/dropdwons/CustomerDropDwon';
+import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
 import { makeStyles } from '@material-ui/styles';
-import ItemDropDwon from '../../../ui-component/dropdwons/ItemDropDwon';
+import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
 import { 
     getCustProductList
  } from '../../../actions';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { fetchProducts } from "../sales/dataApi";
-import ShoppingCartButton from '../../../ui-component/buttons/ShoppingCartButton';
+import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
 import { FreeBreakfastOutlined, Label } from '@material-ui/icons';
 
 

@@ -2,7 +2,7 @@ import React from "react";
 import { DataGrid  , GridFooter, GridFooterContainer , useGridApiContext, useGridSelectors} from "@mui/x-data-grid";
 import { Rating } from "@mui/material";
 import { Button, ButtonBase } from "@material-ui/core";
-import CounterButton from "../../../ui-component/buttons/ShoppingCartButton";
+import CounterButton from "../../../component/buttons/ShoppingCartButton";
 
 const columns = [
   {

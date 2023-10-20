@@ -28,7 +28,7 @@ import axios from 'axios';
 
 // project imports
 import useScriptRef from '../../../../hooks/useScriptRef';
-import AnimateButton from '../../../../ui-component/extended/AnimateButton';
+import AnimateButton from '../../../../component/extended/AnimateButton';
 
 // assets
 import Visibility from '@material-ui/icons/Visibility';

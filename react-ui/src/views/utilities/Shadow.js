@@ -6,9 +6,9 @@ import { useTheme } from '@material-ui/styles';
 import { Box, Card, Grid } from '@material-ui/core';
 
 // project imports
-import SubCard from './../../ui-component/cards/SubCard';
-import MainCard from './../../ui-component/cards/MainCard';
-import SecondaryAction from './../../ui-component/cards/CardSecondaryAction';
+import SubCard from './../../component/cards/SubCard';
+import MainCard from './../../component/cards/MainCard';
+import SecondaryAction from './../../component/cards/CardSecondaryAction';
 import { gridSpacing } from './../../store/constant';
 
 //===============================|| SHADOW BOX ||===============================//

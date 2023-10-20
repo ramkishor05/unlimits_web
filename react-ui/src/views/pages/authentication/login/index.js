@@ -7,10 +7,10 @@ import { Divider, Grid, Stack, Typography, useMediaQuery } from '@material-ui/co
 
 // project imports
 import AuthWrapper1 from './../AuthWrapper1';
-import Logo from './../../../../ui-component/Logo';
+import Logo from './../../../../component/Logo';
 import AuthCardWrapper from './../AuthCardWrapper';
 import RestLogin from './RestLogin';
-import AuthFooter from './../../../../ui-component/cards/AuthFooter';
+import AuthFooter from './../../../../component/cards/AuthFooter';
 
 // assets
 

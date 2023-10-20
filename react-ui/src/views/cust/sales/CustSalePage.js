@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { Box, Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
-import MainCard from '../../../ui-component/cards/MainCard';
+import MainCard from '../../../component/cards/MainCard';
 import SearchSection from '../../../layout/MainLayout/Header/SearchSection';
 import { 
     getCustProductList,
@@ -17,7 +17,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import { fetchProducts } from "./dataApi";
 import CartPage from './CartPage';
-import Shoppingcard from '../../../ui-component/cards/ShoppingCard';
+import Shoppingcard from '../../../component/cards/ShoppingCard';
 
 
 
