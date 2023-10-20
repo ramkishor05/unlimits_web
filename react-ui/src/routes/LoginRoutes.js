@@ -5,7 +5,7 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 import GuestGuard from './../utils/route-guard/GuestGuard';
 import MinimalLayout from './../layout/MinimalLayout';
 import NavMotion from './../layout/NavMotion';
-import Loadable from '../ui-component/Loadable';
+import Loadable from '../component/Loadable';
 
 // login routing
 const AuthLogin = Loadable(lazy(() => import('../views/pages/authentication/login')));

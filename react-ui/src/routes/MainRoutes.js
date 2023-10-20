@@ -3,7 +3,7 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 
 // project imports
 import MainLayout from './../layout/MainLayout';
-import Loadable from '../ui-component/Loadable';
+import Loadable from '../component/Loadable';
 import AuthGuard from './../utils/route-guard/AuthGuard';
 import GlobalCategoryGroup from '../views/global/category/GlobalCategoryGroup';
 import GlobalCategoryList from '../views/global/category/GlobalCategoryList';

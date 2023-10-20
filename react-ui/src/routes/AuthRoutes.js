@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
-import Loadable from '../ui-component/Loadable';
+import Loadable from '../component/Loadable';
 
 // project imports
 import MinimalLayout from '../layout/MinimalLayout';

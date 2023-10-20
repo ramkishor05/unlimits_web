@@ -21,8 +21,8 @@ import {
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // project imports
-import SubCard from '../../ui-component/cards/SubCard';
-import AnimateButton from '../../ui-component/extended/AnimateButton';
+import SubCard from '../../component/cards/SubCard';
+import AnimateButton from '../../component/extended/AnimateButton';
 import { SET_BORDER_RADIUS, SET_FONT_FAMILY } from '../../store/actions'; // THEME_RTL
 import { gridSpacing } from '../../store/constant';
 

@@ -29,8 +29,8 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import axios from 'axios';
 
 // project imports
-import MainCard from '../../../../ui-component/cards/MainCard';
-import Transitions from '../../../../ui-component/extended/Transitions';
+import MainCard from '../../../../component/cards/MainCard';
+import Transitions from '../../../../component/extended/Transitions';
 import UpgradePlanCard from './UpgradePlanCard';
 import { LOGOUT } from './../../../../store/actions';
 
