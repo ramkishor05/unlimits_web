@@ -2,7 +2,7 @@ import React from 'react';
 import 'date-fns';
 
 // material-ui
-import { Avatar, Box, Button, ButtonGroup, Card, CardContent, CardHeader, Divider, FormControl, FormControlUnstyled, FormLabel, Grid, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, TextField, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, ButtonGroup, Card, CardContent, CardHeader, Divider, FormControl, FormControlUnstyled, FormLabel, Grid, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Table, TableCell, TableRow, TextField, Typography } from '@material-ui/core';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { fetchProducts } from "../sales/dataApi";
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
 import { FreeBreakfastOutlined, Label } from '@material-ui/icons';
-import AdditionalCharges from '../../../component/fields/AdditionalCharges';
+import DynamicField from '../../../component/fields/DynamicField';
 
 
 //==============================|| SAMPLE PAGE ||==============================//
@@ -75,69 +75,95 @@ const CustomerBill = () => {
 
     const getSelectedItems=()=>{
         return (
-        <>
-            {
-            <>
-            <ListItem alignItems="flex-start" key={'selectedItem_header'} >
-                <ListItemText key={'selectedItem_'+0+'_image'}  sx={{width: '10%', textAlign:'left'}} >
+       
+            <Table sx={{border:1, borderStyle: 'groove'}}>
+            <TableRow alignItems="flex-start" key={'selectedItem_header'} >
+                <TableCell key={'selectedItem_'+0+'_image'} >
                 Image
-                </ListItemText>
-                <ListItemText key={'selectedItem_'+0+'_title'} sx={{textJustify: 'auto' , width: '50%', maxWidth:'50%', textAlign:'left'}}>Title</ListItemText>
-                <ListItemText key={'selectedItem_'+0+'price'} sx={{textJustify: 'auto' , width: '20%', textAlign:'left'}}>Price</ListItemText>
-                <ListItemText key={'selectedItem_'+0+'qnt'} sx={{textJustify: 'auto' , width: '20%', textAlign:'left'}}>Qnt</ListItemText>
-            </ListItem>
+                </TableCell>
+                <TableCell key={'selectedItem_'+0+'_title'}>Title</TableCell>
+                <TableCell key={'selectedItem_'+0+'price'}>Price</TableCell>
+                <TableCell >Discount</TableCell>
+                <TableCell key={'selectedItem_'+0+'qnt'}>Qnt</TableCell>
+            </TableRow>
             {
             selectedItems && selectedItems.map(selectedItem=>
-                <ListItem alignItems="flex-start" key={'selectedItem_'+selectedItem.id}>
-                    <ListItemAvatar key={'selectedItem_'+selectedItem.id+'image'} sx={{textJustify: 'auto' , width: '10%'}}>
+                <TableRow key={'selectedItem_'+selectedItem.id}>
+                    <TableCell key={'selectedItem_'+selectedItem.id+'image'}>
                         <Avatar alt="Remy Sharp" src={selectedItem.image} />
-                    </ListItemAvatar>
-                    <ListItemText key={'selectedItem_'+selectedItem.id+'_title'} sx={{textJustify: '40%', maxWidth:'50%' , width: '50%'}}>{selectedItem.title}</ListItemText>
-                    
-                    <ListItemText key={'selectedItem_'+selectedItem.id+'price'} sx={{textJustify: 'auto' , maxWidth:'10%' , width: '20%'}}>{selectedItem.price}</ListItemText>
-                    <ShoppingCartButton sx={{ textJustify: 'auto' ,width: '10%',maxWidth:'10%' ,}} counter={selectedItem.qnt} updateCounter={(counter)=>itemQnt(selectedItem, counter )}></ShoppingCartButton>
-                </ListItem>
+                    </TableCell>
+                    <TableCell key={'selectedItem_'+selectedItem.id+'_title'} >
+                        {selectedItem.title}
+                    </TableCell>
+                    <TableCell key={'selectedItem_'+selectedItem.id+'price'}>
+                        {selectedItem.price}
+                    </TableCell>
+                    <TableCell key={'selectedItem_'+selectedItem.id+'discount'}>
+                        <TextField variant='standard'></TextField>
+                    </TableCell>
+                    <TableCell>
+                        <ShoppingCartButton  
+                            counter={selectedItem.qnt} 
+                            updateCounter={(counter)=>itemQnt(selectedItem, counter )}>
+                        </ShoppingCartButton>
+                    </TableCell>
+                </TableRow>
             )}
-           </>
-            }
-        </>
-        )
-    }
+             <TableRow key={1000}>
+             <TableCell colSpan={5} align='right'>
+             Sub Total : 
+               {
+                    selectedItems && selectedItems.reduce((previousValue, currentValue) => {
+                        return previousValue + currentValue.qnt * currentValue.price;
+                    }, 0)
+               }
+            </TableCell>
+            </TableRow>
+            <TableRow>
+            <TableCell colSpan={3} align='right'>
+                <List>
+                    <ListItem>
+                        Discounts : <TextField variant='standard'></TextField>
+                    </ListItem>
+                 </List>
+            </TableCell>
+            
+            <TableCell colSpan={2} align='right'>
+            <List>
+                    <ListItem>
+                        <DynamicField list={addAdditionalChargeList} onSave={setAddAdditionalChargeList}></DynamicField>
+                     </ListItem>
+                     <ListItem>
+                        <List>
+                        {
+                            addAdditionalChargeList.map(addAdditionalCharge=>
+                                <ListItem alignItems="flex-start" key={'addAdditionalCharge'+addAdditionalCharge.key}>
+                                    <ListItemText key={'addAdditionalCharge'+addAdditionalCharge.key+'_txt'} 
+                                    sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.key} : </ListItemText>
+                                    <ListItemText key={'addAdditionalCharge'+addAdditionalCharge.value+'_txt'} 
+                                    sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.value}</ListItemText>
+                                </ListItem>
+                            )
+                        }
+                        </List>
+                    </ListItem>
+                    </List>
+            </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell colSpan={5}>
+                        <Grid container spacing={2}>
+                            <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
+                                <Button variant='text'>Total Bill : {getTotalBill()}</Button>
+                            </Grid>
+                            <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
+                                <Button variant='contained'>Bill Generate</Button>
+                            </Grid>
+                        </Grid>
+                </TableCell>
+            </TableRow>
 
-    const getSelectedCarts=()=>{
-        return (
-        <>
-            {
-                <>
-                <ListItem alignItems="flex-start" key={1000}>
-                    Sub Total : 
-                    {
-                        selectedItems && selectedItems.reduce((previousValue, currentValue) => {
-                            return previousValue + currentValue.qnt * currentValue.price;
-                        }, 0)
-                  }
-                </ListItem>
-                <ListItem>
-                    Discounts : <TextField variant='standard'></TextField>
-                </ListItem>
-                <ListItem><AdditionalCharges list={addAdditionalChargeList} onSave={setAddAdditionalChargeList}></AdditionalCharges></ListItem>
-                <ListItem>
-                    <List>
-                     {
-                        addAdditionalChargeList.map(addAdditionalCharge=>
-                            <ListItem alignItems="flex-start" key={'addAdditionalCharge'+addAdditionalCharge.key}>
-                                <ListItemText key={'addAdditionalCharge'+addAdditionalCharge.key+'_txt'} 
-                                sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.key} : </ListItemText>
-                                <ListItemText key={'addAdditionalCharge'+addAdditionalCharge.value+'_txt'} 
-                                sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.value}</ListItemText>
-                            </ListItem>
-                        )
-                     }
-                     </List>
-                </ListItem>
-                </>
-            }
-        </>
+           </Table>
         )
     }
 
@@ -153,7 +179,7 @@ const CustomerBill = () => {
 
     return (
         <>
-        <Card variant="outlined">
+        <Card variant="elevation">
            <CardHeader title="Bill Information" >  </CardHeader>
             <Divider />
            <CardContent>
@@ -162,6 +188,7 @@ const CustomerBill = () => {
                         <TextField
                             id="datetime-local"
                             label="Bill Date"
+                            variant='standard'
                             type="datetime-local"
                             defaultValue="2017-05-24T10:30"
                             className={classes.textField}
@@ -176,60 +203,13 @@ const CustomerBill = () => {
                     <Grid item xs={12} sm={12} md={6}>
                         <ItemDropDwon label="Items" items={productData} itemAction={itemAction}></ItemDropDwon>
                     </Grid>
-                    
+                    <Grid item xs={12} sm={12} md={12}>
+                            {
+                                getSelectedItems()
+                            }
+                    </Grid>
                 </Grid>
-
             </CardContent>
-            <Divider />
-            
-        </Card>
-         <Card variant="outlined">
-            <CardHeader title="Bill Details" >  </CardHeader>
-            <Divider />
-                <CardContent>
-                    <Grid container spacing={2} >
-                        <Grid item xs={12} sm={12} md={8}>
-                             <List sx={{border:1, borderStyle: 'groove'}}
-                                style={{
-                                    minWidth: '20%',
-                                    maxWidth: '100%',
-                                    minHeight: '100%',
-                                    maxHeight: 600,
-                                    overflowX: 'auto'
-                                }}>
-                                {
-                                    getSelectedItems()
-                                }
-                            </List>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={4}>
-                             <List sx={{border:1, borderStyle: 'groove'}}>
-                                {
-                                    getSelectedCarts()
-                                }
-                            </List>
-                            <List sx={{border:1, borderStyle: 'groove'}}
-                             style={{
-                                minWidth: '20%',
-                                maxWidth: 500,
-                                minHeight: '10%',
-                                maxHeight: 350,
-                                overflowX: 'auto'
-                            }}>
-                                <ListItem>
-                                    <Grid container spacing={2}>
-                                        <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
-                                            <Button variant='text'>Total Bill : {getTotalBill()}</Button>
-                                        </Grid>
-                                        <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
-                                            <Button variant='contained'>Bill Generate</Button>
-                                        </Grid>
-                                    </Grid>
-                            </ListItem>
-                            </List>
-                        </Grid>
-                </Grid>
-                </CardContent>
          </Card>
          </>
     );

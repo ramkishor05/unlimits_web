@@ -40,6 +40,7 @@ export default function CustomerDropDwon() {
     <React.Fragment>
       <Autocomplete
         value={value}
+        variant='standard'
         onChange={(event, newValue) => {
           if (typeof newValue === 'string') {
             // timeout to avoid instant validation of the dialog's form.
@@ -89,7 +90,7 @@ export default function CustomerDropDwon() {
         handleHomeEndKeys
         renderOption={(props, option) => <li {...props}>{option.name}</li>}
         freeSolo
-        renderInput={(params) => <TextField {...params} label="Bill To" />}
+        renderInput={(params) => <TextField {...params} label="Bill To" variant='standard' />}
       />
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>

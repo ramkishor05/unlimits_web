@@ -5,10 +5,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, FormControl, FormGroup, FormLabel, TextField } from '@material-ui/core';
+import { Box, TextField } from '@material-ui/core';
 import { makeStyles } from "@material-ui/styles";
 
-export default function AdditionalCharges(props) {
+export default function DynamicField(props) {
   const classes = makeStyles();
   const [open, setOpen] = React.useState(false);
   const [formValues, setFormValues] = React.useState([...props.list]);

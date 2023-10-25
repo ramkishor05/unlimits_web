@@ -7,6 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
+import AmountField from '../fields/AmountField';
+import QuantityField from '../fields/QuantityField';
 
 export default class DynamicModel extends React.Component {
 
@@ -24,6 +26,44 @@ export default class DynamicModel extends React.Component {
     data[name]=event.target.value;
   }
 
+  renderSwitch(field, data) {
+    switch(field.type) {
+      case 'select':
+        return  <FormControl>
+        <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={this.getValue(data,field.key)}
+          defaultValue={this.getValue(data,field.key)}
+          label="{field.label}"
+          onChange={(event)=>this.setField(event, field.name, data)}
+        >
+          {
+            field.items.map(item=> <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
+          }
+        </Select>
+      </FormControl>;
+      case 'qnt':
+        return <QuantityField field={field} data={data}></QuantityField>
+      case 'amount':
+        return <AmountField field={field} data={data}></AmountField>
+      default:
+        return <TextField
+        key={field.id}
+        variant='standard'
+        id={field.id}
+        label={field.label}
+        type={field.type}
+        value={data[field.name]}
+        defaultValue={data[field.name]}
+        onChange={(event)=>this.setField(event, field.name, data)}
+        fullWidth>
+        </TextField>;
+    }
+  }
+  
+
   rendorFields = (fields, data)=>{
     return (
       <Grid container spacing={2}>
@@ -32,36 +72,8 @@ export default class DynamicModel extends React.Component {
               (
                 <Grid key={field.name} item xs={6}>
                   {
-                field.type==='select' ? 
-                  <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={this.getValue(data,field.key)}
-                    defaultValue={this.getValue(data,field.key)}
-                    label="{field.label}"
-                    onChange={(event)=>this.setField(event, field.name, data)}
-                  >
-                    {
-                      field.items.map(item=> <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
-                    }
-                  </Select>
-                </FormControl>
-                :
-                  <TextField
-                  key={field.id}
-                  autoFocus
-                  margin="dense"
-                  id={field.id}
-                  label={field.label}
-                  type={field.type}
-                  value={data[field.name]}
-                  defaultValue={data[field.name]}
-                  onChange={(event)=>this.setField(event, field.name, data)}
-                  fullWidth>
-                  </TextField>
-              }
+                    this.renderSwitch(field, data)
+                  }
               </Grid>)
           )
             }

@@ -64,6 +64,7 @@ const ItemDropDwon=(props) =>{
     <React.Fragment>
       <Autocomplete
         value={value}
+        variant='standard'
         onChange={(event, newValue) => handleSelect(event, newValue)}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
@@ -102,7 +103,7 @@ const ItemDropDwon=(props) =>{
         }
         freeSolo
         renderInput={(params) => 
-        <TextField {...params} label="Items" />
+        <TextField {...params} label="Items" variant='standard' />
       }
       />
       <Dialog open={open} onClose={handleClose}>

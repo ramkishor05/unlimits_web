@@ -40,14 +40,23 @@ const headers = [
         "key": "title",
         "name": "purchasePrice",
         "label": "Purchase",
-        "type": "text"
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name"
     },
     {
         "key": "purchaseUnit.id",
         "name": "purchaseUnitId",
         "label": "Unit",
-        "type": "select",
-        "items": [],
+        "type": "qnt",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
         "itemKey": "id",
         "itemVal": "name"
     },
@@ -55,14 +64,23 @@ const headers = [
         "key": "retailPrice",
         "name": "retailPrice",
         "label": "Retail",
-        "type": "text"
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name"
     },
     {
         "key": "retailUnit.id",
         "name": "retailUnitId",
         "label": "Unit",
-        "type": "select",
-        "items": [],
+        "type": "qnt",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
         "itemKey": "id",
         "itemVal": "name"
     },
@@ -70,14 +88,23 @@ const headers = [
         "key": "wholePrice",
         "name": "wholePrice",
         "label": "Whole",
-        "type": "text"
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name"
     },
     {
         "key": "wholeUnit.id",
         "name": "wholeUnitId",
         "label": "Unit",
-        "type": "select",
-        "items": [],
+        "type": "qnt",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
         "itemKey": "id",
         "itemVal": "name"
     },
