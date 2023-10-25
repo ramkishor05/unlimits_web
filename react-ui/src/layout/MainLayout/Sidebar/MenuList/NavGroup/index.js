@@ -8,6 +8,8 @@ import { Divider, List, Typography } from '@material-ui/core';
 // project imports
 import NavItem from './../NavItem';
 import NavCollapse from './../NavCollapse';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -50,12 +52,20 @@ const NavGroup = ({ item }) => {
                 subheader={
                     item.title && (
                         <Typography variant="caption" className={classes.menuCaption} display="block" gutterBottom>
-                            {item.title}
+                           {
+                            item.url? 
+                            <Link to={item.url}>
+                              {item.title}
+                           </Link>
+                           : <>{item.title}
+                           
                             {item.caption && (
                                 <Typography variant="caption" className={classes.subMenuCaption} display="block" gutterBottom>
                                     {item.caption}
                                 </Typography>
                             )}
+                            </>
+                }
                         </Typography>
                     )
                 }

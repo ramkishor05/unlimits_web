@@ -5,11 +5,15 @@ import {
 const INITIAL_STATE = {
     token: localStorage.getItem('api_token') ,
     isLoggedIn: localStorage.getItem('api_token') ? true:  false,
-    login_error: ''
+    login_error: '',
+    userDetail:{}
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
+        
+        case GET_USER_SUCCESS:
+                return { ...state, userDetail: action.payload };
         
         case LOGIN_SUCCESS:
             return { ...state, isLoggedIn: true, token: action.payload };

@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from './index';
 const hostname = `localhost`;
 
-var endpoint = `http://${hostname}:2222/api/user/`;
+var endpoint = `http://${hostname}:2222/api/user`;
 
 const headers = {
     'Content-Type': 'application/json',
@@ -38,11 +38,9 @@ export default {
         return axios.delete(endpoint+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
-    }
-    ,
-    getUser(token) {
-        headers['api_token']=token;
-        return axios.get(endpoint, {headers: headers})
+    },
+    exists(username) {
+        return axios.get(endpoint+`/exists/${username}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     }

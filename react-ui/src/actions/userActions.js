@@ -8,29 +8,6 @@ import {
 } from '../types';
 import UserService from '../services/UserService';
 
-/**
- * User Action - For logging user into the system.
- *
- * @param {Object} param0
- * @param {Function} _clearCredentials
- */
-export const getUser = (token, _clearCredentials) => async dispatch => {
-    try {
-        dispatch({ type: SHOW_LOADER });
-
-        const user = await UserService.getUser(token);
-
-        if (user) {
-            dispatch({ type: GET_USER_SUCCESS, payload: user });
-            dispatch({ type: REMOVE_LOADER });
-        }
-    } catch (error) {
-        let msg=error.error? error.error.message: "";
-        dispatch({ type: LOGIN_FAIL, payload: msg });
-        dispatch({ type: REMOVE_LOADER });
-        console.log(error);
-    }
-};
 
 /**
  * User Action - For adding a new user in the system.

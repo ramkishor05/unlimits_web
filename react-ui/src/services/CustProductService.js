@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './index';
 import config from '../config';
 
 const CUST_PRODUCT_URL=`${config.API_ITEM_SERVER}/api/cust/product`;
@@ -33,8 +33,8 @@ export default {
                     .catch(error => Promise.reject(error.response.data));
     },
 
-    update(id, PRODUCT) {
-        return axios.put(CUST_PRODUCT_URL+`/${id}`, PRODUCT,{headers: headers})
+    update(PRODUCT) {
+        return axios.put(CUST_PRODUCT_URL, PRODUCT,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },

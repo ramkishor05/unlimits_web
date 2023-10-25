@@ -1,22 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 import 'date-fns';
 
 // material-ui
-import { Avatar, Box, Button, ButtonGroup, Card, CardContent, CardHeader, Divider, FormControl, FormControlUnstyled, FormLabel, Grid, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Table, TableCell, TableRow, TextField, Typography } from '@material-ui/core';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { Avatar, Button, Card, CardContent, CardHeader, Divider, Grid, List, ListItem, ListItemText, Table, TableCell, TableRow, TextField} from '@material-ui/core';
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
 import { makeStyles } from '@material-ui/styles';
 import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
 import { 
-    getCustProductList
+    getCustProductList, getVendorCustomerList
  } from '../../../actions';
-import { useState } from 'react';
-import { useEffect } from 'react';
+
 import { fetchProducts } from "../sales/dataApi";
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
-import { FreeBreakfastOutlined, Label } from '@material-ui/icons';
 import DynamicField from '../../../component/fields/DynamicField';
+import { connect } from 'react-redux';
 
 
 //==============================|| SAMPLE PAGE ||==============================//
@@ -31,52 +29,59 @@ const useStyles = makeStyles((theme) => ({
       width: 200,
     },
   }));
-const CustomerBill = () => {
 
-    const [productData, setProductData] = useState([]);
+  class CustomerBill extends Component {
 
-    const [selectedItems, setSelectedItems] = useState([]);
+    state = {
+        productData : [],
+        selectedItems: [],
+        addAdditionalChargeList:[],
+        selectedDate: new Date()
+    }
 
-    const [addAdditionalChargeList, setAddAdditionalChargeList]=useState([]);
+    componentDidMount() {
+        // Set the dates (from and to) and pull corresponding sales from server.
+        this.props.getVendorCustomerList();
+        this.props.getCustProductList(); // Get all items (Useful in adding sales).
+    }
 
-    const fetchData = async () => {
-        await fetchProducts()
-        .then((data) => {
-            setProductData(data);
-        })
-        .catch((e) => {
-            console.error(e);
-        });
+     handleDateChange = (date) => {
+        this.setSelectedDate(date);
     };
 
-    useEffect(()=>{
-        fetchData();
-    },[])
-
-    const classes = useStyles();
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
-    const itemAction=(newValue)=>{
-        const newSelectedItems = [...selectedItems];
+     itemAction=(newValue)=>{
+        const newSelectedItems = [...this.state.selectedItems];
         newValue['qnt']=1;
+        newValue['discount']=0;
         newSelectedItems.push(newValue);
-        setSelectedItems(newSelectedItems);
+        this.setState({selectedItems: newSelectedItems});
         console.log("select item= ",newSelectedItems);
     }
 
-    const itemQnt=(object, qnt)=>{
-        console.log("select qnt= ",qnt);
-        console.log("select item= ",object);
+     itemQnt=(item, qnt)=>{
+        item['qnt']=qnt;
+        const newSelectedItems = [...this.state.selectedItems];
+        this.setState({selectedItems: newSelectedItems});
+        console.log("qnt=",qnt)
     }
 
-    const getSelectedItems=()=>{
+    setSelectedDate=()=>{
+
+    }
+
+    setProductData= () =>{
+
+    }
+
+    setDiscount=(item, amount)=>{
+        item['discount']=amount;
+        const newSelectedItems = [...this.state.selectedItems];
+        this.setState({selectedItems: newSelectedItems});
+    }
+
+     getSelectedItems=()=>{
         return (
-       
-            <Table sx={{border:1, borderStyle: 'groove'}}>
+        <Table sx={{border:1, borderStyle: 'groove'}}>
             <TableRow alignItems="flex-start" key={'selectedItem_header'} >
                 <TableCell key={'selectedItem_'+0+'_image'} >
                 Image
@@ -87,7 +92,7 @@ const CustomerBill = () => {
                 <TableCell key={'selectedItem_'+0+'qnt'}>Qnt</TableCell>
             </TableRow>
             {
-            selectedItems && selectedItems.map(selectedItem=>
+            this.state.selectedItems && this.state.selectedItems.map(selectedItem=>
                 <TableRow key={'selectedItem_'+selectedItem.id}>
                     <TableCell key={'selectedItem_'+selectedItem.id+'image'}>
                         <Avatar alt="Remy Sharp" src={selectedItem.image} />
@@ -96,15 +101,15 @@ const CustomerBill = () => {
                         {selectedItem.title}
                     </TableCell>
                     <TableCell key={'selectedItem_'+selectedItem.id+'price'}>
-                        {selectedItem.price}
+                        {selectedItem.retailPrice}
                     </TableCell>
                     <TableCell key={'selectedItem_'+selectedItem.id+'discount'}>
-                        <TextField variant='standard'></TextField>
+                        <TextField type='number' variant='standard' onChange={(event)=> this.setDiscount(selectedItem, event.target.value)}></TextField>
                     </TableCell>
                     <TableCell>
                         <ShoppingCartButton  
                             counter={selectedItem.qnt} 
-                            updateCounter={(counter)=>itemQnt(selectedItem, counter )}>
+                            updateCounter={(counter)=> this.itemQnt(selectedItem, counter )}>
                         </ShoppingCartButton>
                     </TableCell>
                 </TableRow>
@@ -113,8 +118,8 @@ const CustomerBill = () => {
              <TableCell colSpan={5} align='right'>
              Sub Total : 
                {
-                    selectedItems && selectedItems.reduce((previousValue, currentValue) => {
-                        return previousValue + currentValue.qnt * currentValue.price;
+                    this.state.selectedItems && this.state.selectedItems.reduce((previousValue, currentValue) => {
+                        return previousValue + currentValue.qnt * currentValue.retailPrice;
                     }, 0)
                }
             </TableCell>
@@ -131,12 +136,12 @@ const CustomerBill = () => {
             <TableCell colSpan={2} align='right'>
             <List>
                     <ListItem>
-                        <DynamicField list={addAdditionalChargeList} onSave={setAddAdditionalChargeList}></DynamicField>
+                        <DynamicField list={this.state.addAdditionalChargeList} onSave={this.setAddAdditionalChargeList}></DynamicField>
                      </ListItem>
                      <ListItem>
                         <List>
                         {
-                            addAdditionalChargeList.map(addAdditionalCharge=>
+                            this.state.addAdditionalChargeList.map(addAdditionalCharge=>
                                 <ListItem alignItems="flex-start" key={'addAdditionalCharge'+addAdditionalCharge.key}>
                                     <ListItemText key={'addAdditionalCharge'+addAdditionalCharge.key+'_txt'} 
                                     sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.key} : </ListItemText>
@@ -154,7 +159,7 @@ const CustomerBill = () => {
                 <TableCell colSpan={5}>
                         <Grid container spacing={2}>
                             <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
-                                <Button variant='text'>Total Bill : {getTotalBill()}</Button>
+                                <Button variant='text'>Total Bill : {this.getTotalBill()}</Button>
                             </Grid>
                             <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
                                 <Button variant='contained'>Bill Generate</Button>
@@ -162,27 +167,33 @@ const CustomerBill = () => {
                         </Grid>
                 </TableCell>
             </TableRow>
-
-           </Table>
+        </Table>
         )
     }
 
-    const getTotalBill = () =>{
-        let subTotal=  selectedItems && selectedItems.reduce((previousValue, currentValue) => {
-            return previousValue + currentValue.qnt * currentValue.price;
+     getTotalBill = () =>{
+        let subTotal=  this.state.selectedItems && this.state.selectedItems.reduce((previousValue, currentValue) => {
+            return previousValue + currentValue.qnt * currentValue.retailPrice;
         }, 0);
-        let addAdditionalChargeTotal= addAdditionalChargeList && addAdditionalChargeList.reduce((previousValue, currentValue) => {
+        let addAdditionalChargeTotal= this.state.addAdditionalChargeList && this.state.addAdditionalChargeList.reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.value);
         }, 0);
-        return subTotal+addAdditionalChargeTotal;
+        console.log("addAdditionalChargeTotal=",addAdditionalChargeTotal);
+        let discountTotal= this.state.selectedItems && this.state.selectedItems.reduce((previousValue, currentValue) => {
+            console.log("currentValue=",currentValue)
+            return previousValue + Number.parseFloat(currentValue.discount);
+        }, 0);
+        console.log("discountTotal=",discountTotal);
+        return subTotal+addAdditionalChargeTotal-discountTotal;
     }
-
+    render() {
+      
     return (
         <>
         <Card variant="elevation">
            <CardHeader title="Bill Information" >  </CardHeader>
             <Divider />
-           <CardContent>
+           <CardContent >
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={12} md={3}>
                         <TextField
@@ -191,21 +202,20 @@ const CustomerBill = () => {
                             variant='standard'
                             type="datetime-local"
                             defaultValue="2017-05-24T10:30"
-                            className={classes.textField}
                             InputLabelProps={{
                             shrink: true,
                             }}
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3}>
-                        <CustomerDropDwon label="Bill to"></CustomerDropDwon>
+                        <CustomerDropDwon label="Bill to" customerList = {this.props.vendorCustomerList}></CustomerDropDwon>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                        <ItemDropDwon label="Items" items={productData} itemAction={itemAction}></ItemDropDwon>
+                        <ItemDropDwon label="Items" items={this.props.custProductList} itemAction={this.itemAction}></ItemDropDwon>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12}>
+                    <Grid item xs={12} sm={12} md={12} sx={{minWidth:600}}>
                             {
-                                getSelectedItems()
+                                this.getSelectedItems()
                             }
                     </Grid>
                 </Grid>
@@ -214,5 +224,30 @@ const CustomerBill = () => {
          </>
     );
 };
+  }
 
-export default CustomerBill;
+
+
+const styles = {
+    addSaleButton: {
+        color: '#FFF',
+        backgroundColor: 'purple',
+        marginLeft: 20, 
+    },
+    datepickers: {
+        display: 'flex',
+        alignItems: 'baseline',
+        justifyContent: 'center',
+    }
+};
+
+
+const mapStateToProps = state => {
+    const { custProductList } = state.custProductReducer;
+
+    const { vendorCustomerList } = state.vendorCustomerReducer;
+
+    return { custProductList, vendorCustomerList };
+}
+
+export default connect(mapStateToProps, { getCustProductList, getVendorCustomerList})(CustomerBill);

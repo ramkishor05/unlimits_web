@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './index';
 import config from '../config';
 
 const GLOBAL_COUNT_FREQ_URL=`${config.API_ITEM_SERVER}/api/global/countfreq`

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
+
 
 // material-ui
 import { Grid } from '@material-ui/core';
@@ -15,9 +17,14 @@ import { gridSpacing } from './../../../store/constant';
 //-----------------------|| DEFAULT DASHBOARD ||-----------------------//
 
 const Dashboard = () => {
+    const {userDetail} = useSelector((state) => state.userReducer);
+    const {token} = useSelector((state) => state.account);
+    console.log(userDetail);
+    console.log(token);
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(false);
+
     }, []);
 
     return (

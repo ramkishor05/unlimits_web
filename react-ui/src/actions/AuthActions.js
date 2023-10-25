@@ -1,10 +1,10 @@
 import {
      USERNAME_CHANGED, PASSWORD_CHANGED,
     LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS,
-    SHOW_LOADER, REMOVE_LOADER
+    SHOW_LOADER, REMOVE_LOADER,
+    GET_USER_SUCCESS
 } from '../types';
 import AuthService from '../services/AuthService';
-
 export const usernameChanged = payload => ({type: USERNAME_CHANGED, payload});
 
 export const passwordChanged = payload => ({type: PASSWORD_CHANGED, payload});
@@ -49,6 +49,31 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
 export const logout = () => {
     localStorage.removeItem(API_TOKEN);
     return { type: LOGOUT_SUCCESS };
+};
+
+
+/**
+ * User Action - For logging user into the system.
+ *
+ * @param {Object} param0
+ * @param {Function} _clearCredentials
+ */
+export const getUser = (token, _clearCredentials) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        const user = await AuthService.getUser(token);
+
+        if (user) {
+            dispatch({ type: GET_USER_SUCCESS, payload: user });
+            dispatch({ type: REMOVE_LOADER });
+        }
+    } catch (error) {
+        let msg=error.error? error.error.message: "";
+        dispatch({ type: LOGIN_FAIL, payload: msg });
+        dispatch({ type: REMOVE_LOADER });
+        console.log(error);
+    }
 };
 
 // Function for parsing error gotten from server.

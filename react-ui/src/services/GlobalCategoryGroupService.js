@@ -1,4 +1,4 @@
-import axios  from 'axios';
+import axios from './index';
 import config from '../config';
 
 const GGLOBAL_CATEGERY_GROUP_URL=`${config.API_ITEM_SERVER}/api/global/categorygroup`

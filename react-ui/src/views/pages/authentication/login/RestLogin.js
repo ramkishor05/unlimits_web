@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import configData from '../../../../config';
-import { getUser } from '../../../../actions/UserActions';
+import { getUser } from '../../../../actions';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';

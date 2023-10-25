@@ -1,11 +1,14 @@
 // action - state management
 import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT } from '../store/actions';
 
+import { GET_USER_SUCCESS } from '../types';
+
+
 export const initialState = {
     token: '',
     isLoggedIn: false,
     isInitialized: false,
-    user: null
+    userDetail: null
 };
 
 //-----------------------|| ACCOUNT REDUCER ||-----------------------//
@@ -13,21 +16,23 @@ export const initialState = {
 const accountReducer = (state = initialState, action) => {
     switch (action.type) {
         case ACCOUNT_INITIALIZE: {
-            const { isLoggedIn, user, token } = action.payload;
+            const { isLoggedIn, userDetail, token } = action.payload;
             return {
                 ...state,
                 isLoggedIn,
                 isInitialized: true,
                 token,
-                user
+                userDetail
             };
         }
+        case GET_USER_SUCCESS:
+            return { ...state, userDetail: action.payload };
         case LOGIN: {
-            const { user } = action.payload;
+            const { userDetail } = action.payload;
             return {
                 ...state,
                 isLoggedIn: true,
-                user
+                userDetail
             };
         }
         case LOGOUT: {
@@ -35,7 +40,7 @@ const accountReducer = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: false,
                 token: '',
-                user: null
+                userDetail: null
             };
         }
         default: {

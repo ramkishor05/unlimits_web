@@ -31,8 +31,8 @@ const headers = [
         "type": "text"
     },
     {
-        "key": "desc",
-        "name": "desc",
+        "key": "description",
+        "name": "description",
         "label": "Description",
         "type": "text"
     },
@@ -162,7 +162,7 @@ class CustCategoryGroup extends Component {
         if(type=='Add')
             this.props.addCustProduct(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustProduct(row.id, row, this.clearAndRefresh)
+            this.props.editCustProduct(row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteCustProduct(row.id, this.clearAndRefresh)
 

@@ -57,11 +57,11 @@ export const renderToCustProductEdit = custProduct => {
     };
 };
 
-export const editCustProduct = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
+export const editCustProduct = (data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
     dispatch({ type: SHOW_CUST_PRODUCT_LOADER });
 
     try {
-        const item = await CustProductService.update(id, data);
+        const item = await CustProductService.update(data);
 
         if (item) {
             dispatch({ type: CUST_PRODUCT_EDIT_SUCCESS });

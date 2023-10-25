@@ -7,12 +7,12 @@ class ShoppingCartButton extends React.Component {
   state = { counter: this.props.counter };
 
   handleIncrement = () => {
-    this.setState(state => ({ counter: state.counter + 1 }));
+    this.setState({ counter: (this.state.counter + 1) });
     this.props.updateCounter(this.state.counter);
   };
 
   handleDecrement = () => {
-    this.setState(state => ({ counter: state.counter - 1 }));
+    this.setState({ counter: (this.state.counter - 1) });
     this.props.updateCounter(this.state.counter);
   };
 

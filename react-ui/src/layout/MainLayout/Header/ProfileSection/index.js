@@ -38,6 +38,8 @@ import { LOGOUT } from './../../../../store/actions';
 import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
 import User1 from './../../../../assets/images/users/user-round.svg';
 
+import { getUser } from '../../../../actions';
+
 // style const
 const useStyles = makeStyles((theme) => ({
     navContainer: {
@@ -122,10 +124,10 @@ const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
     const account = useSelector((state) => state.account);
-    const userReducer = useSelector((state) => state.userReducer);
-    const {userDetail} =userReducer
-
+    const {userDetail} = useSelector((state) => state.userReducer);
     const dispatcher = useDispatch();
+
+    console.log("userDetail=",userDetail)
 
     const [sdm, setSdm] = React.useState(true);
     const [value, setValue] = React.useState('');
@@ -167,9 +169,9 @@ const ProfileSection = () => {
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
         }
-
+        dispatcher(getUser(account.token));
         prevOpen.current = open;
-       
+        
     }, [open]);
     return (
         <React.Fragment>
@@ -222,7 +224,7 @@ const ProfileSection = () => {
                                             <Grid item className={classes.flex}>
                                                 <Typography variant="h4">Good Morning,</Typography>
                                                 <Typography component="span" variant="h4" className={classes.name}>
-                                                    {userDetail.accountName}
+                                                    {userDetail.username}
                                                 </Typography>
                                             </Grid>
                                             <Grid item>

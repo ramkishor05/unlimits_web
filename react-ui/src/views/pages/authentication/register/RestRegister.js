@@ -36,6 +36,9 @@ import { strengthColor, strengthIndicator } from '../../../../utils/password-str
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
+import UserService from '../../../../services/UserService';
+import VendorService from '../../../../services/VendorService';
+
 // style constant
 const useStyles = makeStyles((theme) => ({
     redButton: {
@@ -122,26 +125,53 @@ const RestRegister = ({ ...others }) => {
                 })}
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        axios
-                            .post( configData.API_SERVER + 'users/register', {
-                                username: values.username,
-                                password: values.password,
-                                email: values.email
-                            })
-                            .then(function (response) {
-                                if (response.data.success) {
-                                    history.push('/login');
-                                } else {
-                                    setStatus({ success: false });
-                                    setErrors({ submit: response.data.msg });
-                                    setSubmitting(false);
-                                }
-                            })
-                            .catch(function (error) {
+                        UserService.exists(values.username).then(function (exists) {
+                            if(exists){
                                 setStatus({ success: false });
-                                setErrors({ submit: error.response.data.msg });
+                                setErrors({ submit: "User already exists."});
                                 setSubmitting(false);
-                            });
+                            } else {
+                                VendorService.add({
+                                    emailAddress: values.email
+                                }).then(function (owner) {
+                                    if (owner) {
+                                        UserService.add({
+                                            username: values.username,
+                                            password: values.password,
+                                            ownerId: owner.id
+                                        })
+                                        .then(function (user) {
+                                            if (user) {
+                                                history.push('/login');
+                                            } else {
+                                                setStatus({ success: false });
+                                                setErrors({ submit: ''});
+                                                setSubmitting(false);
+                                            }
+                                        })
+                                        .catch(function (error) {
+                                            setStatus({ success: false });
+                                            setErrors({ submit: 'User not registed!' });
+                                            setSubmitting(false);
+                                        });
+                                    } else {
+                                        setStatus({ success: false });
+                                        setErrors({ submit: 'Vendor error!'});
+                                        setSubmitting(false);
+                                    }
+                                })
+                                .catch(function (error) {
+                                    setStatus({ success: false });
+                                    setErrors({ submit: error.response.data.msg });
+                                    setSubmitting(false);
+                                });
+                                
+                            }
+                            
+                        })
+                        .catch(function (error) {  
+                        }); 
+                        
                     } catch (err) {
                         console.error(err);
                         if (scriptedRef.current) {

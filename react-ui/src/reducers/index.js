@@ -19,6 +19,10 @@ import CustUnitGroupReducer from './cust/CustUnitGroupReducer';
 import CustUnitReducer from './cust/CustUnitReducer';
 import CustCountFreqReducer from './cust/CustCountFreqReducer';
 import CustProductReducer from './cust/CustProductReducer';
+import VendorReducer from './VendorReducer';
+import VendorCustomerReducer from './VendorCustomerReducer';
+import VendorBusinessReducer from './VendorBusinessReducer';
+
 //-----------------------|| COMBINE REDUCER ||-----------------------//
 
 const reducer = combineReducers({
@@ -26,12 +30,17 @@ const reducer = combineReducers({
         {
             key: 'account',
             storage,
-            keyPrefix: 'berry-'
+            keyPrefix: 'pos-'
         },
         AccountReducer
     ),
     userReducer: UserReducer,
     customization: CustomizationReducer,
+
+    vendorReducer: VendorReducer,
+    vendorCustomerReducer: VendorCustomerReducer,
+    vendorBusinessReducer: VendorBusinessReducer,
+
     globalCategoryGroupReducer: GlobalCategoryGroupReducer,
     globalCategoryReducer: GlobalCategoryReducer,
     globalUnitGroupReducer:GlobalUnitGroupReducer,

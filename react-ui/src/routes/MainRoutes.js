@@ -13,6 +13,8 @@ import GlobalUnitGroup from '../views/global/unit/GlobalUnitGroup';
 import CustProductPage from '../views/cust/items/CustProductPage';
 import CustSalePage from '../views/cust/sales/CustSalePage';
 import CustomerBill from '../views/cust/bills/CustomerBill';
+import VendorCustomer from '../views/cust/Vendor/Customer/VendorCustomer';
+import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -39,6 +41,8 @@ const MainRoutes = () => {
                 '/cust/billing',
                 '/cust/sales',
                 '/cust/products',
+                '/vendor/business',
+                '/vendor/customer',
                 '/category/group',
                 '/category/list',
                 '/unit/group',
@@ -59,6 +63,8 @@ const MainRoutes = () => {
                         <Route path="/cust/billing" component={CustomerBill} />
                         <Route path="/cust/sales" component={CustSalePage} />
                         <Route path="/cust/products" component={CustProductPage} />
+                        <Route path="/vendor/business" component={VendorBusiness} />
+                        <Route path="/vendor/customer" component={VendorCustomer} />
                         <Route path="/category/group" component={GlobalCategoryGroup} />
                         <Route path="/category/list" component={GlobalCategoryList} />
                         <Route path="/unit/group" component={GlobalUnitGroup} />
