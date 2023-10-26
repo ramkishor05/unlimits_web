@@ -48,6 +48,22 @@ export const setups = {
             breadcrumbs: false
         },
         {
+            id: 'currency-group',
+            title: 'Currency Group',
+            type: 'item',
+            url: '/currency/group',
+            icon: icons['IconHelp'],
+            breadcrumbs: false
+        },
+        {
+            id: 'Currency-list',
+            title: 'Currency List',
+            type: 'item',
+            url: '/currency/list',
+            icon: icons['IconHelp'],
+            breadcrumbs: false
+        },
+        {
             id: 'count-freq',
             title: 'Count Freq',
             type: 'item',

@@ -15,6 +15,7 @@ import { getUser } from '../../../actions/UserActions';
 // assets
 import { IconMenu2 } from '@tabler/icons';
 import { useSelector } from 'react-redux';
+import BusinessOptions from '../../../component/dropdwons/BusinessOptions';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -58,11 +59,18 @@ const Header = ({ handleLeftDrawerToggle }) => {
                         <IconMenu2 stroke={1.5} size="1.3rem" />
                     </Avatar>
                 </ButtonBase>
+                
             </div>
-
+            
             {/* header search */}
-            <SearchSection theme="light" />
+            
+            <BusinessOptions theme="light" />
             <div className={classes.grow} />
+            <SearchSection theme="light" />
+            
+            <div className={classes.grow} />
+           
+
             <div className={classes.grow} />
 
             {/* notification & profile */}

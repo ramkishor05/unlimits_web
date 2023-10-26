@@ -15,6 +15,8 @@ import CustSalePage from '../views/cust/sales/CustSalePage';
 import CustomerBill from '../views/cust/bills/CustomerBill';
 import VendorCustomer from '../views/cust/Vendor/Customer/VendorCustomer';
 import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
+import GlobalCurrencyList from '../views/global/currency/GlobalCurrencyList';
+import GlobalCurrencyGroup from '../views/global/currency/GlobalCurrencyGroup';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -45,6 +47,8 @@ const MainRoutes = () => {
                 '/vendor/customer',
                 '/category/group',
                 '/category/list',
+                '/currency/group',
+                '/currency/list',
                 '/unit/group',
                 '/unit/list',
                 '/count/freq',
@@ -67,6 +71,8 @@ const MainRoutes = () => {
                         <Route path="/vendor/customer" component={VendorCustomer} />
                         <Route path="/category/group" component={GlobalCategoryGroup} />
                         <Route path="/category/list" component={GlobalCategoryList} />
+                        <Route path="/currency/group" component={GlobalCurrencyGroup} />
+                        <Route path="/currency/list" component={GlobalCurrencyList} />
                         <Route path="/unit/group" component={GlobalUnitGroup} />
                         <Route path="/unit/list" component={GlobalUnitList} />
                         <Route path="/count/freq" component={GlobalCountFreq} />

@@ -1,4 +1,4 @@
-import axios from './index';
+import {axios} from './index';
 const hostname = `localhost`;
 
 var endpoint = `http://${hostname}:2222/api/authentication`;

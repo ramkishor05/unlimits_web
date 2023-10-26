@@ -1,4 +1,4 @@
-import axios from './index';
+import {axios} from './index';
 import config from '../config';
 
 const GLOBAL_UNIT_URL=`${config.API_ITEM_SERVER}/api/global/unit`;

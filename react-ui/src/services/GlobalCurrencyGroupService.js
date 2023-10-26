@@ -1,46 +1,32 @@
 import {axios} from './index';
-const hostname = `localhost`;
+import config from '../config';
 
-var endpoint = `http://${hostname}:2222/api/user`;
+const GLOBAL_CURRENCY_GROUP_URL=`${config.API_ITEM_SERVER}/api/global/currency/group`
 
-const headers = {
-    'Content-Type': 'application/json',
-    'custAppId': 1,
-    'vendorId' : 31
-};
 export default {
-   
     getAll() {
-        return axios.get(endpoint)
+        return axios.get(GLOBAL_CURRENCY_GROUP_URL)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-
-    update(id, data) {
-        return axios.put(endpoint+`/${id}`, data)
+    find(minimum){
+        return axios.get(GLOBAL_CURRENCY_GROUP_URL+'/find', { params: { minimum } })
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-
-    add(user) {
-        return axios.post(endpoint, user)
+    add(item) {
+        return axios.post(GLOBAL_CURRENCY_GROUP_URL, item)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-
+    update(id, item) {
+        item['id']=id;
+        return axios.put(GLOBAL_CURRENCY_GROUP_URL, item)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
     delete(id) {
-        return axios.delete(endpoint+`/${id}`)
-                    .then(response => Promise.resolve(response.data))
-                    .catch(error => Promise.reject(error.response.data));
-    },
-
-    get(id) {
-        return axios.delete(endpoint+`/${id}`)
-                    .then(response => Promise.resolve(response.data))
-                    .catch(error => Promise.reject(error.response.data));
-    },
-    exists(username) {
-        return axios.get(endpoint+`/exists/${username}`)
+        return axios.delete(GLOBAL_CURRENCY_GROUP_URL+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     }

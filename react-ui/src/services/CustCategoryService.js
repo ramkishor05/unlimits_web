@@ -1,4 +1,4 @@
-import axios from './index';
+import {axios} from './index';
 import config from '../config';
 
 const CUST_CATEGORY_URL=`${config.API_ITEM_SERVER}/api/cust/category`;

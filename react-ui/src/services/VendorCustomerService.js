@@ -1,4 +1,4 @@
-import axios from './index';
+import {axios} from './index';
 
 const CUSTOMER_URL="http://localhost:3333/api/customer";
 

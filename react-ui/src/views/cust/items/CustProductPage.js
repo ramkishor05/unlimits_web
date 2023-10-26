@@ -1,9 +1,7 @@
-import React, { useEffect, useReducer, useState,Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
-
 // project imports
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
@@ -17,7 +15,7 @@ import {
 function createData(name, description, typeId, actions) {
     return { name, description, typeId, actions};
 }
-const headers = [
+const tableheaders = [
     {
         "key": "title",
         "name": "title",
@@ -114,6 +112,66 @@ const headers = [
     }
 ];
 
+const modelheaders = [
+    {
+        "key": "title",
+        "name": "title",
+        "label": "Title",
+        "type": "text"
+    },
+    {
+        "key": "name",
+        "name": "name",
+        "label": "Name",
+        "type": "text"
+    },
+    {
+        "key": "description",
+        "name": "description",
+        "label": "Description",
+        "type": "text"
+    },
+    {
+        "key": "title",
+        "name": "purchasePrice",
+        "label": "Purchase",
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name",
+        "itemName": "purchaseUnitId"
+    },
+    {
+        "key": "retailPrice",
+        "name": "retailPrice",
+        "label": "Retail",
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name",
+        "itemName": "retailUnitId"
+    },
+    {
+        "key": "wholePrice",
+        "name": "wholePrice",
+        "label": "Whole",
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name",
+        "itemName": "wholeUnitId"
+    }
+];
+
 function actions(){
     return ['edit', 'update']
 }
@@ -135,7 +193,7 @@ const styles = theme => ({
     },
   });
 
-class CustCategoryGroup extends Component {
+class CustProductPage extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -146,19 +204,18 @@ class CustCategoryGroup extends Component {
     
     _edit = row => {
        console.log("row=",row)
-       this.setState({ dataObject: row, title:"Edit category group", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit product", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add category group", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add product", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete category group", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete product", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
             this.props.addCustProduct(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -176,8 +233,8 @@ class CustCategoryGroup extends Component {
     async componentDidMount() {
         await this.props.getCustProductList();
         await this.props.getCustUnitList();
-         headers.forEach(header=>{
-            if(header.type==='select'){
+        modelheaders.forEach(header=>{
+            if(header.items){
                 let custUnitList=this.props.custUnitList;
                 if(custUnitList){
                     header['items']=custUnitList;
@@ -203,7 +260,7 @@ class CustCategoryGroup extends Component {
                         }
                     >
                      <DynamicTable 
-                        headers={headers} 
+                        headers={tableheaders} 
                         dataList={this.props.custProductList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
@@ -216,7 +273,7 @@ class CustCategoryGroup extends Component {
                 closeAction={()=> this.setState({saveModel: false})}
                 data={this.state.dataObject} 
                 type={this.state.type}
-                fields= {headers}
+                fields= {modelheaders}
                 saveAction = {this.saveObject}
                 >
                 </DynamicModel>
@@ -244,6 +301,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct, getCustUnitList })(CustCategoryGroup);
+export default connect(mapStateToProps, { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct, getCustUnitList })(CustProductPage);
 
 

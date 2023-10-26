@@ -34,13 +34,14 @@ export default function AmountField(props) {
             value={getValue(data,field.key)}
             defaultValue={getValue(data,field.key)}
             label="{field.label}"
-            onChange={(event)=>setField(event, field.name, data)}
+            onChange={(event)=>setField(event, field.itemName, data)}
           >
             {
               field.items.map(item=> <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
             }
           </Select>
           }}
+          onChange={(event)=>setField(event, field.name, data)}
           variant="standard"
         />
     </div>

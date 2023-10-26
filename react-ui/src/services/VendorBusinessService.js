@@ -1,4 +1,4 @@
-import axios from './index';
+import {axios} from './index';
 
 const BUSINESS_URL="http://localhost:3333/api/business";
 const headers = {
