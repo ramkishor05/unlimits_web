@@ -4,8 +4,7 @@ import config from '../config';
 const CUST_UNIT_URL=`${config.API_ITEM_SERVER}/api/cust/unit`;
 
 const headers = {
-    'Content-Type': 'application/json',
-    'custAppId': config.PRODUCTION_APP_ID
+    'Content-Type': 'application/json'
 };
 
 export default {

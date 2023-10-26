@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -16,6 +16,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 
 import Select from '@mui/material/Select';
+
+import { getVendorBusinessList } from '../../actions';
+import { useDispatch, useSelector } from 'react-redux';
+
 // style constant
 const useStyles = makeStyles((theme) => ({
   searchControl: {
@@ -83,13 +87,22 @@ const useStyles = makeStyles((theme) => ({
 const BusinessOptions= (props) =>  {
   const classes = useStyles();
 
-  const [value, setValue] = useState('');
+  const { vendorBusinessList, show_business_loader } = useSelector(state => state.vendorBusinessReducer);
+
+  const dispatch=useDispatch();
+
+  const [value, setValue] = useState(null);
 
   const onSeach =(event)=>{
       console.log("========onSeach=====")
       setValue(event.target.value);
       console.log("========onSeach=====")
   }
+
+  useEffect(()=>{
+    dispatch(getVendorBusinessList());
+  },[vendorBusinessList])
+
 
   return (
     <React.Fragment>
@@ -121,12 +134,11 @@ const BusinessOptions= (props) =>  {
                                                     displayEmpty
                                                     inputProps={{ 'aria-label': 'Without label' }}
                                                   >
-                                                    <MenuItem value="">
-                                                      <em>None</em>
-                                                    </MenuItem>
-                                                    <MenuItem value={10}>Ten</MenuItem>
-                                                    <MenuItem value={20}>Twenty</MenuItem>
-                                                    <MenuItem value={30}>Thirty</MenuItem>
+                                                   
+                                                    {
+                                                        vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected = {true} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
+                                                    }
+                                                    
                                                   </Select>
                                                     </Grid>
                                                 </Grid>
@@ -139,21 +151,14 @@ const BusinessOptions= (props) =>  {
                     )}
                 </PopupState>
             </Box>
-            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-              <Select
+             <Select
                 value={value}
                 onChange={onSeach}
-                displayEmpty
-                inputProps={{ 'aria-label': 'Without label' }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {
+                    vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={true} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
+                }
               </Select>
-            </Box>
         </React.Fragment>
   );
 }

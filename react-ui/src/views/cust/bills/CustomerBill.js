@@ -72,12 +72,24 @@ const useStyles = makeStyles((theme) => ({
     setProductData= () =>{
 
     }
+    
+    setAddAdditionalChargeList=(formValues)=>{
+        this.setState({addAdditionalChargeList:formValues});
+    }
 
     setDiscount=(item, amount)=>{
         item['discount']=amount;
         const newSelectedItems = [...this.state.selectedItems];
         this.setState({selectedItems: newSelectedItems});
     }
+
+    getDiscounts=()=>{
+        let discountTotal=this.state.selectedItems && this.state.selectedItems.reduce((previousValue, currentValue) => {
+            console.log("currentValue=",currentValue)
+            return previousValue + Number.parseFloat(currentValue.discount);
+        }, 0)
+        return discountTotal;
+     }
 
      getSelectedItems=()=>{
         return (
@@ -101,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
                         {selectedItem.title}
                     </TableCell>
                     <TableCell key={'selectedItem_'+selectedItem.id+'price'}>
-                        {selectedItem.retailPrice}
+                        {selectedItem.retailPrice.price}
                     </TableCell>
                     <TableCell key={'selectedItem_'+selectedItem.id+'discount'}>
                         <TextField type='number' variant='standard' onChange={(event)=> this.setDiscount(selectedItem, event.target.value)}></TextField>
@@ -119,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
              Sub Total : 
                {
                     this.state.selectedItems && this.state.selectedItems.reduce((previousValue, currentValue) => {
-                        return previousValue + currentValue.qnt * currentValue.retailPrice;
+                        return previousValue + currentValue.qnt * currentValue.retailPrice.price;
                     }, 0)
                }
             </TableCell>
@@ -128,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
             <TableCell colSpan={3} align='right'>
                 <List>
                     <ListItem>
-                        Discounts : <TextField variant='standard'></TextField>
+                        Discounts : <TextField value={this.getDiscounts()} defaultValue={this.getDiscounts()} variant='standard'></TextField>
                     </ListItem>
                  </List>
             </TableCell>
@@ -171,9 +183,11 @@ const useStyles = makeStyles((theme) => ({
         )
     }
 
+    
+
      getTotalBill = () =>{
         let subTotal=  this.state.selectedItems && this.state.selectedItems.reduce((previousValue, currentValue) => {
-            return previousValue + currentValue.qnt * currentValue.retailPrice;
+            return previousValue + currentValue.qnt * currentValue.retailPrice.price;
         }, 0);
         let addAdditionalChargeTotal= this.state.addAdditionalChargeList && this.state.addAdditionalChargeList.reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.value);

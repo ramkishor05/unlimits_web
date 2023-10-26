@@ -17,8 +17,20 @@ export default function AmountField(props) {
     return val;
   }
   
-  const setField= (event, name, data)=>{
-    data[name]=event.target.value;
+  const setField= (event, keyStr, data)=>{
+    let keys=keyStr.split("\.");
+    let val=data;
+    for (let i = 0; i < keys.length-1; i++){
+      if( typeof val === 'object'){
+        let key=keys[i];
+        if(!val[key]){
+          val[key]={};
+        }
+        val=val[key];
+      }
+    }
+    let key=keys[keys.length-1];
+    val[key]=event.target.value;
   }
 
   return (

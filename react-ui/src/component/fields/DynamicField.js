@@ -30,7 +30,6 @@ export default function DynamicField(props) {
     
     let newformValues = [...formValues];
     newformValues[i][e.target.name] = e.target.value;
-    console.log("newformValues=",newformValues)
     setFormValues(newformValues);
   }
 

@@ -9,7 +9,7 @@ import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import { 
     getCustProductList, addCustProduct, editCustProduct, deleteCustProduct,
-    getCustUnitList
+    getCustUnitList, getCustCurrencyItemList
  } from '../../../actions';
 
 function createData(name, description, typeId, actions) {
@@ -17,6 +17,11 @@ function createData(name, description, typeId, actions) {
 }
 const tableheaders = [
     {
+        "key": "idenNo",
+        "name": "idenNo",
+        "label": "IdenNo",
+        "type": "text"
+    },{
         "key": "title",
         "name": "title",
         "label": "Title",
@@ -30,81 +35,28 @@ const tableheaders = [
     },
     {
         "key": "description",
-        "name": "description",
+        "name": "desc",
         "label": "Description",
         "type": "text"
     },
     {
         "key": "title",
-        "name": "purchasePrice",
+        "name": "purchasePrice.price",
         "label": "Purchase",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name"
-    },
-    {
-        "key": "purchaseUnit.id",
-        "name": "purchaseUnitId",
-        "label": "Unit",
-        "type": "qnt",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name"
+        "type": "amount"
+        
     },
     {
         "key": "retailPrice",
-        "name": "retailPrice",
+        "name": "retailPrice.price",
         "label": "Retail",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name"
-    },
-    {
-        "key": "retailUnit.id",
-        "name": "retailUnitId",
-        "label": "Unit",
-        "type": "qnt",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name"
+        "type": "amount"
     },
     {
         "key": "wholePrice",
-        "name": "wholePrice",
+        "name": "wholePrice.price",
         "label": "Whole",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name"
-    },
-    {
-        "key": "wholeUnit.id",
-        "name": "wholeUnitId",
-        "label": "Unit",
-        "type": "qnt",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name"
+        "type": "amount"
     },
     {
         name: "actions",
@@ -133,7 +85,7 @@ const modelheaders = [
     },
     {
         "key": "title",
-        "name": "purchasePrice",
+        "name": "purchasePrice.price",
         "label": "Purchase",
         "type": "amount",
         "items": [{
@@ -142,11 +94,11 @@ const modelheaders = [
         }],
         "itemKey": "id",
         "itemVal": "name",
-        "itemName": "purchaseUnitId"
+        "itemName": "purchasePrice.currencyId"
     },
     {
         "key": "retailPrice",
-        "name": "retailPrice",
+        "name": "retailPrice.price",
         "label": "Retail",
         "type": "amount",
         "items": [{
@@ -155,11 +107,11 @@ const modelheaders = [
         }],
         "itemKey": "id",
         "itemVal": "name",
-        "itemName": "retailUnitId"
+        "itemName": "retailPrice.currencyId"
     },
     {
         "key": "wholePrice",
-        "name": "wholePrice",
+        "name": "wholePrice.price",
         "label": "Whole",
         "type": "amount",
         "items": [{
@@ -168,7 +120,7 @@ const modelheaders = [
         }],
         "itemKey": "id",
         "itemVal": "name",
-        "itemName": "wholeUnitId"
+        "itemName": "wholePrice.currencyId"
     }
 ];
 
@@ -233,11 +185,12 @@ class CustProductPage extends Component {
     async componentDidMount() {
         await this.props.getCustProductList();
         await this.props.getCustUnitList();
+        await this.props.getCustCurrencyItemList();
         modelheaders.forEach(header=>{
             if(header.items){
-                let custUnitList=this.props.custUnitList;
-                if(custUnitList){
-                    header['items']=custUnitList;
+                let custCurrencyItemList=this.props.custCurrencyItemList;
+                if(custCurrencyItemList){
+                    header['items']=custCurrencyItemList;
                 }
                 console.log("header=",header)
             }
@@ -296,11 +249,12 @@ class CustProductPage extends Component {
 const mapStateToProps = state => {
     const { custProductList} = state.custProductReducer;
     const { custUnitList} = state.custUnitReducer;
-    console.log("custUnitList=",custUnitList)
-    return { custProductList, custUnitList};
+
+    const { custCurrencyItemList} = state.custCurrencyItemReducer;
+    return { custProductList, custCurrencyItemList, custUnitList};
 };
 
 
-export default connect(mapStateToProps, { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct, getCustUnitList })(CustProductPage);
+export default connect(mapStateToProps, { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct, getCustUnitList, getCustCurrencyItemList })(CustProductPage);
 
 

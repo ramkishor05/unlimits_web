@@ -5,18 +5,18 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 import MainLayout from './../layout/MainLayout';
 import Loadable from '../component/Loadable';
 import AuthGuard from './../utils/route-guard/AuthGuard';
-import GlobalCategoryGroup from '../views/global/category/GlobalCategoryGroup';
-import GlobalCategoryList from '../views/global/category/GlobalCategoryList';
-import GlobalCountFreq from '../views/global/count_freq/GlobalCountFreq';
-import GlobalUnitList from '../views/global/unit/GlobalUnitList';
-import GlobalUnitGroup from '../views/global/unit/GlobalUnitGroup';
+import CustCategoryGroup from '../views/cust/category/CustCategoryGroup';
+import CustCategoryList from '../views/cust/category/CustCategoryList';
+import CustCountFreq from '../views/cust/count_freq/CustCountFreq';
+import CustUnitList from '../views/cust/unit/CustUnitList';
+import CustUnitGroup from '../views/cust/unit/CustUnitGroup';
 import CustProductPage from '../views/cust/items/CustProductPage';
 import CustSalePage from '../views/cust/sales/CustSalePage';
 import CustomerBill from '../views/cust/bills/CustomerBill';
 import VendorCustomer from '../views/cust/Vendor/Customer/VendorCustomer';
 import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
-import GlobalCurrencyList from '../views/global/currency/GlobalCurrencyList';
-import GlobalCurrencyGroup from '../views/global/currency/GlobalCurrencyGroup';
+import CustCurrencyList from '../views/cust/currency/CustCurrencyList';
+import CustCurrencyGroup from '../views/cust/currency/CustCurrencyGroup';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -69,13 +69,13 @@ const MainRoutes = () => {
                         <Route path="/cust/products" component={CustProductPage} />
                         <Route path="/vendor/business" component={VendorBusiness} />
                         <Route path="/vendor/customer" component={VendorCustomer} />
-                        <Route path="/category/group" component={GlobalCategoryGroup} />
-                        <Route path="/category/list" component={GlobalCategoryList} />
-                        <Route path="/currency/group" component={GlobalCurrencyGroup} />
-                        <Route path="/currency/list" component={GlobalCurrencyList} />
-                        <Route path="/unit/group" component={GlobalUnitGroup} />
-                        <Route path="/unit/list" component={GlobalUnitList} />
-                        <Route path="/count/freq" component={GlobalCountFreq} />
+                        <Route path="/category/group" component={CustCategoryGroup} />
+                        <Route path="/category/list" component={CustCategoryList} />
+                        <Route path="/currency/group" component={CustCurrencyGroup} />
+                        <Route path="/currency/list" component={CustCurrencyList} />
+                        <Route path="/unit/group" component={CustUnitGroup} />
+                        <Route path="/unit/list" component={CustUnitList} />
+                        <Route path="/count/freq" component={CustCountFreq} />
                         <Route path="/utils/util-typography" component={UtilsTypography} />
                         <Route path="/utils/util-color" component={UtilsColor} />
                         <Route path="/utils/util-shadow" component={UtilsShadow} />

@@ -9,7 +9,9 @@ export * from './CustUnitGroupActions';
 
 export * from './CustCountFreqActions';
 
-export * from './CustCountFreqActions';
+export * from './CustCurrencyGroupActions';
+
+export * from './CustCurrencyItemActions';
 
 export * from './CustProductActions';
 

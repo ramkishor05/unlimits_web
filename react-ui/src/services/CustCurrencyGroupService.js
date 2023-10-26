@@ -1,38 +1,32 @@
 import {axios} from './index';
 import config from '../config';
 
-const CUST_UNIT_GROUP_URL=`${config.API_ITEM_SERVER}/api/cust/unitgroup`;
+const CUST_CURRENCY_GROUP_URL=`${config.API_ITEM_SERVER}/api/cust/currency/group`
 
-const headers = {
-    'Content-Type': 'application/json'
-  };
 export default {
     getAll() {
-        return axios.get(CUST_UNIT_GROUP_URL,{headers: headers})
+        return axios.get(CUST_CURRENCY_GROUP_URL)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-
-    getByDate(from, to) {
-        return axios.get(CUST_UNIT_GROUP_URL+'/filter', { params: {from, to} },{headers: headers})
+    find(minimum){
+        return axios.get(CUST_CURRENCY_GROUP_URL+'/find', { params: { minimum } })
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-
-    add(unit) {
-        return axios.post(CUST_UNIT_GROUP_URL, unit,{headers: headers})
+    add(item) {
+        return axios.post(CUST_CURRENCY_GROUP_URL, item)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-
-    update(id, unit) {
-        return axios.put(CUST_UNIT_GROUP_URL+`/${id}`, unit,{headers: headers})
+    update(id, item) {
+        item['id']=id;
+        return axios.put(CUST_CURRENCY_GROUP_URL, item)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-
     delete(id) {
-        return axios.delete(CUST_UNIT_GROUP_URL+`/${id}`,{headers: headers})
+        return axios.delete(CUST_CURRENCY_GROUP_URL+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     }
