@@ -6,10 +6,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 // material-ui
-import { Avatar, Button, Card, CardContent, CardHeader, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, List, ListItem, ListItemText, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from '@material-ui/core';
+import { Avatar, Button, Card, CardContent, CardHeader, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, List, ListItem, ListItemText, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography} from '@material-ui/core';
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, styled } from '@material-ui/styles';
 import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
 import { 
     getCustProductList, getVendorCustomerList, addCustSale
@@ -18,8 +18,16 @@ import {
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
 import DynamicField from '../../../component/fields/DynamicField';
 import { connect } from 'react-redux';
+import { GridCloseIcon } from '@mui/x-data-grid';
 
-
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+      padding: theme.spacing(1),
+    },
+  }));
 
 //==============================|| SAMPLE PAGE ||==============================//
 const useStyles = makeStyles((theme) => ({
@@ -69,13 +77,15 @@ const useStyles = makeStyles((theme) => ({
     };
 
      itemAction=(custProduct)=>{
-        const newSelectedItems = [...this.state.selectedItems];
-        custProduct['qnt']=1;
-        custProduct['discount']=0;
-        newSelectedItems.push(custProduct);
-        this.state.custProductRetailSaleMap[custProduct.id]=custProduct;
-        this.setState({selectedItems: newSelectedItems});
-        this.setState({custProductRetailSaleMap: this.state.custProductRetailSaleMap});
+        if(custProduct){
+            const newSelectedItems = [...this.state.selectedItems];
+            custProduct['qnt']=1;
+            custProduct['discount']=0;
+            newSelectedItems.push(custProduct);
+            this.state.custProductRetailSaleMap[custProduct.id]=custProduct;
+            this.setState({selectedItems: newSelectedItems});
+            this.setState({custProductRetailSaleMap: this.state.custProductRetailSaleMap});
+        }
     }
 
     customerAction=(customer)=>{
@@ -258,17 +268,33 @@ const useStyles = makeStyles((theme) => ({
     const { open, close} = this.props;
 
     return (
-        <Dialog
+        <BootstrapDialog
             aria-labelledby="Add Sale"
             aria-describedby="Modal for adding sales"
             open={open}
             onClose={close}
             maxWidth={'lg'}
             fullWidth={true}
-            sx={{overflowX: false, overflowY: false}}
         >
-            <DialogTitle id="form-dialog-title">Bill Information</DialogTitle>
-            <DialogContent dividers>
+            <DialogTitle id="form-dialog-title">
+                    <Typography variant="h2" component="h2">                
+                    Add sale 
+                    </Typography>
+            </DialogTitle>
+            <IconButton
+            aria-label="close"
+            onClick={close}
+            sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+            }}
+            >
+            <GridCloseIcon />
+            </IconButton>
+            <Divider></Divider>
+            <DialogContent>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={12} md={3}>
                         <TextField
@@ -290,12 +316,15 @@ const useStyles = makeStyles((theme) => ({
                         <ItemDropDwon label="Items" items={this.props.custProductList} itemAction={this.itemAction}></ItemDropDwon>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
+                            <div >
                             {
                                 this.getSelectedItems()
                             }
+                            </div>
                     </Grid>
                 </Grid>
             </DialogContent>
+            <Divider></Divider>
             <DialogActions>
                 <Grid container spacing={2} padding={2}>
                     <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
@@ -306,7 +335,7 @@ const useStyles = makeStyles((theme) => ({
                     </Grid>
                 </Grid>
             </DialogActions>
-         </Dialog>
+         </BootstrapDialog>
     );
 };
   }
