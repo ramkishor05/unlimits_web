@@ -17,7 +17,7 @@ export default function CustomerDropDwon(props) {
 
   const dispatch = useDispatch();
 
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState("0");
   const [open, toggleOpen] = React.useState(false);
 
   const handleClose = () => {
@@ -41,6 +41,7 @@ export default function CustomerDropDwon(props) {
     };
     setValue(customer);
     dispatch(addVendorCustomer(customer));
+    props.customerAction(customer);
     handleClose();
   };
 
@@ -67,6 +68,7 @@ export default function CustomerDropDwon(props) {
             });
           } else {
             setValue(newValue);
+            props.customerAction(newValue);
           }
         }}
         filterOptions={(options, params) => {
@@ -96,7 +98,7 @@ export default function CustomerDropDwon(props) {
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
-        renderOption={(props, option) => <ListItem {...props}>{option.name}</ListItem>}
+        renderOption={(props, option) => <ListItem value={option.name} {...props}>{option.name}</ListItem>}
         freeSolo
         renderInput={(params) => <TextField {...params} label="Bill To" variant='standard' />}
       />

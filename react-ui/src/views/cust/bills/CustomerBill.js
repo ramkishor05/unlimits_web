@@ -11,7 +11,6 @@ import {
     getCustProductList, getVendorCustomerList
  } from '../../../actions';
 
-import { fetchProducts } from "../sales/dataApi";
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
 import DynamicField from '../../../component/fields/DynamicField';
 import { connect } from 'react-redux';
@@ -36,7 +35,13 @@ const useStyles = makeStyles((theme) => ({
         productData : [],
         selectedItems: [],
         addAdditionalChargeList:[],
-        selectedDate: new Date()
+        selectedDate: new Date(),
+        customerId: 0,
+        userId: 0,
+        retailQnt: 0.00,
+        wholeQnt: 0.00,
+        custProductRetailSaleMap: {},
+        custProductWholeSaleMap: {}
     }
 
     componentDidMount() {
@@ -56,6 +61,18 @@ const useStyles = makeStyles((theme) => ({
         newSelectedItems.push(newValue);
         this.setState({selectedItems: newSelectedItems});
         console.log("select item= ",newSelectedItems);
+    }
+
+    customerAction=(customer)=>{
+        
+        /*const newSelectedItems = [...this.state.selectedItems];
+        newValue['qnt']=1;
+        newValue['discount']=0;
+        newSelectedItems.push(newValue);
+        this.setState({selectedItems: newSelectedItems});*/
+        console.log("customerAction= ",customer);
+        if(customer)
+        this.setState({customerId: customer.id});
     }
 
      itemQnt=(item, qnt)=>{
@@ -222,7 +239,7 @@ const useStyles = makeStyles((theme) => ({
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3}>
-                        <CustomerDropDwon label="Bill to" customerList = {this.props.vendorCustomerList}></CustomerDropDwon>
+                        <CustomerDropDwon label="Bill to" customerList = {this.props.vendorCustomerList} customerAction={this.customerAction}></CustomerDropDwon>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
                         <ItemDropDwon label="Items" items={this.props.custProductList} itemAction={this.itemAction}></ItemDropDwon>

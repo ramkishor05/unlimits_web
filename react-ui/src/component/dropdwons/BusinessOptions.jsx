@@ -87,11 +87,11 @@ const useStyles = makeStyles((theme) => ({
 const BusinessOptions= (props) =>  {
   const classes = useStyles();
 
-  const { vendorBusinessList, show_business_loader } = useSelector(state => state.vendorBusinessReducer);
+  const { vendorBusinessList} = useSelector(state => state.vendorBusinessReducer);
 
   const dispatch=useDispatch();
 
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
 
   const onSeach =(event)=>{
       console.log("========onSeach=====")

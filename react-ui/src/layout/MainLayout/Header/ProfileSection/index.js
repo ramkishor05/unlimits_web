@@ -127,8 +127,6 @@ const ProfileSection = () => {
     const userDetail = account.userDetail;
     const dispatcher = useDispatch();
 
-    console.log("userDetail=",userDetail)
-
     const [sdm, setSdm] = React.useState(true);
     const [value, setValue] = React.useState('');
     const [notification, setNotification] = React.useState(false);

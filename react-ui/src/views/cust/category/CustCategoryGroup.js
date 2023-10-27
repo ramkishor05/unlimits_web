@@ -46,7 +46,6 @@ let dataList = [
     createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
     createData('Eclair', 'Eclair', 'Home', actions),
 ];
-  console.log("rows=",dataList)
 //==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {

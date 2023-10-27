@@ -41,7 +41,6 @@ const columns = [
 
 const CustomFooter=({rows}) =>{
  
-   console.log("apiRef.slotProps.rows=",rows)
   return (
     <GridFooterContainer>
       Sub total : {
