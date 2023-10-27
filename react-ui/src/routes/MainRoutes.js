@@ -17,6 +17,7 @@ import VendorCustomer from '../views/cust/Vendor/Customer/VendorCustomer';
 import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
 import CustCurrencyList from '../views/cust/currency/CustCurrencyList';
 import CustCurrencyGroup from '../views/cust/currency/CustCurrencyGroup';
+import CustBillPage from '../views/cust/bills/CustBillPage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -64,7 +65,7 @@ const MainRoutes = () => {
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
                         <Route path="/dashboard/default" component={DashboardDefault} />
-                        <Route path="/cust/billing" component={CustomerBill} />
+                        <Route path="/cust/billing" component={CustBillPage} />
                         <Route path="/cust/sales" component={CustSalePage} />
                         <Route path="/cust/products" component={CustProductPage} />
                         <Route path="/vendor/business" component={VendorBusiness} />

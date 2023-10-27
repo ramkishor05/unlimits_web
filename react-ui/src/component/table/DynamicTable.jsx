@@ -5,9 +5,21 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Button, Fab} from '@material-ui/core';
+import { Fab} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { makeStyles } from '@material-ui/styles';
+const useStyles = makeStyles({
+    table: {
+      minWidth: '90%',
+      height:'100%',
+      margin: 0,
+      padding:0,
+      "& .MuiTableCell-root": {
+        border: "1px solid rgba(224, 224, 224, 1)"
+      }
+    }
+  });
 
 const styles = {
     updateButton: {
@@ -19,44 +31,44 @@ const styles = {
 };
 
 function DynamicTable (props){
+    const classes = useStyles();
+
     const {headers, dataList} = props;
     return (
         <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="caption table">
-                    <caption>{props.title}</caption>
-                    <TableHead>
-                    <TableRow>
-                        {
-                            headers && headers.map(header=>
-                                <TableCell key={header.name} align={header.align} >{header.label}</TableCell>
+            <Table aria-label="collapsible table" className={classes.table}>
+                <caption>{props.title}</caption>
+                <TableHead>
+                <TableRow>
+                    {
+                        headers && headers.map(header=>
+                            <TableCell key={header.name} align={header.align} >{header.label}</TableCell>
+                        )
+                    }
+                </TableRow>
+                </TableHead>
+                <TableBody>
+                {dataList && dataList.map((row, i) => (
+                    <TableRow key={i}>{
+                        headers &&  headers.map(header=>
+                            header.name=='actions' 
+                            ?
+                            <TableCell key={header.name+'_'+i} align='right'>
+                                    <Fab color="secondary" aria-label="Edit" className={styles.updateButton} onClick={() => props.editAction(row)}>
+                                    <EditIcon/>
+                                </Fab>
+                                <Fab color="secondary" aria-label="Delete" className={styles.deleteButton} onClick={() => props.deleteAction(row)} >
+                                    <DeleteIcon />
+                                </Fab>
+                            </TableCell>
+                            :
+                            <TableCell key={header.name+'_'+i} {...header.props}>{row[header.name]}</TableCell>
                             )
                         }
                     </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {dataList && dataList.map((row, i) => (
-                        <TableRow key={i}>{
-                            headers &&  headers.map(header=>
-                                    
-                                        header.name=='actions' 
-                                        ?
-                                        <TableCell key={header.name+'_'+i} align='right'>
-                                             <Fab color="secondary" aria-label="Edit" className={styles.updateButton} onClick={() => props.editAction(row)}>
-                                                <EditIcon/>
-                                            </Fab>
-                                            <Fab color="secondary" aria-label="Delete" className={styles.deleteButton} onClick={() => props.deleteAction(row)} >
-                                                <DeleteIcon />
-                                            </Fab>
-                                        </TableCell>
-                                        :
-                                         <TableCell key={header.name+'_'+i} {...header.props}>{row[header.name]}</TableCell>
-                                    
-                                )
-                            }
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
+                ))}
+                </TableBody>
+            </Table>
         </TableContainer>
     )
 }

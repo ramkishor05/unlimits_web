@@ -9,7 +9,7 @@ import { Box, TextField } from '@material-ui/core';
 import { makeStyles } from "@material-ui/styles";
 
 export default function DynamicField(props) {
-  const classes = makeStyles();
+  //const classes = makeStyles();
   const [open, setOpen] = React.useState(false);
   const [formValues, setFormValues] = React.useState([...props.list]);
   
@@ -52,13 +52,13 @@ export default function DynamicField(props) {
     return (
         <>{
             formValues.length===0 ?
-                <Box variant='standard' className={classes.form}>
+                <Box variant='standard'>
                     <TextField variant='standard' label="Key" type="text" name="key" value={""} onChange={e => handleChange(0, e)} />
                     <TextField variant='standard'  label="Value" type="text" name="value" value={""} onChange={e => handleChange(0, e)} />
                 </Box>
             :
             formValues && formValues.length>0 && formValues.map((element, index) => (
-                <Box variant='standard' className={classes.form}>
+                <Box variant='standard'>
                         <TextField variant='standard' label="Key" type="text" name="key" value={element.key || ""} onChange={e => handleChange(index, e)} />
                         <TextField variant='standard'  label="Value" type="text" name="value" value={element.value || ""} onChange={e => handleChange(index, e)} />
                         {

@@ -101,7 +101,7 @@ const BusinessOptions= (props) =>  {
 
   useEffect(()=>{
     dispatch(getVendorBusinessList());
-  },[vendorBusinessList])
+  },[getVendorBusinessList])
 
 
   return (

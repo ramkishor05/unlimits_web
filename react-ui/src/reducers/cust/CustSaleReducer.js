@@ -2,14 +2,14 @@ import {
     GET_ALL_SALES_SUCCESS,
     GET_SALES_TODAY_SUCCESS, GET_SALES_YESTERDAY_SUCCESS, GET_SALES_LONG_SUCCESS,
     SALE_TO_EDIT, 
-} from '../../actions/types';
+} from '../../types';
 
 const INITIAL_STATE = {
-    sales: [],
-    sales_today: [],
-    sales_yesterday: [],
-    sales_long: [],
-    sale_to_edit: {
+    custSaleList: [],
+    custSaleList_today: [],
+    custSaleList_yesterday: [],
+    custSaleList_long: [],
+    cust_sale_to_edit: {
         retailQnt: 0.00,
         wholeQnt: 0.00,
         customerId: 0,
@@ -23,16 +23,16 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case GET_ALL_SALES_SUCCESS:
-            return { ...state, sales: action.payload };
+            return { ...state, custSaleList: action.payload };
 
         case GET_SALES_TODAY_SUCCESS:
-            return { ...state, sales_today: action.payload };
+            return { ...state, custSaleList_today: action.payload };
 
         case GET_SALES_YESTERDAY_SUCCESS:
-            return { ...state, sales_yesterday: action.payload };
+            return { ...state, custSaleList_yesterday: action.payload };
 
         case GET_SALES_LONG_SUCCESS:
-            return { ...state, sales_long: action.payload };
+            return { ...state, custSaleList_long: action.payload };
 
         case SALE_TO_EDIT:
             return { ...state, sale_to_edit: action.payload };

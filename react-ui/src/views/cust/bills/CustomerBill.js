@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import 'date-fns';
 
+import moment from 'moment';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+
 // material-ui
-import { Avatar, Button, Card, CardContent, CardHeader, Divider, Grid, List, ListItem, ListItemText, Table, TableCell, TableRow, TextField} from '@material-ui/core';
+import { Avatar, Button, Card, CardContent, CardHeader, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, List, ListItem, ListItemText, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from '@material-ui/core';
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
 import { makeStyles } from '@material-ui/styles';
 import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
 import { 
-    getCustProductList, getVendorCustomerList
+    getCustProductList, getVendorCustomerList, addCustSale
  } from '../../../actions';
 
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
 import DynamicField from '../../../component/fields/DynamicField';
 import { connect } from 'react-redux';
+
 
 
 //==============================|| SAMPLE PAGE ||==============================//
@@ -27,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
       width: 200,
     },
+    root: {
+        width: '100%',
+      },
+      container: {
+        maxHeight: 440,
+      }
   }));
 
   class CustomerBill extends Component {
@@ -35,44 +46,44 @@ const useStyles = makeStyles((theme) => ({
         productData : [],
         selectedItems: [],
         addAdditionalChargeList:[],
-        selectedDate: new Date(),
+        billDate: moment(new Date()).format("YYYY-MM-DDThh:mm"),
         customerId: 0,
         userId: 0,
-        retailQnt: 0.00,
-        wholeQnt: 0.00,
+        discounts : 0,
         custProductRetailSaleMap: {},
         custProductWholeSaleMap: {}
     }
 
     componentDidMount() {
-        // Set the dates (from and to) and pull corresponding sales from server.
         this.props.getVendorCustomerList();
-        this.props.getCustProductList(); // Get all items (Useful in adding sales).
+        this.props.getCustProductList(); 
     }
 
-     handleDateChange = (date) => {
-        this.setSelectedDate(date);
+    changeBillDate = (event) => {
+        this.setState({billDate: event.target.value});
     };
 
-     itemAction=(newValue)=>{
+    setDiscounts = (event) => {
+        console.log(event)
+        this.setState({discounts: event.target.value});
+    };
+
+     itemAction=(custProduct)=>{
         const newSelectedItems = [...this.state.selectedItems];
-        newValue['qnt']=1;
-        newValue['discount']=0;
-        newSelectedItems.push(newValue);
+        custProduct['qnt']=1;
+        custProduct['discount']=0;
+        newSelectedItems.push(custProduct);
+        this.state.custProductRetailSaleMap[custProduct.id]=custProduct;
         this.setState({selectedItems: newSelectedItems});
-        console.log("select item= ",newSelectedItems);
+        this.setState({custProductRetailSaleMap: this.state.custProductRetailSaleMap});
     }
 
     customerAction=(customer)=>{
-        
-        /*const newSelectedItems = [...this.state.selectedItems];
-        newValue['qnt']=1;
-        newValue['discount']=0;
-        newSelectedItems.push(newValue);
-        this.setState({selectedItems: newSelectedItems});*/
-        console.log("customerAction= ",customer);
-        if(customer)
-        this.setState({customerId: customer.id});
+        if(customer){
+            this.setState({customerId: customer.id});
+        } else{
+            this.setState({customerId: null});
+        }
     }
 
      itemQnt=(item, qnt)=>{
@@ -97,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
     setDiscount=(item, amount)=>{
         item['discount']=amount;
         const newSelectedItems = [...this.state.selectedItems];
-        this.setState({selectedItems: newSelectedItems});
+        this.setState({selectedItems: newSelectedItems, discounts: this.getDiscounts()});
     }
 
     getDiscounts=()=>{
@@ -110,18 +121,22 @@ const useStyles = makeStyles((theme) => ({
 
      getSelectedItems=()=>{
         return (
-        <Table sx={{border:1, borderStyle: 'groove'}}>
-            <TableRow alignItems="flex-start" key={'selectedItem_header'} >
-                <TableCell key={'selectedItem_'+0+'_image'} >
-                Image
-                </TableCell>
-                <TableCell key={'selectedItem_'+0+'_title'}>Title</TableCell>
-                <TableCell key={'selectedItem_'+0+'price'}>Price</TableCell>
-                <TableCell >Discount</TableCell>
-                <TableCell key={'selectedItem_'+0+'qnt'}>Qnt</TableCell>
-            </TableRow>
+       <TableContainer className={useStyles.container}>
+        <Table stickyHeader  sx={{border:1, borderStyle: 'groove'}}>
+            <TableHead stickyHeader>
+                <TableRow alignItems="flex-start" key={'selectedItem_header'} >
+                    <TableCell key={'selectedItem_'+0+'_image'} >
+                    Image
+                    </TableCell>
+                    <TableCell key={'selectedItem_'+0+'_title'}>Title</TableCell>
+                    <TableCell key={'selectedItem_'+0+'price'}>Price</TableCell>
+                    <TableCell >Discount</TableCell>
+                    <TableCell key={'selectedItem_'+0+'qnt'}>Qnt</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody sx={{overflowX : true, maxHeight:50}}>
             {
-            this.state.selectedItems && this.state.selectedItems.map(selectedItem=>
+            this.state.custProductRetailSaleMap && this.state.selectedItems.map(selectedItem=>
                 <TableRow key={'selectedItem_'+selectedItem.id}>
                     <TableCell key={'selectedItem_'+selectedItem.id+'image'}>
                         <Avatar alt="Remy Sharp" src={selectedItem.image} />
@@ -153,11 +168,11 @@ const useStyles = makeStyles((theme) => ({
                }
             </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow sx={{maxHeight:200, overflowX : true, overflowY : true}}>
             <TableCell colSpan={3} align='right'>
                 <List>
                     <ListItem>
-                        Discounts : <TextField value={this.getDiscounts()} defaultValue={this.getDiscounts()} variant='standard'></TextField>
+                        Discounts : <TextField value={this.getDiscounts()} defaultValue={this.getDiscounts()} onChange={this.setDiscounts} variant='standard'></TextField>
                     </ListItem>
                  </List>
             </TableCell>
@@ -184,19 +199,10 @@ const useStyles = makeStyles((theme) => ({
                     </List>
             </TableCell>
             </TableRow>
-            <TableRow>
-                <TableCell colSpan={5}>
-                        <Grid container spacing={2}>
-                            <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
-                                <Button variant='text'>Total Bill : {this.getTotalBill()}</Button>
-                            </Grid>
-                            <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
-                                <Button variant='contained'>Bill Generate</Button>
-                            </Grid>
-                        </Grid>
-                </TableCell>
-            </TableRow>
+            
+            </TableBody>
         </Table>
+        </TableContainer>
         )
     }
 
@@ -209,22 +215,60 @@ const useStyles = makeStyles((theme) => ({
         let addAdditionalChargeTotal= this.state.addAdditionalChargeList && this.state.addAdditionalChargeList.reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.value);
         }, 0);
-        console.log("addAdditionalChargeTotal=",addAdditionalChargeTotal);
         let discountTotal= this.state.selectedItems && this.state.selectedItems.reduce((previousValue, currentValue) => {
-            console.log("currentValue=",currentValue)
             return previousValue + Number.parseFloat(currentValue.discount);
         }, 0);
-        console.log("discountTotal=",discountTotal);
         return subTotal+addAdditionalChargeTotal-discountTotal;
     }
+
+    addBill = () =>{
+        console.log("this.state",this.state)
+        let custProductSale = {
+            customerId: this.state.customerId,
+            discounts: this.state.discounts,
+            wholeSaleTotals: 1.0,
+            wholeSaleQnt: 1,
+            retailSaleTotals: 1.0,
+            retailSaleQnt:1,
+            custProductRetailSaleList: [],
+            custProductWholeSaleList: []
+        }
+        Object.entries(this.state.custProductRetailSaleMap).forEach(([productId,item])=>{
+            let custProductRetailSale={
+                name: item.name,
+                desc: item.desc,
+                purchasePrice: item.purchasePrice,
+                purchaseUnitId: 1,
+                retailQnt: item.qnt,
+                retailPrice: item.retailPrice,
+                retailUnitId: 1,
+                custProductId: productId
+            }
+            custProductSale.custProductRetailSaleList.push(custProductRetailSale);
+        })
+        Object.entries(this.state.custProductWholeSaleMap).forEach(([productId,custProductWholeSale])=>{
+            custProductSale.custProductWholeSaleList.push(custProductWholeSale);
+        })
+        
+        this.props.addCustSale(custProductSale);
+    }
+
     render() {
-      
+
+    const { open, close} = this.props;
+
     return (
-        <>
-        <Card variant="elevation">
-           <CardHeader title="Bill Information" >  </CardHeader>
-            <Divider />
-           <CardContent >
+        <Dialog
+            aria-labelledby="Add Sale"
+            aria-describedby="Modal for adding sales"
+            open={open}
+            onClose={close}
+            maxWidth={'lg'}
+            fullWidth={true}
+            sx={{overflowX: false, overflowY: false}}
+        >
+            <DialogTitle id="form-dialog-title">Bill Information</DialogTitle>
+            <DialogContent dividers>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={12} md={3}>
                         <TextField
@@ -232,10 +276,11 @@ const useStyles = makeStyles((theme) => ({
                             label="Bill Date"
                             variant='standard'
                             type="datetime-local"
-                            defaultValue="2017-05-24T10:30"
+                            defaultValue={this.state.billDate}
                             InputLabelProps={{
                             shrink: true,
                             }}
+                            onChange={this.changeBillDate}
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3}>
@@ -244,15 +289,24 @@ const useStyles = makeStyles((theme) => ({
                     <Grid item xs={12} sm={12} md={6}>
                         <ItemDropDwon label="Items" items={this.props.custProductList} itemAction={this.itemAction}></ItemDropDwon>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} sx={{minWidth:600}}>
+                    <Grid item xs={12} sm={12} md={12}>
                             {
                                 this.getSelectedItems()
                             }
                     </Grid>
                 </Grid>
-            </CardContent>
-         </Card>
-         </>
+            </DialogContent>
+            <DialogActions>
+                <Grid container spacing={2} padding={2}>
+                    <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
+                        <Button variant='text'>Total Bill : {this.getTotalBill()}</Button>
+                    </Grid>
+                    <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
+                        <Button variant='contained' onClick={this.addBill}>Bill Generate</Button>
+                    </Grid>
+                </Grid>
+            </DialogActions>
+         </Dialog>
     );
 };
   }
@@ -281,4 +335,4 @@ const mapStateToProps = state => {
     return { custProductList, vendorCustomerList };
 }
 
-export default connect(mapStateToProps, { getCustProductList, getVendorCustomerList})(CustomerBill);
+export default connect(mapStateToProps, { getCustProductList, getVendorCustomerList, addCustSale})(CustomerBill);

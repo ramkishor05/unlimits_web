@@ -6,7 +6,7 @@ import {
 import CustSaleService from '../../services/CustSaleService';
 
 // Action creator for getting all sales.
-export const getAllSales = () => async dispatch => {
+export const getCustSaleList = () => async dispatch => {
     try {
         let sales = await CustSaleService.getAll();
 
@@ -19,7 +19,7 @@ export const getAllSales = () => async dispatch => {
 };
 
 // Action creator for getting sales according to date.
-export const getSalesByDate = (from, to, day) => async dispatch => {
+export const getCustSaleListByDate = (from, to, day) => async dispatch => {
     try {
         let sales = await CustSaleService.getByDate(from, to);
 
@@ -40,7 +40,7 @@ export const getSalesByDate = (from, to, day) => async dispatch => {
 };
 
 // Action creator for adding sales.
-export const addSale = (data, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
+export const addCustSale = (data, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
     try {
         let sale = await CustSaleService.add(data);
 
@@ -66,7 +66,7 @@ export const renderSaleToEdit = payload => {
 };
 
 // Action creator for editing sales in the system.
-export const editSale = (id, data, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
+export const editCustSale = (id, data, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
     try {
         const sale = await CustSaleService.update(id, data);
 
