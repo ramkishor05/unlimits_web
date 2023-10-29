@@ -25,10 +25,12 @@ import CustCurrencyGroupReducer from './cust/CustCurrencyGroupReducer';
 import CustCurrencyItemReducer from './cust/CustCurrencyItemReducer';
 import CustProductReducer from './cust/CustProductReducer';
 import CustSaleReducer from './cust/CustSaleReducer';
+import CustPurchaseReducer from './cust/CustPurchaseReducer';
 
 import VendorReducer from './VendorReducer';
 import VendorCustomerReducer from './VendorCustomerReducer';
 import VendorBusinessReducer from './VendorBusinessReducer';
+import VendorSupplierReducer from './VendorSupplierReducer';
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
 
@@ -47,6 +49,8 @@ const reducer = combineReducers({
     vendorReducer: VendorReducer,
     vendorCustomerReducer: VendorCustomerReducer,
     vendorBusinessReducer: VendorBusinessReducer,
+    vendorSupplierReducer: VendorSupplierReducer,
+
 
     globalCategoryGroupReducer: GlobalCategoryGroupReducer,
     globalCategoryReducer: GlobalCategoryReducer,
@@ -64,7 +68,8 @@ const reducer = combineReducers({
     custCountFreqReducer: CustCountFreqReducer,
     custCurrencyGroupReducer: CustCurrencyGroupReducer,
     custCurrencyItemReducer: CustCurrencyItemReducer,
-    custSaleReducer:CustSaleReducer
+    custSaleReducer:CustSaleReducer,
+    custPurchaseReducer:CustPurchaseReducer
 });
 
 export default reducer;

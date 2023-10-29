@@ -10,10 +10,10 @@ import {
 } from '../../types';
 
 const INITIAL_STATE = {
-    custUnitGroups: [],
-    custUnitGroups_today: [],
-    custUnitGroups_yesterday: [],
-    custUnitGroups_long: [],
+    custUnitGroupList: [],
+    custUnitGroupList_today: [],
+    custUnitGroupList_yesterday: [],
+    custUnitGroupList_long: [],
     cust_unit_group_to_edit: {
         name: '',
         unitGroupId: ''
@@ -23,19 +23,19 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_ALL_CUST_UNIT_GROUPS_SUCCESS:
-            return { ...state, custUnitGroups: action.payload };
+            return { ...state, custUnitGroupList: action.payload };
 
         case GET_ALL_CUST_UNIT_GROUPS_FAIL:
             return { ...state };
 
         case GET_CUST_UNIT_GROUPS_TODAY_SUCCESS:
-            return { ...state, custUnitGroups_today: action.payload };
+            return { ...state, custUnitGroupList_today: action.payload };
 
         case GET_CUST_UNIT_GROUPS_YESTERDAY_SUCCESS:
-            return { ...state, custUnitGroups_yesterday: action.payload };
+            return { ...state, custUnitGroupList_yesterday: action.payload };
 
         case GET_CUST_UNIT_GROUPS_LONG_SUCCESS:
-            return { ...state, custUnitGroups_long: action.payload };
+            return { ...state, custUnitGroupList_long: action.payload };
 
         case ADD_CUST_UNIT_GROUP_SUCCESS:
             return { ...state, openAddCustUnitGroupModal: false };

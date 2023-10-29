@@ -1,193 +1,301 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Button, Fab, Tooltip } from '@material-ui/core';
 
-// material-ui
-import { Box, Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
-import MainCard from '../../../component/cards/MainCard';
-import SearchSection from '../../../layout/MainLayout/Header/SearchSection';
+
 import { 
-    getCustProductList,
-    getCustUnitList
+    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getVendorCustomerList
  } from '../../../actions';
-import { useDispatch } from 'react-redux';
-import { useTheme } from '@material-ui/styles';
-import ProductPage from "./ProductPage";
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import { fetchProducts } from "./dataApi";
-import CartPage from './CartPage';
-import Shoppingcard from '../../../component/cards/ShoppingCard';
+
+ import MainCard from '../../../component/cards/MainCard';
+ import AddIcon from '@material-ui/icons/Add';
+ import DynamicModel from '../../../component/model/DynamicModel';
+import ConfirmModel from '../../../component/model/ConfirmModel';
+import CollapsibleTable from '../../../component/table/CollapsibleTable';
+import CustomerBill from './CustomerBill';
+import { makeStyles } from '@material-ui/styles';
+import PrintBill from './PrintBill';
 
 
+const mainheaders = [
+    {
+        name: "idenNo",
+        label: "Iden No",
+        type: 'text'
+    },
+    {
+        name: "saleDate",
+        label: "Sale Date",
+        type: 'text'
+    },
+    {
+        name: "customerId",
+        label: "Customer",
+        type: 'text',
+        render: (value, row, header, props)=>{
+           let customer= props.vendorCustomerList.find((vendorCustomer)=>vendorCustomer.id==value);
+           return customer? customer.name: value;
+        }
+    },
+    {
+        name: "totalPrice",
+        label: "Total Price",
+        type: 'text'
+    },
+    {
+        name: "totalQnt",
+        label: "Total Qnt",
+        type: 'text'
+    },
+    {
+        name: "actions",
+        label: "Actions"
+    }
+];
 
-// project imports
+const custProductSaleItemListHeaders = [
+    {
+        name: "custProduct.idenNo",
+        label: "Iden No",
+        type: 'text'
+    },
+    {
+        name: "custProduct.name",
+        label: "Name",
+        type: 'text'
+    },
+    {
+        name: "salePrice.price",
+        label: "Price",
+        type: 'text'
+    },
+    {
+        name: "saleQnt",
+        label: "Qnt",
+        type: 'text'
+    },
+    {
+        name: "subTotal",
+        label: "Sub Total",
+        type: 'text',
+        render: (value, row, header, props)=>{
+           return row.salePrice.price*row.saleQnt;
+        }
+    }
+];
 
-//==============================|| SAMPLE PAGE ||==============================//
+const custProductWholeSaleHeaders = [
+    {
+        name: "custProduct.idenNo",
+        label: "Iden No",
+        type: 'text'
+    },
+    {
+        name: "custProduct.name",
+        label: "Name",
+        type: 'text'
+    },
+    {
+        name: "wholePrice.price",
+        label: "Price",
+        type: 'text'
+    },
+    {
+        name: "wholeQnt",
+        label: "Qnt",
+        type: 'text'
+    }
+];
 
-const CustSalePage = () => {
-   
-    const theme = useTheme();
-    const dispatcher = useDispatch();
-    const [seachTxt, setSeachTxt] = useState("");
-    const [productData, setProductData] = useState([]);
-    const [categories, setCategories] = useState([]);
+const headers= { 
+    headers: mainheaders,
+    childrens :[
+        {
+            label: "Items",
+            name: "custProductSaleItemList",
+            headers: custProductSaleItemListHeaders
+        }
+    ]
+}
+
+const modelheaders = [
+    {
+        name: "name",
+        label: "Name",
+        type: 'text'
+    },
+    {
+        name: "emailAddress",
+        label: "Email address",
+        type: 'email'
+    },
+    {
+        name: "phoneNumber",
+        label: "Phone number",
+        type: 'text'
+    },
+    {
+        name: "mobileNumber",
+        label: "mobileNumber",
+        type: 'text'
+    },
+    {
+        name: "permamentAddress",
+        label: "Permament address",
+        type: 'text'
+    },
+    {
+        name: "presentAddress",
+        label: "Present Address",
+        type: 'text'
+    }
+];
+
+const useStyles = makeStyles((theme) => ({
+    fab: {
+      margin: theme.spacing(2),
+    },
+    absolute: {
+      position: 'absolute',
+      bottom: theme.spacing(2),
+      right: theme.spacing(3),
+    },
+  }));
   
-    const fetchData = async () => {
-      await fetchProducts()
-      .then((data) => {
-        setProductData(data);
-        setCategories(prev => [...new Set(data.map((item) => item.category))])
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+  
+
+class CustSalePage extends Component {
+    state={
+        saveModel: false,
+        deleteModel: false,
+        printModel: false,
+        dataObject: {},
+        title: "",
+        type: ""
+    }
+    _clearModel=()=>{
+        this.setState({ deleteModel:false, saveModel:false, printModel: false });
+    }
+    _edit = row => {
+        this._clearModel();
+       this.setState({ dataObject: row, title:"Edit sale", type:"Edit", saveModel: true  });
+    }
+
+    _add = () => {
+        this._clearModel();
+       this.setState({ dataObject: {}, title:"Add sale", type:"Add", saveModel: true  });
+    }
+
+    _print = (row) => {
+        this._clearModel();
+        this.setState({ dataObject: row, title:"Print sale", type:"Print", printModel: true  });
+        console.log("_print")
+     }
+
+    _delete = row => {
+        this._clearModel();
+        this.setState({ dataObject: row, title:"Delete sale", type:"Delete", deleteModel: true  });
     };
-  
-    const fetchDataByCategorie = (e) =>{
-      fetchProducts(e.target.value)
-      .then((data) => {
-        setProductData(data);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-    }
-    const onSeachTxt= (value) =>{
-        setSeachTxt(value)
-        dispatcher( getCustProductList() );
-    }
-
-    useEffect(()=>{
-        dispatcher( getCustProductList() );
-        fetchData();
-    },[])
-
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-  const steps = getSteps();
-
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  
-
-function getSteps() {
-  return ['Products', 'Cart', 'Finshed'];
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <ProductPage products={productData} />;
-    case 1:
-      return <Shoppingcard products={productData} ></Shoppingcard>;
-    case 2:
-      return 'This is the bit I really care about!';
-    default:
-      return 'Unknown step';
-  }
-}
-
-    return (
-      <Card>
-      <CardContent>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = <Typography variant="caption">Optional</Typography>;
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-          <div>
-            <Typography >
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} >
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <Typography >{getStepContent(activeStep)}</Typography>
-            <div>
-              <Button disabled={activeStep === 0} onClick={handleBack} >
-                Back
-              </Button>
-              {isStepOptional(activeStep) && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSkip}
-                >
-                  Skip
-                </Button>
-              )}
-
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </div>
-          </div>
-        )}
-      </CardContent>
     
-    </Card>
-    );
+     saveObject = (type, row) => {
+        if(type=='Add')
+            this.props.addCustSale(row, this.clearAndRefresh)
+        if(type=='Edit')
+            this.props.editCustSale(row.id,row, this.clearAndRefresh)
+        if(type=='Delete')
+            this.props.deleteCustSale(row.id, this.clearAndRefresh)
+
+    };
+
+    clearAndRefresh = () => {
+        this.props.getCustSaleList();
+        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+    }
+    
+   async componentDidMount() {
+        this.props.getCustSaleList();
+        await this.props.getVendorCustomerList();
+    }
+    
+
+    render() {
+        return (
+            <>
+                
+                <MainCard title="Sale List" 
+                        button ={
+                            
+                            <Tooltip title="Add" aria-label="add">
+                                <Button variant='contained' color="error" className={useStyles.absolute} onClick={this._add}>
+                                    <AddIcon />
+                                </Button>
+                            </Tooltip>
+                        }
+                    >
+                        <CollapsibleTable 
+                            headers={headers} 
+                            dataList={this.props.custSaleList}
+                            vendorCustomerList= {this.props.vendorCustomerList}
+                            deleteAction = {this._delete}
+                            editAction = {this._edit}
+                            printAction= {this._print}
+                            >
+
+                        </CollapsibleTable>
+                    </MainCard>
+                {
+                    this.state.saveModel && <CustomerBill
+                    title={this.state.title}
+                    open={this.state.saveModel}
+                    close={()=> this.setState({saveModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    saveAction = {this.saveObject}
+                >
+                </CustomerBill>
+                }
+                
+                {
+                    this.state.printModel && <PrintBill
+                    title={this.state.title}
+                    open={this.state.printModel}
+                    headers={headers} 
+                    close={()=> this.setState({printModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    saveAction = {this.saveObject}
+                >
+                </PrintBill>
+                }
+            
+                <ConfirmModel
+                    openAction={this.state.deleteModel}
+                    closeAction={()=> this.setState({deleteModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    message= 'Do you want to delete'
+                    saveAction = {this.saveObject}
+                    >
+                </ConfirmModel>
+            </>
+        );
+    }
+}
+
+const mapStateToProps = state => {
+    const { user } = state.userReducer;
+    const { custSaleList} = state.custSaleReducer;
+    const { vendorCustomerList} = state.vendorCustomerReducer;
+    return { user, custSaleList, vendorCustomerList};
 };
 
-export default CustSalePage;
+const styles = {
+    addCustomerButton: {
+        color: 'white',
+        backgroundColor: 'purple'
+    },
+};
+
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getVendorCustomerList})(CustSalePage);

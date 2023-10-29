@@ -7,27 +7,27 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { addVendorCustomer } from '../../actions';
+import { addVendorSupplier } from '../../actions';
 import { useDispatch } from 'react-redux';
 import { ListItem } from '@material-ui/core';
 
 const filter = createFilterOptions();
 
-export default function CustomerDropDwon(props) {
+export default function SupplierDropDwon(props) {
 
   const dispatch = useDispatch();
 
   
-  const findCustomer=(id)=>{
+  const findSupplier=(id)=>{
     if(id){
-       let customer= props.customerList.find((customer) => customer.id === id);
-       return !customer? "" : customer;
+       let supplier= props.supplierList.find((supplier) => supplier.id === id);
+       return !supplier? "" : supplier;
     } 
      return "";
   }
 
 
-  const [value, setValue] = React.useState(findCustomer(props.value));
+  const [value, setValue] = React.useState(findSupplier(props.value));
   const [open, toggleOpen] = React.useState(false);
 
   const handleClose = () => {
@@ -45,13 +45,13 @@ export default function CustomerDropDwon(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let customer={
+    let supplier={
       name: dialogValue.name,
       phoneNumber: parseInt(dialogValue.phoneNumber, 10),
     };
-    setValue(customer);
-    dispatch(addVendorCustomer(customer));
-    props.customerAction(customer);
+    setValue(supplier);
+    dispatch(addVendorSupplier(supplier));
+    props.supplierAction(supplier);
     handleClose();
   };
 
@@ -79,7 +79,7 @@ export default function CustomerDropDwon(props) {
             });
           } else {
             setValue(newValue);
-            props.customerAction(newValue);
+            props.supplierAction(newValue);
           }
         }}
         filterOptions={(options, params) => {
@@ -94,8 +94,8 @@ export default function CustomerDropDwon(props) {
 
           return filtered;
         }}
-        id="customer-list-options"
-        options={props.customerList}
+        id="supplier-list-options"
+        options={props.supplierList}
         getOptionLabel={(option) => {
           // e.g. value selected with enter, right from the input
           if (typeof option === 'string') {
@@ -115,10 +115,10 @@ export default function CustomerDropDwon(props) {
       />
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>
-          <DialogTitle>Add a new customer</DialogTitle>
+          <DialogTitle>Add a new supplier</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Did you miss any customer in our list? Please, add it!
+              Did you miss any supplier in our list? Please, add it!
             </DialogContentText>
             <TextField
               autoFocus

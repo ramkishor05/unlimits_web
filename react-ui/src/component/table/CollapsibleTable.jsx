@@ -16,6 +16,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Fab } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
@@ -27,28 +28,6 @@ const useStyles = makeStyles({
     }
   });
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
 
 const getValue=(data, keyStr)=>{
     let keys=keyStr.split("\.");
@@ -65,11 +44,12 @@ function Row(props) {
   const { row, headers } = props;
   const [open, setOpen] = React.useState(false);
 
+
   return (
     <React.Fragment>
       
-    <TableRow key={row.id} sx={{ '& > *': { borderBottom: 'unset' } }}>
-            <TableCell>{
+    <TableRow key={row.id+'_data_main'} sx={{ '& > *': { borderBottom: 'unset' } }}>
+            <TableCell key={row.id+'_data_main_icon'}>{
                     <><IconButton
                         aria-label="expand row"
                         size="small" 
@@ -84,17 +64,21 @@ function Row(props) {
                 
                     header.name=='actions' 
                     ?
-                    <TableCell key={header.name+'_'+row.id} align='right'>
+                    <TableCell key={row.id+'_data_main_'+header.name} align='right'>
                         <Fab color="primary" aria-label="Edit" onClick={() => props.editAction(row)}>
                             <EditIcon/>
                         </Fab>
                         <Fab color="secondary" aria-label="Delete" onClick={() => props.deleteAction(row)} >
                             <DeleteIcon />
                         </Fab>
+                        <Fab color="secondary" aria-label="Delete" onClick={() => props.printAction(row)} >
+                            <PrintOutlinedIcon />
+                        </Fab>
                     </TableCell>
                     :
-                    <TableCell key={header.name+'_'+row.id} {...header.props}>
-                        { 
+                    <TableCell key={row.id+'_data_main_'+header.name} {...header.props}>
+                        {
+                         header.render ? header.render(getValue(row,header.name),row, header, props ):
                          getValue(row,header.name)
                         } 
                             
@@ -103,31 +87,47 @@ function Row(props) {
             )
         }
     </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={headers.headers.length+1}>
+    <TableRow key={row.id+'_data_child'}>
+        <TableCell  style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={headers.headers.length+1}>
           {
-            headers &&  headers.childrens.map(children=>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            headers &&  headers.childrens && headers.childrens.map(children=>
+            <Collapse key={row.id+'_data_child_collapse'+children.name} in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 2, padding:2 }} className={classes.table}>
               <Typography variant="h6" gutterBottom component="div">
                 {children.label}
               </Typography>
               <Table size="small" aria-label="purchases" className={classes.table}>
                 <TableHead>
-                  <TableRow>
-                   {children.headers.map((header)=><TableCell>{header.label}</TableCell>)}
+                  <TableRow key={row.id+'_data_child_collapse_row_header_'+children.name}>
+                   {children.headers.map((header)=>
+                   <TableCell key={row.id+'_data_child_collapse_row_header_cel_'+children.name+'_'+header.name}>{header.label}</TableCell>
+                   )}
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {
-                    row[children.name].map((childrenRow) => (
-                      <TableRow key={childrenRow.id}>
+                   row[children.name] ?  row[children.name].map((childrenRow) => (
+                      <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_'+childrenRow.id}>
                       {
                         children.headers.map((header)=>
-                            <TableCell>{getValue(childrenRow,header.name)}</TableCell>
+                            <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'_'+childrenRow.id+'_'+header.name}>{
+                              header.render ? header.render(getValue(childrenRow,header.name), childrenRow,header, props ):
+                              getValue(childrenRow,header.name)
+                            }</TableCell>
                         )}
                      </TableRow>
-                  ))}
+                  ))
+                  :
+                  <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_norows'} >
+                           <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'__norows'} 
+                           colSpan={children.headers.length} sx={{textAlign: 'center'}}>
+                           
+                            No data founds
+                          </TableCell>
+                  </TableRow>
+
+                  
+                  }
                 </TableBody>
               </Table>
             </Box>
@@ -135,36 +135,10 @@ function Row(props) {
             )
         }
         </TableCell>
-      </TableRow>
+    </TableRow>
     </React.Fragment>
   );
 }
-
-Row.propTypes = {
-  row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
-  }).isRequired,
-};
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
 
 export default function CollapsibleTable(props) {
   const classes = useStyles();
@@ -186,7 +160,7 @@ export default function CollapsibleTable(props) {
         <TableBody>
           {  
             dataList.map((row) => (
-                <Row key={row.id} row={row} headers ={headers}/>
+                <Row key={row.id} row={row} {...props}/>
             ))
           }
         </TableBody>

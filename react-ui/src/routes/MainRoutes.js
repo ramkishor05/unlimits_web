@@ -12,12 +12,12 @@ import CustUnitList from '../views/cust/unit/CustUnitList';
 import CustUnitGroup from '../views/cust/unit/CustUnitGroup';
 import CustProductPage from '../views/cust/items/CustProductPage';
 import CustSalePage from '../views/cust/sales/CustSalePage';
-import CustomerBill from '../views/cust/bills/CustomerBill';
 import VendorCustomer from '../views/cust/Vendor/Customer/VendorCustomer';
 import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
 import CustCurrencyList from '../views/cust/currency/CustCurrencyList';
 import CustCurrencyGroup from '../views/cust/currency/CustCurrencyGroup';
-import CustBillPage from '../views/cust/bills/CustBillPage';
+import CustPurchasePage from '../views/cust/purchase/CustPurchasePage';
+import VendorSupplier from '../views/cust/Vendor/Supplier/VendorSupplier';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -41,11 +41,12 @@ const MainRoutes = () => {
         <Route
             path={[
                 '/dashboard/default',
-                '/cust/billing',
                 '/cust/sales',
+                '/cust/purchase',
                 '/cust/products',
                 '/vendor/business',
                 '/vendor/customer',
+                '/vendor/supplier',
                 '/category/group',
                 '/category/list',
                 '/currency/group',
@@ -65,11 +66,12 @@ const MainRoutes = () => {
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
                         <Route path="/dashboard/default" component={DashboardDefault} />
-                        <Route path="/cust/billing" component={CustBillPage} />
                         <Route path="/cust/sales" component={CustSalePage} />
+                        <Route path="/cust/purchase" component={CustPurchasePage} />
                         <Route path="/cust/products" component={CustProductPage} />
                         <Route path="/vendor/business" component={VendorBusiness} />
                         <Route path="/vendor/customer" component={VendorCustomer} />
+                        <Route path="/vendor/supplier" component={VendorSupplier} />
                         <Route path="/category/group" component={CustCategoryGroup} />
                         <Route path="/category/list" component={CustCategoryList} />
                         <Route path="/currency/group" component={CustCurrencyGroup} />

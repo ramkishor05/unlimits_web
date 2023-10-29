@@ -82,3 +82,21 @@ export const editCustSale = (id, data, refreshSales, clear, successNotification,
         console.log(error);
     }
 };
+
+// Action creator for editing sales in the system.
+export const deleteCustSale = (id, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
+    try {
+        const sale = await CustSaleService.delete(id);
+
+        if (sale) {
+            refreshSales && refreshSales();
+
+            clear && clear();
+
+            successNotification && successNotification();
+        }
+    } catch (error) {
+        errorNotification && errorNotification();
+        console.log(error);
+    }
+};

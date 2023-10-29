@@ -12,7 +12,7 @@ const icons = {
 
 export const sales = {
     id: 'sales',
-    title: 'Items',
+    title: 'Sale',
     type: 'group',
     children: [
         {

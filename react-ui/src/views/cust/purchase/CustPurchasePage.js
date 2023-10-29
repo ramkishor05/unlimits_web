@@ -4,16 +4,16 @@ import { Button, Fab, Tooltip } from '@material-ui/core';
 
 
 import { 
-    addCustSale, editCustSale, getCustSaleList, getVendorCustomerList
+    addCustPurchase, editCustPurchase, deleteCustPurchase, getCustPurchaseList, getVendorSupplierList
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
  import AddIcon from '@material-ui/icons/Add';
- import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
-import CustomerBill from './CustomerBill';
+import SupplierBill from './SupplierBill';
 import { makeStyles } from '@material-ui/styles';
+import PrintBill from './PrintBill';
 
 
 const mainheaders = [
@@ -23,23 +23,27 @@ const mainheaders = [
         type: 'text'
     },
     {
-        name: "saleDate",
-        label: "Sale Date",
+        name: "purchaseDate",
+        label: "Purchase Date",
         type: 'text'
     },
     {
-        name: "customerId",
-        label: "Customer",
+        name: "supplierId",
+        label: "Supplier",
+        type: 'text',
+        render: (value, row, header, props)=>{
+            let supplier=  props.vendorSupplierList.find((vendorSupplier)=>vendorSupplier.id==value)
+           return supplier?  supplier.name: value;
+        }
+    },
+    {
+        name: "totalPrice",
+        label: "Total Price",
         type: 'text'
     },
     {
-        name: "retailSaleTotals",
-        label: "Retail Total Price",
-        type: 'text'
-    },
-    {
-        name: "retailSaleQnt",
-        label: "Retail Sale Qnt",
+        name: "totalQnt",
+        label: "Total Qnt",
         type: 'text'
     },
     {
@@ -48,7 +52,7 @@ const mainheaders = [
     }
 ];
 
-const custProductRetailSaleHeaders = [
+const custProductPurchaseItemHeaders = [
     {
         name: "custProduct.idenNo",
         label: "Iden No",
@@ -60,18 +64,31 @@ const custProductRetailSaleHeaders = [
         type: 'text'
     },
     {
-        name: "retailPrice.price",
+        name: "purchasePrice.price",
         label: "Price",
         type: 'text'
     },
     {
-        name: "retailQnt",
+        name: "purchaseQnt",
         label: "Qnt",
         type: 'text'
+    },
+    {
+        name: "discount",
+        label: "Discount",
+        type: 'text'
+    },
+    {
+        name: "subTotal",
+        label: "Sub Total",
+        type: 'text',
+        render: (value, row, header, props)=>{
+           return row.purchaseQnt* row.purchasePrice.price;
+        }
     }
 ];
 
-const custProductWholeSaleHeaders = [
+const custProductWholePurchaseHeaders = [
     {
         name: "custProduct.idenNo",
         label: "Iden No",
@@ -98,15 +115,9 @@ const headers= {
     headers: mainheaders,
     childrens :[
         {
-            label: "Retail Sale",
-            name: "custProductRetailSaleList",
-            headers: custProductRetailSaleHeaders
-        }
-        ,
-        {
-            label: "Whole Sale",
-            name: "custProductWholeSaleList",
-            headers: custProductWholeSaleHeaders
+            label: "Items",
+            name: "custProductPurchaseItemList",
+            headers: custProductPurchaseItemHeaders
         }
     ]
 }
@@ -157,53 +168,65 @@ const useStyles = makeStyles((theme) => ({
   
   
 
-class CustBillPage extends Component {
+class CustPurchasePage extends Component {
     state={
         saveModel: false,
         deleteModel: false,
+        printModel: false,
         dataObject: {},
         title: "",
         type: ""
     }
-    
+    _clearModel=()=>{
+        this.setState({ deleteModel:false, saveModel:false, printModel: false });
+    }
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit sale", type:"Edit", saveModel: true  });
+        this._clearModel();
+       this.setState({ dataObject: row, title:"Edit purchase", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add sale", type:"Add", saveModel: true  });
+        this._clearModel();
+       this.setState({ dataObject: {}, title:"Add purchase", type:"Add", saveModel: true  });
     }
 
+    _print = (row) => {
+        this._clearModel();
+        this.setState({ dataObject: row, title:"Print purchase", type:"Print", printModel: true  });
+        console.log("_print")
+     }
+
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete sale", type:"Delete", deleteModel: true  });
+        this._clearModel();
+        this.setState({ dataObject: row, title:"Delete purchase", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
-            this.props.addCustSale(row, this.clearAndRefresh)
+            this.props.addCustPurchase(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustSale(row.id,row, this.clearAndRefresh)
+            this.props.editCustPurchase(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteCustSale(row.id, this.clearAndRefresh)
+            this.props.deleteCustPurchase(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getCustSaleList();
+        this.props.getCustPurchaseList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
    async componentDidMount() {
-        this.props.getCustSaleList();
-        await this.props.getVendorCustomerList();
+        this.props.getCustPurchaseList();
+        await this.props.getVendorSupplierList();
     }
+    
 
     render() {
         return (
             <>
                 
-                <MainCard title="Sale List" 
+                <MainCard title="Purchase List" 
                         button ={
                             
                             <Tooltip title="Add" aria-label="add">
@@ -215,16 +238,17 @@ class CustBillPage extends Component {
                     >
                         <CollapsibleTable 
                             headers={headers} 
-                            dataList={this.props.custSaleList}
-                            vendorCustomerList= {this.props.vendorCustomerList}
+                            dataList={this.props.custPurchaseList}
+                            vendorSupplierList= {this.props.vendorSupplierList}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
+                            printAction= {this._print}
                             >
 
                         </CollapsibleTable>
                     </MainCard>
-                
-                <CustomerBill
+                {
+                    this.state.saveModel && <SupplierBill
                     title={this.state.title}
                     open={this.state.saveModel}
                     close={()=> this.setState({saveModel: false})}
@@ -233,7 +257,22 @@ class CustBillPage extends Component {
                     fields= {modelheaders}
                     saveAction = {this.saveObject}
                 >
-                </CustomerBill>
+                </SupplierBill>
+                }
+                
+                {
+                    this.state.printModel && <PrintBill
+                    title={this.state.title}
+                    open={this.state.printModel}
+                    headers={headers} 
+                    close={()=> this.setState({printModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    saveAction = {this.saveObject}
+                >
+                </PrintBill>
+                }
             
                 <ConfirmModel
                     openAction={this.state.deleteModel}
@@ -251,16 +290,16 @@ class CustBillPage extends Component {
 
 const mapStateToProps = state => {
     const { user } = state.userReducer;
-    const { custSaleList} = state.custSaleReducer;
-    const { vendorCustomerList} = state.vendorCustomerReducer;
-    return { user, custSaleList, vendorCustomerList};
+    const { custPurchaseList} = state.custPurchaseReducer;
+    const { vendorSupplierList} = state.vendorSupplierReducer;
+    return { user, custPurchaseList, vendorSupplierList};
 };
 
 const styles = {
-    addCustomerButton: {
+    addSupplierButton: {
         color: 'white',
         backgroundColor: 'purple'
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale, getCustSaleList, getVendorCustomerList})(CustBillPage);
+export default connect(mapStateToProps, { addCustPurchase, editCustPurchase,deleteCustPurchase, getCustPurchaseList, getVendorSupplierList})(CustPurchasePage);

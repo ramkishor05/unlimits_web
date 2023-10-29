@@ -18,7 +18,7 @@ const MainCard = React.forwardRef(
             border = true,
             boxShadow,
             children,
-            content = false,
+            content = true,
             contentClass,
             button,
             contentSX,

@@ -7,11 +7,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, TextField } from '@material-ui/core';
 import { makeStyles } from "@material-ui/styles";
-
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 export default function DynamicField(props) {
   //const classes = makeStyles();
   const [open, setOpen] = React.useState(false);
-  const [formValues, setFormValues] = React.useState([...props.list]);
+  let list=props.list? props.list:[];
+  const [formValues, setFormValues] = React.useState([...list]);
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,17 +25,16 @@ export default function DynamicField(props) {
 
   
   const handleChange = (i, e) => {
-    if(formValues.length==0){
-        setFormValues([{ key: "", value: "" }])
-    }
-    
     let newformValues = [...formValues];
+    if(!newformValues[i]){
+      newformValues[i]={ field: "", value: "" };
+    }
     newformValues[i][e.target.name] = e.target.value;
     setFormValues(newformValues);
   }
 
   const  addFormFields= ()=> {
-    setFormValues([...formValues, { key: "", value: "" }])
+    setFormValues([...formValues, { field: "", value: "" }])
   }
 
   const removeFormFields=(i) =>{
@@ -43,23 +43,18 @@ export default function DynamicField(props) {
     setFormValues(newformValues);
   }
 
-  const handleSubmit=(event) =>{
-    event.preventDefault();
-    alert(JSON.stringify(formValues));
-  }
-
   const renderFormValues =()=>{
     return (
         <>{
             formValues.length===0 ?
                 <Box variant='standard'>
-                    <TextField variant='standard' label="Key" type="text" name="key" value={""} onChange={e => handleChange(0, e)} />
+                    <TextField variant='standard' label="Field" type="text" name="field" value={""} onChange={e => handleChange(0, e)} />
                     <TextField variant='standard'  label="Value" type="text" name="value" value={""} onChange={e => handleChange(0, e)} />
                 </Box>
             :
             formValues && formValues.length>0 && formValues.map((element, index) => (
                 <Box variant='standard'>
-                        <TextField variant='standard' label="Key" type="text" name="key" value={element.key || ""} onChange={e => handleChange(index, e)} />
+                        <TextField variant='standard' label="Field" type="text" name="field" value={element.field || ""} onChange={e => handleChange(index, e)} />
                         <TextField variant='standard'  label="Value" type="text" name="value" value={element.value || ""} onChange={e => handleChange(index, e)} />
                         {
                         index ? 
@@ -75,8 +70,8 @@ export default function DynamicField(props) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-      Additional charges
+      <Button label='Additional charges' variant="outlined" onClick={handleClickOpen}>
+      <PlaylistAddIcon></PlaylistAddIcon>
       </Button>
       <Dialog
         open={open}

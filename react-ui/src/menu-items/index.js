@@ -4,13 +4,13 @@ import { other } from './other';
 import { setups } from './setups';
 import { items } from './items';
 import { sales } from './sales';
-import { billing } from './billing';
+import { purchase } from './purchase';
 import { vendor } from './vendor';
 
 //-----------------------|| MENU ITEMS ||-----------------------//
 
 const menuItems = {
-    items: [dashboard,billing, sales, items,vendor, setups, utilities, other]
+    items: [dashboard,sales, purchase, items,vendor, setups]
 };
 
 export default menuItems;

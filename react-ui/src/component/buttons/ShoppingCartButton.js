@@ -7,20 +7,19 @@ class ShoppingCartButton extends React.Component {
   state = { counter: this.props.counter };
 
   handleIncrement = () => {
-    this.setState({ counter: (this.state.counter + 1) });
-    this.props.updateCounter(this.state.counter);
+    this.setState({ ...this.state.counter++ }, this.props.updateCounter(this.state.counter));
   };
 
   handleDecrement = () => {
-    this.setState({ counter: (this.state.counter - 1) });
-    this.props.updateCounter(this.state.counter);
+    this.setState({ ...this.state.counter-- }, this.props.updateCounter(this.state.counter));
   };
 
   render() {
     const displayCounter = this.state.counter > 0;
     return (
       <ButtonGroup size="small" aria-label="small outlined button group">
-        <Button onClick={this.handleIncrement} sx={{width: !displayCounter? 120: 20}}>{!displayCounter? <AddShoppingCartIcon/>: '+' }</Button>
+        <Button onClick={this.handleIncrement} 
+        sx={{width: !displayCounter? 120: 20}}>{!displayCounter? <AddShoppingCartIcon/>: '+' }</Button>
         {displayCounter && <Button disabled>{this.state.counter}</Button>}
         {displayCounter && <Button onClick={this.handleDecrement}>-</Button>}
       </ButtonGroup>
