@@ -43,5 +43,10 @@ export default {
         return axios.get(endpoint+`/exists/${username}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
+    },
+    updateProfile(data) {
+        return axios.put(endpoint+'/profile/', data)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
     }
 };

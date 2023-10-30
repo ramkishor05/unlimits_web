@@ -18,6 +18,7 @@ import CustCurrencyList from '../views/cust/currency/CustCurrencyList';
 import CustCurrencyGroup from '../views/cust/currency/CustCurrencyGroup';
 import CustPurchasePage from '../views/cust/purchase/CustPurchasePage';
 import VendorSupplier from '../views/cust/Vendor/Supplier/VendorSupplier';
+import UserProfilePage from '../views/profile';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -28,9 +29,6 @@ const UtilsColor = Loadable(lazy(() => import('../views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('../views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('../views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('../views/utilities/TablerIcons')));
-
-// sample page routing
-const SamplePage = Loadable(lazy(() => import('../views/sample-page')));
 
 //-----------------------|| MAIN ROUTING ||-----------------------//
 
@@ -59,7 +57,7 @@ const MainRoutes = () => {
                 '/utils/util-shadow',
                 '/icons/tabler-icons',
                 '/icons/material-icons',
-                '/sample-page'
+                '/user/profile'
             ]}
         >
             <MainLayout>
@@ -84,7 +82,7 @@ const MainRoutes = () => {
                         <Route path="/utils/util-shadow" component={UtilsShadow} />
                         <Route path="/icons/tabler-icons" component={UtilsTablerIcons} />
                         <Route path="/icons/material-icons" component={UtilsMaterialIcons} />
-                        <Route path="/sample-page" component={SamplePage} />
+                        <Route path="/user/profile" component={UserProfilePage} />
                     </AuthGuard>
                 </Switch>
             </MainLayout>

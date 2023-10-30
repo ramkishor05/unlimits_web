@@ -19,8 +19,6 @@ import { gridSpacing } from './../../../store/constant';
 const Dashboard = () => {
     const {userDetail} = useSelector((state) => state.userReducer);
     const {token} = useSelector((state) => state.account);
-    console.log(userDetail);
-    console.log(token);
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(false);

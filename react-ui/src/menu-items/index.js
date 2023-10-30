@@ -10,7 +10,7 @@ import { vendor } from './vendor';
 //-----------------------|| MENU ITEMS ||-----------------------//
 
 const menuItems = {
-    items: [dashboard,sales, purchase, items,vendor, setups]
+    items: [dashboard,sales, purchase, items,vendor, setups, other]
 };
 
 export default menuItems;

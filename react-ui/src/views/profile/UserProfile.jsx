@@ -1,0 +1,117 @@
+import React, { useState } from 'react';
+
+// material-ui
+import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormLabel, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core';
+
+// project imports
+import { useDispatch, useSelector } from 'react-redux';
+
+import { updateUserProfile } from '../../actions';
+import { EditOutlined } from '@material-ui/icons';
+import ImageUploadCard from '../../component/image/ImageUploadCard';
+
+//==============================|| SAMPLE PAGE ||==============================//
+
+const UserProfile = () => {
+    const dispatch= useDispatch();
+    const accountReducer = useSelector((state) => state.account);
+    const userDetail = accountReducer.userDetail;
+    const [userProfile, setUserProfile]= useState(userDetail.userProfile);
+
+    const setUserProfileField= (event, name)=>{
+        let newUserProfile={...userProfile};
+        newUserProfile[name]=event.target.value;
+        setUserProfile(newUserProfile);
+    }
+
+    const setUserProfileImge= (value, name)=>{
+        let newUserProfile={...userProfile};
+        newUserProfile[name]=value;
+        setUserProfile(newUserProfile);
+    }
+
+    const editUserProfile=()=>{
+        dispatch(updateUserProfile(userProfile));
+    }
+    
+    return (
+            <Box
+                component="form"
+                noValidate
+                autoComplete="off"
+                >
+                <Card>
+                    <CardHeader title="User profile">
+                  </CardHeader>
+                  <CardContent>
+                  <Grid container spacing={2}>
+                    <Grid item xl={3} xs={3} xm={3}>
+                        <ImageUploadCard name="pictureURL" value={userProfile.pictureURL} setUserProfileImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
+                    </Grid>
+                    <Grid item xl={6} xs={6} xm={6}>
+                    <Grid container spacing={2}>
+                        <Grid item xl={1} xs={1} xm={1}>
+                            <FormControl fullWidth>
+                                <InputLabel id="userProfile-title-label">Title</InputLabel>
+                                <Select
+                                    labelId="userProfile-title-label"
+                                    id="userProfile-title"
+                                    value={userProfile.title}
+                                    label="Title"
+                                    onChange={(event)=> setUserProfileField(event,'title')}
+                                    variant='standard'
+                                >
+                                    <MenuItem value={'Mr.'}>Mr.</MenuItem>
+                                    <MenuItem value={'Mrs.'}>Mrs.</MenuItem>
+                                    <MenuItem value={'Ms'}>Ms.</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item  xl={3} xs={3} xm={3}>
+                            <FormControl fullWidth>
+                            <TextField
+                                id="userprofile-firstName"
+                                label="First Name"
+                                defaultValue={userProfile.firstName}
+                                variant='standard'
+                                onChange={(event)=> setUserProfileField(event,'firstName')}
+                            />
+                            </FormControl>
+                        </Grid>
+                        <Grid item  xl={3} xs={3} xm={3}>
+                        <FormControl fullWidth>
+                            <TextField
+                                id="userprofile-lastname"
+                                label="Last Name"
+                                defaultValue={userProfile.lastName}
+                                variant='standard'
+                                onChange={(event)=> setUserProfileField(event,'lastName')}
+                            />
+                            </FormControl>
+                        </Grid>
+                        <Grid item  xl={3} xs={3} xm={3}>
+                        <FormControl fullWidth>
+                            <TextField
+                                id="userprofile-preferredName"
+                                label="Preferred Name"
+                                defaultValue={userProfile.preferredName}
+                                variant='standard'
+                                onChange={(event)=> setUserProfileField(event,'preferredName')}
+                            />
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+                    </Grid>
+                    <Grid item  xl={12} xs={12} xm={12}>
+                            
+                            <Button variant='outlined' onClick={editUserProfile} ><EditOutlined></EditOutlined></Button>
+                        </Grid>
+                    </Grid>
+                    </CardContent>
+                 </Card>
+            </Box>
+               
+    );
+};
+
+export default UserProfile;

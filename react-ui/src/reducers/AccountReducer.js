@@ -1,6 +1,10 @@
 // action - state management
 import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT } from '../store/actions';
 
+import {
+    USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL
+} from '../types';
+
 import { GET_USER_SUCCESS } from '../types';
 
 
@@ -43,6 +47,16 @@ const accountReducer = (state = initialState, action) => {
                 userDetail: null
             };
         }
+        case USER_UPDATE_PROFILE_SUCCESS:
+                return {
+                     ...state, 
+                    userDetail : {
+                        userProfile: action.payload
+                    } 
+                };
+    
+        case USER_UPDATE_PROFILE_FAIL:
+                return { ...state };
         default: {
             return { ...state };
         }

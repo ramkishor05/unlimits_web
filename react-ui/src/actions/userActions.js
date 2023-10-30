@@ -1,8 +1,6 @@
 import {
-     USERNAME_CHANGED, PASSWORD_CHANGED,
-    LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS,
-    SHOW_LOADER, REMOVE_LOADER, GET_USERS_SUCCESS,
-    GET_USER_SUCCESS, GET_ROLES_FAIL,
+    USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
+    GET_USERS_SUCCESS,
     USER_UPDATE_SUCCESS, USER_UPDATE_FAIL,
     OPEN_ADD_USER_MODAL, OPEN_EDIT_USER_MODAL, OPEN_DELETE_USER_MODAL,USER_TO_EDIT
 } from '../types';
@@ -13,19 +11,14 @@ import UserService from '../services/UserService';
  * User Action - For adding a new user in the system.
  *
  * @param {Object} data
- * @param {Function} refresh
- * @param {Function} resetInput
+ * @param {Function} callBack
  */
-export const addUser = (data, refresh, resetInput) => async dispatch => {
+export const addUser = (data, callBack) => async dispatch => {
     try {
-        const user = await UserService.register(data);
+        const user = await UserService.add(data);
         if (user) {
-            if (refresh) {
-                refresh();
-            }
-
-            if (resetInput) {
-                resetInput();
+            if (callBack) {
+                callBack();
             }
         }
     } catch (error) {
@@ -33,23 +26,22 @@ export const addUser = (data, refresh, resetInput) => async dispatch => {
     }
 };
 
-
 /**
  * User Action - For updating the user details in the system.
  *
  * @param {Number} id
  * @param {Object} data
- * @param {Function} resetPassword
+ * @param {Function} callBack
  */
-export const updateUser = (id, data, resetPassword) => async dispatch => {
+export const updateUser = (id, data, callBack) => async dispatch => {
     try {
         const user = await UserService.update(id, data);
 
         if (user) {
             dispatch({ type: USER_UPDATE_SUCCESS, payload: user });
 
-            if (resetPassword) {
-                resetPassword();
+            if (callBack) {
+                callBack();
             }
         }
     } catch (error) {
@@ -59,18 +51,42 @@ export const updateUser = (id, data, resetPassword) => async dispatch => {
 };
 
 /**
+ * User Action - For updating the user details in the system.
+ *
+ * @param {Number} id
+ * @param {Object} data
+ * @param {Function} callBack
+ */
+export const updateUserProfile = (data, callBack) => async dispatch => {
+    try {
+        const user = await UserService.updateProfile(data);
+
+        if (user) {
+            dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: user });
+
+            if (callBack) {
+                callBack();
+            }
+        }
+    } catch (error) {
+        dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: parseError(error) });
+        console.log(error);
+    }
+};
+
+/**
  * User Action - For deleting a user from the system.
  *
  * @param {Number} id
- * @param {Function} refresh
+ * @param {Function} callBack
  */
-export const deleteUser = (id, refresh) => async dispatch => {
+export const deleteUser = (id, callBack) => async dispatch => {
     try {
         const result = await UserService.delete(id);
 
         if (result) {
-            if (refresh) {
-                refresh();
+            if (callBack) {
+                callBack();
             }
         }
     } catch (error) {
