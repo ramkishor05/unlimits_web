@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -37,6 +36,21 @@ const getValue=(data, keyStr)=>{
       val=val[keys[i]];
     }
     return val;
+  }
+
+  const getChildrenLoad = (row,children, props) =>{
+    let childrenRow = children.onLoad(row[children.name],row, props);
+    console.log("childrenRow=",childrenRow, children.headers)
+    return childrenRow ?  children.headers.map((header)=>
+            <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'_'+childrenRow.id+'_'+header.name}>{
+              header.render ? header.render(getValue(childrenRow,header.name), childrenRow,header, props ):
+              getValue(childrenRow,header.name)
+            }</TableCell>
+      ) :
+              <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'_norows'} 
+              colSpan={7} sx={{textAlign: 'center'}}>
+                            No data founds
+            </TableCell>
   }
 
 function Row(props) {
@@ -100,34 +114,25 @@ function Row(props) {
                 <TableHead>
                   <TableRow key={row.id+'_data_child_collapse_row_header_'+children.name}>
                    {children.headers.map((header)=>
-                   <TableCell key={row.id+'_data_child_collapse_row_header_cel_'+children.name+'_'+header.name}>{header.label}</TableCell>
+                      <TableCell key={row.id+'_data_child_collapse_row_header_cel_'+children.name+'_'+header.name}>{header.label}</TableCell>
                    )}
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {console.log("children.onLoad=",children.onLoad ? 'true':'false')}
                   {
-                   row[children.name] ?  row[children.name].map((childrenRow) => (
-                      <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_'+childrenRow.id}>
-                      {
-                        children.headers.map((header)=>
-                            <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'_'+childrenRow.id+'_'+header.name}>{
-                              header.render ? header.render(getValue(childrenRow,header.name), childrenRow,header, props ):
-                              getValue(childrenRow,header.name)
-                            }</TableCell>
-                        )}
-                     </TableRow>
-                  ))
+                   children.onLoad ? 
+                      <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_onLoad'}>
+                        { getChildrenLoad(row, children, props ) }
+                      </TableRow>
                   :
                   <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_norows'} >
                            <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'__norows'} 
-                           colSpan={children.headers.length} sx={{textAlign: 'center'}}>
-                           
-                            No data founds
+                           colSpan={6} sx={{textAlign: 'center'}}>
+                            No data founds sss  {Object.keys(children.headers)}
                           </TableCell>
                   </TableRow>
-
-                  
-                  }
+                }
                 </TableBody>
               </Table>
             </Box>

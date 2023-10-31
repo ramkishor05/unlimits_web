@@ -88,29 +88,6 @@ const custProductPurchaseItemHeaders = [
     }
 ];
 
-const custProductWholePurchaseHeaders = [
-    {
-        name: "custProduct.idenNo",
-        label: "Iden No",
-        type: 'text'
-    },
-    {
-        name: "custProduct.name",
-        label: "Name",
-        type: 'text'
-    },
-    {
-        name: "wholePrice.price",
-        label: "Price",
-        type: 'text'
-    },
-    {
-        name: "wholeQnt",
-        label: "Qnt",
-        type: 'text'
-    }
-];
-
 const headers= { 
     headers: mainheaders,
     childrens :[

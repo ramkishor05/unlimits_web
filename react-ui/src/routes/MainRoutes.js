@@ -19,6 +19,7 @@ import CustCurrencyGroup from '../views/cust/currency/CustCurrencyGroup';
 import CustPurchasePage from '../views/cust/purchase/CustPurchasePage';
 import VendorSupplier from '../views/cust/Vendor/Supplier/VendorSupplier';
 import UserProfilePage from '../views/profile';
+import VendorEmployee from '../views/cust/Vendor/Employee/VendorEmployee';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -45,6 +46,7 @@ const MainRoutes = () => {
                 '/vendor/business',
                 '/vendor/customer',
                 '/vendor/supplier',
+                '/vendor/employee',
                 '/category/group',
                 '/category/list',
                 '/currency/group',
@@ -70,6 +72,7 @@ const MainRoutes = () => {
                         <Route path="/vendor/business" component={VendorBusiness} />
                         <Route path="/vendor/customer" component={VendorCustomer} />
                         <Route path="/vendor/supplier" component={VendorSupplier} />
+                        <Route path="/vendor/employee" component={VendorEmployee} />
                         <Route path="/category/group" component={CustCategoryGroup} />
                         <Route path="/category/list" component={CustCategoryList} />
                         <Route path="/currency/group" component={CustCurrencyGroup} />

@@ -42,12 +42,6 @@ function actions(){
     return ['edit', 'update']
 }
 
-
-const dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
 //==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {

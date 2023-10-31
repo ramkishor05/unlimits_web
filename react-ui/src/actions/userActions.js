@@ -84,7 +84,7 @@ export const updateUserProfile = (data, callBack) => async dispatch => {
  */
 export const getUserProfile = (id, callBack) => async dispatch => {
     try {
-        const userProfile = await UserService.getProfile(id);
+        const userProfile = await UserService.getUserProfile(id);
 
         if (userProfile) {
             dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: userProfile });

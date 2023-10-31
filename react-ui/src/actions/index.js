@@ -10,6 +10,8 @@ export * from './VendorCustomerActions';
 
 export * from './VendorSupplierActions';
 
+export * from './VendorEmployeeActions'
+
 export * from './global/GlobalIndexActions';
 
 export * from './cust/CustIndexActions';

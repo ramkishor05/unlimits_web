@@ -50,7 +50,7 @@ export default {
                     .catch(error => Promise.reject(error.response.data));
     },
     getUserProfile(id) {
-        return axios.put(endpoint+'/profile/'+`${id}`)
+        return axios.get(endpoint+'/profile/'+`${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     }

@@ -17,7 +17,6 @@ const INITIAL_STATE = {
         permamentAddress: '',
         presentAddress: ''
     },
-    vendor:{},
     show_vendor_loader: false,
 };
 
@@ -27,7 +26,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, vendorList: action.payload, show_vendor_loader: false };
 
         case GET_VENDOR_SUCCESS:
-                return { ...state, vendor: action.payload, show_vendor_loader: false };
+            console.log("GET_VENDOR_SUCCESS",action.payload)
+            return { ...state, vendor: action.payload, show_vendor_loader: false };
 
         case SHOW_VENDOR_LOADER:
             return { ...state, show_vendor_loader: true };

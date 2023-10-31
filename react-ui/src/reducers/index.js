@@ -31,6 +31,7 @@ import VendorReducer from './VendorReducer';
 import VendorCustomerReducer from './VendorCustomerReducer';
 import VendorBusinessReducer from './VendorBusinessReducer';
 import VendorSupplierReducer from './VendorSupplierReducer';
+import VendorEmployeeReducer from './VendorEmployeeReducer';
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
 
@@ -50,6 +51,7 @@ const reducer = combineReducers({
     vendorCustomerReducer: VendorCustomerReducer,
     vendorBusinessReducer: VendorBusinessReducer,
     vendorSupplierReducer: VendorSupplierReducer,
+    vendorEmployeeReducer: VendorEmployeeReducer,
 
 
     globalCategoryGroupReducer: GlobalCategoryGroupReducer,

@@ -8,6 +8,7 @@ export * from './VendorActionTypes';
 export * from './VendorBusinessActionTypes';
 export * from './VendorCustomerActionTypes';
 export * from './VendorSupplierActionTypes';
+export * from './VendorEmployeeActionTypes';
 
 export * from './Global/GlobalIndexActionType';
 

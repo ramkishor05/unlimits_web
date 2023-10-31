@@ -6,39 +6,27 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormL
 // project imports
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getVendor, updateUser} from '../../actions';
-import { EditOutlined } from '@material-ui/icons';
+import { getVendor, updateVendor} from '../../actions';
+import { EditOutlined, Refresh } from '@material-ui/icons';
 import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
-const OwnerAccount = () => {
+const OwnerAccount = ({vendor}) => {
     const dispatch= useDispatch();
-    const accountReducer = useSelector((state) => state.account);
-    const ownerId=accountReducer.userDetail.ownerId;
-    const vendorReducer = useSelector((state) => state.vendorReducer);
-    
-    const [vendor, setVendor]= useState(vendorReducer.vendor);
-    const [loaded, setLoaded]= useState(false);
+        
+    const [vendorDetail, setVendorDetail]= useState(vendor);
 
-    const setVendorField= (event, name)=>{
-        let newVendor={...vendor};
-        newVendor[name]=event.target.value;
-        setVendor(newVendor);
+    const setVendorDetailField= (event, name)=>{
+        let newVendorDetail={...vendorDetail};
+        newVendorDetail[name]=event.target.value;
+        setVendorDetail(newVendorDetail);
     }
 
-    const editVendor=()=>{
-        dispatch(updateUser(vendor.id, vendor));
+    const editVendorDetail=()=>{
+        dispatch(updateVendor(vendorDetail.id, vendorDetail));
     }
 
-    useEffect(()=>{
-        dispatch(getVendor(ownerId));
-        if(!loaded){
-            setVendor(vendorReducer.vendor);
-            setLoaded(true);
-        }
-    },[getVendor])
-    
     return (
             <Box
                 component="form"
@@ -55,79 +43,79 @@ const OwnerAccount = () => {
                         <Grid item  xl={4} xs={4} xm={4}>
                             <FormControl fullWidth>
                             <TextField
-                                id="vendor-name"
+                                id="vendorDetail-name"
                                 label="Name"
                                 name='name'
-                                defaultValue={vendor.name}
+                                defaultValue={vendorDetail.name}
                                 variant='standard'
-                                onChange={(event)=> setVendorField(event,'name')}
+                                onChange={(event)=> setVendorDetailField(event,'name')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="vendor-emailAddress"
+                                id="vendorDetail-emailAddress"
                                 label="Email Address"
                                 name='emailAddress'
-                                defaultValue={vendor.emailAddress}
+                                defaultValue={vendorDetail.emailAddress}
                                 variant='standard'
-                                onChange={(event)=> setVendorField(event,'emailAddress')}
+                                onChange={(event)=> setVendorDetailField(event,'emailAddress')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="vendor-mobileNumber"
+                                id="vendorDetail-mobileNumber"
                                 label="Mobile Number"
                                 name='mobileNumber'
-                                defaultValue={vendor.mobileNumber}
+                                defaultValue={vendorDetail.mobileNumber}
                                 variant='standard'
-                                onChange={(event)=> setVendorField(event,'mobileNumber')}
+                                onChange={(event)=> setVendorDetailField(event,'mobileNumber')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="vendor-phoneNumber"
+                                id="vendorDetail-phoneNumber"
                                 name='phoneNumber'
                                 label="Phone Number"
-                                defaultValue={vendor.phoneNumber}
+                                defaultValue={vendorDetail.phoneNumber}
                                 variant='standard'
-                                onChange={(event)=> setVendorField(event,'phoneNumber')}
+                                onChange={(event)=> setVendorDetailField(event,'phoneNumber')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="vendor-permamentAddress"
+                                id="vendorDetail-permamentAddress"
                                 name='permamentAddress'
                                 label="Permament Address"
-                                defaultValue={vendor.permamentAddress}
+                                defaultValue={vendorDetail.permamentAddress}
                                 variant='standard'
-                                onChange={(event)=> setVendorField(event,'permamentAddress')}
+                                onChange={(event)=> setVendorDetailField(event,'permamentAddress')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="vendor-presentAddress"
+                                id="vendorDetail-presentAddress"
                                 name='presentAddress'
                                 label="Present Address"
-                                defaultValue={vendor.presentAddress}
+                                defaultValue={vendorDetail.presentAddress}
                                 variant='standard'
-                                onChange={(event)=> setVendorField(event,'presentAddress')}
+                                onChange={(event)=> setVendorDetailField(event,'presentAddress')}
                             />
                             </FormControl>
                         </Grid>
                     </Grid>
                     </Grid>
                     <Grid item  xl={12} xs={12} xm={12} sx={{textAlign: 'right'}}>
-                            <Button variant='contained' onClick={editVendor} ><EditOutlined></EditOutlined></Button>
+                            <Button variant='contained' onClick={editVendorDetail} ><EditOutlined></EditOutlined></Button>
                         </Grid>
                     </Grid>
                     </CardContent>

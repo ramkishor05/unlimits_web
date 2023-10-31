@@ -1,33 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 // material-ui
-import { Box, Divider, FormControl, FormLabel, Grid, MenuItem, Select, TextField, Typography } from '@material-ui/core';
+import { Divider} from '@material-ui/core';
 
 // project imports
 import MainCard from '../../component/cards/MainCard';
-import { useSelector } from 'react-redux';
 import UserProfile from './UserProfile';
 import UserAccount from './UserAccount';
 import OwnerAccount from './OwnerAccount';
+import { getVendor } from '../../actions';
+import { connect } from 'react-redux';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
-const UserProfilePage = () => {
-    const accountReducer = useSelector((state) => state.account);
-    const userDetail = accountReducer.userDetail;
-    const userProfile = userDetail.userProfile;
-    console.log("userDetail=", accountReducer.userDetail)
+class UserProfilePage extends Component {
+    state={
+    }
+   
+    async componentDidMount() {
+        await this.props.getVendor(this.props.userDetail.ownerId);
+    }
 
-    return (
-        <MainCard title="Profile" content = {false}>
-            <UserProfile></UserProfile>
-            <Divider></Divider>
-            
-            <UserAccount></UserAccount>
-            <Divider></Divider>
-            <OwnerAccount></OwnerAccount>
-        </MainCard>
-    );
+    render() {
+        return (
+            <MainCard title="Profile" content = {false}>
+                <UserProfile userProfile={this.props.userDetail.userProfile}></UserProfile>
+                <Divider></Divider>
+                
+                <UserAccount userAccount={this.props.userDetail}></UserAccount>
+                <Divider></Divider>
+                <OwnerAccount vendor={this.props.vendor}></OwnerAccount>
+            </MainCard>
+        );
+    }
 };
 
-export default UserProfilePage;
+const mapStateToProps = state => {
+    const { userDetail} = state.account;
+    const { vendor} = state.vendorReducer;
+    return { userDetail, vendor };
+};
+
+export default connect(mapStateToProps, { getVendor })(UserProfilePage);
