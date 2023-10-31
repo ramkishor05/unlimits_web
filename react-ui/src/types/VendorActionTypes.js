@@ -1,5 +1,7 @@
 export const GET_ALL_VENDOR_LIST_SUCCESS = 'get_all_vendors_success';
 
+export const GET_VENDOR_SUCCESS = 'get_vendor_success';
+
 export const VENDOR_ADD_SUCCESS = 'vendor_add_success';
 
 export const SHOW_VENDOR_LOADER = 'show_vendor_loader';

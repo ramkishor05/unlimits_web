@@ -2,6 +2,7 @@ import {
     USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
     GET_USERS_SUCCESS,
     USER_UPDATE_SUCCESS, USER_UPDATE_FAIL,
+    GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL,
     OPEN_ADD_USER_MODAL, OPEN_EDIT_USER_MODAL, OPEN_DELETE_USER_MODAL,USER_TO_EDIT
 } from '../types';
 import UserService from '../services/UserService';
@@ -70,6 +71,30 @@ export const updateUserProfile = (data, callBack) => async dispatch => {
         }
     } catch (error) {
         dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: parseError(error) });
+        console.log(error);
+    }
+};
+
+/**
+ * User Action - For updating the user details in the system.
+ *
+ * @param {Number} id
+ * @param {Object} data
+ * @param {Function} callBack
+ */
+export const getUserProfile = (id, callBack) => async dispatch => {
+    try {
+        const userProfile = await UserService.getProfile(id);
+
+        if (userProfile) {
+            dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: userProfile });
+
+            if (callBack) {
+                callBack();
+            }
+        }
+    } catch (error) {
+        dispatch({ type: GET_USER_PROFILE_FAIL, payload: parseError(error) });
         console.log(error);
     }
 };

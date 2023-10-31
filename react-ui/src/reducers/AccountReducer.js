@@ -2,7 +2,9 @@
 import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT } from '../store/actions';
 
 import {
-    USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL
+    USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
+    GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL,
+    USER_UPDATE_SUCCESS,USER_UPDATE_FAIL
 } from '../types';
 
 import { GET_USER_SUCCESS } from '../types';
@@ -57,6 +59,27 @@ const accountReducer = (state = initialState, action) => {
     
         case USER_UPDATE_PROFILE_FAIL:
                 return { ...state };
+        case USER_UPDATE_SUCCESS:
+            return {
+                    ...state, 
+                userDetail : {
+                    ...action.payload,
+                    userProfile: state.userDetail.userProfile
+                } 
+            };
+        
+        case USER_UPDATE_FAIL:
+                    return { ...state };
+        case GET_USER_PROFILE_SUCCESS:
+                    return {
+                         ...state, 
+                        userDetail : {
+                            userProfile: action.payload
+                        } 
+                    };
+        
+        case GET_USER_PROFILE_FAIL:
+                    return { ...state };
         default: {
             return { ...state };
         }

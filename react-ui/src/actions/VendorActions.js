@@ -1,5 +1,5 @@
 import { 
-    GET_ALL_VENDOR_LIST_SUCCESS, VENDOR_ADD_SUCCESS,
+    GET_ALL_VENDOR_LIST_SUCCESS,GET_VENDOR_SUCCESS, VENDOR_ADD_SUCCESS,
     SHOW_VENDOR_LOADER, REMOVE_VENDOR_LOADER,
     VENDOR_TO_EDIT, VENDOR_EDIT_SUCCESS, GET_FINISHING_VENDOR_LIST
 } from '../types';
@@ -15,6 +15,23 @@ export const getVendorList = () => async dispatch => {
 
         if (vendors) {
             dispatch({ type: GET_ALL_VENDOR_LIST_SUCCESS, payload: vendors });
+            dispatch({ type: REMOVE_VENDOR_LOADER });
+        }
+    } catch(error) {
+        dispatch({ type: REMOVE_VENDOR_LOADER });
+        console.log(error);
+    }
+};
+
+// Action creator for getting all vendors --<
+export const getVendor = (id) => async dispatch => {
+    dispatch({ type: SHOW_VENDOR_LOADER });
+
+    try {
+        const vendor = await VendorService.get(id);
+
+        if (vendor) {
+            dispatch({ type: GET_VENDOR_SUCCESS, payload: vendor });
             dispatch({ type: REMOVE_VENDOR_LOADER });
         }
     } catch(error) {

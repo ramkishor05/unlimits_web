@@ -6,9 +6,10 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormL
 // project imports
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateUserProfile } from '../../actions';
+import { updateUserProfile, getUserProfile } from '../../actions';
 import { EditOutlined } from '@material-ui/icons';
 import ImageUploadCard from '../../component/image/ImageUploadCard';
+import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
@@ -33,6 +34,10 @@ const UserProfile = () => {
     const editUserProfile=()=>{
         dispatch(updateUserProfile(userProfile));
     }
+
+    useEffect(()=>{
+        dispatch(getUserProfile(userProfile.id));
+    },[getUserProfile])
     
     return (
             <Box
@@ -40,17 +45,17 @@ const UserProfile = () => {
                 noValidate
                 autoComplete="off"
                 >
-                <Card>
+                   <Card sx={{ border:5, borderStyle:'revert'}}>
                     <CardHeader title="User profile">
                   </CardHeader>
                   <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item xl={3} xs={3} xm={3}>
+                  <Grid container spacing={1}>
+                    <Grid item xl={3} xs={4} xm={3}>
                         <ImageUploadCard name="pictureURL" value={userProfile.pictureURL} setUserProfileImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
                     </Grid>
-                    <Grid item xl={6} xs={6} xm={6}>
-                    <Grid container spacing={2}>
-                        <Grid item xl={1} xs={1} xm={1}>
+                    <Grid item xl={6} xs={8} xm={6}>
+                    <Grid container spacing={3}>
+                        <Grid item xl={2} xs={6} xm={2}>
                             <FormControl fullWidth>
                                 <InputLabel id="userProfile-title-label">Title</InputLabel>
                                 <Select
@@ -67,7 +72,7 @@ const UserProfile = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item  xl={3} xs={3} xm={3}>
+                        <Grid item  xl={3} xs={6} xm={3}>
                             <FormControl fullWidth>
                             <TextField
                                 id="userprofile-firstName"
@@ -78,7 +83,7 @@ const UserProfile = () => {
                             />
                             </FormControl>
                         </Grid>
-                        <Grid item  xl={3} xs={3} xm={3}>
+                        <Grid item  xl={3} xs={6} xm={3}>
                         <FormControl fullWidth>
                             <TextField
                                 id="userprofile-lastname"
@@ -89,7 +94,7 @@ const UserProfile = () => {
                             />
                             </FormControl>
                         </Grid>
-                        <Grid item  xl={3} xs={3} xm={3}>
+                        <Grid item  xl={3} xs={6} xm={3}>
                         <FormControl fullWidth>
                             <TextField
                                 id="userprofile-preferredName"
@@ -102,9 +107,8 @@ const UserProfile = () => {
                         </Grid>
                     </Grid>
                     </Grid>
-                    <Grid item  xl={12} xs={12} xm={12}>
-                            
-                            <Button variant='outlined' onClick={editUserProfile} ><EditOutlined></EditOutlined></Button>
+                    <Grid item  xl={12} xs={12} xm={12} sx={{textAlign: 'right'}}>
+                            <Button variant='contained' onClick={editUserProfile} ><EditOutlined></EditOutlined></Button>
                         </Grid>
                     </Grid>
                     </CardContent>

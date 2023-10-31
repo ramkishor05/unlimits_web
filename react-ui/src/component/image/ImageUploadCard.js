@@ -8,24 +8,33 @@ import Avatar from "@material-ui/core/Avatar";
 
 //Tabs
 import { withStyles } from "@material-ui/styles";
+import { UploadFileOutlined } from "@material-ui/icons";
 
 const styles = (theme) => ({
   root: {
-    width: 500,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-end"
+    width: 200
   },
   input: {
     display: "none"
   },
   img: {
     width: 200,
-    height: 256,
-    margin: "auto",
-    display: "block",
+    height: 200,
+    margin: "0",
     maxWidth: "100%",
     maxHeight: "100%"
+  },
+  btn : {
+    position: "absolute",
+    transform: 'translate( -125%,70%)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    color: 'white',
+    fontSize: '16px',
+    padding: '7px 57px',
+    border: 'none',
+    cursor: 'pointer',
+    borderRadius: '20px',
+    textAlign: 'center'
   }
 });
 
@@ -34,7 +43,8 @@ class ImageUploadCard extends React.Component {
     mainState: "initial", // initial
     imageUploaded: 0,
     bytes: '',
-    selectedFile: this.props.value
+    selectedFile: this.props.value,
+    btn: false
   };
 
   handleUploadClick = (event) => {
@@ -62,28 +72,31 @@ class ImageUploadCard extends React.Component {
     const { value } = this.state;
 
     return (
-      <Grid container direction="column" alignItems="center">
-        <Grid item>
-          <img
-            width="100%"
-            className={classes.img}
-            src={this.state.selectedFile}
+     <>
+        <img
+          width="100%"
+          className={classes.img}
+          src={this.state.selectedFile}
+          onMouseOver={()=> this.setState({btn: true})}
+        />
+     
+      {this.state.btn &&
+      <label htmlFor="button-file">
+        <span className={classes.btn} 
+            onMouseOut={()=> this.setState({btn: true})}>
+          <UploadFileOutlined fullWidth></UploadFileOutlined>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="button-file"
+            multiple
+            type="file"
+            onChange={this.handleUploadClick}
           />
-        </Grid>
-        <label htmlFor="contained-button-file">
-          <Button variant="contained" component="span">
-            Select Image
-            <input
-              accept="image/*"
-              className={classes.input}
-              id="contained-button-file"
-              multiple
-              type="file"
-              onChange={this.handleUploadClick}
-            />
-          </Button>
-        </label>
-      </Grid>
+        </span>
+      </label>
+      }
+     </>
     );
   }
 
@@ -91,28 +104,31 @@ class ImageUploadCard extends React.Component {
     const { classes, theme } = this.props;
 
     return (
-      <Grid container direction="column" alignItems="center">
-        <Grid item>
-          <img
-            width="100%"
-            className={classes.img}
-            src={this.state.selectedFile}
+      <>
+        <img
+          width="100%"
+          className={classes.img}
+          src={this.state.selectedFile}
+          onMouseOver={()=> this.setState({btn: true})}
+        />
+     
+      {this.state.btn &&
+      <label htmlFor="button-file">
+        <span className={classes.btn} 
+            onMouseOut={()=> this.setState({btn: true})}>
+          <UploadFileOutlined fullWidth></UploadFileOutlined>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="button-file"
+            multiple
+            type="file"
+            onChange={this.handleUploadClick}
           />
-        </Grid>
-        <label htmlFor="contained-button-file">
-          <Button variant="contained" component="span">
-            Select Image
-            <input
-              accept="image/*"
-              className={classes.input}
-              id="contained-button-file"
-              multiple
-              type="file"
-              onChange={this.handleUploadClick}
-            />
-          </Button>
-        </label>
-      </Grid>
+        </span>
+      </label>
+      }
+     </>
     );
   }
 
@@ -121,10 +137,9 @@ class ImageUploadCard extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Card className={this.props.cardName}>
           {(this.state.mainState == "initial" && this.renderInitialState()) ||
             (this.state.mainState == "uploaded" && this.renderUploadedState())}
-        </Card>
+        
       </div>
     );
   }

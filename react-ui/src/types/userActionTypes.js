@@ -16,5 +16,9 @@ export const USER_UPDATE_PROFILE_SUCCESS = 'user_update_profile_success';
 
 export const USER_UPDATE_PROFILE_FAIL = 'user_update_profile_fail';
 
+export const GET_USER_PROFILE_SUCCESS ='get_user_profile_success';
+
+export const GET_USER_PROFILE_FAIL='get_user_profile_fail';
+
 export const USER_TO_EDIT = 'user_to_edit';
 

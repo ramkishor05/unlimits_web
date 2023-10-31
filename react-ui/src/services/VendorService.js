@@ -34,5 +34,10 @@ export default {
         return axios.delete(VENDOR_URL+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
+    },
+    get(id) {
+        return axios.get(VENDOR_URL+`/${id}`)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
     }
 };

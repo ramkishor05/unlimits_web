@@ -7,6 +7,8 @@ import { Box, Divider, FormControl, FormLabel, Grid, MenuItem, Select, TextField
 import MainCard from '../../component/cards/MainCard';
 import { useSelector } from 'react-redux';
 import UserProfile from './UserProfile';
+import UserAccount from './UserAccount';
+import OwnerAccount from './OwnerAccount';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
@@ -17,8 +19,13 @@ const UserProfilePage = () => {
     console.log("userDetail=", accountReducer.userDetail)
 
     return (
-        <MainCard title="Profile">
+        <MainCard title="Profile" content = {false}>
             <UserProfile></UserProfile>
+            <Divider></Divider>
+            
+            <UserAccount></UserAccount>
+            <Divider></Divider>
+            <OwnerAccount></OwnerAccount>
         </MainCard>
     );
 };

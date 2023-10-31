@@ -48,5 +48,10 @@ export default {
         return axios.put(endpoint+'/profile/', data)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
+    },
+    getUserProfile(id) {
+        return axios.put(endpoint+'/profile/'+`${id}`)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
     }
 };
