@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Fab } from '@material-ui/core';
 
 
-import { getVendorUserList, addVendorUser, editVendorUser, deleteVendorUser, getVendorList } from '../../../../actions';
+import { getVendorUserList, addVendorUser, editVendorUser, deleteVendorUser, getVendorList , getUserRoleList} from '../../../../actions';
 import { getUsers } from '../../../../actions';
 import MainCard from '../../../../component/cards/MainCard';
 import DynamicModel from '../../../../component/model/DynamicModel';
@@ -14,61 +14,41 @@ import UserService from '../../../../services/UserService';
 
 const mainheaders = [
     {
-        name: "name",
+        name: "userProfile.pictureURL",
+        label: "Profile Img",
+        type: 'img',
+        render: (value, row, header, props ) =>{
+            return <img style={{textAlign :'center'}} src={value} width={50} height={50}></img>
+        }
+    },
+    {
+        name: "username",
         label: "Name",
         type: 'text'
     },
     {
-        name: "emailAddress",
-        label: "Email address",
+        name: "registeredEmail",
+        label: "Registed Email",
         type: 'email'
     },
     {
-        name: "phoneNumber",
-        label: "Phone number",
-        type: 'text'
-    },
-    {
-        name: "mobileNumber",
-        label: "mobileNumber",
-        type: 'text'
-    },
-    {
-        name: "permamentAddress",
-        label: "Permament address",
-        type: 'text'
-    },
-    {
-        name: "presentAddress",
-        label: "Present Address",
-        type: 'text'
-    },
-    {
-        name: "actions",
-        label: "Actions"
-    }
-];
-
-const accountheaders = [
-    {
-        name: "username",
-        label: "User Name",
+        name: "registeredMobile",
+        label: "Registed mobile",
         type: 'text'
     },
     {
         name: "type",
         label: "User type",
-        type: 'email'
-    },
-    {
-        name: "AccountName",
-        label: "accountName",
         type: 'text'
     },
     {
+        name: "userRole.roleId",
         label: "User Role",
-        name: "userRole.roleName",
         type: 'text'
+    },
+    {
+        name: "actions",
+        label: "Actions"
     }
 ];
 
@@ -91,15 +71,15 @@ const profileheaders = [
 ];
 
 const headers= { 
-    headers: accountheaders,
+    headers: mainheaders,
     childrens :[
         {
             label: "User Profile",
             name: "userProfile",
             headers: profileheaders,
             onLoad : (value, parent, props)=>{
-                if(parent.userAccount){
-                    return parent.userAccount.userProfile;
+                if(parent.userProfile){
+                    return parent.userProfile;
                 }
                 return null;
             }
@@ -109,39 +89,43 @@ const headers= {
 
 const modelheaders = [
     {
-        name: "name",
+        name: "userProfile.pictureURL",
+        label: "Profile Img",
+        type: 'img',
+        render: (value, row, header, props ) =>{
+            return <img style={{textAlign :'center'}} src={value} width={50} height={50}></img>
+        }
+    },
+    {
+        name: "username",
         label: "Name",
         type: 'text'
     },
     {
-        name: "emailAddress",
-        label: "Email address",
+        name: "registeredEmail",
+        label: "Registed Email",
         type: 'email'
     },
     {
-        name: "phoneNumber",
-        label: "Phone number",
+        name: "registeredMobile",
+        label: "Registed mobile",
         type: 'text'
     },
     {
-        name: "mobileNumber",
-        label: "mobileNumber",
+        name: "type",
+        label: "User type",
         type: 'text'
     },
     {
-        name: "permamentAddress",
-        label: "Permament address",
-        type: 'text'
-    },
-    {
-        name: "presentAddress",
-        label: "Present Address",
-        type: 'text'
-    },
-    {
-        name: "enableAccess",
-        label: "Enable Access",
-        type: 'switch'
+        name: "userRoleId",
+        key: "userRoleId",
+        label: "User Role",
+        type: 'select',
+        onItems: (value, row, header, props ) =>{
+            return props.userRoleList
+        },
+        itemKey: 'id',
+        itemVal: 'roleName'
     }
 ];
 
@@ -157,39 +141,25 @@ class VendorUser extends Component {
     _edit = row => {
         row['enableAccess']=true;
         console.log("row=",row)
-       this.setState({ dataObject: row, title:"Edit employee", type:"Edit", saveModel: true  });
+        row['userRoleId']=row.userRole.id;
+       this.setState({ dataObject: row, title:"Edit user", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add employee", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add user", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete employee", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete user", type:"Delete", deleteModel: true  });
     };
     
      saveObject = async (type, row) => {
+        console.log("row==",row)
         if(type=='Add')
             this.props.addVendorUser(row, this.clearAndRefresh)
         if(type=='Edit'){
-            console.log("saveObject=",row);
-            if(row.enableAccess){
-                let register={
-                    mobile: row.mobileNumber,
-                    email: row.emailAddress,
-                    username: row.emailAddress,
-                    password: 'temp123',
-                    type: 'User',
-                    userRoleId: 4,
-                    ownerId: this.props.userDetail.ownerId
-                }
-                console.log("register=",register);
-                let user= await UserService.addCustom(register);
-                row['accountId']=user.id;
-            }
-            
-            delete row.enableAccess;
-
+            delete row['enableAccess'];
+           
             this.props.editVendorUser(row.id,row, this.clearAndRefresh)
         }
         
@@ -205,6 +175,8 @@ class VendorUser extends Component {
     
    async componentDidMount() {
         this.props.getVendorList();
+        this.props.getUserRoleList();
+
         this.props.getVendorUserList();
        await this.props.getUsers();
     }
@@ -225,7 +197,7 @@ class VendorUser extends Component {
                        <CollapsibleTable 
                             headers={headers} 
                             dataList={this.props.vendorUserList}
-                            UserEdit           userList= {this.props.users}
+                            userList= {this.props.users}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
                             printAction= {this._print}
@@ -240,6 +212,7 @@ class VendorUser extends Component {
                     openAction={this.state.saveModel}
                     closeAction={()=> this.setState({saveModel: false})}
                     data={this.state.dataObject} 
+                    userRoleList={this.props.userRoleList}
                     type={this.state.type}
                     fields= {modelheaders}
                     saveAction = {this.saveObject}
@@ -263,12 +236,13 @@ class VendorUser extends Component {
 }
 
 const mapStateToProps = state => {
-    const { user, users, show_user_loader  } = state.userReducer;
+    const { user, users} = state.userReducer;
     const { userDetail } = state.account;
+    const { userRoleList } = state.userRoleReducer
 
-    const { vendorUserList, show_employee_loader } = state.vendorUserReducer;
-    console.log("users=",users)
-    return { user, vendorUserList,users, show_employee_loader, show_user_loader, userDetail };
+    const { vendorUserList, show_user_loader } = state.vendorUserReducer;
+    console.log("userRoleList=",userRoleList)
+    return { user, vendorUserList,users, show_user_loader, userDetail, userRoleList };
 };
 
 const styles = {
@@ -278,4 +252,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { getVendorUserList, addVendorUser,editVendorUser, deleteVendorUser, getVendorList , getUsers })(VendorUser);
+export default connect(mapStateToProps, { getVendorUserList, addVendorUser,editVendorUser, deleteVendorUser, getVendorList , getUsers , getUserRoleList})(VendorUser);

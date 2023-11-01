@@ -238,7 +238,7 @@ class VendorEmployee extends Component {
                        <CollapsibleTable 
                             headers={headers} 
                             dataList={this.props.vendorEmployeeList}
-                            EmployeeEdit           userList= {this.props.users}
+                            userList= {this.props.users}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
                             printAction= {this._print}

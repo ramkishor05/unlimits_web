@@ -6,20 +6,22 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 
+import defaultImg from '../../assets/images/users/user-round.svg'
+
 //Tabs
 import { withStyles } from "@material-ui/styles";
 import { UploadFileOutlined } from "@material-ui/icons";
 
 const styles = (theme) => ({
   root: {
-    width: 200
+    width: '100%'
   },
   input: {
     display: "none"
   },
   img: {
-    width: 200,
-    height: 200,
+    width: '100%',
+    height: '100%',
     margin: "0",
     maxWidth: "100%",
     maxHeight: "100%"
@@ -43,7 +45,7 @@ class ImageUploadCard extends React.Component {
     mainState: "initial", // initial
     imageUploaded: 0,
     bytes: '',
-    selectedFile: this.props.value,
+    selectedFile: this.props.value ? this.props.value: defaultImg,
     btn: false
   };
 
@@ -69,8 +71,6 @@ class ImageUploadCard extends React.Component {
 
   renderInitialState() {
     const { classes, theme } = this.props;
-    const { value } = this.state;
-
     return (
      <>
         <img
@@ -84,7 +84,7 @@ class ImageUploadCard extends React.Component {
       <label htmlFor="button-file">
         <span className={classes.btn} 
             onMouseOut={()=> this.setState({btn: true})}>
-          <UploadFileOutlined fullWidth></UploadFileOutlined>
+          <UploadFileOutlined></UploadFileOutlined>
           <input
             accept="image/*"
             className={classes.input}

@@ -48,6 +48,14 @@ export const vendor = {
             url: '/vendor/employee',
             icon: icons['IconHelp'],
             breadcrumbs: false
+        },
+        {
+            id: 'vendor-users',
+            title: 'Users',
+            type: 'item',
+            url: '/vendor/users',
+            icon: icons['IconHelp'],
+            breadcrumbs: false
         }
     ]
 };

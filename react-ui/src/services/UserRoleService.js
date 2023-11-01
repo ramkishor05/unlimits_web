@@ -1,36 +1,44 @@
 import {axios} from './index';
+const hostname = `localhost`;
 
-const VENDOR_USER_URL="http://localhost:2222/api/cust/user";
+var endpoint = `http://${hostname}:2222/api/user/role`;
 
 const headers = {
     'Content-Type': 'application/json'
 };
-
 export default {
+   
     getAll() {
-        return axios.get(VENDOR_USER_URL,{headers: headers})
+        return axios.get(endpoint)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-    find(minimum){
-        return axios.get('items/find', { params: { minimum } })
+    getAllByType(type) {
+        return axios.get(endpoint+`/${type}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-    add(item) {
-        return axios.post(VENDOR_USER_URL, item,{headers: headers})
+
+    update(id, data) {
+        return axios.put(endpoint+`/${id}`, data)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-    update(id, item) {
-        item['id']=id;
-        return axios.put(VENDOR_USER_URL+`/${id}`, item,{headers: headers})
+
+    add(user) {
+        return axios.post(endpoint, user)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
     delete(id) {
-        return axios.delete(VENDOR_USER_URL+`/${id}`)
+        return axios.delete(endpoint+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
-    }
+    },
+
+    get(id) {
+        return axios.delete(endpoint+`/${id}`)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    }    
 };

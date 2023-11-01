@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
+import ImageUploadCard from '../image/ImageUploadCard';
 
 export default class DynamicModel extends React.Component {
 
@@ -34,6 +35,29 @@ export default class DynamicModel extends React.Component {
     }
     return val;
   }
+
+  findTargetObject=(data, keyStr)=>{
+    let keys=keyStr.split("\.");
+    let val=data;
+    for (let i = 0; i < keys.length-1; i++){
+      if( typeof val === 'object'){
+        val=val[keys[i]];
+        if(!val){
+          val[keys[i]]={};
+        }
+      }
+    }
+    return val;
+  }
+
+  findTargetKey=(keyStr)=>{
+    let keys=keyStr.split("\.");
+    let key=keyStr;
+    for (let i = 0; i < keys.length; i++){
+      key=keys[i];
+    }
+    return key;
+  }
   
   setField= (event, name, data)=>{
     let newdata={...data}
@@ -47,20 +71,33 @@ export default class DynamicModel extends React.Component {
     this.setState({data:newdata})
   }
 
+  setValue= (value, name, data)=>{
+    let newdata={...data}
+    let findTargetObject= this.findTargetObject(newdata,name);
+    let findTargetKey= this.findTargetKey(name);
+    console.log("findTargetObject", findTargetObject)
+    console.log("findTargetKey", findTargetKey)
+    findTargetObject[findTargetKey]=value;
+    this.setState({data:newdata})
+  }
+
   renderSwitch(field, data) {
     switch(field.type) {
       case 'select':
-        return  <FormControl>
+        return  <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
         <Select
+          variant='standard'
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={this.getValue(data,field.key)}
-          defaultValue={this.getValue(data,field.key)}
+          value={this.getValue(data,field.name)}
+          defaultValue={this.getValue(data,field.name)}
           label="{field.label}"
           onChange={(event)=>this.setField(event, field.name, data)}
         >
           {
+            field.onItems ? field.onItems(this.getValue(data,field.name),data, field, this.props ).map(item=> <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
+            :
             field.items.map(item=> <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
           }
         </Select>
@@ -75,6 +112,11 @@ export default class DynamicModel extends React.Component {
          }
          label={field.label+"_"+this.getValue(data,field.name)}
        />
+      case 'img':
+         return <ImageUploadCard name="pictureURL" 
+         value={this.getValue(data,field.name)} 
+         setUserProfileImge={(value)=> this.setValue(value,field.name, data)}>
+         </ImageUploadCard>
       case 'qnt':
         return <QuantityField field={field} data={data}></QuantityField>
       case 'amount':
@@ -85,6 +127,7 @@ export default class DynamicModel extends React.Component {
         variant='standard'
         id={field.id}
         label={field.label}
+        name={field.name}
         type={field.type}
         value={data[field.name]}
         defaultValue={data[field.name]}

@@ -32,6 +32,8 @@ import VendorCustomerReducer from './VendorCustomerReducer';
 import VendorBusinessReducer from './VendorBusinessReducer';
 import VendorSupplierReducer from './VendorSupplierReducer';
 import VendorEmployeeReducer from './VendorEmployeeReducer';
+import VendorUserReducer from './VendorUserReducer';
+import UserRoleReducer from './UserRoleReducer';
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
 
@@ -45,6 +47,7 @@ const reducer = combineReducers({
         AccountReducer
     ),
     userReducer: UserReducer,
+    userRoleReducer: UserRoleReducer,
     customization: CustomizationReducer,
 
     vendorReducer: VendorReducer,
@@ -52,7 +55,7 @@ const reducer = combineReducers({
     vendorBusinessReducer: VendorBusinessReducer,
     vendorSupplierReducer: VendorSupplierReducer,
     vendorEmployeeReducer: VendorEmployeeReducer,
-
+    vendorUserReducer: VendorUserReducer,
 
     globalCategoryGroupReducer: GlobalCategoryGroupReducer,
     globalCategoryReducer: GlobalCategoryReducer,

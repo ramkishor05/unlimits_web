@@ -4,17 +4,27 @@ import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT } from '../store/actions';
 import {
     USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
     GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL,
-    USER_UPDATE_SUCCESS,USER_UPDATE_FAIL
+    USER_UPDATE_SUCCESS,USER_UPDATE_FAIL,
+    GET_USER_SUCCESS
 } from '../types';
 
-import { GET_USER_SUCCESS } from '../types';
 
+const roleEndPointMap={
+    "OWNER" : ['dashboard','sales', 'purchase', 'items','vendor', 'setups', 'other'],
+    "MANAGER" : ['dashboard','sales', 'purchase', 'items', 'setups', 'other'],
+    "SUPERVISOR": ['dashboard','sales', 'purchase', 'items'],
+    "CREW" : ['items','other']
+}
 
 export const initialState = {
     token: '',
     isLoggedIn: false,
     isInitialized: false,
-    userDetail: null
+    userDetail: null,
+    containsId : (id, roleName) => {
+        let roleEndPointList = roleEndPointMap[roleName];
+        return roleEndPointList.indexOf(id) >= 0;
+     }
 };
 
 //-----------------------|| ACCOUNT REDUCER ||-----------------------//
