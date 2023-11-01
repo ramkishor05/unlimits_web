@@ -23,6 +23,9 @@ import VendorSupplier from '../views/cust/Vendor/Supplier/VendorSupplier';
 import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
 import VendorEmployee from '../views/cust/Vendor/Employee/VendorEmployee';
 import VendorUser from '../views/cust/Vendor/Users/VendorUser';
+import menuItems from '../menu-items';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -34,37 +37,24 @@ const UtilsShadow = Loadable(lazy(() => import('../views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('../views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('../views/utilities/TablerIcons')));
 
+
 //-----------------------|| MAIN ROUTING ||-----------------------//
 
 const MainRoutes = () => {
     const location = useLocation();
 
+    const dispatch= useDispatch();
+    const accountReducer = useSelector((state) => state.account);
+    let paths=[];
+    if(accountReducer.userDetail){
+        const userRole = accountReducer.userDetail.userRole;
+        paths=accountReducer.paths(userRole.roleName, menuItems)
+    }
+     
+        
     return (
         <Route
-            path={[
-                '/dashboard/default',
-                '/cust/sales',
-                '/cust/purchase',
-                '/cust/products',
-                '/vendor/business',
-                '/vendor/customer',
-                '/vendor/supplier',
-                '/vendor/employee',
-                '/vendor/users',
-                '/category/group',
-                '/category/list',
-                '/currency/group',
-                '/currency/list',
-                '/unit/group',
-                '/unit/list',
-                '/count/freq',
-                '/utils/util-typography',
-                '/utils/util-color',
-                '/utils/util-shadow',
-                '/icons/tabler-icons',
-                '/icons/material-icons',
-                '/user/profile'
-            ]}
+            path={[...paths]}
         >
             <MainLayout>
                 <Switch location={location} key={location.pathname}>

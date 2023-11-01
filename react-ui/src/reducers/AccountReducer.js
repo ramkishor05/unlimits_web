@@ -10,10 +10,28 @@ import {
 
 
 const roleEndPointMap={
+    "ADMIN" : ['dashboard','sales', 'purchase', 'items','vendor', 'setups', 'other'],
     "OWNER" : ['dashboard','sales', 'purchase', 'items','vendor', 'setups', 'other'],
     "MANAGER" : ['dashboard','sales', 'purchase', 'items', 'setups', 'other'],
     "SUPERVISOR": ['dashboard','sales', 'purchase', 'items'],
-    "CREW" : ['items','other']
+    "CREW" : ['dashboard','items','other']
+}
+
+const collapse=(item)=>{
+    let paths=[];
+    item.children.map((menu) => {
+        switch (menu.type) {
+            case 'collapse':
+                paths.push(...collapse(menu))
+            break;
+            case 'item':
+                paths.push(menu.url);
+            break
+            default:
+                break;
+        }
+    });
+    return paths
 }
 
 export const initialState = {
@@ -24,7 +42,28 @@ export const initialState = {
     containsId : (id, roleName) => {
         let roleEndPointList = roleEndPointMap[roleName];
         return roleEndPointList.indexOf(id) >= 0;
-     }
+     },
+     paths: (roleName, menuItem) => {
+        let roleEndPointList = roleEndPointMap[roleName];
+        let paths=[];
+        menuItem.items.forEach(item => {
+            if(roleEndPointList.indexOf(item.id) >= 0){
+                item.children.map((menu) => {
+                    switch (menu.type) {
+                        case 'collapse':
+                           paths.push(...collapse(menu))
+                        break;
+                        case 'item':
+                            paths.push(menu.url);
+                        break
+                        default:
+                            break;
+                    }
+                });
+            }
+        });
+       return  paths;
+    }
 };
 
 //-----------------------|| ACCOUNT REDUCER ||-----------------------//
@@ -59,31 +98,34 @@ const accountReducer = (state = initialState, action) => {
                 userDetail: null
             };
         }
+        case USER_UPDATE_SUCCESS:
+            return {
+                    ...state, 
+                userDetail : {
+                    ...state.userDetail,
+                    ...action.payload
+                } 
+            };
+        
+        case USER_UPDATE_FAIL:
+                    return { ...state };
         case USER_UPDATE_PROFILE_SUCCESS:
                 return {
                      ...state, 
                     userDetail : {
+                        ...state.userDetail,
                         userProfile: action.payload
                     } 
                 };
     
         case USER_UPDATE_PROFILE_FAIL:
                 return { ...state };
-        case USER_UPDATE_SUCCESS:
-            return {
-                    ...state, 
-                userDetail : {
-                    ...action.payload,
-                    userProfile: state.userDetail.userProfile
-                } 
-            };
-        
-        case USER_UPDATE_FAIL:
-                    return { ...state };
+       
         case GET_USER_PROFILE_SUCCESS:
                     return {
                          ...state, 
                         userDetail : {
+                            ...state.userDetail,
                             userProfile: action.payload
                         } 
                     };

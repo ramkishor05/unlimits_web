@@ -5,7 +5,6 @@ import { Redirect, Switch } from 'react-router-dom';
 import MainRoutes from './MainRoutes';
 import LoginRoutes from './LoginRoutes';
 import AutheRoutes from './AuthRoutes';
-
 // project imports
 import config from './../config';
 
