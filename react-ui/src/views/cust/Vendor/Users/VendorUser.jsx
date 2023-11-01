@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Fab } from '@material-ui/core';
 
 
-import { getVendorEmployeeList, addVendorEmployee, editVendorEmployee, deleteVendorEmployee, getVendorList } from '../../../../actions';
+import { getVendorUserList, addVendorUser, editVendorUser, deleteVendorUser, getVendorList } from '../../../../actions';
 import { getUsers } from '../../../../actions';
 import MainCard from '../../../../component/cards/MainCard';
 import DynamicModel from '../../../../component/model/DynamicModel';
@@ -91,24 +91,11 @@ const profileheaders = [
 ];
 
 const headers= { 
-    headers: mainheaders,
+    headers: accountheaders,
     childrens :[
         {
-            label: "User Account ",
-            name: "userAccount",
-            headers: accountheaders,
-            onLoad : (value, parent, props)=>{
-              let userAccount= props.userList ? props.userList.find((user)=>user.id===parent.accountId) : null;
-              if(userAccount){
-                parent['userAccount'] = userAccount;
-                return userAccount;
-              }
-              return null;
-            }
-        },
-        {
             label: "User Profile",
-            name: "userAccount.userProfile",
+            name: "userProfile",
             headers: profileheaders,
             onLoad : (value, parent, props)=>{
                 if(parent.userAccount){
@@ -158,7 +145,7 @@ const modelheaders = [
     }
 ];
 
-class VendorEmployee extends Component {
+class VendorUser extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -183,7 +170,7 @@ class VendorEmployee extends Component {
     
      saveObject = async (type, row) => {
         if(type=='Add')
-            this.props.addVendorEmployee(row, this.clearAndRefresh)
+            this.props.addVendorUser(row, this.clearAndRefresh)
         if(type=='Edit'){
             console.log("saveObject=",row);
             if(row.enableAccess){
@@ -192,7 +179,7 @@ class VendorEmployee extends Component {
                     email: row.emailAddress,
                     username: row.emailAddress,
                     password: 'temp123',
-                    type: 'Employee',
+                    type: 'User',
                     userRoleId: 4,
                     ownerId: this.props.userDetail.ownerId
                 }
@@ -203,22 +190,22 @@ class VendorEmployee extends Component {
             
             delete row.enableAccess;
 
-            this.props.editVendorEmployee(row.id,row, this.clearAndRefresh)
+            this.props.editVendorUser(row.id,row, this.clearAndRefresh)
         }
         
         if(type=='Delete')
-            this.props.deleteVendorEmployee(row.id, this.clearAndRefresh)
+            this.props.deleteVendorUser(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getVendorEmployeeList();
+        this.props.getVendorUserList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false });
     }
     
    async componentDidMount() {
         this.props.getVendorList();
-        this.props.getVendorEmployeeList();
+        this.props.getVendorUserList();
        await this.props.getUsers();
     }
 
@@ -226,7 +213,7 @@ class VendorEmployee extends Component {
         return (
             <>
                 
-                <MainCard title="Employee List" 
+                <MainCard title="User List" 
                         button ={
                             
                             <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
@@ -237,8 +224,8 @@ class VendorEmployee extends Component {
                     >
                        <CollapsibleTable 
                             headers={headers} 
-                            dataList={this.props.vendorEmployeeList}
-                            EmployeeEdit           userList= {this.props.users}
+                            dataList={this.props.vendorUserList}
+                            UserEdit           userList= {this.props.users}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
                             printAction= {this._print}
@@ -279,16 +266,16 @@ const mapStateToProps = state => {
     const { user, users, show_user_loader  } = state.userReducer;
     const { userDetail } = state.account;
 
-    const { vendorEmployeeList, show_employee_loader } = state.vendorEmployeeReducer;
+    const { vendorUserList, show_employee_loader } = state.vendorUserReducer;
     console.log("users=",users)
-    return { user, vendorEmployeeList,users, show_employee_loader, show_user_loader, userDetail };
+    return { user, vendorUserList,users, show_employee_loader, show_user_loader, userDetail };
 };
 
 const styles = {
-    addEmployeeButton: {
+    addUserButton: {
         color: 'white',
         backgroundColor: 'purple'
     },
 };
 
-export default connect(mapStateToProps, { getVendorEmployeeList, addVendorEmployee,editVendorEmployee, deleteVendorEmployee, getVendorList , getUsers })(VendorEmployee);
+export default connect(mapStateToProps, { getVendorUserList, addVendorUser,editVendorUser, deleteVendorUser, getVendorList , getUsers })(VendorUser);

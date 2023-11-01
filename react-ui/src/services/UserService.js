@@ -27,7 +27,11 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-
+    addCustom(user) {
+        return axios.post(endpoint+"/cust", user)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
     delete(id) {
         return axios.delete(endpoint+`/${id}`)
                     .then(response => Promise.resolve(response.data))

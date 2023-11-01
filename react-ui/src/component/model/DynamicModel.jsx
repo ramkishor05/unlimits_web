@@ -6,11 +6,24 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 
 export default class DynamicModel extends React.Component {
+
+   state={
+    data:{}
+  }
+
+  constructor(props){
+    super(props);
+    let {data}=this.props;
+    this.state={ data:data};
+
+    console.log("this.props.data=",this.props.data)
+    
+  }
 
   getValue=(data, keyStr)=>{
     let keys=keyStr.split("\.");
@@ -23,7 +36,15 @@ export default class DynamicModel extends React.Component {
   }
   
   setField= (event, name, data)=>{
-    data[name]=event.target.value;
+    let newdata={...data}
+    newdata[name]=event.target.value;
+    this.setState({data:newdata})
+  }
+
+  setChecked= (event, name, data)=>{
+    let newdata={...data}
+    newdata[name]=event.target.checked;
+    this.setState({data:newdata})
   }
 
   renderSwitch(field, data) {
@@ -44,6 +65,16 @@ export default class DynamicModel extends React.Component {
           }
         </Select>
       </FormControl>;
+      case 'switch':
+         return <FormControlLabel
+         control={
+           <Switch 
+            checked={this.getValue(data,field.name)}
+            onChange={(event)=>this.setChecked(event, field.name, data)}
+            name={field.name} />
+         }
+         label={field.label+"_"+this.getValue(data,field.name)}
+       />
       case 'qnt':
         return <QuantityField field={field} data={data}></QuantityField>
       case 'amount':
@@ -82,7 +113,7 @@ export default class DynamicModel extends React.Component {
   }
 
   render() {
-    const { title, type, fields, data } = this.props;
+    const { title, type, fields } = this.props;
     return (
       <div>
         <Dialog
@@ -93,14 +124,14 @@ export default class DynamicModel extends React.Component {
           <DialogTitle id="form-dialog-title"><h2>{title}</h2></DialogTitle>
           <DialogContent>
             <DialogContentText>
-                 {this.rendorFields(fields, data)}
+                 {this.rendorFields(fields, this.state.data)}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.closeAction} color="primary">
               Cancel
             </Button>
-            <Button onClick={(event)=>this.props.saveAction(type, data)} color="primary">
+            <Button onClick={(event)=>this.props.saveAction(type, this.state.data)} color="primary">
               {type}
             </Button>
           </DialogActions>
