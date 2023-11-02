@@ -44,6 +44,7 @@ export const initialState = {
         return roleEndPointList.indexOf(id) >= 0;
      },
      paths: (roleName, menuItem) => {
+        let roleEndPointBuild= [];
         let roleEndPointList = roleEndPointMap[roleName];
         let paths=[];
         menuItem.items.forEach(item => {
@@ -55,6 +56,7 @@ export const initialState = {
                         break;
                         case 'item':
                             paths.push(menu.url);
+                            roleEndPointBuild.push({title:menu.title, type:menu.t })
                         break
                         default:
                             break;
