@@ -5,8 +5,11 @@ import { Redirect, Switch } from 'react-router-dom';
 import MainRoutes from './MainRoutes';
 import LoginRoutes from './LoginRoutes';
 import AutheRoutes from './AuthRoutes';
+
 // project imports
 import config from './../config';
+import PageNotFound from '../views/utilities/PageNotFound';
+import UserProfile from '../views/profile/UserProfile';
 
 //-----------------------|| ROUTING RENDER ||-----------------------//
 
@@ -22,7 +25,9 @@ const Routes = () => {
                 <LoginRoutes />
 
                 {/* Routes for main layouts */}
-                <MainRoutes />
+                <MainRoutes>
+                  
+                </MainRoutes>
             </React.Fragment>
         </Switch>
     );

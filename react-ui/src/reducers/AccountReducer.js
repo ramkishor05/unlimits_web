@@ -11,10 +11,10 @@ import {
 
 const roleEndPointMap={
     "ADMIN" : ['dashboard','sales', 'purchase', 'items','vendor', 'setups', 'other'],
-    "OWNER" : ['dashboard','sales', 'purchase', 'items','vendor', 'setups', 'other'],
+    "Owner" : ['dashboard','sales', 'purchase', 'items','vendor', 'setups', 'other'],
     "MANAGER" : ['dashboard','sales', 'purchase', 'items', 'setups', 'other'],
     "SUPERVISOR": ['dashboard','sales', 'purchase', 'items'],
-    "CREW" : ['dashboard','items','other']
+    "Crew" : ['dashboard','items','other']
 }
 
 const collapse=(item)=>{
@@ -39,32 +39,54 @@ export const initialState = {
     isLoggedIn: false,
     isInitialized: false,
     userDetail: null,
-    containsId : (id, roleName) => {
-        let roleEndPointList = roleEndPointMap[roleName];
-        return roleEndPointList.indexOf(id) >= 0;
+    contains : (id, userRole) => {
+        if("404"==id || "home"==id){
+            return true;
+        }
+        return userRole.roleEndpoints.find(roleEndpoint=>roleEndpoint.type===id) !=null;
      },
-     paths: (roleName, menuItem) => {
-        let roleEndPointBuild= [];
-        let roleEndPointList = roleEndPointMap[roleName];
-        let paths=[];
-        menuItem.items.forEach(item => {
-            if(roleEndPointList.indexOf(item.id) >= 0){
-                item.children.map((menu) => {
-                    switch (menu.type) {
-                        case 'collapse':
-                           paths.push(...collapse(menu))
-                        break;
-                        case 'item':
-                            paths.push(menu.url);
-                            roleEndPointBuild.push({title:menu.title, type:menu.t })
-                        break
-                        default:
-                            break;
-                    }
-                });
-            }
-        });
+     paths: (userRole) => {
+       let paths=["/404","/home"];
+       userRole.roleEndpoints.forEach(roleEndpoint=>{
+        paths.push(roleEndpoint.url);
+       })
        return  paths;
+    },
+     urls: (menuItem) => {
+        let roleEndPointBuild= [];
+        menuItem.items.forEach(item => {
+            item.children.map((menu) => {
+                switch (menu.type) {
+                    case 'collapse':
+                        //paths.push(...collapse(menu))
+                    break;
+                    case 'item':
+                        roleEndPointBuild.push({title:menu.title, type:item.id, url:menu.url })
+                    break
+                    default:
+                        break;
+                }
+            });
+        })
+        let roleEndPointObjects= {
+            "id": "GlobalUserEndpoint",
+            "order": 1,
+            "objects": [
+
+            ]
+        };
+
+        roleEndPointBuild.forEach(roleEndPoint=>{
+             let roleEndPointObject= {
+                "id": "UserEndpoint_"+roleEndPoint.title.replace(" ", "_"),
+                "type": "com.brijframwork.authorization.model.EOUserEndpoint",
+                "name": "GlobalUserEndpoint",
+                "properties": roleEndPoint
+            }
+            roleEndPointObjects.objects.push(roleEndPointObject)
+        })
+
+        return roleEndPointObjects;
     }
 };
 

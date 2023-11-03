@@ -26,6 +26,7 @@ import VendorUser from '../views/cust/Vendor/Users/VendorUser';
 import menuItems from '../menu-items';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import PageNotFound from '../views/utilities/PageNotFound';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -46,20 +47,20 @@ const MainRoutes = () => {
     const dispatch= useDispatch();
     const accountReducer = useSelector((state) => state.account);
     let paths=[];
-    if(accountReducer.userDetail){
-        const userRole = accountReducer.userDetail.userRole;
-        paths=accountReducer.paths(userRole.roleName, menuItems)
+    const userRole = accountReducer?.userDetail?.userRole;
+    if(userRole){
+        paths=accountReducer.paths(userRole)
     }
-     
+    console.log("paths=",paths)
         
     return (
         <Route
-            path={[...paths]}
+            path={[...paths,"/404","/home"]}
         >
             <MainLayout>
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
-                        <Route path="/dashboard/default" component={DashboardDefault} />
+                        <Route path="/home" component={DashboardDefault} />
                         <Route path="/cust/sales" component={CustSalePage} />
                         <Route path="/cust/purchase" component={CustPurchasePage} />
                         <Route path="/cust/products" component={CustProductPage} />
@@ -81,6 +82,7 @@ const MainRoutes = () => {
                         <Route path="/icons/tabler-icons" component={UtilsTablerIcons} />
                         <Route path="/icons/material-icons" component={UtilsMaterialIcons} />
                         <Route path="/user/profile" component={UserProfilePage} />
+                        <Route path="/404" component={PageNotFound} />
                     </AuthGuard>
                 </Switch>
             </MainLayout>

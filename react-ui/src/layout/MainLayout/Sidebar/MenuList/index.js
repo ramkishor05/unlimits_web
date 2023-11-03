@@ -19,9 +19,9 @@ const MenuList = () => {
     if(accountReducer.userDetail){
         const userRole = accountReducer.userDetail.userRole;
 
-        console.log("userRole menu item =", userRole);
+        //console.log("userRole menu item =", JSON.stringify(accountReducer.urls(menuItem)));
 
-        const navItems = menuItem.items.filter(item=>accountReducer.containsId(item.id, userRole.roleName)).map((item) => {
+        const navItems = menuItem.items.filter(item=>accountReducer.contains(item.id, userRole)).map((item) => {
             switch (item.type) {
                 case 'group':
                     return <NavGroup key={item.id} item={item} />;
