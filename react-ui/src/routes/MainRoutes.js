@@ -43,19 +43,15 @@ const UtilsTablerIcons = Loadable(lazy(() => import('../views/utilities/TablerIc
 
 const MainRoutes = () => {
     const location = useLocation();
-
-    const dispatch= useDispatch();
     const accountReducer = useSelector((state) => state.account);
     let paths=[];
     const userRole = accountReducer?.userDetail?.userRole;
-    if(userRole){
+    if(userRole && accountReducer.userDetail){
         paths=accountReducer.paths(userRole)
     }
-    console.log("paths=",paths)
-        
     return (
         <Route
-            path={[...paths,"/404","/home"]}
+            path={[...paths,"/home"]}
         >
             <MainLayout>
                 <Switch location={location} key={location.pathname}>
@@ -82,7 +78,6 @@ const MainRoutes = () => {
                         <Route path="/icons/tabler-icons" component={UtilsTablerIcons} />
                         <Route path="/icons/material-icons" component={UtilsMaterialIcons} />
                         <Route path="/user/profile" component={UserProfilePage} />
-                        <Route path="/404" component={PageNotFound} />
                     </AuthGuard>
                 </Switch>
             </MainLayout>

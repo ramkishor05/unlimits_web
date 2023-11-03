@@ -9,6 +9,7 @@ import { AddIcCallOutlined, AddTask } from '@material-ui/icons';
 import DynamicTable from '../../../../component/table/DynamicTable';
 import DynamicModel from '../../../../component/model/DynamicModel';
 import ConfirmModel from '../../../../component/model/ConfirmModel';
+import Loader from '../../../../component/Loader';
 
 
 const tableheaders = [
@@ -164,6 +165,10 @@ class VendorCustomer extends Component {
                 saveAction = {this.saveObject}
                 >
                 </ConfirmModel>
+                {
+                    this.props.show_customer_loader && <Loader></Loader>
+                }
+                
             </>
         );
     }

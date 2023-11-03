@@ -55,9 +55,17 @@ const UserProfile = () => {
                     </Grid>
                     <Grid item xl={6} xs={8} xm={6}>
                     <Grid container spacing={3}>
-                        <Grid item xl={2} xs={6} xm={2}>
+                        
+                        <Grid item  xl={3} xs={6} xm={3}>
                             <FormControl fullWidth>
-                                <InputLabel id="userProfile-title-label">Title</InputLabel>
+                            <TextField
+                                id="userprofile-fullName"
+                                label="Name"
+                                defaultValue={userProfile.fullName}
+                                variant='standard'
+                                onChange={(event)=> setUserProfileField(event,'fullName')}
+                                InputProps={{
+                                    startAdornment: 
                                 <Select
                                     labelId="userProfile-title-label"
                                     id="userProfile-title"
@@ -70,30 +78,11 @@ const UserProfile = () => {
                                     <MenuItem value={'Mrs.'}>Mrs.</MenuItem>
                                     <MenuItem value={'Ms'}>Ms.</MenuItem>
                                 </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item  xl={3} xs={6} xm={3}>
-                            <FormControl fullWidth>
-                            <TextField
-                                id="userprofile-firstName"
-                                label="First Name"
-                                defaultValue={userProfile.firstName}
-                                variant='standard'
-                                onChange={(event)=> setUserProfileField(event,'firstName')}
+                                }}
                             />
                             </FormControl>
                         </Grid>
-                        <Grid item  xl={3} xs={6} xm={3}>
-                        <FormControl fullWidth>
-                            <TextField
-                                id="userprofile-lastname"
-                                label="Last Name"
-                                defaultValue={userProfile.lastName}
-                                variant='standard'
-                                onChange={(event)=> setUserProfileField(event,'lastName')}
-                            />
-                            </FormControl>
-                        </Grid>
+                        
                         <Grid item  xl={3} xs={6} xm={3}>
                         <FormControl fullWidth>
                             <TextField

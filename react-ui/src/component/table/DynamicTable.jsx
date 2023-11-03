@@ -54,10 +54,10 @@ function DynamicTable (props){
                             header.name=='actions' 
                             ?
                             <TableCell key={header.name+'_'+i} align='right'>
-                                    <Fab color="secondary" aria-label="Edit" className={styles.updateButton} onClick={() => props.editAction(row)}>
+                                    <Fab color="secondary" aria-label="Edit"  onClick={() => props.editAction(row)}>
                                     <EditIcon/>
                                 </Fab>
-                                <Fab color="secondary" aria-label="Delete" className={styles.deleteButton} onClick={() => props.deleteAction(row)} >
+                                <Fab color="secondary" aria-label="Delete"  onClick={() => props.deleteAction(row)} >
                                     <DeleteIcon />
                                 </Fab>
                             </TableCell>

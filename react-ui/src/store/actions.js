@@ -2,6 +2,7 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const ACCOUNT_INITIALIZE = 'ACCOUNT_INITIALIZE';
+export const SET_BUSSINESS_ACCOUNT="SET_BUSSINESS_ACCOUNT";
 
 // action - customization reducer
 export const SET_MENU = '@customization/SET_MENU';

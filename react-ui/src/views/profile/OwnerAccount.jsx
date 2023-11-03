@@ -12,10 +12,10 @@ import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
-const OwnerAccount = ({vendor}) => {
+const OwnerAccount = ({vendorAccount, userAccount}) => {
     const dispatch= useDispatch();
         
-    const [vendorDetail, setVendorDetail]= useState(vendor);
+    const [vendorDetail, setVendorDetail]= useState(vendorAccount);
 
     const setVendorDetailField= (event, name)=>{
         let newVendorDetail={...vendorDetail};
@@ -25,6 +25,10 @@ const OwnerAccount = ({vendor}) => {
 
     const editVendorDetail=()=>{
         dispatch(updateVendor(vendorDetail.id, vendorDetail));
+    }
+
+    const isNotOwner= ()=>{
+        return vendorAccount.id!==userAccount.id;
     }
 
     return (
@@ -49,6 +53,7 @@ const OwnerAccount = ({vendor}) => {
                                 defaultValue={vendorDetail.name}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'name')}
+                                disabled={isNotOwner()}
                             />
                             </FormControl>
                         </Grid>
@@ -61,6 +66,7 @@ const OwnerAccount = ({vendor}) => {
                                 defaultValue={vendorDetail.emailAddress}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'emailAddress')}
+                                disabled={isNotOwner()}
                             />
                             </FormControl>
                         </Grid>
@@ -73,6 +79,7 @@ const OwnerAccount = ({vendor}) => {
                                 defaultValue={vendorDetail.mobileNumber}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'mobileNumber')}
+                                disabled={isNotOwner()}
                             />
                             </FormControl>
                         </Grid>
@@ -85,6 +92,7 @@ const OwnerAccount = ({vendor}) => {
                                 defaultValue={vendorDetail.phoneNumber}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'phoneNumber')}
+                                disabled={isNotOwner()}
                             />
                             </FormControl>
                         </Grid>
@@ -97,6 +105,7 @@ const OwnerAccount = ({vendor}) => {
                                 defaultValue={vendorDetail.permamentAddress}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'permamentAddress')}
+                                disabled={isNotOwner()}
                             />
                             </FormControl>
                         </Grid>
@@ -109,19 +118,19 @@ const OwnerAccount = ({vendor}) => {
                                 defaultValue={vendorDetail.presentAddress}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'presentAddress')}
+                                disabled={isNotOwner()}
                             />
                             </FormControl>
                         </Grid>
                     </Grid>
                     </Grid>
                     <Grid item  xl={12} xs={12} xm={12} sx={{textAlign: 'right'}}>
-                            <Button variant='contained' onClick={editVendorDetail} ><EditOutlined></EditOutlined></Button>
+                            <Button variant='contained' onClick={editVendorDetail} disabled={isNotOwner()} ><EditOutlined></EditOutlined></Button>
                         </Grid>
                     </Grid>
                     </CardContent>
                  </Card>
             </Box>
-               
     );
 };
 

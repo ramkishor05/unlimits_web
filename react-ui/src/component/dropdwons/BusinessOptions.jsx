@@ -19,6 +19,7 @@ import Select from '@mui/material/Select';
 
 import { getVendorBusinessList } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { SET_BUSSINESS_ACCOUNT } from '../../store/actions';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -89,18 +90,24 @@ const BusinessOptions= (props) =>  {
 
   const { vendorBusinessList} = useSelector(state => state.vendorBusinessReducer);
 
+  const account = useSelector(state => state.account);
+
   const dispatch=useDispatch();
 
-  const [value, setValue] = useState('');
+
+
+  const [value, setValue] = useState(account.businessId);
 
   const onSeach =(event)=>{
       console.log("========onSeach=====")
       setValue(event.target.value);
-      console.log("========onSeach=====")
+      console.log("========onSeach=====",event.target.value)
+      dispatch({ type: SET_BUSSINESS_ACCOUNT, payload: event.target.value});
+      console.log("userDetail",account)
   }
 
   useEffect(()=>{
-    dispatch(getVendorBusinessList());
+     dispatch(getVendorBusinessList());
   },[getVendorBusinessList])
 
 
@@ -136,7 +143,9 @@ const BusinessOptions= (props) =>  {
                                                   >
                                                    
                                                     {
-                                                        vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected = {true} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
+                                                        vendorBusinessList.map((vendorBusiness, index)=>
+                                                        <MenuItem key={index} selected = {true} value={vendorBusiness.id}>{vendorBusiness.name}
+                                                        </MenuItem>)
                                                     }
                                                     
                                                   </Select>
@@ -156,7 +165,7 @@ const BusinessOptions= (props) =>  {
                 onChange={onSeach}
               >
                 {
-                    vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={true} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
+                    vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
                 }
               </Select>
         </React.Fragment>

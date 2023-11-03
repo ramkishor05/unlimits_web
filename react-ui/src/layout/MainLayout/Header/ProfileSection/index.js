@@ -23,6 +23,7 @@ import {
     Typography
 } from '@material-ui/core';
 import ListItemButton from '@material-ui/core/ListItemButton';
+import { Link } from "react-router-dom";
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -163,6 +164,18 @@ const ProfileSection = () => {
         setOpen(false);
     };
     const prevOpen = React.useRef(open);
+
+    const greeting=()=>{
+        const date = new Date();
+        const currentTime = date.getHours();
+        if (currentTime >= 0 && currentTime <= 12) {
+          return "Good Morning";
+        } else if (currentTime > 12 && currentTime <= 18) {
+          return "Good Afternoon";
+        } else {
+            return  "Good Evening";
+        }
+    }
     
     React.useEffect(() => {
         if (prevOpen.current === true && open === false) {
@@ -179,7 +192,7 @@ const ProfileSection = () => {
                 className={classes.profileChip}
                 icon={
                     <Avatar
-                        src={User1}
+                        src={userDetail?.userProfile?.pictureURL}
                         className={classes.headerAvatar}
                         ref={anchorRef}
                         aria-controls={open ? 'menu-list-grow' : undefined}
@@ -221,13 +234,13 @@ const ProfileSection = () => {
                                     <CardContent className={classes.cardContent}>
                                         <Grid container direction="column" spacing={0}>
                                             <Grid item className={classes.flex}>
-                                                <Typography variant="h4">Good Morning,</Typography>
+                                                <Typography variant="h4">{greeting()},</Typography>
                                                 <Typography component="span" variant="h4" className={classes.name}>
-                                                    { userDetail?.username}
+                                                    { userDetail?.userProfile.fullName}
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
-                                                <Typography variant="subtitle2">{userDetail?.type}</Typography>
+                                                <Typography variant="subtitle2">{userDetail?.userRole?.roleName}</Typography>
                                             </Grid>
                                         </Grid>
                                         <OutlinedInput
@@ -248,13 +261,21 @@ const ProfileSection = () => {
                                         />
                                         <Divider />
                                         <PerfectScrollbar className={classes.ScrollHeight}>
-                                            <UpgradePlanCard />
+                                            {/*<UpgradePlanCard />*/}
                                             <Divider />
                                             <Card className={classes.card}>
                                                 <CardContent>
                                                     <Grid container spacing={3} direction="column">
                                                         <Grid item>
                                                             <Grid item container alignItems="center" justifyContent="space-between">
+                                                                <Grid item>
+                                                                 <Link to="/user/profile">Edit Profile</Link> 
+                                                                </Grid>
+                                                                </Grid>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Grid item container alignItems="center" justifyContent="space-between">
+                                                                
                                                                 <Grid item>
                                                                     <Typography variant="subtitle1">Start DND Mode</Typography>
                                                                 </Grid>

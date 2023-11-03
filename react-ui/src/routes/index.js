@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Switch } from 'react-router-dom';
+import { Redirect, Switch , Route} from 'react-router-dom';
 
 // routes
 import MainRoutes from './MainRoutes';
@@ -28,6 +28,7 @@ const Routes = () => {
                 <MainRoutes>
                   
                 </MainRoutes>
+
             </React.Fragment>
         </Switch>
     );

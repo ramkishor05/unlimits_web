@@ -24,7 +24,7 @@ const MenuList = () => {
         const navItems = menuItem.items.filter(item=>accountReducer.contains(item.id, userRole)).map((item) => {
             switch (item.type) {
                 case 'group':
-                    return <NavGroup key={item.id} item={item} />;
+                    return <NavGroup key={item.id} item={item} filter={(itemChildren)=> accountReducer.filter(itemChildren, userRole)} />;
                 default:
                     return (
                         <Typography key={item.id} variant="h6" color="error" align="center">

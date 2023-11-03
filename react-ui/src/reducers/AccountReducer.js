@@ -1,5 +1,5 @@
 // action - state management
-import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT } from '../store/actions';
+import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, SET_BUSSINESS_ACCOUNT } from '../store/actions';
 
 import {
     USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
@@ -7,15 +7,6 @@ import {
     USER_UPDATE_SUCCESS,USER_UPDATE_FAIL,
     GET_USER_SUCCESS
 } from '../types';
-
-
-const roleEndPointMap={
-    "ADMIN" : ['dashboard','sales', 'purchase', 'items','vendor', 'setups', 'other'],
-    "Owner" : ['dashboard','sales', 'purchase', 'items','vendor', 'setups', 'other'],
-    "MANAGER" : ['dashboard','sales', 'purchase', 'items', 'setups', 'other'],
-    "SUPERVISOR": ['dashboard','sales', 'purchase', 'items'],
-    "Crew" : ['dashboard','items','other']
-}
 
 const collapse=(item)=>{
     let paths=[];
@@ -39,11 +30,16 @@ export const initialState = {
     isLoggedIn: false,
     isInitialized: false,
     userDetail: null,
+    businessId: null,
     contains : (id, userRole) => {
         if("404"==id || "home"==id){
             return true;
         }
         return userRole.roleEndpoints.find(roleEndpoint=>roleEndpoint.type===id) !=null;
+     },
+     filter: (itemChildrenList, userRole)=>{
+        let roleEndpoints= userRole.roleEndpoints;
+        return itemChildrenList.filter(itemChildren=>roleEndpoints.find(roleEndpoint=>roleEndpoint.url===itemChildren.url) !=null)
      },
      paths: (userRole) => {
        let paths=["/404","/home"];
@@ -156,6 +152,9 @@ const accountReducer = (state = initialState, action) => {
         
         case GET_USER_PROFILE_FAIL:
                     return { ...state };
+        case SET_BUSSINESS_ACCOUNT:
+               console.log("SET_BUSSINESS_ACCOUNT", action)
+              return { ...state, businessId:action.payload };
         default: {
             return { ...state };
         }

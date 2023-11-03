@@ -27,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| SIDEBAR MENU LIST GROUP ||-----------------------//
 
-const NavGroup = ({ item }) => {
+const NavGroup = ({ item , filter }) => {
     const classes = useStyles();
 
     // menu list collapse & items
-    const items = item.children.map((menu) => {
+    const items = filter(item.children).map((menu) => {
         switch (menu.type) {
             case 'collapse':
                 return <NavCollapse key={menu.id} menu={menu} level={1} />;

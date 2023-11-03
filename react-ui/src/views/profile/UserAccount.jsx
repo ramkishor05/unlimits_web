@@ -12,19 +12,19 @@ import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
-const UserAccount = () => {
+const UserAccount = (props) => {
     const dispatch= useDispatch();
-    const accountReducer = useSelector((state) => state.account);
-    const [userDetail, setUserDetail]= useState(accountReducer.userDetail);
+   
+    const [userAccont, setUserAccont]= useState(props.userAccount);
 
-    const setUserDetailField= (event, name)=>{
-        let newUserDetail={...userDetail};
-        newUserDetail[name]=event.target.value;
-        setUserDetail(newUserDetail);
+    const setUserAccontField= (event, name)=>{
+        let newUserAccont={...userAccont};
+        newUserAccont[name]=event.target.value;
+        setUserAccont(newUserAccont);
     }
 
-    const editUserDetail=()=>{
-        dispatch(updateUser(userDetail.id, userDetail));
+    const editUserAccont=()=>{
+        dispatch(updateUser(userAccont.id, userAccont));
     }
 
     useEffect(()=>{
@@ -47,80 +47,80 @@ const UserAccount = () => {
                         <Grid item  xl={4} xs={4} xm={4}>
                             <FormControl fullWidth>
                             <TextField
-                                id="userDetail-username"
+                                id="userAccont-username"
                                 label="Username"
                                 name='username'
-                                defaultValue={userDetail.username}
+                                defaultValue={userAccont.username}
                                 variant='standard'
-                                onChange={(event)=> setUserDetailField(event,'username')}
+                                onChange={(event)=> setUserAccontField(event,'username')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="userDetail-password"
+                                id="userAccont-password"
                                 label="Password"
                                 name='password'
                                 type='password'
-                                defaultValue={userDetail.password}
+                                defaultValue={userAccont.password}
                                 variant='standard'
-                                onChange={(event)=> setUserDetailField(event,'password')}
+                                onChange={(event)=> setUserAccontField(event,'password')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="userDetail-mobile"
+                                id="userAccont-mobile"
                                 label="Registered Mobile"
                                 name='mobile'
-                                defaultValue={userDetail.mobile}
+                                defaultValue={userAccont.mobile}
                                 variant='standard'
-                                onChange={(event)=> setUserDetailField(event,'mobile')}
+                                onChange={(event)=> setUserAccontField(event,'mobile')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="userDetail-email"
+                                id="userAccont-email"
                                 name='email'
                                 label="Registered email"
-                                defaultValue={userDetail.email}
+                                defaultValue={userAccont.email}
                                 variant='standard'
-                                onChange={(event)=> setUserDetailField(event,'email')}
+                                onChange={(event)=> setUserAccontField(event,'email')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="userDetail-accountName"
+                                id="userAccont-accountName"
                                 name='accountName'
                                 label="Account Name"
-                                defaultValue={userDetail.accountName}
+                                defaultValue={userAccont.accountName}
                                 variant='standard'
-                                onChange={(event)=> setUserDetailField(event,'accountName')}
+                                onChange={(event)=> setUserAccontField(event,'accountName')}
                             />
                             </FormControl>
                         </Grid>
                         <Grid item  xl={4} xs={4} xm={4}>
                         <FormControl fullWidth>
                             <TextField
-                                id="userDetail-type"
+                                id="userAccont-type"
                                 name='type'
                                 label="Registered type"
-                                defaultValue={userDetail.type}
+                                defaultValue={userAccont.type}
                                 variant='standard'
-                                onChange={(event)=> setUserDetailField(event,'type')}
+                                onChange={(event)=> setUserAccontField(event,'type')}
                             />
                             </FormControl>
                         </Grid>
                     </Grid>
                     </Grid>
                     <Grid item  xl={12} xs={12} xm={12} sx={{textAlign: 'right'}}>
-                            <Button variant='contained' onClick={editUserDetail} ><EditOutlined></EditOutlined></Button>
+                            <Button variant='contained' onClick={editUserAccont} ><EditOutlined></EditOutlined></Button>
                         </Grid>
                     </Grid>
                     </CardContent>

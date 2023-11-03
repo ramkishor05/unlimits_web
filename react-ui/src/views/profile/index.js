@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 //==============================|| SAMPLE PAGE ||==============================//
 
 class UserProfilePage extends Component {
+   
     state={
     }
    
@@ -29,14 +30,14 @@ class UserProfilePage extends Component {
                 
                 <UserAccount userAccount={this.props.userDetail}></UserAccount>
                 <Divider></Divider>
-                <OwnerAccount vendor={this.props.vendor}></OwnerAccount>
+                <OwnerAccount vendorAccount={this.props.vendor} userAccount={this.props.userDetail}></OwnerAccount>
             </MainCard>
         );
     }
 };
 
 const mapStateToProps = state => {
-    const { userDetail} = state.account;
+    const { userDetail, } = state.account;
     const { vendor} = state.vendorReducer;
     return { userDetail, vendor };
 };
