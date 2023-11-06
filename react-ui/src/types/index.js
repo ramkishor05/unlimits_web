@@ -13,9 +13,7 @@ export * from './VendorCustomerActionTypes';
 export * from './VendorSupplierActionTypes';
 export * from './VendorEmployeeActionTypes';
 export * from './VendorUserActionTypes';
-
 export * from './Global/GlobalIndexActionType';
-
 export * from './Cust/CustIndexActionTypes';
 
 

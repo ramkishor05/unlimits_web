@@ -33,7 +33,7 @@ const status = [
 
 //-----------------------|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||-----------------------//
 
-const TotalGrowthBarChart = ({ isLoading }) => {
+const TotalGrowthBarChart = ({ isLoading , custDashboard }) => {
     const [value, setValue] = React.useState('today');
     const theme = useTheme();
 

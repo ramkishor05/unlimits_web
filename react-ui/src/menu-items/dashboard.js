@@ -18,7 +18,7 @@ export const dashboard = {
             id: 'default',
             title: 'Dashboard',
             type: 'item',
-            url: '/dashboard/default',
+            url: '/home',
             icon: icons['IconDashboard'],
             breadcrumbs: false
         }

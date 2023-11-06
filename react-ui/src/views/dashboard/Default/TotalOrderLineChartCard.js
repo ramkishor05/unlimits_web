@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||-----------------------//
 
-const TotalOrderLineChartCard = ({ isLoading }) => {
+const TotalOrderLineChartCard = ({ isLoading, custDashboard }) => {
     const classes = useStyles();
 
     const [timeValue, setTimeValue] = React.useState(false);
@@ -145,9 +145,9 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                     <Grid container alignItems="center">
                                         <Grid item>
                                             {timeValue ? (
-                                                <Typography className={classes.cardHeading}>$108</Typography>
+                                                <Typography className={classes.cardHeading}>${custDashboard.totalSales}</Typography>
                                             ) : (
-                                                <Typography className={classes.cardHeading}>$961</Typography>
+                                                <Typography className={classes.cardHeading}>${custDashboard.totalSales}</Typography>
                                             )}
                                         </Grid>
                                         <Grid item>

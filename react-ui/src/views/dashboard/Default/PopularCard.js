@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| DASHBOARD DEFAULT - POPULAR CARD ||-----------------------//
 
-const PopularCard = ({ isLoading }) => {
+const PopularCard = ({ isLoading, custDashboard , showMore}) => {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -119,169 +119,89 @@ const PopularCard = ({ isLoading }) => {
                                 <BajajAreaChartCard />
                             </Grid>
                             <Grid item xs={12}>
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
-                                            <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    Bajaj Finery
-                                                </Typography>
-                                            </Grid>
+                                {
+                                  custDashboard.stocks &&  custDashboard.stocks.map(stock=>
+                                    stock.totalNetProfit && stock.totalNetProfit >=0 ?
+                                        <>
+                                        <Grid container direction="column">
                                             <Grid item>
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                            $1839.00
+                                                            {stock.name}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarSuccess}>
-                                                            <KeyboardArrowUpOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
+                                                        <Grid container alignItems="center" justifyContent="space-between">
+                                                            <Grid item>
+                                                                <Typography variant="subtitle1" color="inherit">
+                                                                    $ {stock.totalNetProfit.toFixed(2)}
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item>
+                                                                <Avatar variant="rounded" className={classes.avatarSuccess}>
+                                                                    <KeyboardArrowUpOutlinedIcon fontSize="small" color="inherit" />
+                                                                </Avatar>
+                                                            </Grid>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.successDark}>
-                                            10% Profit
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Divider className={classes.divider} />
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
                                             <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    TTML
+                                                <Typography variant="subtitle2" className={classes.successDark}>
+                                                  {stock.percentageNetProfit.toFixed(2)} % Profit
                                                 </Typography>
                                             </Grid>
+                                        </Grid>
+                                        <Divider className={classes.divider} />
+                                        </>
+                                    :
+                                      <>
+                                       <Grid container direction="column">
                                             <Grid item>
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                            $100.00
+                                                           {stock.name}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarError}>
-                                                            <KeyboardArrowDownOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
+                                                        <Grid container alignItems="center" justifyContent="space-between">
+                                                            <Grid item>
+                                                                <Typography variant="subtitle1" color="inherit">
+                                                                ${stock.totalNetProfit.toFixed(2)}
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item>
+                                                                <Avatar variant="rounded" className={classes.avatarError}>
+                                                                    <KeyboardArrowDownOutlinedIcon fontSize="small" color="inherit" />
+                                                                </Avatar>
+                                                            </Grid>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.errorDark}>
-                                            10% loss
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Divider className={classes.divider} />
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
                                             <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    Reliance
+                                                <Typography variant="subtitle2" className={classes.errorDark}>
+                                                {stock.percentageNetProfit.toFixed(2)} % loss
                                                 </Typography>
                                             </Grid>
-                                            <Grid item>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item>
-                                                        <Typography variant="subtitle1" color="inherit">
-                                                            $200.00
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarSuccess}>
-                                                            <KeyboardArrowUpOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.successDark}>
-                                            10% Profit
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Divider className={classes.divider} />
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
-                                            <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    TTML
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item>
-                                                        <Typography variant="subtitle1" color="inherit">
-                                                            $189.00
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarError}>
-                                                            <KeyboardArrowDownOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.errorDark}>
-                                            10% loss
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Divider className={classes.divider} />
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
-                                            <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    Stolon
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item>
-                                                        <Typography variant="subtitle1" color="inherit">
-                                                            $189.00
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarError}>
-                                                            <KeyboardArrowDownOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.errorDark}>
-                                            10% loss
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
+                                        <Divider className={classes.divider} />
+                                    </>
+                                    )
+                                }
                             </Grid>
                         </Grid>
                     </CardContent>
                     <CardActions className={classes.cardAction}>
-                        <Button size="small" disableElevation>
+                        <Button size="small"  onClick={(event)=>showMore("STOCK",true)}>
                             View All
                             <ChevronRightOutlinedIcon />
                         </Button>
                     </CardActions>
+
+
                 </MainCard>
             )}
         </React.Fragment>

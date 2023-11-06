@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 
 //===========================|| DASHBOARD DEFAULT - EARNING CARD ||===========================//
 
-const EarningCard = ({ isLoading }) => {
+const EarningCard = ({ isLoading , custDashboard}) => {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -172,7 +172,7 @@ const EarningCard = ({ isLoading }) => {
                         <Grid item>
                             <Grid container alignItems="center">
                                 <Grid item>
-                                    <Typography className={classes.cardHeading}>$500.00</Typography>
+                                    <Typography className={classes.cardHeading}>${custDashboard.totalNetProfit}</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Avatar className={classes.avatarCircle}>
@@ -180,6 +180,7 @@ const EarningCard = ({ isLoading }) => {
                                     </Avatar>
                                 </Grid>
                             </Grid>
+                            
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
                             <Typography className={classes.subHeading}>Total Earning</Typography>
