@@ -212,6 +212,7 @@ class CustPurchasePage extends Component {
                                 </Button>
                             </Tooltip>
                         }
+                        content={false}
                     >
                         <CollapsibleTable 
                             headers={headers} 

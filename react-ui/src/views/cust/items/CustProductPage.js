@@ -271,6 +271,7 @@ class CustProductPage extends Component {
                         dataList={this.props.custProductList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
+                        
                         ></CollapsibleTable>
                     </MainCard>
                 

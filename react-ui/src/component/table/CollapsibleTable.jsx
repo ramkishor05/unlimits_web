@@ -154,6 +154,9 @@ function Row(props) {
                  
                 }
                 </TableBody>
+                <TableFooter>
+                  <TablePagination  rowsPerPage={10} page={1} count={1} onPageChange={()=>{}} rowsPerPageOptions={[10, 50]}  />
+                </TableFooter>
               </Table>
             </Box>
            </Collapse>

@@ -2,6 +2,7 @@ import React from 'react';
 
 // material-ui
 import { useTheme } from '@material-ui/styles';
+import { Typography } from '@material-ui/core';
 
 /**
  * if you want to use image instead of <svg> uncomment following.
@@ -23,6 +24,7 @@ const Logo = (props) => {
          * <img src={logo} alt="Berry" width="100" />
          *
          */
+        <>
         <svg
         width="40px"
         height="40px"
@@ -285,6 +287,10 @@ const Logo = (props) => {
           />
         </g>
       </svg>
+      <Typography sx={{fontFamily:'unset', fontSize:'15'}}>
+        Point Of Sale
+      </Typography>
+      </>
     );
 };
 
