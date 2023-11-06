@@ -11,17 +11,14 @@ import {
     getCustProductList, addCustProduct, editCustProduct, deleteCustProduct,
     getCustUnitList, getCustCurrencyItemList
  } from '../../../actions';
+import CollapsibleTable from '../../../component/table/CollapsibleTable';
 
 function createData(name, description, typeId, actions) {
     return { name, description, typeId, actions};
 }
-const tableheaders = [
+
+const mainheaders = [
     {
-        "key": "idenNo",
-        "name": "idenNo",
-        "label": "IdenNo",
-        "type": "text"
-    },{
         "key": "title",
         "name": "title",
         "label": "Title",
@@ -35,7 +32,7 @@ const tableheaders = [
     },
     {
         "key": "description",
-        "name": "desc",
+        "name": "description",
         "label": "Description",
         "type": "text"
     },
@@ -43,26 +40,83 @@ const tableheaders = [
         "key": "title",
         "name": "purchasePrice.price",
         "label": "Purchase",
-        "type": "amount"
-        
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name",
+        "itemName": "purchasePrice.currencyId"
     },
     {
         "key": "retailPrice",
         "name": "retailPrice.price",
         "label": "Retail",
-        "type": "amount"
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name",
+        "itemName": "retailPrice.currencyId"
     },
     {
         "key": "wholePrice",
         "name": "wholePrice.price",
         "label": "Whole",
-        "type": "amount"
+        "type": "amount",
+        "items": [{
+            id: "Kg",
+            name: "Kg"
+        }],
+        "itemKey": "id",
+        "itemVal": "name",
+        "itemName": "wholePrice.currencyId"
     },
     {
         name: "actions",
         label: "Actions"
     }
 ];
+
+const custProductStockListHeaders = [
+    {
+        name: "idenNo",
+        label: "Iden No",
+        type: 'text'
+    },
+    {
+        name: "name",
+        label: "Name",
+        type: 'text'
+    },
+    {
+        name: "purchasePrice.price",
+        label: "Price",
+        type: 'text',
+        render:(value, row, header, props)=>{
+            return value;
+        }
+    },
+    {
+        name: "stockStatus",
+        label: "Stock",
+        type: 'text'
+    }
+];
+const headers= { 
+    headers: mainheaders,
+    childrens :[
+        {
+            label: "Stocks",
+            name: "custProductStockList",
+            headers: custProductStockListHeaders
+        }
+    ]
+}
+
 
 const modelheaders = [
     {
@@ -210,13 +264,14 @@ class CustProductPage extends Component {
                                 Add
                             </Button>
                         }
+                        content={false}
                     >
-                     <DynamicTable 
-                        headers={tableheaders} 
+                     <CollapsibleTable
+                        headers={headers} 
                         dataList={this.props.custProductList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
-                        ></DynamicTable>
+                        ></CollapsibleTable>
                     </MainCard>
                 
                 <DynamicModel

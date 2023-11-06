@@ -4,7 +4,7 @@ import { Button, Fab, Tooltip } from '@material-ui/core';
 
 
 import { 
-    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getVendorCustomerList
+    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getVendorCustomerList, getCustProductList
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
@@ -83,30 +83,6 @@ const custProductSaleItemListHeaders = [
         }
     }
 ];
-
-const custProductWholeSaleHeaders = [
-    {
-        name: "custProduct.idenNo",
-        label: "Iden No",
-        type: 'text'
-    },
-    {
-        name: "custProduct.name",
-        label: "Name",
-        type: 'text'
-    },
-    {
-        name: "wholePrice.price",
-        label: "Price",
-        type: 'text'
-    },
-    {
-        name: "wholeQnt",
-        label: "Qnt",
-        type: 'text'
-    }
-];
-
 const headers= { 
     headers: mainheaders,
     childrens :[
@@ -214,6 +190,7 @@ class CustSalePage extends Component {
     
    async componentDidMount() {
         this.props.getCustSaleList();
+        this.props.getCustProductList();
         await this.props.getVendorCustomerList();
     }
     
@@ -231,6 +208,7 @@ class CustSalePage extends Component {
                                 </Button>
                             </Tooltip>
                         }
+                        content={false}
                     >
                         <CollapsibleTable 
                             headers={headers} 
@@ -251,6 +229,7 @@ class CustSalePage extends Component {
                     data={this.state.dataObject} 
                     type={this.state.type}
                     fields= {modelheaders}
+                    custProductList={this.props.custProductList}
                     saveAction = {this.saveObject}
                 >
                 </CustomerBill>
@@ -288,7 +267,8 @@ const mapStateToProps = state => {
     const { user } = state.userReducer;
     const { custSaleList} = state.custSaleReducer;
     const { vendorCustomerList} = state.vendorCustomerReducer;
-    return { user, custSaleList, vendorCustomerList};
+    const {custProductList} = state.custProductReducer;
+    return { user, custSaleList, vendorCustomerList, custProductList};
 };
 
 const styles = {
@@ -298,4 +278,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getVendorCustomerList})(CustSalePage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getVendorCustomerList, getCustProductList})(CustSalePage);

@@ -119,7 +119,8 @@ const useStyles = makeStyles((theme) => ({
 
     constructor (props){
         super(props)
-        let {data}=this.props;
+        let {data, custProductList}=this.props;
+        console.log("custProductList=",custProductList)
         let object={
             id:data.id,
             idenNo:data.idenNo,
@@ -131,11 +132,13 @@ const useStyles = makeStyles((theme) => ({
             userId: data.userId?data.userId:0,
             discounts : data.discounts? data.discounts:0
         }
+        console.log("custProductList=",custProductList)
         data.custProductSaleItemList && data.custProductSaleItemList.forEach(custProductSaleItem=>{
             let custProductSaleItemObj={...custProductSaleItem};
             custProductSaleItemObj['id']=custProductSaleItem.id;
             custProductSaleItemObj['isWholeSale']=custProductSaleItem.saleType==='Whole Sale';
             custProductSaleItemObj['salePrice']= custProductSaleItem.salePrice;
+            custProductSaleItemObj['purchasePrice']= custProductSaleItem.purchasePrice? custProductSaleItem.purchasePrice: custProductSaleItem.custProduct.purchasePrice;
             custProductSaleItemObj['discount']=custProductSaleItem.discount;
             custProductSaleItemObj['saleQnt']=custProductSaleItem.saleQnt;
             object.selectedItems.push(custProductSaleItemObj)
@@ -145,8 +148,9 @@ const useStyles = makeStyles((theme) => ({
 
 
     componentDidMount() {
+        this.props.getCustProductList()
         this.props.getVendorCustomerList();
-        this.props.getCustProductList(); 
+       
     }
 
     changeSaleDate = (event) => {
@@ -167,6 +171,7 @@ const useStyles = makeStyles((theme) => ({
             itemObject['discount']=0;
             itemObject['isWholeSale']=false;
             itemObject['salePrice']=custProduct.retailPrice;
+            itemObject['purchasePrice']=custProduct.purchasePrice;
             newSelectedItems.push(itemObject);
             this.setState({selectedItems: newSelectedItems});
         }

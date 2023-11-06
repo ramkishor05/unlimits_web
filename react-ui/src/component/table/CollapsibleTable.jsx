@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Fab } from '@material-ui/core';
+import { Fab, TableFooter, TablePagination } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
@@ -32,8 +32,12 @@ const getValue=(data, keyStr)=>{
     let keys=keyStr.split("\.");
     let val=data;
     for (let i = 0; i < keys.length; i++){
-      if( typeof val === 'object')
-      val=val[keys[i]];
+      if( typeof val === 'object'){
+        if(!val){
+          val={};
+        }
+        val=val[keys[i]];
+      }
     }
     return val;
   }
@@ -119,19 +123,35 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {console.log("children.onLoad=",children.onLoad ? 'true':'false')}
+                 
                   {
                    children.onLoad ? 
                       <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_onLoad'}>
                         { getChildrenLoad(row, children, props ) }
                       </TableRow>
                   :
+                  row[children.name] ? row[children.name].map(childrenRow=>
+                    <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_onLoad'}>
+                    {
+                    children.headers.map((header)=>
+                      <TableCell key={row.id+'_data_main_'+header.name} {...header.props}>
+                        {
+                        header.render ? header.render(getValue(childrenRow,header.name),childrenRow, header, props ):
+                        getValue(childrenRow,header.name)
+                        }   
+                      </TableCell>
+                        )
+                      }
+                    </TableRow>
+                  )
+                  :
                   <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_norows'} >
                            <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'__norows'} 
                            colSpan={6} sx={{textAlign: 'center'}}>
-                            No data founds sss  {Object.keys(children.headers)}
+                            No data founds   {Object.keys(children.headers)}
                           </TableCell>
                   </TableRow>
+                 
                 }
                 </TableBody>
               </Table>
@@ -147,7 +167,7 @@ function Row(props) {
 
 export default function CollapsibleTable(props) {
   const classes = useStyles();
-  const {dataList, headers, vendorCustomerList}=props;
+  const {dataList, headers}=props;
 
   return (
     <TableContainer component={Paper} >
@@ -169,6 +189,10 @@ export default function CollapsibleTable(props) {
             ))
           }
         </TableBody>
+        <TableFooter>
+        <TablePagination  rowsPerPage={10} page={1} count={1} onPageChange={()=>{}} rowsPerPageOptions={[10, 50]}  />
+
+        </TableFooter>
       </Table>
     </TableContainer>
   );
