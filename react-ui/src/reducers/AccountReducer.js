@@ -42,7 +42,7 @@ export const initialState = {
         return itemChildrenList.filter(itemChildren=>roleEndpoints.find(roleEndpoint=>roleEndpoint.url===itemChildren.url) !=null)
      },
      paths: (userRole) => {
-       let paths=["/404","/home"];
+       let paths=["/404","/dashboard/default"];
        userRole.roleEndpoints.forEach(roleEndpoint=>{
         paths.push(roleEndpoint.url);
        })

@@ -51,12 +51,12 @@ const MainRoutes = () => {
     }
     return (
         <Route
-            path={[...paths,"/home"]}
+            path={[...paths]}
         >
             <MainLayout>
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
-                        <Route path="/home" component={DashboardDefault} />
+                        <Route path="/dashboard/default" component={DashboardDefault} />
                         <Route path="/cust/sales" component={CustSalePage} />
                         <Route path="/cust/purchase" component={CustPurchasePage} />
                         <Route path="/cust/products" component={CustProductPage} />
