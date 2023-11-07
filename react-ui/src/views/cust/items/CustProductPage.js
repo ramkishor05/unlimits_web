@@ -12,7 +12,7 @@ import {
     getCustUnitList, getCustCurrencyItemList
  } from '../../../actions';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
-
+import CustProductStockService from '../../../services/CustProductStockService';
 function createData(name, description, typeId, actions) {
     return { name, description, typeId, actions};
 }
@@ -93,15 +93,23 @@ const custProductStockListHeaders = [
         type: 'text'
     },
     {
-        name: "purchasePrice.price",
-        label: "Price",
+        name: "purchasePrice",
+        label: "Purchase Price",
         type: 'text',
         render:(value, row, header, props)=>{
             return value;
         }
     },
     {
-        name: "stockStatus",
+        name: "salePrice",
+        label: "Sale Price",
+        type: 'text',
+        render:(value, row, header, props)=>{
+            return value;
+        }
+    },
+    {
+        name: "status",
         label: "Stock",
         type: 'text'
     }
@@ -234,10 +242,14 @@ class CustProductPage extends Component {
         this.props.getCustProductList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
+
+     getCustProductStock= async (custProduct)=>{
+        custProduct['custProductStockList']= await CustProductStockService.getAll(custProduct.id);
+    }
     
     async componentDidMount() {
-        await this.props.getCustProductList();
-        await this.props.getCustUnitList();
+        
+        this.props.getCustUnitList();
         await this.props.getCustCurrencyItemList();
         modelheaders.forEach(header=>{
             if(header.items){
@@ -245,9 +257,13 @@ class CustProductPage extends Component {
                 if(custCurrencyItemList){
                     header['items']=custCurrencyItemList;
                 }
-                console.log("header=",header)
             }
         })
+        await this.props.getCustProductList();
+        this.props.custProductList.forEach(custProduct=>{
+           this.getCustProductStock(custProduct);
+        })
+        console.log("this.props.custProductList=",this.props.custProductList)
     }
 
  render() {
