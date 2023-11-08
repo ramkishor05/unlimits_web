@@ -88,7 +88,7 @@ const TotalIncomeDarkCard = ({ isLoading , custDashboard }) => {
                                 }}
                                 primary={
                                     <Typography variant="h4" className={classes.primary}>
-                                        ${custDashboard.totalPurchases}
+                                        ${custDashboard.totalNetPurchase}
                                     </Typography>
                                 }
                                 secondary={

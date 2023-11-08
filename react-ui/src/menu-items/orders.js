@@ -10,16 +10,24 @@ const icons = {
 
 //-----------------------|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||-----------------------//
 
-export const sales = {
-    id: 'sales',
-    title: 'Sale',
+export const orders = {
+    id: 'orders',
+    title: 'Orders',
     type: 'group',
     children: [
         {
             id: 'cust-sales',
-            title: 'Sales',
+            title: 'Sale Order',
             type: 'item',
             url: '/cust/sales',
+            icon: icons['IconBrandChrome'],
+            breadcrumbs: false
+        },
+        {
+            id: 'cust-purchase',
+            title: 'Purchase Order',
+            type: 'item',
+            url: '/cust/purchase',
             icon: icons['IconBrandChrome'],
             breadcrumbs: false
         }

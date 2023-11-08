@@ -82,7 +82,7 @@ const TotalIncomeLightCard = ({ isLoading , custDashboard }) => {
                                 }}
                                 className={classes.padding}
                                 primary={<Typography variant="h4">
-                                    ${custDashboard.totalSales}
+                                    ${custDashboard.totalNetSale}
                                 </Typography>}
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>

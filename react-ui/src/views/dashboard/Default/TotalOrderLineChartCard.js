@@ -145,9 +145,9 @@ const TotalOrderLineChartCard = ({ isLoading, custDashboard }) => {
                                     <Grid container alignItems="center">
                                         <Grid item>
                                             {timeValue ? (
-                                                <Typography className={classes.cardHeading}>${custDashboard.totalSales}</Typography>
+                                                <Typography className={classes.cardHeading}>${custDashboard.totalGrossSale}</Typography>
                                             ) : (
-                                                <Typography className={classes.cardHeading}>${custDashboard.totalSales}</Typography>
+                                                <Typography className={classes.cardHeading}>${custDashboard.totalGrossSale}</Typography>
                                             )}
                                         </Grid>
                                         <Grid item>

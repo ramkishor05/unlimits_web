@@ -116,7 +116,7 @@ const PopularCard = ({ isLoading, custDashboard , showMore}) => {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} sx={{ pt: '16px !important' }}>
-                                <BajajAreaChartCard />
+                                {/*<BajajAreaChartCard />*/}
                             </Grid>
                             <Grid item xs={12}>
                                 {

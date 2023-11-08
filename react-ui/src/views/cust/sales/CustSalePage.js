@@ -33,8 +33,8 @@ const mainheaders = [
         label: "Customer",
         type: 'text',
         render: (value, row, header, props)=>{
-           let customer= props.vendorCustomerList.find((vendorCustomer)=>vendorCustomer.id==value);
-           return customer? customer.name: value;
+           //let customer= props.vendorCustomerList.find((vendorCustomer)=>vendorCustomer.id==value);
+           return value;
         }
     },
     {
@@ -79,7 +79,7 @@ const custProductSaleItemListHeaders = [
         label: "Sub Total",
         type: 'text',
         render: (value, row, header, props)=>{
-           return row.salePrice.price*row.saleQnt;
+           return value;// row.salePrice.price*row.saleQnt;
         }
     }
 ];
@@ -240,6 +240,7 @@ class CustSalePage extends Component {
                     title={this.state.title}
                     open={this.state.printModel}
                     headers={headers} 
+                    vendorCustomerList={this.props.vendorCustomerList}
                     close={()=> this.setState({printModel: false})}
                     data={this.state.dataObject} 
                     type={this.state.type}
