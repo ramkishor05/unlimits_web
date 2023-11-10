@@ -5,6 +5,10 @@ import {
 } from '../types';
 import VendorBusinessService from '../services/VendorBusinessService';
 
+import VendorAppService from '../services/VendorAppService';
+
+const ITEM_APP_URL='http://localhost:4444/api/cust/app';
+
 // Action creator for getting all VendorBusinessServices --<
 export const getVendorBusinessList = () => async dispatch => {
     dispatch({ type: SHOW_VENDOR_BUSINESS_LOADER });
@@ -32,6 +36,11 @@ export const addVendorBusiness = (data, refreshVendorBusinessList, clear, succes
         if (vendorBusiness) {
             dispatch({ type: VENDOR_BUSINESS_ADD_SUCCESS });
             dispatch({ type: REMOVE_VENDOR_BUSINESS_LOADER });
+            const data={
+                businessId: vendorBusiness.id,
+                appId: 1
+            }
+            await VendorAppService.add(ITEM_APP_URL,data)
         }
 
         refreshVendorBusinessList && refreshVendorBusinessList();
@@ -65,6 +74,12 @@ export const editVendorBusiness = (id, data, clearAndRefresh, successNotificatio
         if (vendorBusiness) {
             dispatch({ type: VENDOR_BUSINESS_EDIT_SUCCESS });
             dispatch({ type: REMOVE_VENDOR_BUSINESS_LOADER });
+
+            const data={
+                businessId: vendorBusiness.id,
+                appId: 1
+            }
+            await VendorAppService.add(ITEM_APP_URL,data)
             
             successNotification && successNotification();
 

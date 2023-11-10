@@ -141,27 +141,33 @@ class VendorBusiness extends Component {
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
-                
-                <DynamicModel
-                title={this.state.title}
-                openAction={this.state.saveModel}
-                closeAction={()=> this.setState({saveModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                fields= {modelheaders}
-                saveAction = {this.saveObject}
-                >
-                </DynamicModel>
+                {
+                    this.state.saveModel &&
+                    <DynamicModel
+                    title={this.state.title}
+                    openAction={this.state.saveModel}
+                    closeAction={()=> this.setState({saveModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    saveAction = {this.saveObject}
+                    >
+                    </DynamicModel>
+                }
+                {
+                    this.state.deleteModel &&
+                    <ConfirmModel
+                    openAction={this.state.deleteModel}
+                    closeAction={()=> this.setState({deleteModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    message= 'Do you want to delete'
+                    saveAction = {this.saveObject}
+                    >
+                    </ConfirmModel>
+                }
             
-                <ConfirmModel
-                openAction={this.state.deleteModel}
-                closeAction={()=> this.setState({deleteModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                message= 'Do you want to delete'
-                saveAction = {this.saveObject}
-                >
-                </ConfirmModel>
+                
             </>
         );
     }

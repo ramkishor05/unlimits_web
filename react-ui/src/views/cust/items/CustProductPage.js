@@ -290,6 +290,8 @@ class CustProductPage extends Component {
                         ></CollapsibleTable>
                     </MainCard>
                 
+               {
+               this.state.saveModel &&
                 <DynamicModel
                 title={this.state.title}
                 openAction={this.state.saveModel}
@@ -300,7 +302,10 @@ class CustProductPage extends Component {
                 saveAction = {this.saveObject}
                 >
                 </DynamicModel>
+               } 
             
+               {
+                this.state.deleteModel && 
                 <ConfirmModel
                 openAction={this.state.deleteModel}
                 closeAction={()=> this.setState({deleteModel: false})}
@@ -310,6 +315,8 @@ class CustProductPage extends Component {
                 saveAction = {this.saveObject}
                 >
                 </ConfirmModel>
+               }
+                
             </>
         );
     };
