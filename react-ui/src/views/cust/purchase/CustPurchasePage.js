@@ -167,11 +167,40 @@ class CustPurchasePage extends Component {
        this.setState({ dataObject: {}, title:"Add purchase", type:"Add", saveModel: true  });
     }
 
+    build=(row)=>{
+        console.log("row=",row);
+        let vendorSupplier= this.props.vendorSupplierList.find(vendorSupplier=>vendorSupplier.id==row.supplierId);
+        const subTotal=row.custProductPurchaseItemList.reduce((previousValue, currentValue) => {
+            return previousValue + (Number.parseFloat(currentValue.purchasePrice.price)*currentValue.purchaseQnt);
+        }, 0);
+        const invoice={
+            from: {
+                name: vendorSupplier.name, 
+                phone: vendorSupplier.mobileNumber, 
+                address: vendorSupplier.presentAddress
+            } ,
+            to: {
+                name: vendorSupplier.name, 
+                phone: vendorSupplier.mobileNumber, 
+                address: vendorSupplier.presentAddress
+            },
+            headers:custProductPurchaseItemHeaders,
+            items: row.custProductPurchaseItemList,
+            subTotal: subTotal,
+            discounts: row.discounts,
+            totalAmount:subTotal-row.discounts,
+        }
+        console.log("invoice=",invoice)
+        return invoice;
+     }
+
     _print = (row) => {
         this._clearModel();
-        this.setState({ dataObject: row, title:"Print purchase", type:"Print", printModel: true  });
+        this.setState({ dataObject: this.build(row), title:"Print purchase", type:"Print", printModel: true  });
         console.log("_print")
      }
+
+     
 
     _delete = row => {
         this._clearModel();

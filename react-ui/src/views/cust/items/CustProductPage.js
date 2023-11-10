@@ -263,7 +263,6 @@ class CustProductPage extends Component {
         this.props.custProductList.forEach(custProduct=>{
            this.getCustProductStock(custProduct);
         })
-        console.log("this.props.custProductList=",this.props.custProductList)
     }
 
  render() {

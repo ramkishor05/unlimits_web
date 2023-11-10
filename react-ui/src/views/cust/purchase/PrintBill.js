@@ -109,50 +109,34 @@ const useStyles = makeStyles((theme) => ({
     
     return (
         <>
-        <iframe id="ifmcontentstoprint" style={{
-            height: '0px',
-            width: '0px',
-            position: 'absolute'
-        }}></iframe>    
+        
         <BootstrapDialog
             aria-labelledby="Add Sale"
             aria-describedby="Modal for adding sales"
             open={open}
             onClose={close}
-            maxWidth={'lg'}
+            maxWidth={'md'}
             fullWidth={true}
-            
         >
                
-            <DialogTitle id="form-dialog-title">
-                    <Typography variant="h2" component="h2">                
-                    {title}
-                    </Typography>
-            </DialogTitle>
+            
             <IconButton
             aria-label="close"
             onClick={close}
             sx={{
                 position: 'absolute',
-                right: 8,
-                top: 8,
+                right: 0,
+                top: 0,
                 color: (theme) => theme.palette.grey[500],
             }}
             >
             <GridCloseIcon />
             </IconButton>
-            <Divider></Divider>
-            <DialogContent id='printarea'>
-                <Invoice></Invoice>
+          
+            <DialogContent>
+                <Invoice invoice={data} {...this.props}></Invoice>
             </DialogContent>
-            <Divider></Divider>
-            <DialogActions>
-                <Grid container spacing={2} padding={2}>
-                    <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
-                        <Button variant='contained' >{type}</Button>
-                    </Grid>
-                </Grid>
-            </DialogActions>
+           
          </BootstrapDialog>
          </>
     );

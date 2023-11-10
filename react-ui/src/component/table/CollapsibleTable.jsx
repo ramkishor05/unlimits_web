@@ -148,7 +148,7 @@ function Row(props) {
                   <TableRow key={row.id+'_data_child_collapse_row_body_'+children.name+'_norows'} >
                            <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'__norows'} 
                            colSpan={6} sx={{textAlign: 'center'}}>
-                            No data founds   {Object.keys(children.headers)}
+                            No data founds
                           </TableCell>
                   </TableRow>
                  
