@@ -1,6 +1,14 @@
-import { Box, Button, Card, CardActions, CardContent, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core"
+import { Box, Button, ButtonGroup, Card, CardActions, CardContent, Grid, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core"
+import { useRef } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import ReactToPrint from 'react-to-print';
+import ReactPDF, { PDFViewer } from '@react-pdf/renderer';
+import PdfInvoice from "./PdfInvoice";
+import html2pdf from "html2pdf.js";
+
 
 const Invoice = (props)=>{
+    const reference = useRef();
     const {invoice}=props
     const getValue=(data, keyStr)=>{
         let keys=keyStr.split("\.");
@@ -17,135 +25,190 @@ const Invoice = (props)=>{
       }
     
    const print=() =>{
-        var content = document.getElementById('printarea');
+       console.log(renderToStaticMarkup(main()))
         var pri = document.getElementById('ifmcontentstoprint').contentWindow;
         pri.document.open();
-        pri.document.write(content.innerHTML);
+        pri.document.write(`<div>${renderToStaticMarkup(main())}</div>`);
         pri.document.close();
         pri.focus();
         pri.print();      
     }
 
+    const downloadPDF=()=>{
+        const printElement = renderToStaticMarkup(main());
+        var opt = {
+            margin:       1,
+            filename:     'myfile.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+          };
+        html2pdf().from(printElement).set(opt).save();
+    }
+
+    const main=()=>{
+        return <Box >
+        <Grid container spacing={2}>
+            <Grid item xs={6} xl={6} sx={6}>
+                <Typography variant="h4" gutterBottom align="left">
+                <p>
+                    {invoice.from.name}
+                    </p>
+                    <address>
+                    {invoice.from.address }
+                    </address>
+                    <p>
+                    {invoice.from.phone }
+                    </p>
+                </Typography>
+            </Grid>
+            <Grid item xs={6} xl={6} sx={6} align='right'>
+                <Typography variant="h4" gutterBottom align="right">
+                    <p>
+                        Invoice No : {invoice.idenNo}
+                    </p>
+                    <p>
+                        Invoice Date : {invoice.date}
+                    </p>
+                    <p></p>
+                </Typography>
+            </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+            <Grid item xs={6} xl={6} sx={12}>
+            <Typography variant="h4" gutterBottom align="left">
+                <p>Bill To </p>
+                <p>{invoice.to.name}</p>
+                <p>{invoice.to.address }</p>
+                <p>{invoice.to.phone } </p>
+                </Typography>
+            </Grid>
+            <Grid item xs={6} xl={6} sx={12}>
+                <Typography variant="h4" gutterBottom align="right">
+                    <p>Payment # </p>
+                    <p>Total Amount: {invoice.payment.amount}</p>
+                    <p>Status : {invoice.payment.status }</p>
+                </Typography>
+            </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+            <Grid item xs={12} xl={12} sx={12} container alignContent="flex-end">
+                <Table style={{border:1, borderStyle:'outset'}}>
+                    <TableHead>
+                        
+                         <TableRow>
+                         {
+                         invoice.headers.map(header=>
+                            <TableCell key={header.name}>
+                                {header.label}
+                            </TableCell>
+                         )}
+                        </TableRow>
+                       
+                        
+                    </TableHead>
+                    <TableBody>
+                        
+                         {
+                        invoice.items.map(item=>
+                            <TableRow>
+                                {
+                                    invoice.headers.map(header=>
+                                        <TableCell key={item.id+'_'+header.name}>
+                                            {
+                                                header.render ? header.render(getValue(item,header.name),item, header, props ):
+                                                getValue(item,header.name)
+                                            }
+                                        </TableCell>
+                                    )
+                                }
+                             </TableRow>
+                           )
+                        }
+                        
+                    </TableBody>
+                </Table>
+            </Grid>
+        </Grid>
+        <Box height={20}>&nbsp;</Box>
+        <Grid container spacing={2}>
+            <Grid item xs={8} align="right">
+                
+            </Grid>
+
+            <Grid item xs={4}>
+                <Grid container spacing={2} >
+                    <Grid item xs={9} align="right">
+                       Sub Total : 
+                    </Grid>
+                    <Grid item xs={3} align="right">
+                        {invoice.subTotal}
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+            <Grid item xs={8} align="right">
+                
+            </Grid>
+
+            <Grid item xs={4}>
+                <Grid container spacing={2} >
+                    <Grid item xs={9} align="right">
+                        Discounts :
+                    </Grid>
+                    <Grid item xs={3} align="right">
+                        {invoice.discounts}
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+            <Grid item xs={8} align="right">
+                
+            </Grid>
+
+            <Grid item xs={4}>
+                <Grid container spacing={2} >
+                    <Grid item xs={9} align="right">
+                        Total Amount :
+                    </Grid>
+                    <Grid item xs={3} align="right">
+                        {invoice.totalAmount}
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+       
+    </Box>
+    
+    }
+
     return (
         <>
-        <iframe id="ifmcontentstoprint" style={{
-            height: '0px',
-            width: '0px',
-            position: 'absolute'
-        }}></iframe>   
-        <Card>
-            
-            <CardContent id='printarea'>
-                <Grid container spacing={2}>
-                    <Grid item xs={6} xl={6} sx={12}>
-                        <Typography variant="h6" gutterBottom>
-                            <p>From </p>
-                            <p>{invoice.from.name}</p>
-                            <p>{invoice.from.address }</p>
-                            <p>{invoice.from.phone } </p>
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={6} xl={6} sx={12}>
-                        <Typography variant="h6" gutterBottom align="right">
-                            <p>To </p>
-                            <p>{invoice.from.name}</p>
-                            <p>{invoice.from.address }</p>
-                            <p>{invoice.from.phone } </p>
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} xl={12} sx={12} container alignContent="flex-end">
-                        <Table style={{border:1, borderStyle:'outset'}}>
-                            <TableHead>
-                                
-                                 <TableRow>
-                                 {
-                                 invoice.headers.map(header=>
-                                    <TableCell>
-                                        {header.label}
-                                    </TableCell>
-                                 )}
-                                </TableRow>
-                               
-                                
-                            </TableHead>
-                            <TableBody>
-                                
-                                 {
-                                invoice.items.map(item=>
-                                    <TableRow>
-                                        {
-                                            invoice.headers.map(header=>
-                                                <TableCell>
-                                                    {
-                                                        header.render ? header.render(getValue(item,header.name),item, header, props ):
-                                                        getValue(item,header.name)
-                                                    }
-                                                </TableCell>
-                                            )
-                                        }
-                                     </TableRow>
-                                   )
-                                }
-                                
-                            </TableBody>
-                        </Table>
-                    </Grid>
-                </Grid>
-                <Box height={20}>&nbsp;</Box>
-                <Grid container spacing={2}>
-                    <Grid item xs={8} align="right">
-                        
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <Grid container spacing={2} >
-                            <Grid item xs={9} align="right">
-                               Sub Total : 
-                            </Grid>
-                            <Grid item xs={3} align="right">
-                                {invoice.subTotal}
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={8} align="right">
-                        
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <Grid container spacing={2} >
-                            <Grid item xs={9} align="right">
-                                Discounts :
-                            </Grid>
-                            <Grid item xs={3} align="right">
-                                {invoice.discounts}
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={8} align="right">
-                        
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <Grid container spacing={2} >
-                            <Grid item xs={9} align="right">
-                                Total Amount :
-                            </Grid>
-                            <Grid item xs={3} align="right">
-                                {invoice.totalAmount}
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-               
+        <Card >
+            <CardContent ref={reference} variant="outlined">
+            {
+                main()
+            }
             </CardContent>
-            <CardActions sx={{align: 'right'}}>
-                <Button variant='contained' onClick={print} >Print</Button>
+            <CardActions disableSpacing
+                sx={{
+                    alignSelf: "stretch",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "flex-start",
+                    p: 1,
+                }}>
+
+                <ButtonGroup  aria-label="outlined primary button group">
+                    <ReactToPrint 
+                    trigger={() => <Button variant="outlined">Print</Button>}
+                    content={() => reference.current}
+                    />
+
+                    <Button variant="outlined" onClick={downloadPDF} >PDF</Button>
+                </ButtonGroup>
             </CardActions>
         </Card>
        

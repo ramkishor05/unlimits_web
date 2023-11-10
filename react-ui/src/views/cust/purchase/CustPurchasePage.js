@@ -4,7 +4,7 @@ import { Button, Fab, Tooltip } from '@material-ui/core';
 
 
 import { 
-    addCustPurchase, editCustPurchase, deleteCustPurchase, getCustPurchaseList, getVendorSupplierList
+    addCustPurchase, editCustPurchase, deleteCustPurchase, getCustPurchaseList, getVendorSupplierList, getVendorBusinessList
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
@@ -170,19 +170,26 @@ class CustPurchasePage extends Component {
     build=(row)=>{
         console.log("row=",row);
         let vendorSupplier= this.props.vendorSupplierList.find(vendorSupplier=>vendorSupplier.id==row.supplierId);
+        let vendorBusiness= this.props.vendorBusinessList.find(vendorBusiness=>vendorBusiness.id==row.businessId);
         const subTotal=row.custProductPurchaseItemList.reduce((previousValue, currentValue) => {
             return previousValue + (Number.parseFloat(currentValue.purchasePrice.price)*currentValue.purchaseQnt);
         }, 0);
         const invoice={
+            idenNo:row.idenNo,
+            date:row.purchaseDate,
             from: {
-                name: vendorSupplier.name, 
-                phone: vendorSupplier.mobileNumber, 
-                address: vendorSupplier.presentAddress
+                name: vendorBusiness.name, 
+                phone: vendorBusiness.mobileNumber, 
+                address: vendorBusiness.presentAddress
             } ,
             to: {
                 name: vendorSupplier.name, 
                 phone: vendorSupplier.mobileNumber, 
                 address: vendorSupplier.presentAddress
+            },
+            payment: {
+                status: 'Unpaid',
+                amount: subTotal-row.discounts
             },
             headers:custProductPurchaseItemHeaders,
             items: row.custProductPurchaseItemList,
@@ -190,13 +197,12 @@ class CustPurchasePage extends Component {
             discounts: row.discounts,
             totalAmount:subTotal-row.discounts,
         }
-        console.log("invoice=",invoice)
         return invoice;
      }
 
     _print = (row) => {
         this._clearModel();
-        this.setState({ dataObject: this.build(row), title:"Print purchase", type:"Print", printModel: true  });
+        this.setState({ dataObject: this.build(row), title:"Purchase Invoice", type:"Print", printModel: true  });
         console.log("_print")
      }
 
@@ -223,8 +229,9 @@ class CustPurchasePage extends Component {
     }
     
    async componentDidMount() {
-        this.props.getCustPurchaseList();
-        await this.props.getVendorSupplierList();
+       this.props.getVendorSupplierList();
+       this.props.getVendorBusinessList();
+       await this.props.getCustPurchaseList();
     }
     
 
@@ -299,7 +306,8 @@ const mapStateToProps = state => {
     const { user } = state.userReducer;
     const { custPurchaseList} = state.custPurchaseReducer;
     const { vendorSupplierList} = state.vendorSupplierReducer;
-    return { user, custPurchaseList, vendorSupplierList};
+    const { vendorBusinessList} = state.vendorBusinessReducer;
+    return { user, custPurchaseList, vendorSupplierList, vendorBusinessList};
 };
 
 const styles = {
@@ -309,4 +317,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustPurchase, editCustPurchase,deleteCustPurchase, getCustPurchaseList, getVendorSupplierList})(CustPurchasePage);
+export default connect(mapStateToProps, { addCustPurchase, editCustPurchase,deleteCustPurchase, getCustPurchaseList, getVendorSupplierList, getVendorBusinessList})(CustPurchasePage);

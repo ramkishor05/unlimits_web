@@ -11,7 +11,7 @@ import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../image/ImageUploadCard';
 
-export default class DynamicModel extends React.Component {
+class DynamicModel extends React.Component {
 
    state={
     data:{}
@@ -183,3 +183,5 @@ export default class DynamicModel extends React.Component {
     );
   }
 }
+
+export default DynamicModel

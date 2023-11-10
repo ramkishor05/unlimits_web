@@ -4,12 +4,11 @@ import { Button, Fab, Tooltip } from '@material-ui/core';
 
 
 import { 
-    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getVendorCustomerList, getCustProductList
+    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getVendorCustomerList, getCustProductList,getVendorBusinessList
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
  import AddIcon from '@material-ui/icons/Add';
- import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
 import CustomerBill from './CustomerBill';
@@ -162,12 +161,44 @@ class CustSalePage extends Component {
        this.setState({ dataObject: {}, title:"Add sale", type:"Add", saveModel: true  });
     }
 
-    _print = (row) => {
-        this._clearModel();
-        this.setState({ dataObject: row, title:"Print sale", type:"Print", printModel: true  });
-        console.log("_print")
+    build=(row)=>{
+        console.log("row=",row);
+        let vendorCustomer= this.props.vendorCustomerList.find(vendorCustomer=>vendorCustomer.id==row.customerId);
+        let vendorBusiness= this.props.vendorBusinessList.find(vendorBusiness=>vendorBusiness.id==row.businessId);
+        const subTotal=row.custProductSaleItemList.reduce((previousValue, currentValue) => {
+            return previousValue + (Number.parseFloat(currentValue.salePrice.price)*currentValue.saleQnt);
+        }, 0);
+        const invoice={
+            idenNo:row.idenNo,
+            date:row.saleDate,
+            from: {
+                name: vendorBusiness.name, 
+                phone: vendorBusiness.mobileNumber, 
+                address: vendorBusiness.presentAddress
+            } ,
+            to: {
+                name: vendorCustomer.name, 
+                phone: vendorCustomer.mobileNumber, 
+                address: vendorCustomer.presentAddress
+            },
+            payment: {
+                status: 'Unpaid',
+                amount: subTotal-row.discounts
+            },
+            headers:custProductSaleItemListHeaders,
+            items: row.custProductSaleItemList,
+            subTotal: subTotal,
+            discounts: row.discounts,
+            totalAmount:subTotal-row.discounts,
+        }
+        return invoice;
      }
 
+    _print = (row) => {
+        this._clearModel();
+        this.setState({ dataObject: this.build(row), title:"Sale Invoice", type:"Print", printModel: true  });
+        console.log("_print")
+     }
     _delete = row => {
         this._clearModel();
         this.setState({ dataObject: row, title:"Delete sale", type:"Delete", deleteModel: true  });
@@ -189,9 +220,11 @@ class CustSalePage extends Component {
     }
     
    async componentDidMount() {
-        this.props.getCustSaleList();
+      
         this.props.getCustProductList();
-        await this.props.getVendorCustomerList();
+        this.props.getVendorBusinessList();
+        this.props.getVendorCustomerList();
+        this.props.getCustSaleList();
     }
     
 
@@ -269,7 +302,8 @@ const mapStateToProps = state => {
     const { custSaleList} = state.custSaleReducer;
     const { vendorCustomerList} = state.vendorCustomerReducer;
     const {custProductList} = state.custProductReducer;
-    return { user, custSaleList, vendorCustomerList, custProductList};
+    const { vendorBusinessList} = state.vendorBusinessReducer;
+    return { user, custSaleList, vendorCustomerList, custProductList, vendorBusinessList};
 };
 
 const styles = {
@@ -279,4 +313,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getVendorCustomerList, getCustProductList})(CustSalePage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getVendorCustomerList, getCustProductList, getVendorBusinessList})(CustSalePage);

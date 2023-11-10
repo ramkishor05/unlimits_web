@@ -118,21 +118,24 @@ const useStyles = makeStyles((theme) => ({
             maxWidth={'md'}
             fullWidth={true}
         >
-               
-            
-            <IconButton
-            aria-label="close"
-            onClick={close}
-            sx={{
-                position: 'absolute',
-                right: 0,
-                top: 0,
-                color: (theme) => theme.palette.grey[500],
-            }}
-            >
-            <GridCloseIcon />
-            </IconButton>
-          
+           <DialogTitle>
+              <Typography>
+              {title}
+              </Typography>
+              <IconButton
+              aria-label="close"
+              onClick={close}
+              sx={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                  color: (theme) => theme.palette.grey[500],
+                  background:(theme) => theme.palette.secondary
+              }}
+              >
+              <GridCloseIcon />
+              </IconButton>
+            </DialogTitle>
             <DialogContent>
                 <Invoice invoice={data} {...this.props}></Invoice>
             </DialogContent>
