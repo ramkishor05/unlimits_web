@@ -1,8 +1,8 @@
 import { 
    GET_ALL_CUST_CATEGERY_GROUP_SUCCESS,
    GET_ALL_CUST_CATEGERY_GROUP_FAIL,
-   SHOW_CUST_CATEGERY_GROUP_LOADER,
-   REMOVE_CUST_CATEGERY_GROUP_LOADER,
+   SHOW_LOADER,
+   REMOVE_LOADER,
    ADD_CUST_CATEGERY_GROUP_SUCCESS,
    EDIT_CUST_CATEGERY_GROUP_SUCCESS,
    RENDER_CUST_CATEGERY_GROUP_TO_EDIT
@@ -11,32 +11,34 @@ import CustCategoryGroupService from '../../services/CustCategoryGroupService';
 
 // Action creator for getting all items --<
 export const getCustCategoryGroupList = () => async dispatch => {
-    dispatch({ type: SHOW_CUST_CATEGERY_GROUP_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const custCategoryGroupList = await CustCategoryGroupService.getAll();
 
         if (custCategoryGroupList) {
             dispatch({ type: GET_ALL_CUST_CATEGERY_GROUP_SUCCESS, payload: custCategoryGroupList });
-            dispatch({ type: REMOVE_CUST_CATEGERY_GROUP_LOADER });
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
         dispatch({ type: GET_ALL_CUST_CATEGERY_GROUP_FAIL });
-        dispatch({ type: REMOVE_CUST_CATEGERY_GROUP_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         console.log(error);
     }
 };
 
 // Action creator for adding item --<
 export const addCustCategoryGroup = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_CUST_CATEGERY_GROUP_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const custCategoryGroup = await CustCategoryGroupService.add(data);
 
         if (custCategoryGroup) {
             dispatch({ type: ADD_CUST_CATEGERY_GROUP_SUCCESS });
-            dispatch({ type: REMOVE_CUST_CATEGERY_GROUP_LOADER });
         }
 
         refreshItemsList && refreshItemsList();
@@ -44,9 +46,10 @@ export const addCustCategoryGroup = (data, refreshItemsList, clear, successNotif
         clear && clear();
 
         successNotification && successNotification();
-        
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_CUST_CATEGERY_GROUP_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         
         clear && clear();
 
@@ -62,41 +65,45 @@ export const renderCustCategoryGroupToEdit = item => {
 };
 
 export const editCustCategoryGroup = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_CUST_CATEGERY_GROUP_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const custCategoryGroup = await CustCategoryGroupService.update(id, data);
 
         if (custCategoryGroup) {
             dispatch({ type: EDIT_CUST_CATEGERY_GROUP_SUCCESS });
-            dispatch({ type: REMOVE_CUST_CATEGERY_GROUP_LOADER });
             
             successNotification && successNotification();
 
             clearAndRefresh && clearAndRefresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_CUST_CATEGERY_GROUP_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();
     }
 };
 
 export const updateCustCategoryGroup = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_CUST_CATEGERY_GROUP_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const custCategoryGroup = await CustCategoryGroupService.update(id, data);
 
         if (custCategoryGroup) {
             dispatch({ type: EDIT_CUST_CATEGERY_GROUP_SUCCESS });
-            dispatch({ type: REMOVE_CUST_CATEGERY_GROUP_LOADER });
             
             successNotification && successNotification();
 
             clearAndRefresh && clearAndRefresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_CUST_CATEGERY_GROUP_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();
     }
 };
@@ -104,12 +111,18 @@ export const updateCustCategoryGroup = (id, data, clearAndRefresh, successNotifi
 // Action creator for deleting football transaction from the system.
 export const deleteCustCategoryGroup = (id, refresh) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const deleted_cust_category_group = await CustCategoryGroupService.delete(id);
 
         if (deleted_cust_category_group) {
             refresh && refresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };

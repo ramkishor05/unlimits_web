@@ -1,26 +1,36 @@
 import { 
     GET_ALL_PURCHASES_SUCCESS,
     GET_PURCHASES_TODAY_SUCCESS, GET_PURCHASES_YESTERDAY_SUCCESS, GET_PURCHASES_LONG_SUCCESS,
-    PURCHASE_TO_EDIT
+    PURCHASE_TO_EDIT,
+    SHOW_LOADER,
+    REMOVE_LOADER
 } from '../../types';
 import CustPurchaseService from '../../services/CustPurchaseService';
 
 // Action creator for getting all purchases.
 export const getCustPurchaseList = () => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         let purchases = await CustPurchaseService.getAll();
 
         if (purchases) {
             dispatch({ type: GET_ALL_PURCHASES_SUCCESS, payload: purchases });
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };
 
 // Action creator for getting purchases according to date.
 export const getCustPurchaseListByDate = (from, to, day) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         let purchases = await CustPurchaseService.getByDate(from, to);
 
         if (purchases) {
@@ -34,14 +44,20 @@ export const getCustPurchaseListByDate = (from, to, day) => async dispatch => {
                 dispatch({ type: GET_ALL_PURCHASES_SUCCESS, payload: purchases });
             }
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };
 
 // Action creator for adding purchases.
 export const addCustPurchase = (data, refreshPurchases, clear, successNotification, errorNotification) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         let purchase = await CustPurchaseService.add(data);
 
         if (purchase) {
@@ -51,9 +67,13 @@ export const addCustPurchase = (data, refreshPurchases, clear, successNotificati
             
             successNotification && successNotification();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         errorNotification && errorNotification();
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };
 
@@ -68,6 +88,8 @@ export const renderPurchaseToEdit = payload => {
 // Action creator for editing purchases in the system.
 export const editCustPurchase = (id, data, refreshPurchases, clear, successNotification, errorNotification) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const purchase = await CustPurchaseService.update(id, data);
 
         if (purchase) {
@@ -77,15 +99,21 @@ export const editCustPurchase = (id, data, refreshPurchases, clear, successNotif
 
             successNotification && successNotification();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         errorNotification && errorNotification();
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };
 
 // Action creator for editing purchases in the system.
 export const deleteCustPurchase = (id, refreshPurchases, clear, successNotification, errorNotification) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const purchase = await CustPurchaseService.delete(id);
 
         if (purchase) {
@@ -95,8 +123,12 @@ export const deleteCustPurchase = (id, refreshPurchases, clear, successNotificat
 
             successNotification && successNotification();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         errorNotification && errorNotification();
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };

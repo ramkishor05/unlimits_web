@@ -7,13 +7,19 @@ export default {
                     .catch(error => Promise.reject(error.response.data));
     },
     add(url, item) {
-        return axios.post(url, item)
+        let headers={
+            ...item
+        }
+        return axios.post(url, item,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
     update(url, id, item) {
         item['id']=id;
-        return axios.put(url, item)
+        let headers={
+            ...item
+        }
+        return axios.put(url, item,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },

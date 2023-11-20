@@ -8,8 +8,6 @@ import AutheRoutes from './AuthRoutes';
 
 // project imports
 import config from './../config';
-import PageNotFound from '../views/utilities/PageNotFound';
-import UserProfile from '../views/profile/UserProfile';
 
 //-----------------------|| ROUTING RENDER ||-----------------------//
 

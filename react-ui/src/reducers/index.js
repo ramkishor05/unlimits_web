@@ -35,10 +35,12 @@ import VendorSupplierReducer from './VendorSupplierReducer';
 import VendorEmployeeReducer from './VendorEmployeeReducer';
 import VendorUserReducer from './VendorUserReducer';
 import UserRoleReducer from './UserRoleReducer';
+import LoaderReducer from './LoaderReducer';
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
 
 const reducer = combineReducers({
+    loaderReducer: LoaderReducer,
     account: persistReducer(
         {
             key: 'account',

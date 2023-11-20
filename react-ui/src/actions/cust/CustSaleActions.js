@@ -1,26 +1,36 @@
 import { 
     GET_ALL_SALES_SUCCESS,
     GET_SALES_TODAY_SUCCESS, GET_SALES_YESTERDAY_SUCCESS, GET_SALES_LONG_SUCCESS,
-    SALE_TO_EDIT
+    SALE_TO_EDIT,
+    SHOW_LOADER,
+    REMOVE_LOADER
 } from '../../types';
 import CustSaleService from '../../services/CustSaleService';
 
 // Action creator for getting all sales.
 export const getCustSaleList = () => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         let sales = await CustSaleService.getAll();
 
         if (sales) {
             dispatch({ type: GET_ALL_SALES_SUCCESS, payload: sales });
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };
 
 // Action creator for getting sales according to date.
 export const getCustSaleListByDate = (from, to, day) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         let sales = await CustSaleService.getByDate(from, to);
 
         if (sales) {
@@ -34,14 +44,20 @@ export const getCustSaleListByDate = (from, to, day) => async dispatch => {
                 dispatch({ type: GET_ALL_SALES_SUCCESS, payload: sales });
             }
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };
 
 // Action creator for adding sales.
 export const addCustSale = (data, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         let sale = await CustSaleService.add(data);
 
         if (sale) {
@@ -51,9 +67,12 @@ export const addCustSale = (data, refreshSales, clear, successNotification, erro
             
             successNotification && successNotification();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         errorNotification && errorNotification();
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
     }
 };
 
@@ -68,6 +87,8 @@ export const renderSaleToEdit = payload => {
 // Action creator for editing sales in the system.
 export const editCustSale = (id, data, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const sale = await CustSaleService.update(id, data);
 
         if (sale) {
@@ -77,15 +98,21 @@ export const editCustSale = (id, data, refreshSales, clear, successNotification,
 
             successNotification && successNotification();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         errorNotification && errorNotification();
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };
 
 // Action creator for editing sales in the system.
 export const deleteCustSale = (id, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const sale = await CustSaleService.delete(id);
 
         if (sale) {
@@ -95,8 +122,12 @@ export const deleteCustSale = (id, refreshSales, clear, successNotification, err
 
             successNotification && successNotification();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         errorNotification && errorNotification();
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };

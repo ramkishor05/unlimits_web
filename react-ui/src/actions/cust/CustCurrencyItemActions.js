@@ -1,8 +1,8 @@
 import { 
    GET_ALL_CUST_CURRENCY_ITEM_SUCCESS,
    GET_ALL_CUST_CURRENCY_ITEM_FAIL,
-   SHOW_CUST_CURRENCY_ITEM_LOADER,
-   REMOVE_CUST_CURRENCY_ITEM_LOADER,
+   SHOW_LOADER,
+   REMOVE_LOADER,
    ADD_CUST_CURRENCY_ITEM_SUCCESS,
    EDIT_CUST_CURRENCY_ITEM_SUCCESS,
    RENDER_CUST_CURRENCY_ITEM_TO_EDIT
@@ -11,30 +11,32 @@ import CustCurrencyItemService from '../../services/CustCurrencyItemService';
 
 // Action creator for getting all items --<
 export const getCustCurrencyItemList = () => async dispatch => {
-    dispatch({ type: SHOW_CUST_CURRENCY_ITEM_LOADER });
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const globalCategoryList = await CustCurrencyItemService.getAll();
         if (globalCategoryList) {
             dispatch({ type: GET_ALL_CUST_CURRENCY_ITEM_SUCCESS, payload: globalCategoryList });
-            dispatch({ type: REMOVE_CUST_CURRENCY_ITEM_LOADER });
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
         dispatch({ type: GET_ALL_CUST_CURRENCY_ITEM_FAIL });
-        dispatch({ type: REMOVE_CUST_CURRENCY_ITEM_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }
 };
 
 // Action creator for adding item --<
 export const addCustCurrencyItem = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_CUST_CURRENCY_ITEM_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const globalCategory = await CustCurrencyItemService.add(data);
 
         if (globalCategory) {
             dispatch({ type: ADD_CUST_CURRENCY_ITEM_SUCCESS });
-            dispatch({ type: REMOVE_CUST_CURRENCY_ITEM_LOADER });
         }
 
         refreshItemsList && refreshItemsList();
@@ -42,9 +44,10 @@ export const addCustCurrencyItem = (data, refreshItemsList, clear, successNotifi
         clear && clear();
 
         successNotification && successNotification();
-        
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_CUST_CURRENCY_ITEM_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         
         clear && clear();
 
@@ -60,41 +63,45 @@ export const renderCustCurrencyItemToEdit = item => {
 };
 
 export const editCustCurrencyItem = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_CUST_CURRENCY_ITEM_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const globalCategory = await CustCurrencyItemService.update(id, data);
 
         if (globalCategory) {
             dispatch({ type: EDIT_CUST_CURRENCY_ITEM_SUCCESS });
-            dispatch({ type: REMOVE_CUST_CURRENCY_ITEM_LOADER });
             
             successNotification && successNotification();
 
             clearAndRefresh && clearAndRefresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_CUST_CURRENCY_ITEM_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();
     }
 };
 
 export const updateCustCurrencyItem = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_CUST_CURRENCY_ITEM_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const globalCategory = await CustCurrencyItemService.update(id, data);
 
         if (globalCategory) {
             dispatch({ type: EDIT_CUST_CURRENCY_ITEM_SUCCESS });
-            dispatch({ type: REMOVE_CUST_CURRENCY_ITEM_LOADER });
             
             successNotification && successNotification();
 
             clearAndRefresh && clearAndRefresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_CUST_CURRENCY_ITEM_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();
     }
 };
@@ -102,12 +109,18 @@ export const updateCustCurrencyItem = (id, data, clearAndRefresh, successNotific
 // Action creator for deleting football transaction from the system.
 export const deleteCustCurrencyItem = (id, refresh) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const deleted_global_category = await CustCurrencyItemService.delete(id);
 
         if (deleted_global_category) {
             refresh && refresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
     }
 };

@@ -5,7 +5,8 @@ import {
     USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
     GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL,
     USER_UPDATE_SUCCESS,USER_UPDATE_FAIL,
-    GET_USER_SUCCESS
+    GET_USER_SUCCESS,
+    GET_USER_FAIL
 } from '../types';
 
 const collapse=(item)=>{
@@ -102,6 +103,8 @@ const accountReducer = (state = initialState, action) => {
         }
         case GET_USER_SUCCESS:
             return { ...state, userDetail: action.payload };
+        case GET_USER_FAIL:
+                return { ...state, userDetail: action.payload, isLoggedIn:false };
         case LOGIN: {
             const { userDetail } = action.payload;
             return {
@@ -153,7 +156,6 @@ const accountReducer = (state = initialState, action) => {
         case GET_USER_PROFILE_FAIL:
                     return { ...state };
         case SET_BUSSINESS_ACCOUNT:
-               console.log("SET_BUSSINESS_ACCOUNT", action)
               return { ...state, businessId:action.payload };
         default: {
             return { ...state };

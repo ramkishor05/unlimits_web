@@ -3,7 +3,7 @@ import {
     GET_USER_ROLES_SUCCESS,
     USER_ROLE_UPDATE_SUCCESS, USER_ROLE_UPDATE_FAIL,
     GET_USER_ROLE_PROFILE_SUCCESS, GET_USER_ROLE_PROFILE_FAIL,
-    OPEN_ADD_USER_ROLE_MODAL, OPEN_EDIT_USER_ROLE_MODAL, OPEN_DELETE_USER_ROLE_MODAL,USER_ROLE_TO_EDIT
+    OPEN_ADD_USER_ROLE_MODAL, OPEN_EDIT_USER_ROLE_MODAL, OPEN_DELETE_USER_ROLE_MODAL,USER_ROLE_TO_EDIT, SHOW_LOADER
 } from '../types';
 import UserRoleService from '../services/UserRoleService';
 
@@ -15,6 +15,7 @@ import UserRoleService from '../services/UserRoleService';
  * @param {Function} callBack
  */
 export const addUserRole = (data, callBack) => async dispatch => {
+    dispatch({ type: SHOW_LOADER });
     try {
         const user = await UserRoleService.add(data);
         if (user) {
@@ -35,6 +36,7 @@ export const addUserRole = (data, callBack) => async dispatch => {
  * @param {Function} callBack
  */
 export const updateUserRole = (id, data, callBack) => async dispatch => {
+    dispatch({ type: SHOW_LOADER });
     try {
         const user = await UserRoleService.update(id, data);
 
@@ -58,6 +60,7 @@ export const updateUserRole = (id, data, callBack) => async dispatch => {
  * @param {Function} callBack
  */
 export const deleteUserRole = (id, callBack) => async dispatch => {
+    dispatch({ type: SHOW_LOADER });
     try {
         const result = await UserRoleService.delete(id);
 
@@ -73,6 +76,7 @@ export const deleteUserRole = (id, callBack) => async dispatch => {
 
 // Action creator for getting all users.
 export const getUserRoleList = () => async dispatch => {
+    dispatch({ type: SHOW_LOADER });
     try {
         const users = await UserRoleService.getAll();
 

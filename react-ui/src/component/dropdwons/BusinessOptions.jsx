@@ -17,9 +17,12 @@ import FormControl from '@mui/material/FormControl';
 
 import Select from '@mui/material/Select';
 
-import { getVendorBusinessList } from '../../actions';
+import { getCustDashboardList, getCustProductList, getCustPurchaseList, getCustSaleList, getVendorBusinessList, getVendorCustomerList, getVendorEmployeeList, getVendorSupplierList, getVendorUserList } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_BUSSINESS_ACCOUNT } from '../../store/actions';
+import Loader from '../Loader';
+
+import { REMOVE_LOADER, SHOW_LOADER } from '../../types';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -98,12 +101,25 @@ const BusinessOptions= (props) =>  {
 
   const [value, setValue] = useState(account.businessId);
 
-  const onSeach =(event)=>{
-      console.log("========onSeach=====")
+  const onSeach = async (event)=>{
       setValue(event.target.value);
-      console.log("========onSeach=====",event.target.value)
       dispatch({ type: SET_BUSSINESS_ACCOUNT, payload: event.target.value});
-      console.log("userDetail",account)
+      dispatch(getCustDashboardList());
+      // vendors
+      dispatch(getVendorBusinessList());
+      dispatch(getVendorEmployeeList());
+      dispatch(getVendorCustomerList());
+      dispatch(getVendorSupplierList());
+      dispatch(getVendorUserList());
+
+      // order 
+      dispatch(getCustSaleList());
+      dispatch(getCustPurchaseList());
+
+      // items
+      await dispatch(getCustProductList());
+      
+
   }
 
   useEffect(()=>{
@@ -113,7 +129,7 @@ const BusinessOptions= (props) =>  {
 
   return (
     <React.Fragment>
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+            <Box sx={{ display: { xs: 'block', md: 'none' } }} fullwidth>
                 <PopupState variant="popper" popupId="demo-popup-popper">
                     {(popupState) => (
                         <React.Fragment>
@@ -144,7 +160,8 @@ const BusinessOptions= (props) =>  {
                                                    
                                                     {
                                                         vendorBusinessList.map((vendorBusiness, index)=>
-                                                        <MenuItem key={index} selected = {true} value={vendorBusiness.id}>{vendorBusiness.name}
+                                                        <MenuItem key={index} selected = {vendorBusiness.id===value} 
+                                                        value={vendorBusiness.id}> {vendorBusiness.name}+"="+{vendorBusiness.id===value}
                                                         </MenuItem>)
                                                     }
                                                     
@@ -162,12 +179,13 @@ const BusinessOptions= (props) =>  {
             </Box>
              <Select
                 value={value}
-                onChange={onSeach}
+                onChange={onSeach} sx={{width:'20%', padding:0, margin:0}}
               >
                 {
-                    vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
+                    vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={vendorBusiness.id===value} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
                 }
               </Select>
+              
         </React.Fragment>
   );
 }

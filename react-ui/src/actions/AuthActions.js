@@ -2,7 +2,8 @@ import {
      USERNAME_CHANGED, PASSWORD_CHANGED,
     LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS,
     SHOW_LOADER, REMOVE_LOADER,
-    GET_USER_SUCCESS
+    GET_USER_SUCCESS,
+    GET_USER_FAIL
 } from '../types';
 import AuthService from '../services/AuthService';
 export const usernameChanged = payload => ({type: USERNAME_CHANGED, payload});
@@ -23,8 +24,6 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
 
         const token = await AuthService.generateToken({ username, password });
         if (token) {
-            dispatch({ type: REMOVE_LOADER });
-
             localStorage.setItem(API_TOKEN, token);
 
             if (localStorage.getItem(API_TOKEN)) {
@@ -35,6 +34,7 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
                 }
             }
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         localStorage.removeItem(API_TOKEN);
         let msg=error.error? error.error.message: "";
@@ -66,8 +66,11 @@ export const getUser = (token, _clearCredentials) => async dispatch => {
 
         if (user) {
             dispatch({ type: GET_USER_SUCCESS, payload: user });
-            dispatch({ type: REMOVE_LOADER });
+        } else{
+            dispatch({ type: GET_USER_FAIL, payload: user });
+            localStorage.removeItem(API_TOKEN);
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         let msg=error.error? error.error.message: "";
         dispatch({ type: LOGIN_FAIL, payload: msg });

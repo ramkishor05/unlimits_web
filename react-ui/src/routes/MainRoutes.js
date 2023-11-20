@@ -23,11 +23,7 @@ import VendorSupplier from '../views/cust/Vendor/Supplier/VendorSupplier';
 import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
 import VendorEmployee from '../views/cust/Vendor/Employee/VendorEmployee';
 import VendorUser from '../views/cust/Vendor/Users/VendorUser';
-import menuItems from '../menu-items';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
-import PageNotFound from '../views/utilities/PageNotFound';
-
+import { useSelector } from 'react-redux';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
 

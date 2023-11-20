@@ -2,6 +2,9 @@ export const GET_USERS_SUCCESS = 'get_users_success';
 
 export const GET_USER_SUCCESS = 'get_user_success';
 
+export const GET_USER_FAIL = 'get_user_fail';
+
+
 export const USER_UPDATE_SUCCESS = 'user_update_success';
 
 export const USER_UPDATE_FAIL = 'user_update_fail';

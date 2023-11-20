@@ -1,8 +1,8 @@
 import { 
    GET_ALL_GLOBAL_CATEGERY_SUCCESS,
    GET_ALL_GLOBAL_CATEGERY_FAIL,
-   SHOW_GLOBAL_CATEGERY_LOADER,
-   REMOVE_GLOBAL_CATEGERY_LOADER,
+   SHOW_LOADER,
+   REMOVE_LOADER,
    ADD_GLOBAL_CATEGERY_SUCCESS,
    EDIT_GLOBAL_CATEGERY_SUCCESS,
    RENDER_GLOBAL_CATEGERY_TO_EDIT
@@ -11,32 +11,31 @@ import GlobalCategoryService from '../../services/GlobalCategoryService';
 
 // Action creator for getting all items --<
 export const getGlobalCategoryList = () => async dispatch => {
-    dispatch({ type: SHOW_GLOBAL_CATEGERY_LOADER });
-    console.log("coll globalCategoryList 1 ")
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const globalCategoryList = await GlobalCategoryService.getAll();
-        console.log("coll globalCategoryList 2")
         if (globalCategoryList) {
             dispatch({ type: GET_ALL_GLOBAL_CATEGERY_SUCCESS, payload: globalCategoryList });
-            dispatch({ type: REMOVE_GLOBAL_CATEGERY_LOADER });
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch(error) {
         dispatch({ type: GET_ALL_GLOBAL_CATEGERY_FAIL });
-        dispatch({ type: REMOVE_GLOBAL_CATEGERY_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }
 };
 
 // Action creator for adding item --<
 export const addGlobalCategory = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_GLOBAL_CATEGERY_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const globalCategory = await GlobalCategoryService.add(data);
 
         if (globalCategory) {
             dispatch({ type: ADD_GLOBAL_CATEGERY_SUCCESS });
-            dispatch({ type: REMOVE_GLOBAL_CATEGERY_LOADER });
         }
 
         refreshItemsList && refreshItemsList();
@@ -44,9 +43,10 @@ export const addGlobalCategory = (data, refreshItemsList, clear, successNotifica
         clear && clear();
 
         successNotification && successNotification();
-        
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_GLOBAL_CATEGERY_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         
         clear && clear();
 
@@ -62,41 +62,45 @@ export const renderGlobalCategoryToEdit = item => {
 };
 
 export const editGlobalCategory = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_GLOBAL_CATEGERY_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const globalCategory = await GlobalCategoryService.update(id, data);
 
         if (globalCategory) {
             dispatch({ type: EDIT_GLOBAL_CATEGERY_SUCCESS });
-            dispatch({ type: REMOVE_GLOBAL_CATEGERY_LOADER });
             
             successNotification && successNotification();
 
             clearAndRefresh && clearAndRefresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_GLOBAL_CATEGERY_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();
     }
 };
 
 export const updateGlobalCategory = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_GLOBAL_CATEGERY_LOADER });
 
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const globalCategory = await GlobalCategoryService.update(id, data);
 
         if (globalCategory) {
             dispatch({ type: EDIT_GLOBAL_CATEGERY_SUCCESS });
-            dispatch({ type: REMOVE_GLOBAL_CATEGERY_LOADER });
             
             successNotification && successNotification();
 
             clearAndRefresh && clearAndRefresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
-        dispatch({ type: REMOVE_GLOBAL_CATEGERY_LOADER });
+        dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();
     }
 };
@@ -104,11 +108,15 @@ export const updateGlobalCategory = (id, data, clearAndRefresh, successNotificat
 // Action creator for deleting football transaction from the system.
 export const deleteGlobalCategory = (id, refresh) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
+
         const deleted_global_category = await GlobalCategoryService.delete(id);
 
         if (deleted_global_category) {
             refresh && refresh();
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch (error) {
         console.log(error);
     }

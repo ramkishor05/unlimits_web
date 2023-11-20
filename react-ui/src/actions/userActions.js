@@ -3,7 +3,7 @@ import {
     GET_USERS_SUCCESS,
     USER_UPDATE_SUCCESS, USER_UPDATE_FAIL,
     GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL,
-    OPEN_ADD_USER_MODAL, OPEN_EDIT_USER_MODAL, OPEN_DELETE_USER_MODAL,USER_TO_EDIT
+    OPEN_ADD_USER_MODAL, OPEN_EDIT_USER_MODAL, OPEN_DELETE_USER_MODAL,USER_TO_EDIT, SHOW_LOADER, REMOVE_LOADER
 } from '../types';
 import UserService from '../services/UserService';
 
@@ -15,15 +15,19 @@ import UserService from '../services/UserService';
  * @param {Function} callBack
  */
 export const addUser = (data, callBack) => async dispatch => {
+    
     try {
+        dispatch({ type: SHOW_LOADER });
         const user = await UserService.add(data);
         if (user) {
             if (callBack) {
                 callBack();
             }
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
     }
 };
 
@@ -35,7 +39,9 @@ export const addUser = (data, callBack) => async dispatch => {
  * @param {Function} callBack
  */
 export const updateUser = (id, data, callBack) => async dispatch => {
+   
     try {
+        dispatch({ type: SHOW_LOADER });
         const user = await UserService.update(id, data);
 
         if (user) {
@@ -45,9 +51,11 @@ export const updateUser = (id, data, callBack) => async dispatch => {
                 callBack();
             }
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         dispatch({ type: USER_UPDATE_FAIL, payload: parseError(error) });
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
     }
 };
 
@@ -59,7 +67,9 @@ export const updateUser = (id, data, callBack) => async dispatch => {
  * @param {Function} callBack
  */
 export const updateUserProfile = (data, callBack) => async dispatch => {
+    
     try {
+        dispatch({ type: SHOW_LOADER });
         const user = await UserService.updateProfile(data);
 
         if (user) {
@@ -69,9 +79,11 @@ export const updateUserProfile = (data, callBack) => async dispatch => {
                 callBack();
             }
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: parseError(error) });
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
     }
 };
 
@@ -83,7 +95,9 @@ export const updateUserProfile = (data, callBack) => async dispatch => {
  * @param {Function} callBack
  */
 export const getUserProfile = (id, callBack) => async dispatch => {
+    
     try {
+        dispatch({ type: SHOW_LOADER });
         const userProfile = await UserService.getUserProfile(id);
 
         if (userProfile) {
@@ -93,9 +107,11 @@ export const getUserProfile = (id, callBack) => async dispatch => {
                 callBack();
             }
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         dispatch({ type: GET_USER_PROFILE_FAIL, payload: parseError(error) });
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
     }
 };
 
@@ -107,6 +123,7 @@ export const getUserProfile = (id, callBack) => async dispatch => {
  */
 export const deleteUser = (id, callBack) => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
         const result = await UserService.delete(id);
 
         if (result) {
@@ -114,21 +131,26 @@ export const deleteUser = (id, callBack) => async dispatch => {
                 callBack();
             }
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
     }
 };
 
 // Action creator for getting all users.
 export const getUsers = () => async dispatch => {
     try {
+        dispatch({ type: SHOW_LOADER });
         const users = await UserService.getAll();
 
         if (users) {
             dispatch({ type: GET_USERS_SUCCESS, payload: users });
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         console.log(error);
+        dispatch({ type: REMOVE_LOADER });
     }
 };
 
