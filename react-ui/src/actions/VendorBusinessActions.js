@@ -9,6 +9,8 @@ import VendorAppService from '../services/VendorAppService';
 
 const ITEM_APP_URL='http://localhost:4444/api/cust/app';
 
+const CRM_APP_URL='http://localhost:3333/api/cust/app';
+
 // Action creator for getting all VendorBusinessServices --<
 export const getVendorBusinessList = () => async dispatch => {
     
@@ -40,7 +42,8 @@ export const addVendorBusiness = (data, refreshVendorBusinessList, clear, succes
                 businessId: vendorBusiness.id,
                 appId: 1
             }
-            await VendorAppService.add(ITEM_APP_URL,data)
+            VendorAppService.add(ITEM_APP_URL,data);
+            VendorAppService.add(CRM_APP_URL,data);
         }
 
         refreshVendorBusinessList && refreshVendorBusinessList();
@@ -78,7 +81,8 @@ export const editVendorBusiness = (id, data, clearAndRefresh, successNotificatio
                 businessId: vendorBusiness.id,
                 appId: 1
             }
-            await VendorAppService.add(ITEM_APP_URL,data)
+            VendorAppService.add(ITEM_APP_URL,data);
+            VendorAppService.add(CRM_APP_URL,data);
             
             successNotification && successNotification();
 
