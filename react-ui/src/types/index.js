@@ -2,6 +2,8 @@ export * from './LoaderActionTypes';
 
 export * from './UserActionTypes';
 
+export * from './UserMenuActionTypes';
+
 export * from './UserRoleActionTypes';
 
 

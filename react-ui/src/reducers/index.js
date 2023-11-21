@@ -36,6 +36,7 @@ import VendorEmployeeReducer from './VendorEmployeeReducer';
 import VendorUserReducer from './VendorUserReducer';
 import UserRoleReducer from './UserRoleReducer';
 import LoaderReducer from './LoaderReducer';
+import UserMenuReducer from './UserMenuReducer';
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
 
@@ -51,6 +52,7 @@ const reducer = combineReducers({
     ),
     userReducer: UserReducer,
     userRoleReducer: UserRoleReducer,
+    userMenuReducer: UserMenuReducer,
     customization: CustomizationReducer,
 
     vendorReducer: VendorReducer,
