@@ -1,7 +1,7 @@
 // assets
 import { IconBrandFramer, IconDashboard, IconDeviceAnalytics, IconLayoutGridAdd, IconPalette, IconShadow, IconTypography, IconWindmill } from '@tabler/icons';
-import { IconBrandChrome, IconHelp, IconSitemap } from '@tabler/icons';
-import { IconKey, IconReceipt2, IconBug, IconBellRinging, IconPhoneCall, IconUsers, IconAB } from '@tabler/icons';
+import { IconBrandChrome, IconHelp, IconSitemap, IconBrandDaysCounter, IconBrandUnity, IconBuildingCommunity, IconCurrency} from '@tabler/icons';
+import { IconKey, IconReceipt2, IconBug, IconBellRinging, IconPhoneCall, IconUsers,IconAccessible,IconUserPlus, IconBusinessplan, IconActivity,IconBuildingArch, IconBuildingStore, IconAB } from '@tabler/icons';
 import CategoryIcon from '@mui/icons-material/Category';
 import DescriptionIcon from '@mui/icons-material/Description';
 export const IconMapper = {
@@ -24,18 +24,18 @@ export const IconMapper = {
     Orders:IconLayoutGridAdd,
     CategoryList: CategoryIcon,
     Products: DescriptionIcon,
-    Customer: IconAB,
-    CurrencyList: IconAB,
-    UnitList: IconAB,
-    Supplier: IconAB,
-    CategoryGroup: IconAB,
+    Customer: IconUserPlus,
+    CurrencyList: IconCurrency,
+    UnitList: IconBuildingCommunity,
+    Supplier: IconActivity,
+    CategoryGroup: CategoryIcon,
     UserProfile: IconAB,
-    Employee: IconAB,
-    CountFreq: IconAB,
-    UnitGroup: IconAB,
+    Employee: IconAccessible,
+    CountFreq: IconBrandDaysCounter,
+    UnitGroup: IconBrandUnity,
     Users:IconUsers,
-    Purchase: IconAB,
-    Sales: IconAB,
-    CurrencyGroup: IconAB,
-    Business: IconAB
+    Purchase: IconBuildingStore,
+    Sales: IconBuildingArch,
+    CurrencyGroup: IconCurrency,
+    Business: IconBusinessplan
 };

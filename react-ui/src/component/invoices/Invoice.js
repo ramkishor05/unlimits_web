@@ -5,6 +5,7 @@ import ReactToPrint from 'react-to-print';
 import ReactPDF, { PDFViewer } from '@react-pdf/renderer';
 import PdfInvoice from "./PdfInvoice";
 import html2pdf from "html2pdf.js";
+import { red } from "@material-ui/core/colors";
 
 
 const Invoice = (props)=>{
@@ -25,7 +26,6 @@ const Invoice = (props)=>{
       }
     
    const print=() =>{
-       console.log(renderToStaticMarkup(main()))
         var pri = document.getElementById('ifmcontentstoprint').contentWindow;
         pri.document.open();
         pri.document.write(`<div>${renderToStaticMarkup(main())}</div>`);
@@ -38,9 +38,9 @@ const Invoice = (props)=>{
         const printElement = renderToStaticMarkup(main());
         var opt = {
             margin:       1,
-            filename:     'myfile.pdf',
+            filename:     "INVOICE_"+invoice.idenNo+'.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
+            html2canvas:  { scale: 1 },
             jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
           };
         html2pdf().from(printElement).set(opt).save();
@@ -50,7 +50,7 @@ const Invoice = (props)=>{
         return <Box >
         <Grid container spacing={2}>
             <Grid item xs={6} xl={6} sx={6}>
-                <Typography variant="h4" gutterBottom align="left">
+                <Typography variant="p" gutterBottom align="left">
                 <p>
                     {invoice.from.name}
                     </p>
@@ -63,7 +63,7 @@ const Invoice = (props)=>{
                 </Typography>
             </Grid>
             <Grid item xs={6} xl={6} sx={6} align='right'>
-                <Typography variant="h4" gutterBottom align="right">
+                <Typography variant="p" gutterBottom align="right">
                     <p>
                         Invoice No : {invoice.idenNo}
                     </p>
@@ -74,21 +74,21 @@ const Invoice = (props)=>{
                 </Typography>
             </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} >
             <Grid item xs={6} xl={6} sx={12}>
-            <Typography variant="h4" gutterBottom align="left">
-                <p>Bill To </p>
-                <p>{invoice.to.name}</p>
-                <p>{invoice.to.address }</p>
-                <p>{invoice.to.phone } </p>
-                </Typography>
+                <div align="left" style={{border:1, borderStyle:'groove', padding:10}}>
+                    <p>Bill To </p>
+                    <p>{invoice.to.name}</p>
+                    <p>{invoice.to.address }</p>
+                    <p >{invoice.to.phone } </p>
+                </div>
             </Grid>
             <Grid item xs={6} xl={6} sx={12}>
-                <Typography variant="h4" gutterBottom align="right">
+                <div align="right" style={{border:1, borderStyle:'groove', padding:10, marginBottom:5}}>
                     <p>Payment # </p>
                     <p>Total Amount: {invoice.payment.amount}</p>
-                    <p>Status : {invoice.payment.status }</p>
-                </Typography>
+                    <p style={{fontVariant:'all-petite-caps', fontStyle:900, color: 'red'}}><b>Payment Status : {invoice.payment.status }</b></p>
+                </div>
             </Grid>
         </Grid>
         <Grid container spacing={2}>
