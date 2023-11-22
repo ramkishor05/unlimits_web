@@ -24,6 +24,7 @@ import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
 import VendorEmployee from '../views/cust/Vendor/Employee/VendorEmployee';
 import VendorUser from '../views/cust/Vendor/Users/VendorUser';
 import { useSelector } from 'react-redux';
+import MainPage from '../views/cust/MainPage';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
 
@@ -40,18 +41,29 @@ const UtilsTablerIcons = Loadable(lazy(() => import('../views/utilities/TablerIc
 const MainRoutes = () => {
     const location = useLocation();
     const accountReducer = useSelector((state) => state.account);
+    const userMenuReducer = useSelector((state) => state.userMenuReducer);
     let paths=[];
     const userRole = accountReducer?.userDetail?.userRole;
     if(userRole && accountReducer.userDetail){
         paths=accountReducer.paths(userRole)
     }
+
+    const findMenu=(url)=>{
+        return userMenuReducer.menuGroups.find(menuGroup=>menuGroup.url===url)
+    }
+
     return (
         <Route
-            path={[...paths]}
+            path={[...paths,"/cust/orders","/cust/vendor","/cust/dashboard","/cust/setups"]}
         >
             <MainLayout>
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
+                        <Route path="/cust/orders" render={(props) => <MainPage menuGroup={findMenu('/cust/orders')} {...props}></MainPage>} />
+                        <Route path="/cust/vendor" render={(props) => <MainPage menuGroup={findMenu('/cust/vendor')} {...props}></MainPage>} />
+                        <Route path="/cust/dashboard" render={(props) => <MainPage menuGroup={findMenu('/cust/dashboard')} {...props}></MainPage>} />
+                        <Route path="/cust/setups" render={(props) => <MainPage menuGroup={findMenu('/cust/setups')} {...props}></MainPage>} />
+
                         <Route path="/dashboard/default" component={DashboardDefault} />
                         <Route path="/cust/sales" component={CustSalePage} />
                         <Route path="/cust/purchase" component={CustPurchasePage} />

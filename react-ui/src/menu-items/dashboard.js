@@ -1,11 +1,5 @@
 // assets
-import { IconDashboard, IconDeviceAnalytics } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconDashboard: IconDashboard,
-    IconDeviceAnalytics
-};
+import { IconMapper } from '../constants/IconMapper';
 
 //-----------------------|| DASHBOARD MENU ITEMS ||-----------------------//
 
@@ -19,7 +13,7 @@ export const dashboard = {
             title: 'Dashboard',
             type: 'item',
             url: '/dashboard/default',
-            icon: icons['IconDashboard'],
+            icon: IconMapper['Dashboard'],
             breadcrumbs: false
         }
     ]

@@ -1,12 +1,5 @@
 // assets
-import { IconBrandChrome, IconHelp, IconSitemap } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconBrandChrome: IconBrandChrome,
-    IconHelp: IconHelp,
-    IconSitemap: IconSitemap
-};
+import { IconMapper } from '../constants/IconMapper';
 
 //-----------------------|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||-----------------------//
 
@@ -15,14 +8,14 @@ export const vendor = {
     title: 'vendor',
     type: 'group',
     url: '/vendor',
-    icon: icons['IconBrandChrome'],
+    icon: IconMapper['BrandChrome'],
     children: [
         {
             id: 'vendor-business',
             title: 'Business',
             type: 'item',
             url: '/vendor/business',
-            icon: icons['IconBrandChrome'],
+            icon: IconMapper['BrandChrome'],
             breadcrumbs: false
         },
         {
@@ -30,7 +23,7 @@ export const vendor = {
             title: 'Customer',
             type: 'item',
             url: '/vendor/customer',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         },
         {
@@ -38,7 +31,7 @@ export const vendor = {
             title: 'Supplier',
             type: 'item',
             url: '/vendor/supplier',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         },
         {
@@ -46,7 +39,7 @@ export const vendor = {
             title: 'Employee',
             type: 'item',
             url: '/vendor/employee',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         },
         {
@@ -54,7 +47,7 @@ export const vendor = {
             title: 'Users',
             type: 'item',
             url: '/vendor/users',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         }
     ]

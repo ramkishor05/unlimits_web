@@ -63,11 +63,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
             </div>
             
             {/* header search */}
-            
-            
             <div className={classes.grow} />
             <SearchSection theme="light" />
-            
             <div className={classes.grow} />
             <BusinessOptions theme="light" />
 

@@ -13,6 +13,7 @@ import { MENU_OPEN, SET_MENU } from '../../../../../store/actions';
 
 // assets
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { IconMapper } from '../../../../../constants/IconMapper';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -53,8 +54,8 @@ const NavItem = ({ item, level }) => {
     const customization = useSelector((state) => state.customization);
     const matchesSM = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-    const Icon = item.icon;
-    const itemIcon = item.icon ? (
+    const Icon = IconMapper[item.icon];
+    const itemIcon = IconMapper[item.icon] ? (
         <Icon stroke={1.5} size="1.3rem" className={classes.listCustomIcon} />
     ) : (
         <FiberManualRecordIcon

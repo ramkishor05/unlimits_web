@@ -287,7 +287,13 @@ const Logo = (props) => {
           />
         </g>
       </svg>
-      <Typography sx={{fontFamily:'unset', fontSize:'15'}}>
+      <Typography sx={{    
+                    margin: '15px',
+                    fontWeight: 900,
+                    lineHeight: '1.334em',
+                    fontFamily: 'Roboto,sans-serif, unset',
+                    fontSize: 18,
+                    color: 'blueviolet'}}>
         Point Of Sale
       </Typography>
       </>

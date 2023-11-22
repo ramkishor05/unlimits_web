@@ -69,16 +69,16 @@ const useStyles = makeStyles((theme) => ({
       }
   },
   popperContainer: {
-      zIndex: 1100,
+      zIndex: 100,
       width: '99%',
-      top: '-55px !important',
-      padding: '0 12px',
+      top: '55px !important',
+      padding: '0px',
       [theme.breakpoints.down('sm')]: {
-          padding: '0 10px'
+          padding: '0px'
       }
   },
   cardContent: {
-      padding: '12px !important'
+      padding: '1px !important'
   },
   card: {
       background: '#fff',
@@ -117,7 +117,7 @@ const BusinessOptions= (props) =>  {
       dispatch(getCustPurchaseList());
 
       // items
-      await dispatch(getCustProductList());
+      dispatch(getCustProductList());
       
 
   }
@@ -128,65 +128,14 @@ const BusinessOptions= (props) =>  {
 
 
   return (
-    <React.Fragment>
-            <Box sx={{ display: { xs: 'block', md: 'none' } }} fullwidth>
-                <PopupState variant="popper" popupId="demo-popup-popper">
-                    {(popupState) => (
-                        <React.Fragment>
-                            <Box
-                                sx={{
-                                    ml: 2
-                                }}
-                            >
-                                <ButtonBase sx={{ borderRadius: '12px' }}>
-                                    <Avatar variant="rounded" className={classes.headerAvatar} {...bindToggle(popupState)}>
-                                        <IconSearch stroke={1.5} size="1.2rem" />
-                                    </Avatar>
-                                </ButtonBase>
-                            </Box>
-                            <Popper {...bindPopper(popupState)} transition className={classes.popperContainer}>
-                                {({ TransitionProps }) => (
-                                    <Transitions type="zoom" {...TransitionProps} sx={{ transformOrigin: 'center left' }}>
-                                        <Card className={classes.card}>
-                                            <CardContent className={classes.cardContent}>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item xs>
-                                                    <Select
-                                                    value={value}
-                                                    onChange={onSeach}
-                                                    displayEmpty
-                                                    inputProps={{ 'aria-label': 'Without label' }}
-                                                  >
-                                                   
-                                                    {
-                                                        vendorBusinessList.map((vendorBusiness, index)=>
-                                                        <MenuItem key={index} selected = {vendorBusiness.id===value} 
-                                                        value={vendorBusiness.id}> {vendorBusiness.name}+"="+{vendorBusiness.id===value}
-                                                        </MenuItem>)
-                                                    }
-                                                    
-                                                  </Select>
-                                                    </Grid>
-                                                </Grid>
-                                            </CardContent>
-                                        </Card>
-                                    </Transitions>
-                                )}
-                            </Popper>
-                        </React.Fragment>
-                    )}
-                </PopupState>
-            </Box>
-             <Select
-                value={value}
-                onChange={onSeach} sx={{width:'20%', padding:0, margin:0}}
-              >
-                {
-                    vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={vendorBusiness.id===value} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
-                }
-              </Select>
-              
-        </React.Fragment>
+    <Select variant='standard'
+    value={value}
+    onChange={onSeach} sx={{width: '20%', borderStyle:'hidden'}}
+  >
+    {
+        vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={vendorBusiness.id===value} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
+    }
+  </Select>
   );
 }
 

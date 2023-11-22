@@ -1,12 +1,5 @@
-// assets
-import { IconBrandChrome, IconHelp, IconSitemap } from '@tabler/icons';
+import { IconMapper } from "../constants/IconMapper";
 
-// constant
-const icons = {
-    IconBrandChrome: IconBrandChrome,
-    IconHelp: IconHelp,
-    IconSitemap: IconSitemap
-};
 
 //-----------------------|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||-----------------------//
 
@@ -19,7 +12,7 @@ export const other = {
             title: 'User profile',
             type: 'item',
             url: '/user/profile',
-            icon: icons['IconBrandChrome'],
+            icon: IconMapper['BrandChrome'],
             breadcrumbs: false
         },
         {
@@ -27,7 +20,7 @@ export const other = {
             title: 'Documentation',
             type: 'item',
             url: 'https://docs.appseed.us/products/react/node-js-berry-dashboard',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             external: true,
             target: true
         }

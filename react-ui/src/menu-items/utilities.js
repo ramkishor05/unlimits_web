@@ -1,16 +1,5 @@
 // assets
-import { IconBrandFramer, IconTypography, IconPalette, IconShadow, IconWindmill, IconLayoutGridAdd } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconTypography: IconTypography,
-    IconPalette: IconPalette,
-    IconShadow: IconShadow,
-    IconWindmill: IconWindmill,
-    IconBrandFramer: IconBrandFramer,
-    IconLayoutGridAdd: IconLayoutGridAdd
-};
-
+import { IconMapper } from '../constants/IconMapper';
 //-----------------------|| UTILITIES MENU ITEMS ||-----------------------//
 
 export const utilities = {
@@ -23,7 +12,7 @@ export const utilities = {
             title: 'Typography',
             type: 'item',
             url: '/utils/util-typography',
-            icon: icons['IconTypography'],
+            icon: IconMapper['Typography'],
             breadcrumbs: false
         },
         {
@@ -31,7 +20,7 @@ export const utilities = {
             title: 'Color',
             type: 'item',
             url: '/utils/util-color',
-            icon: icons['IconPalette'],
+            icon: IconMapper['Palette'],
             breadcrumbs: false
         },
         {
@@ -39,14 +28,14 @@ export const utilities = {
             title: 'Shadow',
             type: 'item',
             url: '/utils/util-shadow',
-            icon: icons['IconShadow'],
+            icon: IconMapper['Shadow'],
             breadcrumbs: false
         },
         {
             id: 'icons',
-            title: 'Icons',
+            title: 's',
             type: 'collapse',
-            icon: icons['IconWindmill'],
+            icon: IconMapper['Windmill'],
             children: [
                 {
                     id: 'tabler-icons',

@@ -1,13 +1,5 @@
 // assets
-import { IconBrandChrome, IconHelp, IconSitemap } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconBrandChrome: IconBrandChrome,
-    IconHelp: IconHelp,
-    IconSitemap: IconSitemap
-};
-
+import { IconMapper } from "../constants/IconMapper";
 //-----------------------|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||-----------------------//
 
 export const items = {
@@ -20,7 +12,7 @@ export const items = {
             title: 'Products',
             type: 'item',
             url: '/cust/products',
-            icon: icons['IconBrandChrome'],
+            icon: IconMapper['BrandChrome'],
             breadcrumbs: false
         }
     ]

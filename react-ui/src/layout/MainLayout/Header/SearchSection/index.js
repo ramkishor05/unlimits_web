@@ -60,14 +60,14 @@ const useStyles = makeStyles((theme) => ({
     popperContainer: {
         zIndex: 1100,
         width: '99%',
-        top: '-55px !important',
-        padding: '0 12px',
+        top: '5px !important',
+        padding: '0px',
         [theme.breakpoints.down('sm')]: {
-            padding: '0 10px'
+            padding: '0px'
         }
     },
     cardContent: {
-        padding: '12px !important'
+        padding: '0px !important'
     },
     card: {
         background: '#fff',
@@ -100,12 +100,12 @@ const SearchSection = (props) => {
                         <React.Fragment>
                             <Box
                                 sx={{
-                                    ml: 2
+                                    ml: 1
                                 }}
                             >
-                                <ButtonBase sx={{ borderRadius: '12px' }}>
+                                <ButtonBase sx={{ borderRadius: '2px' }}>
                                     <Avatar variant="rounded" className={classes.headerAvatar} {...bindToggle(popupState)}>
-                                        <IconSearch stroke={1.5} size="1.2rem" />
+                                        <IconSearch stroke={2.5} size="1.2rem" />
                                     </Avatar>
                                 </ButtonBase>
                             </Box>
@@ -125,7 +125,7 @@ const SearchSection = (props) => {
                                                             startAdornment={
                                                                 <InputAdornment position="start">
                                                                     <IconSearch
-                                                                        stroke={1.5}
+                                                                        stroke={2.5}
                                                                         size="1rem"
                                                                         className={classes.startAdornment}
                                                                     />
@@ -133,7 +133,7 @@ const SearchSection = (props) => {
                                                             }
                                                             endAdornment={
                                                                 <InputAdornment position="end">
-                                                                    <ButtonBase sx={{ borderRadius: '12px' }}>
+                                                                    <ButtonBase sx={{ borderRadius: '2px' }}>
                                                                         <Avatar variant="rounded" className={classes.headerAvatar}>
                                                                             <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
                                                                         </Avatar>
@@ -149,7 +149,7 @@ const SearchSection = (props) => {
                                                                                 className={classes.closeAvatar}
                                                                                 {...bindToggle(popupState)}
                                                                             >
-                                                                                <IconX stroke={1.5} size="1.3rem" />
+                                                                                <IconX stroke={2.5} size="1.3rem" />
                                                                             </Avatar>
                                                                         </ButtonBase>
                                                                     </Box>
@@ -180,14 +180,14 @@ const SearchSection = (props) => {
                     placeholder="Search"
                     startAdornment={
                         <InputAdornment position="start">
-                            <IconSearch stroke={1.5} size="1rem" className={classes.startAdornment} />
+                            <IconSearch stroke={2.5} size="1rem" className={classes.startAdornment} />
                         </InputAdornment>
                     }
                     endAdornment={
                         <InputAdornment position="end">
-                            <ButtonBase sx={{ borderRadius: '12px' }}>
+                            <ButtonBase sx={{ borderRadius: '2px' }}>
                                 <Avatar variant="rounded" className={classes.headerAvatar}>
-                                    <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
+                                    <IconAdjustmentsHorizontal stroke={3.5} size="2.3rem" />
                                 </Avatar>
                             </ButtonBase>
                         </InputAdornment>

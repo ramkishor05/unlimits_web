@@ -1,12 +1,5 @@
 // assets
-import { IconBrandChrome, IconHelp, IconSitemap } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconBrandChrome: IconBrandChrome,
-    IconHelp: IconHelp,
-    IconSitemap: IconSitemap
-};
+import { IconMapper } from '../constants/IconMapper';
 
 //-----------------------|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||-----------------------//
 
@@ -20,7 +13,7 @@ export const setups = {
             title: 'Category Group',
             type: 'item',
             url: '/category/group',
-            icon: icons['IconBrandChrome'],
+            icon: IconMapper['BrandChrome'],
             breadcrumbs: false
         },
         {
@@ -28,7 +21,7 @@ export const setups = {
             title: 'Category List',
             type: 'item',
             url: '/category/list',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         },
         {
@@ -36,7 +29,7 @@ export const setups = {
             title: 'Unit Group',
             type: 'item',
             url: '/unit/group',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         },
         {
@@ -44,7 +37,7 @@ export const setups = {
             title: 'Unit List',
             type: 'item',
             url: '/unit/list',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         },
         {
@@ -52,7 +45,7 @@ export const setups = {
             title: 'Currency Group',
             type: 'item',
             url: '/currency/group',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         },
         {
@@ -60,7 +53,7 @@ export const setups = {
             title: 'Currency List',
             type: 'item',
             url: '/currency/list',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         },
         {
@@ -68,7 +61,7 @@ export const setups = {
             title: 'Count Freq',
             type: 'item',
             url: '/count/freq',
-            icon: icons['IconHelp'],
+            icon: IconMapper['Help'],
             breadcrumbs: false
         }
     ]
