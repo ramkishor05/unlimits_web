@@ -1,4 +1,4 @@
-import { Divider, Grid } from "@material-ui/core";
+import { Divider, Grid, TableRow } from "@material-ui/core";
 import MainCard from "../../../../component/cards/MainCard";
 import UserProfile from "../../../profile/UserProfile";
 import UserAccount from "../../../profile/UserAccount";
@@ -6,6 +6,7 @@ import OwnerAccount from "../../../profile/OwnerAccount";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { getCustPurchaseListBySupplier } from "../../../../actions";
+import { Table, TableBody, TableCell, TableHead } from "@mui/material";
 
 class VendorSupplierDetail extends Component {
    
@@ -20,7 +21,7 @@ class VendorSupplierDetail extends Component {
     render() {
         return (
             <MainCard title="Supplier Detail">
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                     <Grid item sx={4} md={4}>
                         Name : {this.props.supplier.name}
                     </Grid>
@@ -41,17 +42,48 @@ class VendorSupplierDetail extends Component {
                        Present Address : {this.props.supplier.presentAddress}
                     </Grid>
                 </Grid>
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                     <Grid item sx={12} md={12}>
+                        Transations
                     </Grid>
-                </Grid>   
-                {
+                </Grid>  
+                <Grid container spacing={1} style={{border:1, borderStyle: "groove"}}>
+                    <Grid item sx={4} md={4}>
+                        Entties
+                    </Grid>
+                    <Grid item sx={4} md={4}>
+                        You Give
+                    </Grid>
+                    <Grid item sx={4} md={4}>
+                        You Got
+                    </Grid>
+                </Grid>
+                    {
                     this.props.custPurchaseList.map(custPurchase=>
-                        <Grid item sx={12} md={12}>
-                             {custPurchase.idenNo}
+                        <Grid container spacing={2} style={{border:1, borderStyle: "groove"}}>
+                            <Grid item sx={4} md={4}>
+                                <Grid container spacing={2}>
+                                    <Grid item sx={12} md={12}>
+                                        {custPurchase.purchaseDate}
+                                    </Grid>
+                                    <Grid item sx={12} md={12}>
+                                        {custPurchase.totalPrice}
+                                    </Grid>
+                                    <Grid item sx={12} md={12}>
+                                        Purchase
+                                    </Grid>
+                                </Grid>  
+                            </Grid>
+                            <Grid item sx={4} md={4}>
+
+                            </Grid>
+                            <Grid item sx={4} md={4}>
+
+                            </Grid>
                         </Grid>
-                    )
-                }
+                     )
+                    }
+                
             </MainCard>
         );
     }

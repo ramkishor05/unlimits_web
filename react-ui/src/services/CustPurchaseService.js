@@ -12,7 +12,7 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     }, 
-    getAll(supplierId) {
+    getAllBySupplier(supplierId) {
         return axios.get(CUST_PURCHASE_URL+`/supplier/${supplierId}`,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));

@@ -30,7 +30,7 @@ export const getCustPurchaseListBySupplier = (supplierId) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        let purchases = await CustPurchaseService.getAll(supplierId);
+        let purchases = await CustPurchaseService.getAllBySupplier(supplierId);
 
         if (purchases) {
             dispatch({ type: GET_ALL_PURCHASES_SUCCESS, payload: purchases });
