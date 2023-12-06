@@ -1,167 +1,200 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Button, IconButton, DeleteIcon } from 'material-ui';
-import { AddAlert } from 'material-ui-icons';
-
-import SaveVendorModal from './Modals/addVendorModal';
-import EditVendorModal from './Modals/EditVendorModal';
-import UpdateVendorModal from './Modals/UpdateVendorModal';
-
-import { RegularCard, VendorTable, ItemGrid, Snackbar } from 'components';
-
-import Loader from 'Loader';
-
 import { getVendorList, addVendor } from '../../../actions';
+import MainCard from '../../../component/cards/MainCard';
+import DynamicTable from '../../../component/table/DynamicTable';
+import DynamicModel from '../../../component/model/DynamicModel';
+import { Button, Fab, Grid, TableCell } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import PreviewIcon from '@mui/icons-material/Preview';
+
+const tableheaders = [
+    {
+        name: "name",
+        label: "Name",
+        type: 'text'
+    },
+    {
+        name: "emailAddress",
+        label: "Email address",
+        type: 'email'
+    },
+    {
+        name: "phoneNumber",
+        label: "Phone number",
+        type: 'text'
+    },
+    {
+        name: "mobileNumber",
+        label: "mobileNumber",
+        type: 'text'
+    },
+    {
+        name: "permamentAddress",
+        label: "Permament address",
+        type: 'text'
+    },
+    {
+        name: "presentAddress",
+        label: "Present Address",
+        type: 'text'
+    },
+    {
+        name: "actions",
+        label: "Actions",
+        render: (value, row, rowIndex, header, props)=>{
+            return <TableCell key={header.name+'_'+rowIndex} align='right'>
+                        <Fab color="secondary" aria-label="Edit"  onClick={() => props.editAction(row)}>
+                        <EditIcon/>
+                    </Fab>
+                    <Fab color="secondary" aria-label="Delete"  onClick={() => props.deleteAction(row)} >
+                        <DeleteIcon />
+                    </Fab>
+                    <Fab color="secondary" aria-label="View"  onClick={() => props.previewAction(row)} >
+                        <PreviewIcon />
+                    </Fab>
+                </TableCell>
+        }
+    }
+];
+
+const modelheaders = [
+    {
+        name: "name",
+        label: "Name",
+        type: 'text'
+    },
+    {
+        name: "emailAddress",
+        label: "Email address",
+        type: 'email'
+    },
+    {
+        name: "phoneNumber",
+        label: "Phone number",
+        type: 'text'
+    },
+    {
+        name: "mobileNumber",
+        label: "mobileNumber",
+        type: 'text'
+    },
+    {
+        name: "permamentAddress",
+        label: "Permament address",
+        type: 'text'
+    },
+    {
+        name: "presentAddress",
+        label: "Present Address",
+        type: 'text'
+    }
+];
 
 class Vendors extends Component {
     state = {
-        notificationGroup: 'add',
-        showAddVendorModal: false,
-        showEditVendorModal: false,
-        showUpdateVendorModal: false,
-        tr: false,
-        tc: false,
+        saveModel: false,
+        deleteModel: false,
+        dataObject: {},
+        viewModel: false,
+        title: "",
+        type: ""
     };
+
+    
+    _edit = row => {
+        this.setState({ dataObject: row, title:"Edit supplier", type:"Edit", saveModel: true  });
+     }
+ 
+     _preview = row => {
+         this.setState({ dataObject: row, title:"View supplier", type:"View", viewModel: true  });
+      }
+ 
+     _add = () => {
+        this.setState({ dataObject: {}, title:"Add supplier", type:"Add", saveModel: true  });
+     }
+ 
+     _delete = row => {
+         this.setState({ dataObject: row, title:"Delete supplier", type:"Delete", deleteModel: true  });
+     };
+     
+      saveObject = (type, row) => {
+         console.log(type+"=",row)
+         if(type=='Add')
+             this.props.addVendorSupplier(row, this.clearAndRefresh)
+         if(type=='Edit')
+             this.props.editVendorSupplier(row.id,row, this.clearAndRefresh)
+         if(type=='Delete')
+             this.props.deleteVendorSupplier(row.id, this.clearAndRefresh)
+ 
+     };
+ 
+     clearAndRefresh = () => {
+         this.props.getVendorSupplierList();
+         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+     }
 
     componentDidMount() {
         this.props.getVendorList();
     }
 
-    // Check if the user is super admin.
-    isSuperAdmin = () => {
-        return true; //this.props.user.role.name === 'super_admin';
-    };
-
-    tableHead = () => {
-        return this.isSuperAdmin()
-            ? ['Logo','Name','Phone number', 'Mobile number', 'Email address', 
-            'Create Dt','Updated Dt', 'Actions']
-            : ['Logo','Name','Phone number', 'Mobile number', 'Email address', 
-            'Created Dt','Updated Dt', 'Actions']
-    };
-
-    showNotification(place) {
-        var x = [];
-        x[place] = true;
-        this.setState(x);
-
-        setTimeout(function() {
-            x[place] = false;
-            this.setState(x);
-        }.bind(this), 3000);
-    }
-
-    notificationMessage = type => {
-        if (type === 'success') {
-            if (this.state.notificationGroup === 'add') {
-                return 'Vendor added successfully';
-            } else if (this.state.notificationGroup === 'edit') {
-                return 'Vendor edited successfully';
-            } else {
-                return 'Vendor updated successfully';
-            }
-        } else if (type === 'error') {
-            if (this.state.notificationGroup === 'edit') {
-                return 'Error vendor could not be edited';
-            } else if (this.state.notificationGroup === 'add') {
-                return 'Error vendor could not be added';
-            } else {
-                return 'Error vendor could not be updated';
-            }
-        }
-    };
-
     render() {
         return (
             <div>
                 <Grid container>
-                    <ItemGrid xs={12} sm={12} md={12}>
-                        <RegularCard
+                    <Grid xs={12} sm={12} md={12}>
+                        <MainCard
                             padIt
                             cardTitle="Vendors"
                             cardSubtitle="This is a list of all vendor in the system"
                             button={
-                                this.isSuperAdmin() && (
                                     <Button
                                         style={ styles.addVendorButton }
                                         onClick={() => this.setState({ showAddVendorModal: true, notificationGroup: 'add' })}>ADD</Button>
-                                )
+                            
                             }
-                            content={
-                                <VendorTable
-                                    tableHeaderColor="primary"
-                                    tableHead={this.tableHead()}
-                                    tableData={this.props.vendorList}
-                                    editVendor={() => this.setState({ showEditVendorModal: true, notificationGroup: 'edit' })}
-                                    updateVendor={() => this.setState({ showUpdateVendorModal: true, notificationGroup: 'update' })}
-                                />
-                            }
-                        />
-                    </ItemGrid>
+                        > <DynamicTable 
+                        headers={tableheaders} 
+                        dataList={this.props.vendorList}
+                        deleteAction = {this._delete}
+                        editAction = {this._edit}
+                        previewAction={this._preview}
+                        ></DynamicTable>
+                        </MainCard>
+                    </Grid>
                 </Grid>
 
                 <Grid container justify='center'>
-                    <ItemGrid xs={12} sm={12} md={10} lg={8}>
+                    <Grid xs={12} sm={12} md={10} lg={8}>
                         <Grid container>
-                            <ItemGrid xs={12} sm={12} md={4}>
-                                <Snackbar
-                                    place="tr"
-                                    color="success"
-                                    icon={AddAlert}
-                                    message={this.notificationMessage('success')}
-                                    open={this.state.tr}
-                                    closeNotification={() => this.setState({'tr': false})}
-                                    close
-                                />
-                            </ItemGrid>
+                            <Grid xs={12} sm={12} md={4}>
+                                
+                            </Grid>
                         </Grid>
-                    </ItemGrid>
+                    </Grid>
                 </Grid>
 
                 <Grid container justify='center'>
-                    <ItemGrid xs={12} sm={12} md={10} lg={8}>
+                    <Grid xs={12} sm={12} md={10} lg={8}>
                         <Grid container>
-                            <ItemGrid xs={12} sm={12} md={4}>
-                                <Snackbar
-                                    place="tc"
-                                    color="danger"
-                                    icon={AddAlert}
-                                    message={this.notificationMessage('error')}
-                                    open={this.state.tc}
-                                    closeNotification={() => this.setState({'tc': false})}
-                                    close
-                                />
-                            </ItemGrid>
+                            <Grid xs={12} sm={12} md={4}>
+                                
+                            </Grid>
                         </Grid>
-                    </ItemGrid>
+                    </Grid>
                 </Grid>
 
-                <SaveVendorModal
-                    open={this.state.showAddVendorModal}
-                    close={() => this.setState({ showAddVendorModal: false })}
-                    addVendor={this.props.addVendor}
-                    refresh={this.props.getAllVendorList}
-                    successNotification={() => this.showNotification('tr')}
-                    errorNotification={() => this.showNotification('tc')}
+                <DynamicModel
+                    title={this.state.title}
+                    openAction={this.state.saveModel}
+                    closeAction={()=> this.setState({saveModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    saveAction = {this.saveObject}
                 />
 
-                <EditVendorModal
-                    open={this.state.showEditVendorModal}
-                    close={() => this.setState({ showEditVendorModal: false })}
-                    refresh={this.props.getAllVendorList}
-                    successNotification={() => this.showNotification('tr')}
-                    errorNotification={() => this.showNotification('tc')}
-                />
-
-                <UpdateVendorModal
-                    open={this.state.showUpdateVendorModal}
-                    close={() => this.setState({ showUpdateVendorModal: false })}
-                    refresh={this.props.getAllVendorList}
-                    successNotification={() => this.showNotification('tr')}
-                    errorNotification={() => this.showNotification('tc')}
-                />
-
-                <Loader open={this.props.show_vendor_loader} />
             </div>
         );
     }
@@ -181,4 +214,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { getAllVendorList, addVendor })(Vendors);
+export default connect(mapStateToProps, { getVendorList, addVendor })(Vendors);

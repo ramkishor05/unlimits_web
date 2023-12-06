@@ -11,6 +11,11 @@ export default {
         return axios.get(CUST_PURCHASE_URL,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
+    }, 
+    getAll(supplierId) {
+        return axios.get(CUST_PURCHASE_URL+`/supplier/${supplierId}`,{headers: headers})
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
     },
     find(minimum){
         return axios.get(CUST_PURCHASE_URL+'/find', { params: { minimum } },{headers: headers})
@@ -35,6 +40,11 @@ export default {
     }, 
     getByDate(from, to){
         return axios.get(CUST_PURCHASE_URL+`/filter?from=${from}&to=${to}`,{headers: headers})
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
+    getByDate(supplierId,from, to){
+        return axios.get(CUST_PURCHASE_URL+`/filter/supplier/`+supplierId+`?from=${from}&to=${to}`,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     }

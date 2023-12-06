@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import { MENU_OPEN, SET_MENU } from "../../store/actions";
+import Vendors from "./Vendor/Vendors";
 const useStyles = makeStyles((theme) => ({
     listIcon: {
         minWidth: '18px',
@@ -88,6 +89,14 @@ const MainPage=(props)=>{
     return(
         <Card>
             <CardContent>
+              {  
+                  <Grid container spacing={2}>
+                    <Grid item sm={12}>
+                        <Vendors></Vendors>
+                    </Grid>
+
+                </Grid>
+              }  
                 <Grid container spacing={2}>
                     {
                         props.menuGroup?.menuItems?.map(item=>

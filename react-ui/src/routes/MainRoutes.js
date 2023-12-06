@@ -25,6 +25,7 @@ import VendorEmployee from '../views/cust/Vendor/Employee/VendorEmployee';
 import VendorUser from '../views/cust/Vendor/Users/VendorUser';
 import { useSelector } from 'react-redux';
 import MainPage from '../views/cust/MainPage';
+import VendorSupplierDetail from '../views/cust/Vendor/Supplier/VendorSupplierDetail';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
 
@@ -70,7 +71,7 @@ const MainRoutes = () => {
                         <Route path="/cust/products" component={CustProductPage} />
                         <Route path="/vendor/business" component={VendorBusiness} />
                         <Route path="/vendor/customer" component={VendorCustomer} />
-                        <Route path="/vendor/supplier" component={VendorSupplier} />
+                        <Route exact path="/vendor/supplier" component={VendorSupplier} />
                         <Route path="/vendor/employee" component={VendorEmployee} />
                         <Route path="/vendor/users" component={VendorUser} />
                         <Route path="/category/group" component={CustCategoryGroup} />

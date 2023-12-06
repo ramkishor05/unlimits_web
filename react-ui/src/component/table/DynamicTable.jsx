@@ -53,6 +53,7 @@ function DynamicTable (props){
                         headers &&  headers.map(header=>
                             header.name=='actions' 
                             ?
+                            header.render ? header.render('', row, i, header, props) :
                             <TableCell key={header.name+'_'+i} align='right'>
                                     <Fab color="secondary" aria-label="Edit"  onClick={() => props.editAction(row)}>
                                     <EditIcon/>

@@ -26,6 +26,24 @@ export const getCustPurchaseList = () => async dispatch => {
     }
 };
 
+export const getCustPurchaseListBySupplier = (supplierId) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        let purchases = await CustPurchaseService.getAll(supplierId);
+
+        if (purchases) {
+            dispatch({ type: GET_ALL_PURCHASES_SUCCESS, payload: purchases });
+        }
+        dispatch({ type: REMOVE_LOADER });
+
+    } catch (error) {
+        console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
+    }
+};
+
 // Action creator for getting purchases according to date.
 export const getCustPurchaseListByDate = (from, to, day) => async dispatch => {
     try {
