@@ -20,7 +20,7 @@ class VendorSupplierDetail extends Component {
                 this.state.transations.push({
                     date:custPurchase.purchaseDate,
                     desc: "Bill : "+custPurchase.totalPrice,
-                    type: "#Purchase",
+                    type: "# Purchase In",
                     giveAmount: '',
                     gotAmount:  custPurchase.totalPrice
                 })
@@ -29,8 +29,8 @@ class VendorSupplierDetail extends Component {
                     this.state.transations.push({
                         date:custProductPurchasePayment.purchaseDate,
                         desc: custProductPurchasePayment.mode+" : "+custProductPurchasePayment.amount,
-                        type: "# Payment Out",
-                        giveAmount: custProductPurchasePayment.amount,
+                        type: custProductPurchasePayment.mode=='Unpaid' ? '# Payment Pending' : "# Payment Out",
+                        giveAmount:  custProductPurchasePayment.mode=='Unpaid' ? '' : custProductPurchasePayment.amount,
                         gotAmount:  ''
                     })
                 });
@@ -67,17 +67,16 @@ class VendorSupplierDetail extends Component {
                        Present Address : {this.props.supplier.presentAddress}
                     </Grid>
                 </Grid>
-                <Divider></Divider>
-                <Grid container spacing={3}>
+                
+                <Grid container spacing={2}>
                     <Grid item sx={12} md={12}>
                         Transations
                     </Grid>
-                </Grid>  
-                <Divider></Divider>
+                </Grid> 
                 <Grid container spacing={1}>
                    <Grid item sx={12} md={12}>
 
-                        <table className="table mb-0" style={{border:1, borderStyle:'outset'}}>
+                        <table className="table mb-0" style={{border:1, borderStyle:'dashed'}}>
                         <thead>
                             <tr>
                             <th scope="col">Task</th>

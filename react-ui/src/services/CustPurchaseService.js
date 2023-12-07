@@ -17,6 +17,11 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
+    getAllByUser(userId) {
+        return axios.get(CUST_PURCHASE_URL+`/user/${userId}`,{headers: headers})
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
     find(minimum){
         return axios.get(CUST_PURCHASE_URL+'/find', { params: { minimum } },{headers: headers})
                     .then(response => Promise.resolve(response.data))

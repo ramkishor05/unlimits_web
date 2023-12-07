@@ -26,6 +26,44 @@ export const getCustSaleList = () => async dispatch => {
     }
 };
 
+// Action creator for getting all sales.
+export const getCustSaleListByCustomer = (customerId) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        let sales = await CustSaleService.getAllByCustomer(customerId);
+
+        if (sales) {
+            dispatch({ type: GET_ALL_SALES_SUCCESS, payload: sales });
+        }
+        dispatch({ type: REMOVE_LOADER });
+
+    } catch (error) {
+        console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
+    }
+};
+
+
+// Action creator for getting all sales.
+export const getCustSaleListByUser = (userId) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        let sales = await CustSaleService.getAllByUser(userId);
+
+        if (sales) {
+            dispatch({ type: GET_ALL_SALES_SUCCESS, payload: sales });
+        }
+        dispatch({ type: REMOVE_LOADER });
+
+    } catch (error) {
+        console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+    }
+};
+
 // Action creator for getting sales according to date.
 export const getCustSaleListByDate = (from, to, day) => async dispatch => {
     try {

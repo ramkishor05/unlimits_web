@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { GridCloseIcon } from '@mui/x-data-grid';
 import { LabelImportant } from '@material-ui/icons';
 import PaymentField from '../../../component/fields/PaymentField';
+import PaymentFieldGroup from '../../../component/fields/PaymentFieldGroup';
 
   const ToggleSwitch = styled((props) => (
     <Switch fullWidth focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -255,7 +256,7 @@ const useStyles = makeStyles((theme) => ({
         }
         this.state.selectedItems.forEach((item)=>{
             custProductPurchase.totalQnt+=item.qnt;
-            custProductPurchase.totalPrice+=item.price.price;
+            custProductPurchase.totalPrice+=(item.qnt * item.price.price);
             let custProductWholePurchase={
                 id:item.id,
                 name: item.name,
@@ -353,7 +354,7 @@ const useStyles = makeStyles((theme) => ({
             </TableRow>
             <TableRow>
             <TableCell colSpan={6} align='right' >
-                <PaymentField list={this.state.custProductPurchasePaymentList} onSave={this.addProductPaymentList}></PaymentField>
+                <PaymentFieldGroup list={this.state.custProductPurchasePaymentList} onSave={this.addProductPaymentList}></PaymentFieldGroup>
                 <List>
                      {
                        this.state.custProductPurchasePaymentList && this.state.custProductPurchasePaymentList.map((custProductPayment, i)=>

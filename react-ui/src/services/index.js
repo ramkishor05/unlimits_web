@@ -18,6 +18,7 @@ axios.interceptors.request.use(async config => {
     let userDetail=await JSON.parse(account.userDetail);
     if (userDetail) {
         config.headers.common.ownerId = userDetail.ownerId;
+        config.headers.common.userId = userDetail.id;
         config.headers.common.businessId = account.businessId;
     }
    

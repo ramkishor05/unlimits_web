@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Fab } from '@material-ui/core';
+import { Fab, TableCell } from '@material-ui/core';
 
 
 import { getVendorCustomerList, addVendorCustomer, editVendorCustomer, deleteVendorCustomer, getVendorList } from '../../../../actions';
@@ -10,7 +10,10 @@ import DynamicTable from '../../../../component/table/DynamicTable';
 import DynamicModel from '../../../../component/model/DynamicModel';
 import ConfirmModel from '../../../../component/model/ConfirmModel';
 import Loader from '../../../../component/Loader';
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import PreviewIcon from '@mui/icons-material/Preview';
+import VendorCustomerDetail from './VendorCustomerDetail';
 
 const tableheaders = [
     {
@@ -45,7 +48,20 @@ const tableheaders = [
     },
     {
         name: "actions",
-        label: "Actions"
+        label: "Actions",
+        render: (value, row, rowIndex, header, props)=>{
+            return <TableCell key={header.name+'_'+rowIndex} align='right'>
+                        <Fab color="secondary" aria-label="Edit"  onClick={() => props.editAction(row)}>
+                        <EditIcon/>
+                    </Fab>
+                    <Fab color="secondary" aria-label="Delete"  onClick={() => props.deleteAction(row)} >
+                        <DeleteIcon />
+                    </Fab>
+                    <Fab color="secondary" aria-label="View"  onClick={() => props.previewAction(row)} >
+                        <PreviewIcon />
+                    </Fab>
+                </TableCell>
+        }
     }
 ];
 
@@ -86,6 +102,7 @@ class VendorCustomer extends Component {
     state={
         saveModel: false,
         deleteModel: false,
+        viewModel: false,
         dataObject: {},
         title: "",
         type: ""
@@ -94,6 +111,10 @@ class VendorCustomer extends Component {
     _edit = row => {
        this.setState({ dataObject: row, title:"Edit customer", type:"Edit", saveModel: true  });
     }
+
+    _preview = row => {
+        this.setState({ dataObject: row, title:"View customer", type:"View", viewModel: true  });
+     }
 
     _add = () => {
        this.setState({ dataObject: {}, title:"Add customer", type:"Add", saveModel: true  });
@@ -116,7 +137,7 @@ class VendorCustomer extends Component {
 
     clearAndRefresh = () => {
         this.props.getVendorCustomerList();
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+        this.setState({ dataObject: {}, saveModel: false,deleteModel:false,viewModel: false  });
     }
     
     componentDidMount() {
@@ -126,8 +147,9 @@ class VendorCustomer extends Component {
 
     render() {
         return (
-            <>
-                
+             <>
+                 {
+                            !this.state.viewModel &&  
                 <MainCard title="Customer List" 
                         button ={
                             
@@ -142,9 +164,15 @@ class VendorCustomer extends Component {
                         dataList={this.props.vendorCustomerList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
+                        previewAction={this._preview}
                         ></DynamicTable>
                     </MainCard>
-                
+                    } {
+                this.state.viewModel && 
+                <VendorCustomerDetail customer={this.state.dataObject}>
+
+                </VendorCustomerDetail>
+                }
                 <DynamicModel
                 title={this.state.title}
                 openAction={this.state.saveModel}

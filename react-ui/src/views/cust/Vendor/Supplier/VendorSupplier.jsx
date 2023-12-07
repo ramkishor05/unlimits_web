@@ -12,9 +12,7 @@ import { AddTaskOutlined } from '@material-ui/icons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PreviewIcon from '@mui/icons-material/Preview';
-import { Link } from 'react-router-dom';
 import VendorSupplierDetail from './VendorSupplierDetail';
-import { rowSelectionStateInitializer } from '@mui/x-data-grid/internals';
 
 const tableheaders = [
     {
