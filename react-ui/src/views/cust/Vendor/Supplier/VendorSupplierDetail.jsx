@@ -1,22 +1,25 @@
-import { Button, Divider, Grid, TableRow } from "@material-ui/core";
+import { Button, Grid, Tooltip} from "@material-ui/core";
 import MainCard from "../../../../component/cards/MainCard";
-import UserProfile from "../../../profile/UserProfile";
-import UserAccount from "../../../profile/UserAccount";
-import OwnerAccount from "../../../profile/OwnerAccount";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { getCustPurchaseListBySupplier } from "../../../../actions";
-import { Table, TableBody, TableCell, TableHead } from "@mui/material";
+import { Close } from "@material-ui/icons";
+import CustPurchaseService from "../../../../services/CustPurchaseService";
 
 class VendorSupplierDetail extends Component {
    
     state={
-        transations:[]
+        transations:[],
+        isLoading: true
     }
 
     constructor(props){
         super(props);
-        this.props.custPurchaseList.forEach(custPurchase=>{
+    }
+   
+    async componentDidMount() {
+        await CustPurchaseService.getAllBySupplier(this.props.supplier.id).then((custPurchaseList=>{
+            custPurchaseList .forEach(custPurchase=>{
                 this.state.transations.push({
                     date:custPurchase.purchaseDate,
                     desc: "Bill : "+custPurchase.totalPrice,
@@ -24,7 +27,7 @@ class VendorSupplierDetail extends Component {
                     giveAmount: '',
                     gotAmount:  custPurchase.totalPrice
                 })
-
+    
                 custPurchase.custProductPurchasePaymentList.forEach(custProductPurchasePayment => {
                     this.state.transations.push({
                         date:custProductPurchasePayment.purchaseDate,
@@ -34,18 +37,26 @@ class VendorSupplierDetail extends Component {
                         gotAmount:  ''
                     })
                 });
-           }
-          );
+           });
+           this.setState({isLoading:false})
+        }))
     }
-   
-    async componentDidMount() {
-       await this.props.getCustPurchaseListBySupplier(this.props.supplier.id);
-       
+
+    setLoadingView = (status)=>{
+        this.props.setLoadingView(status);
     }
 
     render() {
         return (
-            <MainCard title="Supplier Detail">
+            !this.state.isLoading &&
+            <MainCard title="Supplier Detail" button ={
+                            
+                <Tooltip title="Close" aria-label="Close">
+                    <Button variant='contained' color="error" onClick={()=>this.setLoadingView(false)}>
+                        <Close></Close>
+                    </Button>
+                </Tooltip>
+                } >
                 <Grid container spacing={2}>
                     <Grid item sx={4} md={4}>
                         Name : {this.props.supplier.name}
@@ -142,8 +153,8 @@ class VendorSupplierDetail extends Component {
 
 const mapStateToProps = state => {
     const { userDetail, } = state.account;
-    const { custPurchaseList} = state.custPurchaseReducer;
-    return { userDetail, custPurchaseList };
+    const { custPurchaseListBySupplier} = state.custPurchaseReducer;
+    return { userDetail, custPurchaseListBySupplier };
 };
 
 export default connect(mapStateToProps, { getCustPurchaseListBySupplier })(VendorSupplierDetail);

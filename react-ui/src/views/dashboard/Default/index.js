@@ -73,8 +73,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
     const dispatch= useDispatch();
-    const {userDetail} = useSelector((state) => state.userReducer);
-    const {token} = useSelector((state) => state.account);
     const [isLoading, setLoading] = useState(true);
     const classes = useStyles();
     const [isLoadingView, setLoadingView] = useState(false);
@@ -84,7 +82,6 @@ const Dashboard = () => {
     };
 
     const showMore=(id, status)=>{
-        console.log("status=",status)
         setLoadingView(status);
     }
 

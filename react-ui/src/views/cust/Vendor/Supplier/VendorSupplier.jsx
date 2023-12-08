@@ -173,9 +173,10 @@ class VendorSupplier extends Component {
 
                 {
                 this.state.viewModel && 
-                <VendorSupplierDetail supplier={this.state.dataObject}>
-
-                </VendorSupplierDetail>
+                <VendorSupplierDetail
+                 supplier={this.state.dataObject}
+                 setLoadingView = {()=> this.setState({viewModel: false})}
+                 />
                 }
                 <DynamicModel
                 title={this.state.title}

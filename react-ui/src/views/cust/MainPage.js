@@ -89,14 +89,7 @@ const MainPage=(props)=>{
     return(
         <Card>
             <CardContent>
-              {  
-                  <Grid container spacing={2}>
-                    <Grid item sm={12}>
-                        <Vendors></Vendors>
-                    </Grid>
-
-                </Grid>
-              }  
+              
                 <Grid container spacing={2}>
                     {
                         props.menuGroup?.menuItems?.map(item=>

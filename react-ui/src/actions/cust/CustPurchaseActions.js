@@ -1,5 +1,5 @@
 import { 
-    GET_ALL_PURCHASES_SUCCESS,
+    GET_ALL_PURCHASES_SUCCESS, GET_ALL_PURCHASES_SUPPLIER_SUCCESS,
     GET_PURCHASES_TODAY_SUCCESS, GET_PURCHASES_YESTERDAY_SUCCESS, GET_PURCHASES_LONG_SUCCESS,
     PURCHASE_TO_EDIT,
     SHOW_LOADER,
@@ -29,11 +29,12 @@ export const getCustPurchaseList = () => async dispatch => {
 export const getCustPurchaseListBySupplier = (supplierId) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
-
+        dispatch({ type: GET_ALL_PURCHASES_SUPPLIER_SUCCESS, payload: [] });
+        
         let purchases = await CustPurchaseService.getAllBySupplier(supplierId);
 
         if (purchases) {
-            dispatch({ type: GET_ALL_PURCHASES_SUCCESS, payload: purchases });
+            dispatch({ type: GET_ALL_PURCHASES_SUPPLIER_SUCCESS, payload: purchases });
         }
         dispatch({ type: REMOVE_LOADER });
 
