@@ -60,29 +60,31 @@ const MainRoutes = () => {
             <MainLayout>
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
-                        <Route exact path="/cust/orders" render={(props) => <MainPage menuGroup={findMenu('/cust/orders')} {...props}></MainPage>} />
-                        <Route exact path="/cust/parties" render={(props) => <MainPage menuGroup={findMenu('/cust/parties')} {...props}></MainPage>} />
-                        <Route exact path="/cust/dashboard" render={(props) => <MainPage menuGroup={findMenu('/cust/dashboard')} {...props}></MainPage>} />
-                        <Route exact path="/cust/items" render={(props) => <MainPage menuGroup={findMenu('/cust/items')} {...props}></MainPage>} />
-                        <Route exact path="/cust/organizations" render={(props) => <MainPage menuGroup={findMenu('/cust/organizations')} {...props}></MainPage>} />
-                        <Route exact path="/cust/setups" render={(props) => <MainPage menuGroup={findMenu('/cust/setups')} {...props}></MainPage>} />
+                        
+                        
+                        <Route exact path="/business/portal/orders" render={(props) => <MainPage menuGroup={findMenu('/business/portal/orders')} {...props}></MainPage>} />
+                        <Route exact path="/business/portal/parties" render={(props) => <MainPage menuGroup={findMenu('/business/portal/parties')} {...props}></MainPage>} />
+                        <Route exact path="/business/portal/dashboard" render={(props) => <MainPage menuGroup={findMenu('/business/portal/dashboard')} {...props}></MainPage>} />
+                        <Route exact path="/business/portal/items" render={(props) => <MainPage menuGroup={findMenu('/business/portal/items')} {...props}></MainPage>} />
+                        <Route exact path="/business/portal/organizations" render={(props) => <MainPage menuGroup={findMenu('/business/portal/organizations')} {...props}></MainPage>} />
+                        <Route exact path="/business/portal/setups" render={(props) => <MainPage menuGroup={findMenu('/business/portal/setups')} {...props}></MainPage>} />
+                        <Route exact path="/business/portal/dashboard/default" component={DashboardDefault} />
+                        <Route exact path="/business/portal/orders/sales" component={CustSalePage} />
+                        <Route exact path="/business/portal/orders/purchase" component={CustPurchasePage} />
+                        <Route exact path="/business/portal/items/products" component={CustProductPage} />
+                        <Route exact path="/business/portal/organizations/business" component={VendorBusiness} />
+                        <Route exact path="/business/portal/organizations/employee" component={VendorEmployee} />
+                        <Route exact path="/business/portal/organizations/users" component={VendorUser} />
+                        <Route exact path="/business/portal/parties/customer" component={VendorCustomer} />
+                        <Route exact path="/business/portal/parties/supplier" component={VendorSupplier} />
+                        <Route exact path="/business/portal/setups/category/group" component={CustCategoryGroup} />
+                        <Route exact path="/business/portal/setups/category/list" component={CustCategoryList} />
+                        <Route exact path="/business/portal/setups/currency/group" component={CustCurrencyGroup} />
+                        <Route exact path="/business/portal/setups/currency/list" component={CustCurrencyList} />
+                        <Route exact path="/business/portal/setups/unit/group" component={CustUnitGroup} />
+                        <Route exact path="/business/portal/setups/unit/list" component={CustUnitList} />
+                        <Route exact path="/business/portal/setups/count/freq" component={CustCountFreq} />
 
-                        <Route exact path="/dashboard/default" component={DashboardDefault} />
-                        <Route exact path="/cust/orders/sales" component={CustSalePage} />
-                        <Route exact path="/cust/orders/purchase" component={CustPurchasePage} />
-                        <Route exact path="/cust/items/products" component={CustProductPage} />
-                        <Route exact path="/cust/organizations/business" component={VendorBusiness} />
-                        <Route exact path="/cust/organizations/employee" component={VendorEmployee} />
-                        <Route exact path="/cust/organizations/users" component={VendorUser} />
-                        <Route exact path="/cust/parties/customer" component={VendorCustomer} />
-                        <Route exact path="/cust/parties/supplier" component={VendorSupplier} />
-                        <Route exact path="/cust/setups/category/group" component={CustCategoryGroup} />
-                        <Route exact path="/cust/setups/category/list" component={CustCategoryList} />
-                        <Route exact path="/cust/setups/currency/group" component={CustCurrencyGroup} />
-                        <Route exact path="/cust/setups/currency/list" component={CustCurrencyList} />
-                        <Route exact path="/cust/setups/unit/group" component={CustUnitGroup} />
-                        <Route exact path="/cust/setups/unit/list" component={CustUnitList} />
-                        <Route exact path="/cust/setups/count/freq" component={CustCountFreq} />
                         <Route exact path="/utils/util-typography" component={UtilsTypography} />
                         <Route exact path="/utils/util-color" component={UtilsColor} />
                         <Route exact path="/utils/util-shadow" component={UtilsShadow} />
