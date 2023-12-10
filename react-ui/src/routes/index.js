@@ -8,13 +8,16 @@ import AutheRoutes from './AuthRoutes';
 
 // project imports
 import config from './../config';
+import { useSelector } from 'react-redux';
 
 //-----------------------|| ROUTING RENDER ||-----------------------//
 
 const Routes = () => {
+    const account = useSelector((state) => state.account);
+
     return (
         <Switch>
-            <Redirect exact from="/" to={config.defaultPath} />
+            <Redirect exact from="/" to={account.defaultPath(account?.userDetail?.userRole)} />
             <React.Fragment>
                 {/* Routes for authentication pages */}
                 <AutheRoutes />

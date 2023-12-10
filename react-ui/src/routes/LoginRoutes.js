@@ -22,8 +22,8 @@ const LoginRoutes = () => {
                 <Switch location={location} key={location.pathname}>
                     <NavMotion>
                         <GuestGuard>
-                            <Route path="/login" component={AuthLogin} />
-                            <Route path="/register" component={AuthRegister} />
+                            <Route exact path="/login" component={AuthLogin} />
+                            <Route exact path="/register" component={AuthRegister} />
                         </GuestGuard>
                     </NavMotion>
                 </Switch>

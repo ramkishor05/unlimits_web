@@ -18,8 +18,8 @@ const AuthenticationRoutes = () => {
         <Route path={['/pages/login/login3', '/pages/register/register3']}>
             <MinimalLayout>
                 <Switch location={location} key={location.pathname}>
-                    <Route path="/pages/login/login3" component={AuthLogin3} />
-                    <Route path="/pages/register/register3" component={AuthRegister3} />
+                    <Route exact path="/pages/login/login3" component={AuthLogin3} />
+                    <Route exact path="/pages/register/register3" component={AuthRegister3} />
                 </Switch>
             </MinimalLayout>
         </Route>

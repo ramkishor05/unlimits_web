@@ -6,7 +6,7 @@ import {
     GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL,
     USER_UPDATE_SUCCESS,USER_UPDATE_FAIL,
     GET_USER_SUCCESS,
-    GET_USER_FAIL
+    GET_USER_FAIL,GET_MENU_GROUP_LIST_SUCCESS
 } from '../types';
 
 const collapse=(item)=>{
@@ -32,10 +32,20 @@ export const initialState = {
     isInitialized: false,
     userDetail: null,
     businessId: null,
-    contains : (id, userRole) => {
-        if("404"==id || "home"==id){
-            return true;
+    defaultPath: (userRole)=>{
+        if(!userRole){
+            return "";
         }
+        let roleEndpoints=userRole.roleEndpoints;
+        for(let menuItemIndex in roleEndpoints){
+           let menuItem= roleEndpoints[menuItemIndex];
+            if(menuItem.homePage){
+                return menuItem.url;
+             }
+        }
+        return "";
+    },
+    contains : (id, userRole) => {
         return userRole.roleEndpoints.find(roleEndpoint=>roleEndpoint.type===id) !=null;
      },
      filter: (itemChildrenList, userRole)=>{
@@ -43,7 +53,7 @@ export const initialState = {
         return itemChildrenList.filter(itemChildren=>roleEndpoints.find(roleEndpoint=>roleEndpoint.url===itemChildren.url) !=null)
      },
      paths: (userRole) => {
-       let paths=["/404","/dashboard/default"];
+       let paths=[];
        userRole.roleEndpoints.forEach(roleEndpoint=>{
         paths.push(roleEndpoint.url);
        })
