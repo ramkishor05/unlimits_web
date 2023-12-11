@@ -2,14 +2,12 @@ import React, { useEffect, useReducer, useState,Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
-
 // project imports
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup } from '../../../actions';
+import { getRoleMenuGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup } from '../../../actions';
 
 const headers = [
     {
