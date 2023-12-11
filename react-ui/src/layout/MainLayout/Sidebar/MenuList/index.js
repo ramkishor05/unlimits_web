@@ -8,9 +8,8 @@ import NavGroup from './NavGroup';
 import menuItem from './../../../../menu-items';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import UserMenuService from '../../../../services/UserMenuService';
 import { useEffect } from 'react';
-import { getMenuByRoleId } from '../../../../actions/UserMenuActions';
+import { getMenuGroupByRoleId } from '../../../../actions';
 
 //-----------------------|| SIDEBAR MENU LIST ||-----------------------//
 
@@ -24,7 +23,7 @@ const MenuList = () => {
         if(accountReducer.userDetail){
             const userRole = accountReducer.userDetail.userRole;
             if(!loading){
-                dispatch(getMenuByRoleId(userRole.id));
+                dispatch(getMenuGroupByRoleId(userRole.id));
                 setLoading(true);
             }
         }

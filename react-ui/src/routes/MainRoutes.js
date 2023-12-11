@@ -6,7 +6,7 @@ import MainPage from '../views/cust/MainPage';
 import MainLayout from './../layout/MainLayout';
 import AuthGuard from './../utils/route-guard/AuthGuard';
 import { UrlMapper } from '../constants/UrlMapper';
-import { getMenuByRoleId } from '../actions/UserMenuActions';
+import { getMenuGroupByRoleId } from '../actions';
 import ViewPage from '../views/cust/ViewPage';
 
 //-----------------------|| MAIN ROUTING ||-----------------------//
@@ -54,7 +54,7 @@ const MainRoutes = () => {
 
     useEffect(()=>{
         if(userRole)
-        dispatch(getMenuByRoleId(userRole.id));
+        dispatch(getMenuGroupByRoleId(userRole.id));
     },[])
 
     return (

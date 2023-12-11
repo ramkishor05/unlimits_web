@@ -1,2 +1,11 @@
 export const GET_MENU_GROUP_LIST_SUCCESS="get_menu_group_list_success";
 export const GET_MENU_GROUP_LIST_FAIL="get_menu_group_list_fail";
+
+export const GET_MENU_ITEM_LIST_SUCCESS="get_menu_item_list_success";
+export const GET_MENU_ITEM_LIST_FAIL="get_menu_item_list_fail";
+
+export const GET_ROLE_MENU_GROUP_LIST_SUCCESS="get_role_menu_group_list_success";
+export const GET_ROLE_MENU_GROUP_LIST_FAIL="get_role_menu_group_list_fail";
+
+export const GET_ROLE_MENU_ITEM_LIST_SUCCESS="get_role_menu_item_list_success";
+export const GET_ROLE_MENU_ITEM_LIST_FAIL="get_role_menu_item_list_fail";

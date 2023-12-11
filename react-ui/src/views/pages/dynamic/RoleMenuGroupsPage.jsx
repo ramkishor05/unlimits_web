@@ -11,9 +11,6 @@ import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup } from '../../../actions';
 
-function createData(name, description, typeId, actions) {
-    return { name, description, typeId, actions};
-}
 const headers = [
     {
         name: "idenNo",
