@@ -77,7 +77,7 @@ class RoleMenuGroupsPage extends Component {
     }
     
     componentDidMount() {
-        this.props.getCustCategoryGroupList();
+        this.props.getRoleMenuGroupList();
     }
 
  render() {
@@ -137,6 +137,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup })(RoleMenuGroupsPage);
+export default connect(mapStateToProps, { getRoleMenuGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup })(RoleMenuGroupsPage);
 
 
