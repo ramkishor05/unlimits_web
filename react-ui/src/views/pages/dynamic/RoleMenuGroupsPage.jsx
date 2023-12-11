@@ -7,27 +7,46 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getRoleMenuGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup } from '../../../actions';
+import { getRoleMenuGroupList, addRoleMenuGroup, editRoleMenuGroup, deleteRoleMenuGroup } from '../../../actions';
 
-const headers = [
+const tableheaders = [
     {
         name: "idenNo",
         label: "IdenNo",
         type: 'text'
     },
     {
-        name: "userRole",
+        name: "userRole.roleId",
         label: "User Role",
         type: 'text'
     },
     {
-        name: "menuGroup",
+        name: "menuGroup.title",
         label: "Menu Group",
         type: 'text'
     },
     {
         name: "actions",
         label: "Actions"
+    }
+]
+
+
+const modelheaders = [
+    {
+        name: "idenNo",
+        label: "IdenNo",
+        type: 'text'
+    },
+    {
+        name: "userRole.roleId",
+        label: "User Role",
+        type: 'text'
+    },
+    {
+        name: "menuGroup.title",
+        label: "Menu Group",
+        type: 'text'
     }
 ]
 const styles = theme => ({
@@ -63,16 +82,16 @@ class RoleMenuGroupsPage extends Component {
      saveObject = (type, row) => {
         console.log(type+"=",row)
         if(type=='Add')
-            this.props.addCustCategoryGroup(row, this.clearAndRefresh)
+            this.props.addRoleMenuGroup(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustCategoryGroup(row, this.clearAndRefresh)
+            this.props.editRoleMenuGroup(row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteCustCategoryGroup(row.id, this.clearAndRefresh)
+            this.props.deleteRoleMenuGroup(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getCustCategoryGroupList();
+        this.props.getRoleMenuGroupList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
@@ -96,23 +115,27 @@ class RoleMenuGroupsPage extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={headers} 
-                        dataList={this.props.custCategoryGroupList}
+                        headers={tableheaders} 
+                        dataList={this.props.roleMenuGroups}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
                 
-                <DynamicModel
-                title={this.state.title}
-                openAction={this.state.saveModel}
-                closeAction={()=> this.setState({saveModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                fields= {headers}
-                saveAction = {this.saveObject}
-                >
-                </DynamicModel>
+                    {
+                    this.state.saveModel && 
+                    <DynamicModel
+                    title={this.state.title}
+                    openAction={this.state.saveModel}
+                    closeAction={()=> this.setState({saveModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    saveAction = {this.saveObject}
+                    >
+                    </DynamicModel>
+                }
+                
             
                 <ConfirmModel
                 openAction={this.state.deleteModel}
@@ -130,13 +153,12 @@ class RoleMenuGroupsPage extends Component {
 
 
 const mapStateToProps = state => {
-    const { custCategoryGroupList, show_cust_category_group_loader } = state.custCategoryGroupReducer;
+    const { roleMenuGroups } = state.roleMenuGroupReducer;
 
-    console.log("custCategoryGroupList=",custCategoryGroupList)
-    return { custCategoryGroupList, show_cust_category_group_loader };
+    return { roleMenuGroups };
 };
 
 
-export default connect(mapStateToProps, { getRoleMenuGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup })(RoleMenuGroupsPage);
+export default connect(mapStateToProps, { getRoleMenuGroupList, addRoleMenuGroup, editRoleMenuGroup, deleteRoleMenuGroup })(RoleMenuGroupsPage);
 
 

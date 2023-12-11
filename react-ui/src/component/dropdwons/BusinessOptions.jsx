@@ -129,11 +129,11 @@ const BusinessOptions= (props) =>  {
 
   return (
     <Select variant='standard'
-    value={value}
+    value={value? value: ''}
     onChange={onSeach} sx={{width: '20%', borderStyle:'hidden'}}
   >
     {
-        vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={vendorBusiness.id===value} value={vendorBusiness.id}>{vendorBusiness.name}</MenuItem>)
+        vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={vendorBusiness.id===value} value={vendorBusiness?.id}>{vendorBusiness.name}</MenuItem>)
     }
   </Select>
   );

@@ -9,12 +9,16 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup } from '../../../actions';
+import { getMenuItemList, addMenuItem, editMenuItem, deleteMenuItem } from '../../../actions';
 
-const headers = [
+const tableheaders = [
     {
         name: "idenNo",
         label: "IdenNo",
+        type: 'text'
+    },{
+        name: "title",
+        label: "Title",
         type: 'text'
     },
     {
@@ -45,6 +49,44 @@ const headers = [
     {
         name: "actions",
         label: "Actions"
+    }
+]
+
+
+const modelheaders = [
+    {
+        name: "idenNo",
+        label: "IdenNo",
+        type: 'text'
+    },{
+        name: "title",
+        label: "Title",
+        type: 'text'
+    },
+    {
+        name: "type",
+        label: "Type",
+        type: 'text'
+    },
+    {
+        name: "icon",
+        label: "Icon",
+        type: 'text'
+    },
+    {
+        name: "order",
+        label: "Order",
+        type: 'text'
+    },
+    {
+        name: "url",
+        label: "Url",
+        type: 'text'
+    },
+    {
+        name: "menuGroup",
+        label: "Menu Group",
+        type: 'text'
     }
 ]
 
@@ -81,21 +123,21 @@ class MenuItemsPage extends Component {
      saveObject = (type, row) => {
         
         if(type=='Add')
-            this.props.addCustCategoryGroup(row, this.clearAndRefresh)
+            this.props.addMenuItem(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustCategoryGroup(row, this.clearAndRefresh)
+            this.props.editMenuItem(row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteCustCategoryGroup(row.id, this.clearAndRefresh)
+            this.props.deleteMenuItem(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getCustCategoryGroupList();
+        this.props.getMenuItemList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getCustCategoryGroupList();
+        this.props.getMenuItemList();
     }
 
  render() {
@@ -114,23 +156,27 @@ class MenuItemsPage extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={headers} 
-                        dataList={this.props.custCategoryGroupList}
+                        headers={tableheaders} 
+                        dataList={this.props.menuItems}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
                 
-                <DynamicModel
-                title={this.state.title}
-                openAction={this.state.saveModel}
-                closeAction={()=> this.setState({saveModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                fields= {headers}
-                saveAction = {this.saveObject}
-                >
-                </DynamicModel>
+                    {
+                    this.state.saveModel && 
+                    <DynamicModel
+                    title={this.state.title}
+                    openAction={this.state.saveModel}
+                    closeAction={()=> this.setState({saveModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    saveAction = {this.saveObject}
+                    >
+                    </DynamicModel>
+                }
+                
             
                 <ConfirmModel
                 openAction={this.state.deleteModel}
@@ -148,12 +194,12 @@ class MenuItemsPage extends Component {
 
 
 const mapStateToProps = state => {
-    const { custCategoryGroupList, show_cust_category_group_loader } = state.custCategoryGroupReducer;
+    const { menuItems } = state.menuItemReducer;
     
-    return { custCategoryGroupList, show_cust_category_group_loader };
+    return { menuItems };
 };
 
 
-export default connect(mapStateToProps, { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup })(MenuItemsPage);
+export default connect(mapStateToProps, { getMenuItemList, addMenuItem, editMenuItem, deleteMenuItem })(MenuItemsPage);
 
 

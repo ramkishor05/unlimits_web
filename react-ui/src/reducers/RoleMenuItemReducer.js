@@ -1,15 +1,15 @@
 import {
-    GET_MENU_GROUP_LIST_SUCCESS
+    GET_ROLE_MENU_ITEM_LIST_SUCCESS
 } from '../types';
 
 const INITIAL_STATE = {
-    menuGroups: []
+    roleMenuItems: []
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
-        case GET_MENU_GROUP_LIST_SUCCESS:
-            return { ...state, menuGroups: action.payload };
+        case GET_ROLE_MENU_ITEM_LIST_SUCCESS:
+            return { ...state, roleMenuItems: action.payload };
         default:
             return state;
     }

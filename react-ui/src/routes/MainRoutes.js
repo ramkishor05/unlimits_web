@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,14 +12,18 @@ import ViewPage from '../views/cust/ViewPage';
 //-----------------------|| MAIN ROUTING ||-----------------------//
 
 const MainRoutes = () => {
+    const dispatch=useDispatch()
+
     const location = useLocation();
-    const dispatch=useDispatch();
+    const [isLoading, setLoading]=useState(true);
     const accountReducer = useSelector((state) => state.account);
-    let menuGroups = [];
-    const userRole = accountReducer?.userDetail?.userRole;
     
-    const userMenuReducer = useSelector((state) => state.userMenuReducer);
-    menuGroups=userMenuReducer.menuGroups;
+    const menuGroupReducer = useSelector((state) => state.menuGroupReducer);
+
+    let menuGroups = menuGroupReducer.userMenuGroups;
+    const userRole = accountReducer?.userDetail?.userRole;
+        
+    console.log("userMenuGroups=",menuGroups)
     const getRouteGroups=(menuGroups)=>{
         let list=[];
         
@@ -54,24 +58,26 @@ const MainRoutes = () => {
 
     useEffect(()=>{
         if(userRole)
-        dispatch(getMenuGroupByRoleId(userRole.id));
-    },[])
+            dispatch(getMenuGroupByRoleId(userRole.id));
+            setLoading(false)
+    },[getMenuGroupByRoleId])
 
     return (
         <Route
-            path={[...getRouteUrls(menuGroups)]}
-        >
-            <MainLayout>
-                <Switch location={location} key={location.pathname}>
-                    <AuthGuard>
-                        {
-                            getRouteGroups(menuGroups)
-                        }
-                    </AuthGuard>
-                </Switch>
-            </MainLayout>
-        </Route>
-    );
+                path={[...getRouteUrls(menuGroups)]}
+            >
+                <MainLayout>
+                    <Switch location={location} key={location.pathname}>
+                        <AuthGuard>
+                            {
+                                getRouteGroups(menuGroups)
+                            }
+                        </AuthGuard>
+                    </Switch>
+                </MainLayout>
+            </Route>
+        );
+    
 };
 
 export default MainRoutes;

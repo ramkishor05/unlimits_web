@@ -33,6 +33,20 @@ const styles = {
 function DynamicTable (props){
     const classes = useStyles();
 
+    const getValue=(data, keyStr)=>{
+        let keys=keyStr.split("\.");
+        let val=data;
+        for (let i = 0; i < keys.length; i++){
+          if( typeof val === 'object'){
+            if(!val){
+              val={};
+            }
+            val=val[keys[i]];
+          }
+        }
+        return val;
+      }
+
     const {headers, dataList} = props;
     return (
         <TableContainer component={Paper}>
@@ -63,7 +77,9 @@ function DynamicTable (props){
                                 </Fab>
                             </TableCell>
                             :
-                            <TableCell key={header.name+'_'+i} {...header.props}>{row[header.name]}</TableCell>
+                            <TableCell key={header.name+'_'+i} {...header.props}>{
+                                getValue(row,header.name)
+                                }</TableCell>
                             )
                         }
                     </TableRow>

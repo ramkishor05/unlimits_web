@@ -1,5 +1,14 @@
 import {
-   SHOW_LOADER, REMOVE_LOADER, GET_MENU_ITEM_LIST_SUCCESS, GET_MENU_ITEM_LIST_FAIL
+   SHOW_LOADER, 
+   REMOVE_LOADER, 
+   GET_MENU_ITEM_LIST_SUCCESS, 
+   GET_MENU_ITEM_LIST_FAIL,
+   GET_USER_MENU_ITEM_LIST_SUCCESS,
+   GET_USER_MENU_ITEM_LIST_FAIL,
+   ADD_MENU_ITEM_SUCCESS,
+   UPDATE_MENU_ITEM_SUCCESS,
+   DELETE_MENU_ITEM_SUCCESS,
+   GET_MENU_ITEM_SUCCESS
 } from '../types';
 import MenuItemService from '../services/MenuItemService';
 
@@ -14,12 +23,12 @@ export const getMenuItemByRoleId = (roleId, callBack) => async dispatch => {
     
     try {
         dispatch({ type: SHOW_LOADER });
-        const menuGroups = await MenuItemService.findByRoleId(roleId);
-        if (menuGroups) {
+        const menuItems = await MenuItemService.findByRoleId(roleId);
+        if (menuItems) {
             if (callBack) {
                 callBack();
             }
-            dispatch({ type: GET_MENU_ITEM_LIST_SUCCESS, payload: menuGroups });
+            dispatch({ type: GET_MENU_ITEM_LIST_SUCCESS, payload: menuItems });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {
@@ -39,12 +48,12 @@ export const getMenuItemList = (callBack) => async dispatch => {
     
     try {
         dispatch({ type: SHOW_LOADER });
-        const menuGroups = await MenuItemService.getAll();
-        if (menuGroups) {
+        const menuItems = await MenuItemService.getAll();
+        if (menuItems) {
             if (callBack) {
                 callBack();
             }
-            dispatch({ type: GET_MENU_ITEM_LIST_SUCCESS, payload: menuGroups });
+            dispatch({ type: GET_MENU_ITEM_LIST_SUCCESS, payload: menuItems });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {
@@ -53,3 +62,72 @@ export const getMenuItemList = (callBack) => async dispatch => {
         dispatch({ type: REMOVE_LOADER });
     }
 };
+
+// Action creator for adding addMenuItem --<
+export const addMenuItem = (data, refreshMenuItemList) => async dispatch => {
+   
+    try {
+        dispatch({ type: SHOW_LOADER });
+        const menuItem = await MenuItemService.add(data);
+
+        if (menuItem) {
+            dispatch({ type: ADD_MENU_ITEM_SUCCESS });
+        }
+        refreshMenuItemList && refreshMenuItemList();
+        dispatch({ type: REMOVE_LOADER });
+    } catch(error) {
+        dispatch({ type: REMOVE_LOADER });
+    }
+};
+
+// Action creator for adding addMenuItem --<
+export const editMenuItem = (id,data, refreshMenuItemList) => async dispatch => {
+   
+    try {
+        dispatch({ type: SHOW_LOADER });
+        const menuItem = await MenuItemService.update(id, data);
+
+        if (menuItem) {
+            dispatch({ type: UPDATE_MENU_ITEM_SUCCESS });
+        }
+        refreshMenuItemList && refreshMenuItemList();
+        dispatch({ type: REMOVE_LOADER });
+    } catch(error) {
+        dispatch({ type: REMOVE_LOADER });
+    }
+};
+
+// Action creator for adding addMenuItem --<
+export const deleteMenuItem = (id, refreshMenuItemList) => async dispatch => {
+   
+    try {
+        dispatch({ type: SHOW_LOADER });
+        const menuItem = await MenuItemService.delete(id);
+
+        if (menuItem) {
+            dispatch({ type: DELETE_MENU_ITEM_SUCCESS });
+        }
+        refreshMenuItemList && refreshMenuItemList();
+        dispatch({ type: REMOVE_LOADER });
+    } catch(error) {
+        dispatch({ type: REMOVE_LOADER });
+    }
+};
+
+// Action creator for adding addMenuItem --<
+export const getMenuItem = (id, refreshMenuItemList) => async dispatch => {
+   
+    try {
+        dispatch({ type: SHOW_LOADER });
+        const menuItem = await MenuItemService.delete(id);
+
+        if (menuItem) {
+            dispatch({ type: GET_MENU_ITEM_SUCCESS });
+        }
+        refreshMenuItemList && refreshMenuItemList();
+        dispatch({ type: REMOVE_LOADER });
+    } catch(error) {
+        dispatch({ type: REMOVE_LOADER });
+    }
+};
+

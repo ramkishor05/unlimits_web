@@ -1,4 +1,5 @@
 // action - state management
+import MenuGroupService from '../services/MenuGroupService';
 import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, SET_BUSSINESS_ACCOUNT } from '../store/actions';
 
 import {
@@ -32,6 +33,9 @@ export const initialState = {
     isInitialized: false,
     userDetail: null,
     businessId: null,
+    loadMenuGroupByRole : async (roleId)=>{
+        return await MenuGroupService.findByRoleId(roleId);
+    },
     defaultPath: (userRole)=>{
         if(!userRole){
             return "";

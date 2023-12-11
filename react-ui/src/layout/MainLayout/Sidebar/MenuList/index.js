@@ -14,37 +14,19 @@ import { getMenuGroupByRoleId } from '../../../../actions';
 //-----------------------|| SIDEBAR MENU LIST ||-----------------------//
 
 const MenuList = () => {
-     
-    const dispatch= useDispatch();
+    const dispatch=useDispatch()
     const accountReducer = useSelector((state) => state.account);
-    const {menuGroups} = useSelector((state) => state.userMenuReducer);
-    const [loading, setLoading]=useState(false)
+    const menuGroupReducer = useSelector((state) => state.menuGroupReducer);
+    const userRole = accountReducer.userDetail.userRole;
+    let menuGroups = menuGroupReducer.userMenuGroups;
+    console.log("userMenuGroups=",menuGroups)
     useEffect(()=>{
-        if(accountReducer.userDetail){
-            const userRole = accountReducer.userDetail.userRole;
-            if(!loading){
-                dispatch(getMenuGroupByRoleId(userRole.id));
-                setLoading(true);
-            }
-        }
-    },[accountReducer])
+        if(userRole)
+        dispatch(getMenuGroupByRoleId(userRole.id));
+    },[getMenuGroupByRoleId])
 
     if(accountReducer.userDetail){
-        const userRole = accountReducer.userDetail.userRole;
-        /*const navItems = menuItem.items.filter(item=>accountReducer.contains(item.id, userRole)).map((item) => {
-            switch (item.type) {
-                case 'group':
-                    return <NavGroup key={item.id} item={item} filter={(itemChildren)=> accountReducer.filter(itemChildren, userRole)} />;
-                default:
-                    return (
-                        <Typography key={item.id} variant="h6" color="error" align="center">
-                            Menu Items Error
-                        </Typography>
-                    );
-            }
-        });*/
-
-        const navItems = menuGroups.map((item) => {
+       const navItems = menuGroups.map((item) => {
             switch (item.type) {
                 case 'group':
                     return <NavGroup key={item.id} item={item}/>;

@@ -16,5 +16,22 @@ export default {
         return axios.get(USER_MENU_URL,{headers:headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
+    },
+
+    add(menuItem) {
+        return axios.post(USER_MENU_URL, menuItem)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
+    update(id, menuItem) {
+        return axios.put(USER_MENU_URL+`/${id}`, menuItem)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
+
+    delete(id) {
+        return axios.delete(USER_MENU_URL+`/${id}`)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
     }
 };

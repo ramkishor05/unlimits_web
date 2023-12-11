@@ -8,12 +8,16 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup } from '../../../actions';
+import { getMenuGroupList, addMenuGroup, editMenuGroup, deleteMenuGroup } from '../../../actions';
 
-const headers = [
+const tableHeaders = [
     {
         name: "idenNo",
         label: "IdenNo",
+        type: 'text'
+    },{
+        name: "title",
+        label: "Title",
         type: 'text'
     },
     {
@@ -42,10 +46,38 @@ const headers = [
     }
 ]
 
-function actions(){
-    return ['edit', 'update']
-}
 
+const modelHeaders = [
+    {
+        name: "idenNo",
+        label: "IdenNo",
+        type: 'text'
+    },{
+        name: "title",
+        label: "Title",
+        type: 'text'
+    },
+    {
+        name: "type",
+        label: "Type",
+        type: 'text'
+    },
+    {
+        name: "icon",
+        label: "Icon",
+        type: 'text'
+    },
+    {
+        name: "order",
+        label: "Order",
+        type: 'text'
+    },
+    {
+        name: "url",
+        label: "Url",
+        type: 'text'
+    }
+]
 //==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
@@ -78,23 +110,22 @@ class MenuGroupsPage extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
-            this.props.addCustCategoryGroup(row, this.clearAndRefresh)
+            this.props.addMenuGroup(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustCategoryGroup(row, this.clearAndRefresh)
+            this.props.editMenuGroup(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteCustCategoryGroup(row.id, this.clearAndRefresh)
+            this.props.deleteMenuGroup(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getCustCategoryGroupList();
+        this.props.getMenuGroupList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getCustCategoryGroupList();
+        this.props.getMenuGroupList();
     }
 
  render() {
@@ -113,23 +144,26 @@ class MenuGroupsPage extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={headers} 
-                        dataList={this.props.custCategoryGroupList}
+                        headers={tableHeaders} 
+                        dataList={this.props.menuGroups}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
+                {
+                    this.state.saveModel && 
+                    <DynamicModel
+                    title={this.state.title}
+                    openAction={this.state.saveModel}
+                    closeAction={()=> this.setState({saveModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelHeaders}
+                    saveAction = {this.saveObject}
+                    >
+                    </DynamicModel>
+                }
                 
-                <DynamicModel
-                title={this.state.title}
-                openAction={this.state.saveModel}
-                closeAction={()=> this.setState({saveModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                fields= {headers}
-                saveAction = {this.saveObject}
-                >
-                </DynamicModel>
             
                 <ConfirmModel
                 openAction={this.state.deleteModel}
@@ -147,12 +181,11 @@ class MenuGroupsPage extends Component {
 
 
 const mapStateToProps = state => {
-    const { custCategoryGroupList, show_cust_category_group_loader } = state.custCategoryGroupReducer;
-    
-    return { custCategoryGroupList, show_cust_category_group_loader };
+    const { menuGroups } = state.menuGroupReducer;
+    return { menuGroups};
 };
 
 
-export default connect(mapStateToProps, { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup })(MenuGroupsPage);
+export default connect(mapStateToProps, { getMenuGroupList, addMenuGroup, editMenuGroup, deleteMenuGroup })(MenuGroupsPage);
 
 
