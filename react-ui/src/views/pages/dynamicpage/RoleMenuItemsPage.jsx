@@ -22,12 +22,12 @@ const tableheaders = [
         type: 'text'
     },
     {
-        name: "menuItem.title",
+        name: "menuItem.idenNo",
         label: "Menu Group",
         type: 'text'
     },
     {
-        name: "roleMenuGroup",
+        name: "roleMenuGroup.idenNo",
         label: "Role Menu Group",
         type: 'text'
     },
@@ -45,37 +45,46 @@ const modelheaders = [
         type: 'text'
     },
     {
-        name: "userRole.roleId",
-        key: "userRole.roleId",
+        name: "userRole.id",
+        key: "userRole",
         label: "User Role",
         type: 'select',
+        find : (value, row, field, props)=>{
+            return props.userRoles.find(userRole=>userRole.id==value)
+        },
         onItems : (value,row, field, props )=>{
             return props.userRoles;
         },
-        itemKey: 'roleId',
+        itemKey: 'id',
         itemVal:"roleId"
 
     },
     {
-        name: "menuItem.idenNo",
-        key: "menuItem.idenNo",
+        name: "menuItem.id",
+        key: "menuItem",
         label: "Menu Item",
         type: 'select',
+        find : (value, row, field, props)=>{
+            return props.menuItems.find(menuItem=>menuItem.id==value)
+        },
         onItems : (value,row, field, props )=>{
             return props.menuItems;
         },
-        itemKey: 'idenNo',
+        itemKey: 'id',
         itemVal:"idenNo"
     },
     {
-        name: "roleMenuGroup.idenNo",
-        key: "roleMenuGroup.idenNo",
+        name: "roleMenuGroup.id",
+        key: "roleMenuGroup",
         label: "Role Menu Group",
         type: 'select',
+        find : (value, row, field, props)=>{
+            return props.roleMenuGroups.find(roleMenuGroup=>roleMenuGroup.id==value)
+        },
         onItems : (value,row, field, props )=>{
             return props.roleMenuGroups;
         },
-        itemKey: 'idenNo',
+        itemKey: 'id',
         itemVal:"idenNo"
     }
 ]

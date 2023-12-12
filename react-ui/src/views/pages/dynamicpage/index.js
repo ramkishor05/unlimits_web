@@ -1,5 +1,6 @@
 
 
+import GlobalDashboard from "../../global/dasboard";
 import GlobalCategoryGroup from "../../global/category/GlobalCategoryGroup";
 import GlobalCategoryList from "../../global/category/GlobalCategoryList";
 import GlobalCountFreq from "../../global/count_freq/GlobalCountFreq";
@@ -7,13 +8,17 @@ import GlobalCurrencyGroup from "../../global/currency/GlobalCurrencyGroup";
 import GlobalCurrencyList from "../../global/currency/GlobalCurrencyList";
 import GlobalUnitGroup from "../../global/unit/GlobalUnitGroup";
 import GlobalUnitList from "../../global/unit/GlobalUnitList";
-import UserProfile from "../../profile/UserProfile";
+import UserProfilePage from "../../profile";
 import MenuGroupsPage from "./MenuGroupsPage";
 import MenuItemsPage from "./MenuItemsPage";
 import RoleMenuGroupsPage from "./RoleMenuGroupsPage";
 import RoleMenuItemsPage from "./RoleMenuItemsPage";
+import GlobalVendorPage from "../../global/parties/GlobalVendorPage";
+import GlobalSupplierPage from "../../global/parties/GlobalSupplierPage";
+import GlobalCustomerPage from "../../global/parties/GlobalCustomerPage";
 
 export const PageMapper = {
+    "/global/dashboard/default": GlobalDashboard,
     "/global/menus/groups": MenuGroupsPage,
     "/global/menus/items": MenuItemsPage,
     "/global/menus/role/groups": RoleMenuGroupsPage,
@@ -25,5 +30,8 @@ export const PageMapper = {
     "/global/setups/currency/group": GlobalCurrencyGroup,
     "/global/setups/currency/list": GlobalCurrencyList,
     "/global/setups/count/freq": GlobalCountFreq,
-    "/global/portal/profile": UserProfile
+    "/global/portal/userprofile/detial": UserProfilePage,
+    "/global/parties/vendors" : GlobalVendorPage,
+    "/global/parties/suppliers" : GlobalSupplierPage,
+    "/global/parties/customers" : GlobalCustomerPage
 }

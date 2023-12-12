@@ -39,14 +39,32 @@ const modelheaders = [
         type: 'text'
     },
     {
-        name: "userRole.roleId",
+        name: "userRole.id",
+        key: "userRole",
         label: "User Role",
-        type: 'text'
+        type: 'select',
+        find : (value, row, field, props)=>{
+            return props.userRoles.find(userRole=>userRole.id==value)
+        },
+        onItems : (value,row, field, props )=>{
+            return props.userRoles;
+        },
+        itemKey: 'id',
+        itemVal:"roleId"
     },
     {
-        name: "menuGroup.title",
+        name: "menuGroup.id",
+        key: "menuGroup",
         label: "Menu Group",
-        type: 'text'
+        type: 'select',
+        find : (value, row, field, props)=>{
+            return props.menuGroups.find(menuGroup=>menuGroup.id==value)
+        },
+        onItems : (value,row, field, props )=>{
+            return props.menuGroups;
+        },
+        itemKey: 'id',
+        itemVal:"idenNo"
     }
 ]
 const styles = theme => ({
@@ -87,7 +105,6 @@ class RoleMenuGroupsPage extends Component {
             this.props.editRoleMenuGroup(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteRoleMenuGroup(row.id, this.clearAndRefresh)
-
     };
 
     clearAndRefresh = () => {
@@ -132,7 +149,7 @@ class RoleMenuGroupsPage extends Component {
                     type={this.state.type}
                     fields= {modelheaders}
                     menuGroups= {this.props.menuGroups}
-                    userRoles = {this.props.userRoles}
+                    userRoles = {this.props.userRoleList}
                     saveAction = {this.saveObject}
                     >
                     </DynamicModel>
@@ -157,8 +174,8 @@ class RoleMenuGroupsPage extends Component {
 const mapStateToProps = state => {
     const { roleMenuGroups } = state.roleMenuGroupReducer;
     const { menuGroups } = state.menuGroupReducer;
-    const { userRoles } = state.userRoleReducer;
-    return { roleMenuGroups, menuGroups, userRoles };
+    const { userRoleList } = state.userRoleReducer;
+    return { roleMenuGroups, menuGroups, userRoleList };
 };
 
 

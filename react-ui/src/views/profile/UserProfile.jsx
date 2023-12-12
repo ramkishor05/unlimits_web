@@ -36,7 +36,7 @@ const UserProfile = () => {
     }
 
     useEffect(()=>{
-        dispatch(getUserProfile(userProfile.id));
+        dispatch(getUserProfile(userProfile?.id));
     },[getUserProfile])
     
     return (
@@ -51,7 +51,7 @@ const UserProfile = () => {
                   <CardContent>
                   <Grid container spacing={1}>
                     <Grid item xl={3} xs={4} xm={3}>
-                        <ImageUploadCard name="pictureURL" value={userProfile.pictureURL} setUserProfileImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
+                        <ImageUploadCard name="pictureURL" value={userProfile?.pictureURL} setUserProfileImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
                     </Grid>
                     <Grid item xl={6} xs={8} xm={6}>
                     <Grid container spacing={3}>
@@ -61,7 +61,7 @@ const UserProfile = () => {
                             <TextField
                                 id="userprofile-fullName"
                                 label="Name"
-                                defaultValue={userProfile.fullName}
+                                defaultValue={userProfile?.fullName}
                                 variant='standard'
                                 onChange={(event)=> setUserProfileField(event,'fullName')}
                                 InputProps={{
@@ -69,7 +69,7 @@ const UserProfile = () => {
                                 <Select
                                     labelId="userProfile-title-label"
                                     id="userProfile-title"
-                                    value={userProfile.title}
+                                    value={userProfile?.title}
                                     label="Title"
                                     onChange={(event)=> setUserProfileField(event,'title')}
                                     variant='standard'
@@ -88,7 +88,7 @@ const UserProfile = () => {
                             <TextField
                                 id="userprofile-preferredName"
                                 label="Preferred Name"
-                                defaultValue={userProfile.preferredName}
+                                defaultValue={userProfile?.preferredName}
                                 variant='standard'
                                 onChange={(event)=> setUserProfileField(event,'preferredName')}
                             />

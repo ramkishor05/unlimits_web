@@ -60,10 +60,14 @@ class DynamicModel extends React.Component {
     return key;
   }
   
-  setField= (event, name, data)=>{
-    let newdata={...data}
-    newdata[name]=event.target.value;
-    this.setState({data:newdata})
+  setField= (event, field, data, props)=>{
+    let name=field.name
+    console.log("data=",data)
+    console.log("name=",name)
+    console.log("val=",event.target.value)
+    console.log("field.find=",field.find)
+    let value = field.find ?  field.find(event.target.value, data, field, props) : event.target.value;
+    this.setValue(value, field.key ?  field.key : field.name,  data )
   }
 
   setChecked= (event, name, data)=>{
@@ -92,14 +96,21 @@ class DynamicModel extends React.Component {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={this.getValue(data,field.name)}
-          defaultValue={this.getValue(data,field.name)}
+          defaultValue={this.getValue(data,field.key)}
           label="{field.label}"
-          onChange={(event)=>this.setField(event, field.name, data)}
+          onChange={(event)=>this.setField(event, field, data, this.props)}
         >
           {
-            field.onItems ? field.onItems(this.getValue(data,field.name),data, field, this.props ).map(item=> <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
+            field.onItems ? 
+            field.onItems(this.getValue(data,field.name),data, field, this.props ).
+            map(item=> 
+            
+              <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>
+            )
             :
-            field.items.map(item=> <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>)
+            field.items.map(item=> 
+            <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>
+            )
           }
         </Select>
       </FormControl>;
@@ -132,7 +143,7 @@ class DynamicModel extends React.Component {
         type={field.type}
         value={data[field.name]}
         defaultValue={data[field.name]}
-        onChange={(event)=>this.setField(event, field.name, data)}
+        onChange={(event)=>this.setField(event, field, data, this.props)}
         fullWidth>
         </TextField>;
     }
