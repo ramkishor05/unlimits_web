@@ -8,7 +8,7 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getRoleMenuItemList, addRoleMenuItem, editRoleMenuItem, deleteRoleMenuItem } from '../../../actions';
+import { getRoleMenuItemList, addRoleMenuItem, editRoleMenuItem, deleteRoleMenuItem, getUserRoleList, getMenuItemList,  getRoleMenuGroupList} from '../../../actions';
 
 const tableheaders = [
     {
@@ -46,18 +46,37 @@ const modelheaders = [
     },
     {
         name: "userRole.roleId",
+        key: "userRole.roleId",
         label: "User Role",
-        type: 'text'
+        type: 'select',
+        onItems : (value,row, field, props )=>{
+            return props.userRoles;
+        },
+        itemKey: 'roleId',
+        itemVal:"roleId"
+
     },
     {
-        name: "menuItem.title",
-        label: "Menu Group",
-        type: 'text'
+        name: "menuItem.idenNo",
+        key: "menuItem.idenNo",
+        label: "Menu Item",
+        type: 'select',
+        onItems : (value,row, field, props )=>{
+            return props.menuItems;
+        },
+        itemKey: 'idenNo',
+        itemVal:"idenNo"
     },
     {
-        name: "roleMenuGroup",
+        name: "roleMenuGroup.idenNo",
+        key: "roleMenuGroup.idenNo",
         label: "Role Menu Group",
-        type: 'text'
+        type: 'select',
+        onItems : (value,row, field, props )=>{
+            return props.roleMenuGroups;
+        },
+        itemKey: 'idenNo',
+        itemVal:"idenNo"
     }
 ]
 
@@ -109,6 +128,9 @@ class RoleMenuItemsPage extends Component {
     
     componentDidMount() {
         this.props.getRoleMenuItemList();
+        this.props.getUserRoleList();
+        this.props.getMenuItemList(); 
+        this.props.getRoleMenuGroupList();
     }
 
  render() {
@@ -143,6 +165,9 @@ class RoleMenuItemsPage extends Component {
                     data={this.state.dataObject} 
                     type={this.state.type}
                     fields= {modelheaders}
+                    menuItems= {this.props.menuItems}
+                    roleMenuGroups= {this.props.roleMenuGroups}
+                    userRoles = {this.props.userRoleList}
                     saveAction = {this.saveObject}
                     >
                     </DynamicModel>
@@ -166,11 +191,14 @@ class RoleMenuItemsPage extends Component {
 
 const mapStateToProps = state => {
     const { roleMenuItems } = state.roleMenuItemReducer;
-
-    return { roleMenuItems };
+    const { roleMenuGroups } = state.roleMenuGroupReducer;
+    const { menuItems } = state.menuItemReducer;
+    const { userRoleList } = state.userRoleReducer;
+    console.log("list=",menuItems, userRoleList, roleMenuGroups)
+    return { roleMenuItems, roleMenuGroups, menuItems, userRoleList };
 };
 
 
-export default connect(mapStateToProps, { getRoleMenuItemList, addRoleMenuItem, editRoleMenuItem, deleteRoleMenuItem })(RoleMenuItemsPage);
+export default connect(mapStateToProps, { getRoleMenuItemList, addRoleMenuItem, editRoleMenuItem, deleteRoleMenuItem, getUserRoleList, getMenuItemList,  getRoleMenuGroupList })(RoleMenuItemsPage);
 
 

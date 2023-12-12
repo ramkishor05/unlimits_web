@@ -1,8 +1,7 @@
-import React, { useEffect, useReducer, useState,Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
 
 // project imports
 import MainCard from '../../../component/cards/MainCard';
@@ -11,9 +10,6 @@ import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import { getGlobalCategoryGroupList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup } from '../../../actions';
 
-function createData(name, description, typeId, actions) {
-    return { name, description, typeId, actions};
-}
 const headers = [
     {
         name: "name",
@@ -40,12 +36,6 @@ function actions(){
     return ['edit', 'update']
 }
 
-
-let dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
 //==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
@@ -148,8 +138,6 @@ class CustCategoryGroup extends Component {
 
 const mapStateToProps = state => {
     const { globalCategoryGroupList, show_global_category_group_loader } = state.globalCategoryGroupReducer;
-
-    console.log("globalCategoryGroupList=",globalCategoryGroupList)
     return { globalCategoryGroupList, show_global_category_group_loader };
 };
 

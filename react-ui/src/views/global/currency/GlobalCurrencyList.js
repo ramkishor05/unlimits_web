@@ -47,7 +47,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class CustCurrencyList extends Component {
+class GlobalCurrencyList extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -142,6 +142,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalCurrencyItemList, addGlobalCurrencyItem, editGlobalCurrencyItem, deleteGlobalCurrencyItem })(CustCurrencyList);
+export default connect(mapStateToProps, { getGlobalCurrencyItemList, addGlobalCurrencyItem, editGlobalCurrencyItem, deleteGlobalCurrencyItem })(GlobalCurrencyList);
 
 

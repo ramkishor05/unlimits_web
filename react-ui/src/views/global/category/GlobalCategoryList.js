@@ -13,9 +13,7 @@ import { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlo
 from '../../../actions';
 import { connect } from 'react-redux';
 
-function createData(name, description, typeId, actions) {
-    return { name, description, typeId, actions};
-}
+
 const headers = [
     {
         name: "name",
@@ -42,12 +40,6 @@ function actions(){
     return ['edit', 'update']
 }
 
-
-const dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
 //==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
@@ -57,7 +49,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class CustCategoryList extends Component {
+class GlobalCategoryList extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -153,6 +145,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory })(CustCategoryList);
+export default connect(mapStateToProps, { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory })(GlobalCategoryList);
 
 

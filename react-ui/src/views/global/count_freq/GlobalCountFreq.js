@@ -42,13 +42,6 @@ function actions(){
     return ['edit', 'update']
 }
 
-
-const dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -57,7 +50,8 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class CustCountFreq extends Component {
+
+class GlobalCountFreq extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -153,6 +147,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalCountFreqList, addGlobalCountFreq, editGlobalCountFreq, deleteGlobalCountFreq })(CustCountFreq);
+export default connect(mapStateToProps, { getGlobalCountFreqList, addGlobalCountFreq, editGlobalCountFreq, deleteGlobalCountFreq })(GlobalCountFreq);
 
 

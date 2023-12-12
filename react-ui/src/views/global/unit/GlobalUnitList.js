@@ -57,7 +57,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class CustUnitList extends Component {
+class GlobalUnitList extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -147,12 +147,11 @@ class CustUnitList extends Component {
 
 const mapStateToProps = state => {
     const { globalUnitList, show_global_Unit_loader } = state.globalUnitReducer;
-
-    console.log("globalUnitList=",globalUnitList)
+    
     return { globalUnitList, show_global_Unit_loader };
 };
 
 
-export default connect(mapStateToProps, { getGlobalUnitList, addGlobalUnit, editGlobalUnit, deleteGlobalUnit })(CustUnitList);
+export default connect(mapStateToProps, { getGlobalUnitList, addGlobalUnit, editGlobalUnit, deleteGlobalUnit })(GlobalUnitList);
 
 

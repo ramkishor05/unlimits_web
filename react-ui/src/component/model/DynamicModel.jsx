@@ -21,8 +21,6 @@ class DynamicModel extends React.Component {
     super(props);
     let {data}=this.props;
     this.state={ data:data};
-
-    console.log("this.props.data=",this.props.data)
     
   }
 
@@ -30,6 +28,9 @@ class DynamicModel extends React.Component {
     let keys=keyStr.split("\.");
     let val=data;
     for (let i = 0; i < keys.length; i++){
+      if(!val){
+        return "";
+      }
       if( typeof val === 'object')
       val=val[keys[i]];
     }
@@ -163,6 +164,7 @@ class DynamicModel extends React.Component {
           open={this.props.openAction}
           onClose={this.props.closeAction}
           aria-labelledby="form-dialog-title"
+          maxWidth={'lg'}
         >
           <DialogTitle id="form-dialog-title"><h2>{title}</h2></DialogTitle>
           <DialogContent>

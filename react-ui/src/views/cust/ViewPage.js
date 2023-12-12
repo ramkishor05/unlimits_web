@@ -1,8 +1,5 @@
-import { Card, CardContent, Grid} from "@material-ui/core";
-import { IconMapper } from "../../constants/IconMapper";
-
 import React from "react";
-import { PageMapper } from "../pages/dynamic";
+import { PageMapper } from "../pages/dynamicpage";
 
 
 const ViewPage=(props)=>{

@@ -13,9 +13,6 @@ import { getGlobalUnitGroupList, addGlobalUnitGroup, editGlobalUnitGroup, delete
 from '../../../actions';
 import { connect } from 'react-redux';
 
-function createData(name, description, typeId, actions) {
-    return { name, description, typeId, actions};
-}
 const headers = [
     {
         name: "name",
@@ -42,13 +39,6 @@ function actions(){
     return ['edit', 'update']
 }
 
-
-const dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -57,7 +47,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class CustUnitGroup extends Component {
+class GlobalUnitGroup extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -147,12 +137,11 @@ class CustUnitGroup extends Component {
 
 const mapStateToProps = state => {
     const { globalUnitGroupList, show_global_UnitGroup_loader } = state.globalUnitGroupReducer;
-
-    console.log("globalUnitGroupList=",globalUnitGroupList)
+    
     return { globalUnitGroupList, show_global_UnitGroup_loader };
 };
 
 
-export default connect(mapStateToProps, { getGlobalUnitGroupList, addGlobalUnitGroup, editGlobalUnitGroup, deleteGlobalUnitGroup })(CustUnitGroup);
+export default connect(mapStateToProps, { getGlobalUnitGroupList, addGlobalUnitGroup, editGlobalUnitGroup, deleteGlobalUnitGroup })(GlobalUnitGroup);
 
 

@@ -84,7 +84,7 @@ class RoleMenuGroupsPage extends Component {
         if(type=='Add')
             this.props.addRoleMenuGroup(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editRoleMenuGroup(row, this.clearAndRefresh)
+            this.props.editRoleMenuGroup(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteRoleMenuGroup(row.id, this.clearAndRefresh)
 
@@ -131,6 +131,8 @@ class RoleMenuGroupsPage extends Component {
                     data={this.state.dataObject} 
                     type={this.state.type}
                     fields= {modelheaders}
+                    menuGroups= {this.props.menuGroups}
+                    userRoles = {this.props.userRoles}
                     saveAction = {this.saveObject}
                     >
                     </DynamicModel>
@@ -154,8 +156,9 @@ class RoleMenuGroupsPage extends Component {
 
 const mapStateToProps = state => {
     const { roleMenuGroups } = state.roleMenuGroupReducer;
-
-    return { roleMenuGroups };
+    const { menuGroups } = state.menuGroupReducer;
+    const { userRoles } = state.userRoleReducer;
+    return { roleMenuGroups, menuGroups, userRoles };
 };
 
 
