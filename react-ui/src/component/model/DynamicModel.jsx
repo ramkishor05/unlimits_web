@@ -122,7 +122,7 @@ class DynamicModel extends React.Component {
             onChange={(event)=>this.setChecked(event, field.name, data)}
             name={field.name} />
          }
-         label={field.label+"_"+this.getValue(data,field.name)}
+         label={field.label}
        />
       case 'img':
          return <ImageUploadCard name="pictureURL" 

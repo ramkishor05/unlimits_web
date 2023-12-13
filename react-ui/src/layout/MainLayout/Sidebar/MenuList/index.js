@@ -21,11 +21,13 @@ const MenuList = () => {
     let menuGroups = userMenuGroupReducer.userMenuGroups;
     console.log("userMenuGroups=",menuGroups)
     useEffect(()=>{
-        if(userRole)
-        dispatch(getMenuGroupByRoleId(userRole.id));
+        if(userRole){
+            dispatch(getMenuGroupByRoleId(userRole.id));
+        }
+       
     },[getMenuGroupByRoleId])
 
-    if(accountReducer.userDetail){
+    if(userRole){
        const navItems = menuGroups.map((item) => {
             switch (item.type) {
                 case 'group':

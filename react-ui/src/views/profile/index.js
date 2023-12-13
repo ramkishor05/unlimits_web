@@ -24,6 +24,7 @@ class UserProfilePage extends Component {
 
     render() {
         return (
+            this.props.userDetail &&
             <MainCard title="Profile" content = {false}>
                 <UserProfile userProfile={this.props.userDetail.userProfile}></UserProfile>
                 <Divider></Divider>
@@ -32,6 +33,8 @@ class UserProfilePage extends Component {
                 <Divider></Divider>
                 <OwnerAccount vendorAccount={this.props.vendor} userAccount={this.props.userDetail}></OwnerAccount>
             </MainCard>
+        
+            
         );
     }
 };

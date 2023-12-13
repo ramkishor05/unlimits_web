@@ -236,7 +236,7 @@ const ProfileSection = () => {
                                             <Grid item className={classes.flex}>
                                                 <Typography variant="h4">{greeting()},</Typography>
                                                 <Typography component="span" variant="h4" className={classes.name}>
-                                                    { userDetail?.userProfile.fullName}
+                                                    { userDetail?.userProfile?.fullName}
                                                 </Typography>
                                             </Grid>
                                             <Grid item>

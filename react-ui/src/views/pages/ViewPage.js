@@ -1,5 +1,5 @@
 import React from "react";
-import { PageMapper } from "../pages/dynamicpage";
+import { PageMapper } from "./dynamicpage";
 
 
 const ViewPage=(props)=>{
@@ -7,9 +7,7 @@ const ViewPage=(props)=>{
   
     return(
         <>
-        {
-            JSON.stringify(props.menuItem)
-        }
+        
         {
             DynamicPage &&  <DynamicPage {...props}></DynamicPage>
            

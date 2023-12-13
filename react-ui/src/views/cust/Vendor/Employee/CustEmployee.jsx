@@ -152,8 +152,8 @@ const modelheaders = [
         type: 'text'
     },
     {
-        name: "enableAccess",
-        label: "Enable Access",
+        name: "portalAccess",
+        label: "Portal Access",
         type: 'switch'
     }
 ];
@@ -168,13 +168,11 @@ class CustEmployee extends Component {
     }
     
     _edit = row => {
-        row['enableAccess']=true;
-        console.log("row=",row)
-       this.setState({ dataObject: row, title:"Edit employee", type:"Edit", saveModel: true  });
+        this.setState({ dataObject: row, title:"Edit employee", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add employee", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {portalAccess : false}, title:"Add employee", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
@@ -182,34 +180,42 @@ class CustEmployee extends Component {
     };
     
      saveObject = async (type, row) => {
-        if(type=='Add')
-            this.props.addCustEmployee(row, this.clearAndRefresh)
-        if(type=='Edit'){
-            console.log("saveObject=",row);
-            if(row.enableAccess){
-                let register={
-                    mobile: row.mobileNumber,
-                    email: row.emailAddress,
-                    username: row.emailAddress,
-                    password: 'temp123',
-                    type: 'Employee',
-                    userRoleId: 4,
-                    ownerId: this.props.userDetail.ownerId
-                }
-                console.log("register=",register);
-                let user= await UserService.addCustom(register);
+        let ownerId= this.props.userDetail.ownerId;
+        console.log("ownerId==",ownerId)
+        if(type=='Add'){
+            this.portalAccess(row, ownerId).then(user=>{
+                console.log("user==",user)
                 row['accountId']=user.id;
-            }
-            
-            delete row.enableAccess;
-
-            this.props.editCustEmployee(row.id,row, this.clearAndRefresh)
+                row['ownerId']=ownerId;
+               this.props.addCustEmployee(row, this.clearAndRefresh)
+            });
         }
-        
-        if(type=='Delete')
+        if(type=='Edit'){
+            this.portalAccess(row, ownerId).then(user=>{
+                console.log("user==",user)
+                row['accountId']=user.id;
+                row['ownerId']=ownerId;
+                this.props.editCustEmployee(row.id,row, this.clearAndRefresh)
+            });
+        }
+        if(type=='Delete'){
             this.props.deleteCustEmployee(row.id, this.clearAndRefresh)
-
+        }
     };
+
+    portalAccess = async(row, ownerId)=>{
+        let register={
+            mobile: row.mobileNumber,
+            email: row.emailAddress,
+            username: row.emailAddress,
+            password: 'temp123',
+            type: 'Employee',
+            userRoleId: 4,
+            ownerId: ownerId
+        }
+        console.log("register=",register)
+        return await row.portalAccess ? UserService.saveCustUser(register) : UserService.deleteCustUser(register.email);
+    }
 
     clearAndRefresh = () => {
         this.props.getCustEmployeeList();
@@ -280,7 +286,7 @@ const mapStateToProps = state => {
     const { userDetail } = state.account;
 
     const { custEmployeeList, show_employee_loader } = state.custEmployeeReducer;
-    console.log("users=",users)
+    console.log("userDetail=",userDetail)
     return { user, custEmployeeList,users, show_employee_loader, show_user_loader, userDetail };
 };
 

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import MainPage from '../views/cust/MainPage';
+import MainPage from '../views/pages/MainPage';
 import MainLayout from './../layout/MainLayout';
 import AuthGuard from './../utils/route-guard/AuthGuard';
 import { UrlMapper } from '../constants/UrlMapper';
 import { getMenuGroupByRoleId } from '../actions';
-import ViewPage from '../views/cust/ViewPage';
+import ViewPage from '../views/pages/ViewPage';
 
 //-----------------------|| MAIN ROUTING ||-----------------------//
 

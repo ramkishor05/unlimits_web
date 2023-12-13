@@ -3,6 +3,9 @@ const hostname = `localhost`;
 
 var endpoint = `http://${hostname}:2222/api/user`;
 
+var custendpoint = `http://${hostname}:2222/api/cust/user`;
+
+
 const headers = {
     'Content-Type': 'application/json',
     'custAppId': 1,
@@ -27,8 +30,13 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-    addCustom(user) {
-        return axios.post(endpoint+"/cust", user)
+    saveCustUser(user) {
+        return axios.post(custendpoint, user)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
+    deleteCustUser(username) {
+        return axios.delete(custendpoint+`/username/${username}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
