@@ -1,8 +1,8 @@
-let BACKEND_SERVER = null;
-if (process.env.APP_BACKEND_SERVER) {
-  BACKEND_SERVER = process.env.APP_BACKEND_SERVER;
+let APP_HOST_SERVER = null;
+if (process.env.APP_HOST_SERVER) {
+  APP_HOST_SERVER = process.env.APP_HOST_SERVER;
 } else {
-  BACKEND_SERVER = "192.168.29.222";
+  APP_HOST_SERVER = "192.168.29.222";
 }
 
 const config = {
@@ -11,10 +11,10 @@ const config = {
     basename: '',
     fontFamily: `'Roboto', sans-serif`,
     borderRadius: 12,
-    API_SERVER: BACKEND_SERVER,
-    ITEM_SERVER_HOST: 'http://'+BACKEND_SERVER+':4444',
-    AUTH_SERVER_HOST: 'http://'+BACKEND_SERVER+':2222',
-    CRM_SERVER_HOST: 'http://'+BACKEND_SERVER+':3333'
+    APP_HOST_SERVER: APP_HOST_SERVER,
+    ITEM_SERVER_HOST: 'http://'+APP_HOST_SERVER+':4444',
+    AUTH_SERVER_HOST: 'http://'+APP_HOST_SERVER+':2222',
+    CRM_SERVER_HOST: 'http://'+APP_HOST_SERVER+':3333'
 };
 
 export default config;
