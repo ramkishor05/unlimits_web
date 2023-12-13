@@ -1,5 +1,5 @@
 // action - state management
-import MenuGroupService from '../services/MenuGroupService';
+import MenuGroupService from '../services/GlobalMenuGroupService';
 import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, SET_BUSSINESS_ACCOUNT } from '../store/actions';
 
 import {

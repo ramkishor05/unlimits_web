@@ -4,7 +4,7 @@ import { Button, Fab, Tooltip } from '@material-ui/core';
 
 
 import { 
-    addCustPurchase, editCustPurchase, deleteCustPurchase, getCustPurchaseList, getVendorSupplierList, getVendorBusinessList
+    addCustPurchase, editCustPurchase, deleteCustPurchase, getCustPurchaseList, getCustSupplierList, getCustBusinessList
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
@@ -32,7 +32,7 @@ const mainheaders = [
         label: "Supplier",
         type: 'text',
         render: (value, row, header, props)=>{
-            let supplier=  props.vendorSupplierList.find((vendorSupplier)=>vendorSupplier.id==value)
+            let supplier=  props.custSupplierList.find((custSupplier)=>custSupplier.id==value)
            return supplier?  supplier.name: value;
         }
     },
@@ -169,8 +169,8 @@ class CustPurchasePage extends Component {
 
     build=(row)=>{
         console.log("row=",row);
-        let vendorSupplier= this.props.vendorSupplierList.find(vendorSupplier=>vendorSupplier.id==row.supplierId);
-        let vendorBusiness= this.props.vendorBusinessList.find(vendorBusiness=>vendorBusiness.id==row.businessId);
+        let custSupplier= this.props.custSupplierList.find(custSupplier=>custSupplier.id==row.supplierId);
+        let custBusiness= this.props.custBusinessList.find(custBusiness=>custBusiness.id==row.businessId);
         const subTotal=row.custProductPurchaseItemList.reduce((previousValue, currentValue) => {
             return previousValue + (Number.parseFloat(currentValue.purchasePrice.price)*currentValue.purchaseQnt);
         }, 0);
@@ -178,14 +178,14 @@ class CustPurchasePage extends Component {
             idenNo:row.idenNo,
             date:row.purchaseDate,
             from: {
-                name: vendorBusiness.name, 
-                phone: vendorBusiness.mobileNumber, 
-                address: vendorBusiness.presentAddress
+                name: custBusiness.name, 
+                phone: custBusiness.mobileNumber, 
+                address: custBusiness.presentAddress
             } ,
             to: {
-                name: vendorSupplier.name, 
-                phone: vendorSupplier.mobileNumber, 
-                address: vendorSupplier.presentAddress
+                name: custSupplier.name, 
+                phone: custSupplier.mobileNumber, 
+                address: custSupplier.presentAddress
             },
             payment: {
                 status: 'Unpaid',
@@ -229,8 +229,8 @@ class CustPurchasePage extends Component {
     }
     
    async componentDidMount() {
-       this.props.getVendorSupplierList();
-       this.props.getVendorBusinessList();
+       this.props.getCustSupplierList();
+       this.props.getCustBusinessList();
        await this.props.getCustPurchaseList();
     }
     
@@ -253,7 +253,7 @@ class CustPurchasePage extends Component {
                         <CollapsibleTable 
                             headers={headers} 
                             dataList={this.props.custPurchaseList}
-                            vendorSupplierList= {this.props.vendorSupplierList}
+                            custSupplierList= {this.props.custSupplierList}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
                             printAction= {this._print}
@@ -305,9 +305,9 @@ class CustPurchasePage extends Component {
 const mapStateToProps = state => {
     const { user } = state.userReducer;
     const { custPurchaseList} = state.custPurchaseReducer;
-    const { vendorSupplierList} = state.vendorSupplierReducer;
-    const { vendorBusinessList} = state.vendorBusinessReducer;
-    return { user, custPurchaseList, vendorSupplierList, vendorBusinessList};
+    const { custSupplierList} = state.custSupplierReducer;
+    const { custBusinessList} = state.custBusinessReducer;
+    return { user, custPurchaseList, custSupplierList, custBusinessList};
 };
 
 const styles = {
@@ -317,4 +317,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustPurchase, editCustPurchase,deleteCustPurchase, getCustPurchaseList, getVendorSupplierList, getVendorBusinessList})(CustPurchasePage);
+export default connect(mapStateToProps, { addCustPurchase, editCustPurchase,deleteCustPurchase, getCustPurchaseList, getCustSupplierList, getCustBusinessList})(CustPurchasePage);

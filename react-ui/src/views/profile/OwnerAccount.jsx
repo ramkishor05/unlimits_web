@@ -6,7 +6,7 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormL
 // project imports
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getVendor, updateVendor} from '../../actions';
+import { getUserVendor, updateUserVendor} from '../../actions';
 import { EditOutlined, Refresh } from '@material-ui/icons';
 import { useEffect } from 'react';
 
@@ -24,11 +24,11 @@ const OwnerAccount = ({vendorAccount, userAccount}) => {
     }
 
     const editVendorDetail=()=>{
-        dispatch(updateVendor(vendorDetail.id, vendorDetail));
+        dispatch(updateUserVendor(vendorDetail?.id, vendorDetail));
     }
 
     const isNotOwner= ()=>{
-        return vendorAccount.id!==userAccount.id;
+        return vendorAccount?.id!==userAccount?.id;
     }
 
     return (
@@ -50,7 +50,7 @@ const OwnerAccount = ({vendorAccount, userAccount}) => {
                                 id="vendorDetail-name"
                                 label="Name"
                                 name='name'
-                                defaultValue={vendorDetail.name}
+                                defaultValue={vendorDetail?.name}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'name')}
                                 disabled={isNotOwner()}
@@ -63,7 +63,7 @@ const OwnerAccount = ({vendorAccount, userAccount}) => {
                                 id="vendorDetail-emailAddress"
                                 label="Email Address"
                                 name='emailAddress'
-                                defaultValue={vendorDetail.emailAddress}
+                                defaultValue={vendorDetail?.emailAddress}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'emailAddress')}
                                 disabled={isNotOwner()}
@@ -76,7 +76,7 @@ const OwnerAccount = ({vendorAccount, userAccount}) => {
                                 id="vendorDetail-mobileNumber"
                                 label="Mobile Number"
                                 name='mobileNumber'
-                                defaultValue={vendorDetail.mobileNumber}
+                                defaultValue={vendorDetail?.mobileNumber}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'mobileNumber')}
                                 disabled={isNotOwner()}
@@ -89,7 +89,7 @@ const OwnerAccount = ({vendorAccount, userAccount}) => {
                                 id="vendorDetail-phoneNumber"
                                 name='phoneNumber'
                                 label="Phone Number"
-                                defaultValue={vendorDetail.phoneNumber}
+                                defaultValue={vendorDetail?.phoneNumber}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'phoneNumber')}
                                 disabled={isNotOwner()}
@@ -102,7 +102,7 @@ const OwnerAccount = ({vendorAccount, userAccount}) => {
                                 id="vendorDetail-permamentAddress"
                                 name='permamentAddress'
                                 label="Permament Address"
-                                defaultValue={vendorDetail.permamentAddress}
+                                defaultValue={vendorDetail?.permamentAddress}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'permamentAddress')}
                                 disabled={isNotOwner()}
@@ -115,7 +115,7 @@ const OwnerAccount = ({vendorAccount, userAccount}) => {
                                 id="vendorDetail-presentAddress"
                                 name='presentAddress'
                                 label="Present Address"
-                                defaultValue={vendorDetail.presentAddress}
+                                defaultValue={vendorDetail?.presentAddress}
                                 variant='standard'
                                 onChange={(event)=> setVendorDetailField(event,'presentAddress')}
                                 disabled={isNotOwner()}

@@ -13,11 +13,11 @@ import CustCurrencyList from '../views/cust/currency/CustCurrencyList';
 import CustCurrencyGroup from '../views/cust/currency/CustCurrencyGroup';
 import CustPurchasePage from '../views/cust/purchase/CustPurchasePage';
 import UserProfilePage from '../views/profile';
-import VendorCustomer from '../views/cust/Vendor/Customer/VendorCustomer';
-import VendorSupplier from '../views/cust/Vendor/Supplier/VendorSupplier';
-import VendorBusiness from '../views/cust/Vendor/Business/VendorBusiness';
-import VendorEmployee from '../views/cust/Vendor/Employee/VendorEmployee';
-import VendorUser from '../views/cust/Vendor/Users/VendorUser';
+import VendorCustomer from '../views/cust/Vendor/Customer/CustCustomer';
+import VendorSupplier from '../views/cust/Vendor/Supplier/CustSupplier';
+import VendorBusiness from '../views/cust/Vendor/Business/CustBusiness';
+import VendorEmployee from '../views/cust/Vendor/Employee/CustEmployee';
+import VendorUser from '../views/cust/Vendor/Users/CustUser';
 
 export const UrlMapper = {
    "/business/portal/dashboard/default" :Loadable(lazy(() => import('../views/dashboard/Default'))),

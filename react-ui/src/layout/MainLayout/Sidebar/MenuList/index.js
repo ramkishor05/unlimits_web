@@ -16,9 +16,9 @@ import { getMenuGroupByRoleId } from '../../../../actions';
 const MenuList = () => {
     const dispatch=useDispatch()
     const accountReducer = useSelector((state) => state.account);
-    const menuGroupReducer = useSelector((state) => state.menuGroupReducer);
+    const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);
     const userRole = accountReducer.userDetail.userRole;
-    let menuGroups = menuGroupReducer.userMenuGroups;
+    let menuGroups = userMenuGroupReducer.userMenuGroups;
     console.log("userMenuGroups=",menuGroups)
     useEffect(()=>{
         if(userRole)

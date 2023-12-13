@@ -16,6 +16,8 @@ import RoleMenuItemsPage from "./RoleMenuItemsPage";
 import GlobalVendorPage from "../../global/parties/GlobalVendorPage";
 import GlobalSupplierPage from "../../global/parties/GlobalSupplierPage";
 import GlobalCustomerPage from "../../global/parties/GlobalCustomerPage";
+import GlobalUserPage from "../../global/organizations/GlobalUserPage";
+import GlobalEmployeePage from "../../global/organizations/GlobalEmployeePage";
 
 export const PageMapper = {
     "/global/dashboard/default": GlobalDashboard,
@@ -33,5 +35,7 @@ export const PageMapper = {
     "/global/portal/userprofile/detial": UserProfilePage,
     "/global/parties/vendors" : GlobalVendorPage,
     "/global/parties/suppliers" : GlobalSupplierPage,
-    "/global/parties/customers" : GlobalCustomerPage
+    "/global/parties/customers" : GlobalCustomerPage,
+    "/global/portal/organizations/users":GlobalUserPage,
+    "/global/portal/organizations/employee":GlobalEmployeePage
 }

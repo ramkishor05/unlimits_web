@@ -28,19 +28,28 @@ import CustProductReducer from './cust/CustProductReducer';
 import CustSaleReducer from './cust/CustSaleReducer';
 import CustPurchaseReducer from './cust/CustPurchaseReducer';
 
-import VendorReducer from './VendorReducer';
-import VendorCustomerReducer from './VendorCustomerReducer';
-import VendorBusinessReducer from './VendorBusinessReducer';
-import VendorSupplierReducer from './VendorSupplierReducer';
-import VendorEmployeeReducer from './VendorEmployeeReducer';
-import VendorUserReducer from './VendorUserReducer';
+import CustCustomerReducer from './cust/CustCustomerReducer';
+import CustBusinessReducer from './cust/CustBusinessReducer';
+import CustSupplierReducer from './cust/CustSupplierReducer';
+import CustEmployeeReducer from './cust/CustEmployeeReducer';
+import CustUserReducer from './cust/CustUserReducer';
+
+import GlobalVendorReducer from './global/GlobalVendorReducer';
+
 import UserRoleReducer from './UserRoleReducer';
 import LoaderReducer from './LoaderReducer';
-import MenuGroupReducer from './MenuGroupReducer';
-import MenuItemReducer from './MenuItemReducer';
+import GlobalMenuGroupReducer from './global/GlobalMenuGroupReducer';
+import GlobalMenuItemReducer from './global/GlobalMenuItemReducer';
 
-import RoleMenuGroupReducer from './RoleMenuGroupReducer';
-import RoleMenuItemReducer from './RoleMenuItemReducer';
+import GlobalRoleMenuGroupReducer from './global/GlobalRoleMenuGroupReducer';
+import GlobalRoleMenuItemReducer from './global/GlobalRoleMenuItemReducer';
+
+import UserMenuGroupReducer from './UserMenuGroupReducer';
+import GlobalEmployeeReducer from './global/GlobalEmployeeReducer';
+import GlobalCustomerReducer from './global/GlobalCustomerReducer';
+import GlobalUserReducer from './global/GlobalUserReducer';
+import GlobalSupplierReducer from './global/GlobalSupplierReducer';
+import UserVendorReducer from './UserVendorReducer';
 
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
@@ -55,23 +64,17 @@ const reducer = combineReducers({
         },
         AccountReducer
     ),
+    customization: CustomizationReducer,
     userReducer: UserReducer,
     userRoleReducer: UserRoleReducer,
+    userMenuGroupReducer: UserMenuGroupReducer,
+    userVendorReducer: UserVendorReducer,
 
-    menuGroupReducer: MenuGroupReducer,
-    menuItemReducer: MenuItemReducer,
-    roleMenuGroupReducer: RoleMenuGroupReducer,
-    roleMenuItemReducer: RoleMenuItemReducer,
-
-    customization: CustomizationReducer,
-
-    vendorReducer: VendorReducer,
-    vendorCustomerReducer: VendorCustomerReducer,
-    vendorBusinessReducer: VendorBusinessReducer,
-    vendorSupplierReducer: VendorSupplierReducer,
-    vendorEmployeeReducer: VendorEmployeeReducer,
-    vendorUserReducer: VendorUserReducer,
-
+    globalMenuGroupReducer: GlobalMenuGroupReducer,
+    globalMenuItemReducer: GlobalMenuItemReducer,
+    globalRoleMenuGroupReducer: GlobalRoleMenuGroupReducer,
+    globalRoleMenuItemReducer: GlobalRoleMenuItemReducer,
+    globalVendorReducer: GlobalVendorReducer,
     globalCategoryGroupReducer: GlobalCategoryGroupReducer,
     globalCategoryReducer: GlobalCategoryReducer,
     globalCurrencyGroupReducer: GlobalCurrencyGroupReducer,
@@ -79,6 +82,10 @@ const reducer = combineReducers({
     globalUnitGroupReducer:GlobalUnitGroupReducer,
     globalUnitReducer: GlobalUnitReducer,
     globalCountFreqReducer: GlobalCountFreqReducer,
+    globalEmployeeReducer: GlobalEmployeeReducer,
+    globalCustomerReducer: GlobalCustomerReducer,
+    globalSupplierReducer: GlobalSupplierReducer,
+    globalUserReducer: GlobalUserReducer,
 
     custDashboardReducer: CustDashboardReducer,
     custProductReducer: CustProductReducer,
@@ -90,7 +97,13 @@ const reducer = combineReducers({
     custCurrencyGroupReducer: CustCurrencyGroupReducer,
     custCurrencyItemReducer: CustCurrencyItemReducer,
     custSaleReducer:CustSaleReducer,
-    custPurchaseReducer:CustPurchaseReducer
+    custPurchaseReducer:CustPurchaseReducer,
+    custCustomerReducer: CustCustomerReducer,
+    custBusinessReducer: CustBusinessReducer,
+    custSupplierReducer: CustSupplierReducer,
+    custEmployeeReducer: CustEmployeeReducer,
+    custUserReducer: CustUserReducer
+
 });
 
 export default reducer;

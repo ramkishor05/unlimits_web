@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import { MENU_OPEN, SET_MENU } from "../../store/actions";
-import Vendors from "./Vendor/Vendors";
 const useStyles = makeStyles((theme) => ({
     listIcon: {
         minWidth: '18px',

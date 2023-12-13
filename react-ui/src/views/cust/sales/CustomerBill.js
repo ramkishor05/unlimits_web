@@ -10,7 +10,7 @@ import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 import { makeStyles, styled } from '@material-ui/styles';
 import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
 import { 
-    getCustProductList, getVendorCustomerList
+    getCustProductList, getCustCustomerList
  } from '../../../actions';
 
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
@@ -150,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
 
     componentDidMount() {
         this.props.getCustProductList()
-        this.props.getVendorCustomerList();
+        this.props.getCustCustomerList();
        
     }
 
@@ -435,7 +435,7 @@ const useStyles = makeStyles((theme) => ({
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3}>
-                        <CustomerDropDwon label="Sale to" value={this.props.data.customerId} customerList = {this.props.vendorCustomerList} customerAction={this.customerAction}></CustomerDropDwon>
+                        <CustomerDropDwon label="Sale to" value={this.props.data.customerId} customerList = {this.props.custCustomerList} customerAction={this.customerAction}></CustomerDropDwon>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
                         <ItemDropDwon label="Items" items={this.props.custProductList} itemAction={this.itemAction}></ItemDropDwon>
@@ -484,9 +484,9 @@ const styles = {
 const mapStateToProps = state => {
     const { custProductList } = state.custProductReducer;
 
-    const { vendorCustomerList } = state.vendorCustomerReducer;
+    const { custCustomerList } = state.custCustomerReducer;
 
-    return { custProductList, vendorCustomerList };
+    return { custProductList, custCustomerList };
 }
 
-export default connect(mapStateToProps, { getCustProductList, getVendorCustomerList})(CustomerSale);
+export default connect(mapStateToProps, { getCustProductList, getCustCustomerList})(CustomerSale);

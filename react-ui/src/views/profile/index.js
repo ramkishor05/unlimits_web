@@ -8,7 +8,7 @@ import MainCard from '../../component/cards/MainCard';
 import UserProfile from './UserProfile';
 import UserAccount from './UserAccount';
 import OwnerAccount from './OwnerAccount';
-import { getVendor } from '../../actions';
+import { getUserVendor } from '../../actions';
 import { connect } from 'react-redux';
 
 //==============================|| SAMPLE PAGE ||==============================//
@@ -19,7 +19,7 @@ class UserProfilePage extends Component {
     }
    
     async componentDidMount() {
-        await this.props.getVendor(this.props.userDetail.ownerId);
+        await this.props.getUserVendor(this.props.userDetail.ownerId);
     }
 
     render() {
@@ -38,8 +38,8 @@ class UserProfilePage extends Component {
 
 const mapStateToProps = state => {
     const { userDetail, } = state.account;
-    const { vendor} = state.vendorReducer;
+    const { vendor} = state.userVendorReducer;
     return { userDetail, vendor };
 };
 
-export default connect(mapStateToProps, { getVendor })(UserProfilePage);
+export default connect(mapStateToProps, { getUserVendor })(UserProfilePage);

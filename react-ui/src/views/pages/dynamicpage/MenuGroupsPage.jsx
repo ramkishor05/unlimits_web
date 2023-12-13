@@ -181,7 +181,7 @@ class MenuGroupsPage extends Component {
 
 
 const mapStateToProps = state => {
-    const { menuGroups } = state.menuGroupReducer;
+    const { menuGroups } = state.globalMenuGroupReducer;
     return { menuGroups};
 };
 

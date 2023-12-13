@@ -37,7 +37,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import UserService from '../../../../services/UserService';
-import VendorService from '../../../../services/VendorService';
+import UserVendorService from '../../../../services/UserVendorService';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -113,7 +113,7 @@ const RestRegister = ({ ...others }) => {
                     setErrors({ submit: "User already exists."});
                     setSubmitting(false);
                 } else {
-                    VendorService.add({
+                    UserVendorService.add({
                         emailAddress: values.email
                     }).then(function (owner) {
                         if (owner) {

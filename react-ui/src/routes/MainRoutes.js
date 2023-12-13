@@ -18,9 +18,9 @@ const MainRoutes = () => {
     const [isLoading, setLoading]=useState(true);
     const accountReducer = useSelector((state) => state.account);
     
-    const menuGroupReducer = useSelector((state) => state.menuGroupReducer);
+    const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);
 
-    let menuGroups = menuGroupReducer.userMenuGroups;
+    let menuGroups = userMenuGroupReducer.userMenuGroups;
     const userRole = accountReducer?.userDetail?.userRole;
         
     console.log("userMenuGroups=",menuGroups)

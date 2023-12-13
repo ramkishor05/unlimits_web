@@ -11,7 +11,7 @@ import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 import { makeStyles, styled } from '@material-ui/styles';
 import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
 import { 
-    getCustProductList, getVendorCustomerList
+    getCustProductList, getCustCustomerList
  } from '../../../actions';
 
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
@@ -151,9 +151,9 @@ const useStyles = makeStyles((theme) => ({
 const mapStateToProps = state => {
     const { custProductList } = state.custProductReducer;
 
-    const { vendorCustomerList } = state.vendorCustomerReducer;
+    const { custCustomerList } = state.custCustomerReducer;
 
-    return { custProductList, vendorCustomerList };
+    return { custProductList, custCustomerList };
 }
 
-export default connect(mapStateToProps, { getCustProductList, getVendorCustomerList})(PrintBill);
+export default connect(mapStateToProps, { getCustProductList, getCustCustomerList})(PrintBill);

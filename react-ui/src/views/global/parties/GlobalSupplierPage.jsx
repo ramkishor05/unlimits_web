@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Fab, TableCell } from '@material-ui/core';
 
 
-import { getVendorSupplierList, addVendorSupplier, editVendorSupplier, deleteVendorSupplier, getVendorList  } from '../../../actions';
+import { getGlobalSupplierList, addGlobalSupplier, editGlobalSupplier, deleteGlobalSupplier, getGlobalVendorList  } from '../../../actions';
 import MainCard from '../../../component/cards/MainCard';
 
 import { AddTaskOutlined } from '@material-ui/icons';
@@ -127,22 +127,22 @@ class GlobalSupplierPage extends Component {
      saveObject = (type, row) => {
         console.log(type+"=",row)
         if(type=='Add')
-            this.props.addVendorSupplier(row, this.clearAndRefresh)
+            this.props.addGlobalSupplier(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editVendorSupplier(row.id,row, this.clearAndRefresh)
+            this.props.editGlobalSupplier(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteVendorSupplier(row.id, this.clearAndRefresh)
+            this.props.deleteGlobalSupplier(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getVendorSupplierList();
+        this.props.getGlobalSupplierList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getVendorList();
-        this.props.getVendorSupplierList();
+        this.props.getGlobalVendorList();
+        this.props.getGlobalSupplierList();
     }
 
     render() {
@@ -161,7 +161,7 @@ class GlobalSupplierPage extends Component {
                     >
                        <DynamicTable 
                             headers={tableheaders} 
-                            dataList={this.props.vendorSupplierList}
+                            dataList={this.props.custSupplierList}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
                             previewAction={this._preview}
@@ -206,9 +206,9 @@ class GlobalSupplierPage extends Component {
 
 const mapStateToProps = state => {
     const { user } = state.userReducer;
-    const { vendorSupplierList, show_supplier_loader } = state.vendorSupplierReducer;
+    const { custSupplierList, show_supplier_loader } = state.custSupplierReducer;
 
-    return { user, vendorSupplierList, show_supplier_loader };
+    return { user, custSupplierList, show_supplier_loader };
 };
 
 const styles = {
@@ -218,4 +218,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { getVendorSupplierList, addVendorSupplier,editVendorSupplier, deleteVendorSupplier, getVendorList })(GlobalSupplierPage);
+export default connect(mapStateToProps, { getGlobalSupplierList, addGlobalSupplier,editGlobalSupplier, deleteGlobalSupplier, getGlobalVendorList })(GlobalSupplierPage);

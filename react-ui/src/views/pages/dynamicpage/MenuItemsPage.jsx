@@ -125,7 +125,7 @@ class MenuItemsPage extends Component {
         if(type=='Add')
             this.props.addMenuItem(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editMenuItem(row, this.clearAndRefresh)
+            this.props.editMenuItem(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteMenuItem(row.id, this.clearAndRefresh)
 
@@ -194,7 +194,7 @@ class MenuItemsPage extends Component {
 
 
 const mapStateToProps = state => {
-    const { menuItems } = state.menuItemReducer;
+    const { menuItems } = state.globalMenuItemReducer;
     
     return { menuItems };
 };

@@ -199,9 +199,9 @@ class RoleMenuItemsPage extends Component {
 
 
 const mapStateToProps = state => {
-    const { roleMenuItems } = state.roleMenuItemReducer;
-    const { roleMenuGroups } = state.roleMenuGroupReducer;
-    const { menuItems } = state.menuItemReducer;
+    const { roleMenuItems } = state.globalRoleMenuItemReducer;
+    const { roleMenuGroups } = state.globalRoleMenuGroupReducer;
+    const { menuItems } = state.globalMenuItemReducer;
     const { userRoleList } = state.userRoleReducer;
     console.log("list=",menuItems, userRoleList, roleMenuGroups)
     return { roleMenuItems, roleMenuGroups, menuItems, userRoleList };

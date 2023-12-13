@@ -10,7 +10,7 @@ import SupplierDropDwon from '../../../component/dropdwons/SupplierDropDwon';
 import { makeStyles, styled } from '@material-ui/styles';
 import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
 import { 
-    getCustProductList, getVendorSupplierList
+    getCustProductList, getCustSupplierList
  } from '../../../actions';
 
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
@@ -146,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
 
 
     componentDidMount() {
-        this.props.getVendorSupplierList();
+        this.props.getCustSupplierList();
         this.props.getCustProductList(); 
     }
 
@@ -424,7 +424,7 @@ const useStyles = makeStyles((theme) => ({
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3}>
-                        <SupplierDropDwon label="Purchase to" value={this.props.data.supplierId} supplierList = {this.props.vendorSupplierList} supplierAction={this.supplierAction}></SupplierDropDwon>
+                        <SupplierDropDwon label="Purchase to" value={this.props.data.supplierId} supplierList = {this.props.custSupplierList} supplierAction={this.supplierAction}></SupplierDropDwon>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
                         <ItemDropDwon label="Items" items={this.props.custProductList} itemAction={this.itemAction}></ItemDropDwon>
@@ -473,9 +473,9 @@ const styles = {
 const mapStateToProps = state => {
     const { custProductList } = state.custProductReducer;
 
-    const { vendorSupplierList } = state.vendorSupplierReducer;
+    const { custSupplierList } = state.custSupplierReducer;
 
-    return { custProductList, vendorSupplierList };
+    return { custProductList, custSupplierList };
 }
 
-export default connect(mapStateToProps, { getCustProductList, getVendorSupplierList})(SupplierPurchase);
+export default connect(mapStateToProps, { getCustProductList, getCustSupplierList})(SupplierPurchase);

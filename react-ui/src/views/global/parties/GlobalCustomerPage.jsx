@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Fab, TableCell } from '@material-ui/core';
 
 
-import { getVendorCustomerList , addVendorCustomer, editVendorCustomer, deleteVendorCustomer, getVendorList} from '../../../actions';
+import { getGlobalCustomerList , addGlobalCustomer, editGlobalCustomer, deleteGlobalCustomer, getGlobalVendorList} from '../../../actions';
 import MainCard from '../../../component/cards/MainCard';
 import { AddIcCallOutlined, AddTask } from '@material-ui/icons';
 import DynamicTable from '../../../component/table/DynamicTable';
@@ -13,7 +13,7 @@ import Loader from '../../../component/Loader';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PreviewIcon from '@mui/icons-material/Preview';
-import VendorCustomerDetail from './GlobalCustomerDetail';
+import GlobalCustomerDetail from './GlobalCustomerDetail';
 
 const tableheaders = [
     {
@@ -127,22 +127,22 @@ class GlobalCustomerPage extends Component {
      saveObject = (type, row) => {
         console.log(type+"=",row)
         if(type=='Add')
-            this.props.addVendorCustomer(row, this.clearAndRefresh)
+            this.props.addGlobalCustomer(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editVendorCustomer(row.id,row, this.clearAndRefresh)
+            this.props.editGlobalCustomer(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteVendorCustomer(row.id, this.clearAndRefresh)
+            this.props.deleteGlobalCustomer(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getVendorCustomerList();
+        this.props.getGlobalCustomerList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false,viewModel: false  });
     }
     
     componentDidMount() {
-        this.props.getVendorList();
-        this.props.getVendorCustomerList();
+        this.props.getGlobalVendorList();
+        this.props.getGlobalCustomerList();
     }
 
     render() {
@@ -161,7 +161,7 @@ class GlobalCustomerPage extends Component {
                     >
                         <DynamicTable 
                         headers={tableheaders} 
-                        dataList={this.props.vendorCustomerList}
+                        dataList={this.props.globalCustomerList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         previewAction={this._preview}
@@ -169,9 +169,9 @@ class GlobalCustomerPage extends Component {
                     </MainCard>
                     } {
                 this.state.viewModel && 
-                <VendorCustomerDetail customer={this.state.dataObject}>
+                <GlobalCustomerDetail customer={this.state.dataObject}>
 
-                </VendorCustomerDetail>
+                </GlobalCustomerDetail>
                 }
                 <DynamicModel
                 title={this.state.title}
@@ -204,9 +204,9 @@ class GlobalCustomerPage extends Component {
 
 const mapStateToProps = state => {
     const { user } = state.userReducer;
-    const { vendorCustomerList, show_customer_loader } = state.vendorCustomerReducer;
+    const { globalCustomerList, show_customer_loader } = state.globalCustomerReducer;
 
-    return { user, vendorCustomerList, show_customer_loader };
+    return { user, globalCustomerList, show_customer_loader };
 };
 
 const styles = {
@@ -216,4 +216,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { getVendorCustomerList, addVendorCustomer,editVendorCustomer, deleteVendorCustomer, getVendorList })(GlobalCustomerPage);
+export default connect(mapStateToProps, { getGlobalCustomerList, addGlobalCustomer,editGlobalCustomer, deleteGlobalCustomer, getGlobalVendorList })(GlobalCustomerPage);

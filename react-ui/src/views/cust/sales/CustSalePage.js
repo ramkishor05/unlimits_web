@@ -4,7 +4,7 @@ import { Button, Fab, Tooltip } from '@material-ui/core';
 
 
 import { 
-    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getVendorCustomerList, getCustProductList,getVendorBusinessList
+    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList,getCustBusinessList
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
@@ -32,7 +32,7 @@ const mainheaders = [
         label: "Customer",
         type: 'text',
         render: (value, row, header, props)=>{
-           //let customer= props.vendorCustomerList.find((vendorCustomer)=>vendorCustomer.id==value);
+           //let customer= props.custCustomerList.find((custCustomer)=>custCustomer.id==value);
            return value;
         }
     },
@@ -163,8 +163,8 @@ class CustSalePage extends Component {
 
     build=(row)=>{
         console.log("row=",row);
-        let vendorCustomer= this.props.vendorCustomerList.find(vendorCustomer=>vendorCustomer.id==row.customerId);
-        let vendorBusiness= this.props.vendorBusinessList.find(vendorBusiness=>vendorBusiness.id==row.businessId);
+        let custCustomer= this.props.custCustomerList.find(custCustomer=>custCustomer.id==row.customerId);
+        let custBusiness= this.props.custBusinessList.find(custBusiness=>custBusiness.id==row.businessId);
         const subTotal=row.custProductSaleItemList.reduce((previousValue, currentValue) => {
             return previousValue + (Number.parseFloat(currentValue.salePrice.price)*currentValue.saleQnt);
         }, 0);
@@ -172,14 +172,14 @@ class CustSalePage extends Component {
             idenNo:row.idenNo,
             date:row.saleDate,
             from: {
-                name: vendorBusiness.name, 
-                phone: vendorBusiness.mobileNumber, 
-                address: vendorBusiness.presentAddress
+                name: custBusiness.name, 
+                phone: custBusiness.mobileNumber, 
+                address: custBusiness.presentAddress
             } ,
             to: {
-                name: vendorCustomer.name, 
-                phone: vendorCustomer.mobileNumber, 
-                address: vendorCustomer.presentAddress
+                name: custCustomer.name, 
+                phone: custCustomer.mobileNumber, 
+                address: custCustomer.presentAddress
             },
             payment: {
                 status: 'Unpaid',
@@ -222,8 +222,8 @@ class CustSalePage extends Component {
    async componentDidMount() {
       
         this.props.getCustProductList();
-        this.props.getVendorBusinessList();
-        this.props.getVendorCustomerList();
+        this.props.getCustBusinessList();
+        this.props.getCustCustomerList();
         this.props.getCustSaleList();
     }
     
@@ -246,7 +246,7 @@ class CustSalePage extends Component {
                         <CollapsibleTable 
                             headers={headers} 
                             dataList={this.props.custSaleList}
-                            vendorCustomerList= {this.props.vendorCustomerList}
+                            custCustomerList= {this.props.custCustomerList}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
                             printAction= {this._print}
@@ -273,7 +273,7 @@ class CustSalePage extends Component {
                     title={this.state.title}
                     open={this.state.printModel}
                     headers={headers} 
-                    vendorCustomerList={this.props.vendorCustomerList}
+                    custCustomerList={this.props.custCustomerList}
                     close={()=> this.setState({printModel: false})}
                     data={this.state.dataObject} 
                     type={this.state.type}
@@ -300,10 +300,10 @@ class CustSalePage extends Component {
 const mapStateToProps = state => {
     const { user } = state.userReducer;
     const { custSaleList} = state.custSaleReducer;
-    const { vendorCustomerList} = state.vendorCustomerReducer;
+    const { custCustomerList} = state.custCustomerReducer;
     const {custProductList} = state.custProductReducer;
-    const { vendorBusinessList} = state.vendorBusinessReducer;
-    return { user, custSaleList, vendorCustomerList, custProductList, vendorBusinessList};
+    const { custBusinessList} = state.custBusinessReducer;
+    return { user, custSaleList, custCustomerList, custProductList, custBusinessList};
 };
 
 const styles = {
@@ -313,4 +313,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getVendorCustomerList, getCustProductList, getVendorBusinessList})(CustSalePage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList})(CustSalePage);

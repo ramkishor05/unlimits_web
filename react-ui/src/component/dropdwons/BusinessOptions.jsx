@@ -17,7 +17,7 @@ import FormControl from '@mui/material/FormControl';
 
 import Select from '@mui/material/Select';
 
-import { getCustDashboardList, getCustProductList, getCustPurchaseList, getCustSaleList, getVendorBusinessList, getVendorCustomerList, getVendorEmployeeList, getVendorSupplierList, getVendorUserList } from '../../actions';
+import { getCustDashboardList, getCustProductList, getCustPurchaseList, getCustSaleList, getCustBusinessList, getCustCustomerList, getCustEmployeeList, getCustSupplierList, getCustUserList } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_BUSSINESS_ACCOUNT } from '../../store/actions';
 import Loader from '../Loader';
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 const BusinessOptions= (props) =>  {
   const classes = useStyles();
 
-  const { vendorBusinessList} = useSelector(state => state.vendorBusinessReducer);
+  const { custBusinessList} = useSelector(state => state.custBusinessReducer);
 
   const account = useSelector(state => state.account);
 
@@ -106,11 +106,11 @@ const BusinessOptions= (props) =>  {
       dispatch({ type: SET_BUSSINESS_ACCOUNT, payload: event.target.value});
       dispatch(getCustDashboardList());
       // vendors
-      dispatch(getVendorBusinessList());
-      dispatch(getVendorEmployeeList());
-      dispatch(getVendorCustomerList());
-      dispatch(getVendorSupplierList());
-      dispatch(getVendorUserList());
+      dispatch(getCustBusinessList());
+      dispatch(getCustEmployeeList());
+      dispatch(getCustCustomerList());
+      dispatch(getCustSupplierList());
+      dispatch(getCustUserList());
 
       // order 
       dispatch(getCustSaleList());
@@ -123,8 +123,8 @@ const BusinessOptions= (props) =>  {
   }
 
   useEffect(()=>{
-     dispatch(getVendorBusinessList());
-  },[getVendorBusinessList])
+     dispatch(getCustBusinessList());
+  },[getCustBusinessList])
 
 
   return (
@@ -133,7 +133,7 @@ const BusinessOptions= (props) =>  {
     onChange={onSeach} sx={{width: '20%', borderStyle:'hidden'}}
   >
     {
-        vendorBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={vendorBusiness.id===value} value={vendorBusiness?.id}>{vendorBusiness.name}</MenuItem>)
+        custBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={vendorBusiness.id===value} value={vendorBusiness?.id}>{vendorBusiness.name}</MenuItem>)
     }
   </Select>
   );

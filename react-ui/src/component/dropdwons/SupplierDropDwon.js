@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { addVendorSupplier } from '../../actions';
+import { addCustSupplier } from '../../actions';
 import { useDispatch } from 'react-redux';
 import { ListItem } from '@material-ui/core';
 
@@ -50,7 +50,7 @@ export default function SupplierDropDwon(props) {
       phoneNumber: parseInt(dialogValue.phoneNumber, 10),
     };
     setValue(supplier);
-    dispatch(addVendorSupplier(supplier));
+    dispatch(addCustSupplier(supplier));
     props.supplierAction(supplier);
     handleClose();
   };
