@@ -4,8 +4,7 @@ import config from '../config';
 const GLOBAL_UNIT_URL=`${config.ITEM_SERVER_HOST}/api/global/unit`;
 
 const headers = {
-    'Content-Type': 'application/json',
-    'custAppId': config.PRODUCTION_APP_ID
+    'Content-Type': 'application/json'
   };
 export default {
     getAll() {

@@ -3,8 +3,7 @@ import config from '../config';
 
 const CUST_CATEGERY_GROUP_URL=`${config.ITEM_SERVER_HOST}/api/cust/categorygroup`
 const headers = {
-    'Content-Type': 'application/json',
-    'custAppId': config.PRODUCTION_APP_ID
+    'Content-Type': 'application/json'
 };
 
 export default {

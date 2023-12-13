@@ -1,8 +1,8 @@
 let BACKEND_SERVER = null;
-if (process.env.REACT_APP_BACKEND_SERVER) {
-  BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
+if (process.env.APP_BACKEND_SERVER) {
+  BACKEND_SERVER = process.env.APP_BACKEND_SERVER;
 } else {
-  BACKEND_SERVER = "http://localhost:2222/";
+  BACKEND_SERVER = "192.168.29.222";
 }
 
 const config = {
@@ -12,10 +12,9 @@ const config = {
     fontFamily: `'Roboto', sans-serif`,
     borderRadius: 12,
     API_SERVER: BACKEND_SERVER,
-    PRODUCTION_APP_ID: 36,
-    ITEM_SERVER_HOST: 'http://192.168.29.222:4444',
-    AUTH_SERVER_HOST: 'http://192.168.29.222:2222',
-    CRM_SERVER_HOST: 'http://192.168.29.222:3333'
+    ITEM_SERVER_HOST: 'http://'+BACKEND_SERVER+':4444',
+    AUTH_SERVER_HOST: 'http://'+BACKEND_SERVER+':2222',
+    CRM_SERVER_HOST: 'http://'+BACKEND_SERVER+':3333'
 };
 
 export default config;
