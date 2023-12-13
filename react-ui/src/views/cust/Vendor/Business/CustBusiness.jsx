@@ -136,7 +136,7 @@ class CustBusiness extends Component {
                     >
                         <DynamicTable 
                         headers={tableheaders} 
-                        dataList={this.props.vendorBusinessList}
+                        dataList={this.props.custBusinessList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
@@ -175,8 +175,9 @@ class CustBusiness extends Component {
 
 const mapStateToProps = state => {
     const { user } = state.userReducer;
-    const { vendorBusinessList, show_business_loader } = state.vendorBusinessReducer;
-    return { user, vendorBusinessList, show_business_loader };
+    const { loader } =  state.loaderReducer
+    const { custBusinessList, show_business_loader } = state.custBusinessReducer;
+    return { user, custBusinessList, show_business_loader , loader};
 };
 
 const styles = {

@@ -1,7 +1,7 @@
 import {axios} from './index';
 import config from '../config';
 
-const CUST_UNIT_GROUP_URL=`${config.API_ITEM_SERVER}/api/cust/unitgroup`;
+const CUST_UNIT_GROUP_URL=`${config.ITEM_SERVER_HOST}/api/cust/unitgroup`;
 
 const headers = {
     'Content-Type': 'application/json'

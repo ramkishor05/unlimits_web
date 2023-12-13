@@ -10,6 +10,7 @@ import { FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Swit
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../image/ImageUploadCard';
+import { connect } from 'react-redux';
 
 class DynamicModel extends React.Component {
 
@@ -187,7 +188,7 @@ class DynamicModel extends React.Component {
             <Button onClick={this.props.closeAction} color="primary">
               Cancel
             </Button>
-            <Button onClick={(event)=>this.props.saveAction(type, this.state.data)} color="primary">
+            <Button disabled={this.props.loader} onClick={(event)=>this.props.saveAction(type, this.state.data)} color="primary">
               {type}
             </Button>
           </DialogActions>
@@ -197,4 +198,12 @@ class DynamicModel extends React.Component {
   }
 }
 
-export default DynamicModel
+
+const mapStateToProps = state => {
+  const { user } = state.userReducer;
+  const { loader } =  state.loaderReducer
+  const { custBusinessList, show_business_loader } = state.custBusinessReducer;
+  return { user, custBusinessList, show_business_loader , loader};
+};
+
+export default connect(mapStateToProps, { })(DynamicModel);

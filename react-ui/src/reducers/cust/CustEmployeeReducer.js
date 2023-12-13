@@ -17,28 +17,28 @@ const INITIAL_STATE = {
         presentAddress: '',
         vendorId: 0
     },
-    show_vendor_employee_loader: false,
+    show_cust_employee_loader: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case GET_ALL_VENDOR_EMPLOYEE_LIST_SUCCESS:
-            return { ...state, custEmployeeList: action.payload, show_vendor_employee_loader: false };
+            return { ...state, custEmployeeList: action.payload, show_cust_employee_loader: false };
 
         case SHOW_VENDOR_EMPLOYEE_LOADER:
-            return { ...state, show_vendor_employee_loader: true };
+            return { ...state, show_cust_employee_loader: true };
     
         case REMOVE_VENDOR_EMPLOYEE_LOADER:
-            return { ...state, show_vendor_employee_loader: false };
+            return { ...state, show_cust_employee_loader: false };
 
         case VENDOR_EMPLOYEE_ADD_SUCCESS:
-            return { ...state, show_vendor_employee_loader: false };
+            return { ...state, show_cust_employee_loader: false };
 
         case VENDOR_EMPLOYEE_TO_EDIT:
             return { ...state, custEmployee: action.payload };
 
         case VENDOR_EMPLOYEE_EDIT_SUCCESS:
-            return { ...state, show_vendor_employee_loader: false };
+            return { ...state, show_cust_employee_loader: false };
 
         default:
             return state;

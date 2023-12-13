@@ -1,7 +1,7 @@
 import {axios} from './index';
 import config from '../config';
 
-const GLOBAL_COUNT_FREQ_URL=`${config.API_ITEM_SERVER}/api/global/countfreq`
+const GLOBAL_COUNT_FREQ_URL=`${config.ITEM_SERVER_HOST}/api/global/countfreq`
 
 export default {
     getAll() {

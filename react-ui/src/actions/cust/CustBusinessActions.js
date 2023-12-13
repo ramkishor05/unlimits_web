@@ -6,10 +6,11 @@ import {
 import CustBusinessService from '../../services/CustBusinessService';
 
 import CustAppService from '../../services/CustAppService';
+import config from '../../config';
 
-const ITEM_APP_URL='http://localhost:4444/api/cust/app';
+const ITEM_APP_URL=config.ITEM_SERVER_HOST+'/api/cust/app';
 
-const CRM_APP_URL='http://localhost:3333/api/cust/app';
+const CRM_APP_URL= config.CRM_SERVER_HOST+'/api/cust/app';
 
 // Action creator for getting all CustBusinessServices --<
 export const getCustBusinessList = () => async dispatch => {
@@ -42,6 +43,8 @@ export const addCustBusiness = (data, refreshCustBusinessList, clear, successNot
                 businessId: vendorBusiness.id,
                 appId: 1
             }
+            console.log("ITEM_APP_URL="+ITEM_APP_URL)
+            console.log("CRM_APP_URL="+CRM_APP_URL)
             CustAppService.add(ITEM_APP_URL,data);
             CustAppService.add(CRM_APP_URL,data);
         }
@@ -81,6 +84,8 @@ export const editCustBusiness = (id, data, clearAndRefresh, successNotification,
                 businessId: vendorBusiness.id,
                 appId: 1
             }
+            console.log("ITEM_APP_URL="+ITEM_APP_URL)
+            console.log("CRM_APP_URL="+CRM_APP_URL)
             CustAppService.add(ITEM_APP_URL,data);
             CustAppService.add(CRM_APP_URL,data);
             

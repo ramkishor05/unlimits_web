@@ -13,7 +13,9 @@ const config = {
     borderRadius: 12,
     API_SERVER: BACKEND_SERVER,
     PRODUCTION_APP_ID: 36,
-    API_ITEM_SERVER: 'http://localhost:4444'
+    ITEM_SERVER_HOST: 'http://192.168.29.222:4444',
+    AUTH_SERVER_HOST: 'http://192.168.29.222:2222',
+    CRM_SERVER_HOST: 'http://192.168.29.222:3333'
 };
 
 export default config;

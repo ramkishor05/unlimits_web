@@ -1,7 +1,7 @@
 import {axios} from './index';
 import config from '../config';
 
-const CUST_COUNT_FREQ_URL=`${config.API_ITEM_SERVER}/api/cust/countfreq`
+const CUST_COUNT_FREQ_URL=`${config.ITEM_SERVER_HOST}/api/cust/countfreq`
 const headers = {
     'Content-Type': 'application/json',
     'custAppId': config.PRODUCTION_APP_ID

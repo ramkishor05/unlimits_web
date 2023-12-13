@@ -1,7 +1,7 @@
+import config from '../config';
 import {axios} from './index';
-const hostname = `localhost`;
 
-var endpoint = `http://${hostname}:2222/api/user/role`;
+var endpoint = config.AUTH_SERVER_HOST+`/api/user/role`;
 
 const headers = {
     'Content-Type': 'application/json'

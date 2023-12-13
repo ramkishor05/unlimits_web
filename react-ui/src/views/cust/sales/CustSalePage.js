@@ -32,8 +32,8 @@ const mainheaders = [
         label: "Customer",
         type: 'text',
         render: (value, row, header, props)=>{
-           //let customer= props.custCustomerList.find((custCustomer)=>custCustomer.id==value);
-           return value;
+           let customer= props.custCustomerList? props.custCustomerList.find((custCustomer)=>custCustomer.id==value): null;
+           return customer? customer.name : value;
         }
     },
     {
@@ -301,7 +301,7 @@ const mapStateToProps = state => {
     const { user } = state.userReducer;
     const { custSaleList} = state.custSaleReducer;
     const { custCustomerList} = state.custCustomerReducer;
-    const {custProductList} = state.custProductReducer;
+    const { custProductList} = state.custProductReducer;
     const { custBusinessList} = state.custBusinessReducer;
     return { user, custSaleList, custCustomerList, custProductList, custBusinessList};
 };

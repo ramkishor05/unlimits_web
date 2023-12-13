@@ -155,11 +155,11 @@ class GlobalVendorPage extends Component {
                             
                             }
                         > <DynamicTable 
-                        headers={tableheaders} 
-                        dataList={this.props.globalVendorList}
-                        deleteAction = {this._delete}
-                        editAction = {this._edit}
-                        previewAction={this._preview}
+                            headers={tableheaders} 
+                            dataList={this.props.globalVendorList}
+                            deleteAction = {this._delete}
+                            editAction = {this._edit}
+                            previewAction={this._preview}
                         ></DynamicTable>
                         </MainCard>
                     </Grid>

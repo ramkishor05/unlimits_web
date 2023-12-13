@@ -35,6 +35,7 @@ import { ACCOUNT_INITIALIZE } from './../../../../store/actions';
 // assets
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import config from '../../../../config';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -108,7 +109,7 @@ const RestLogin = (props, { ...others }) => {
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         axios
-                            .post( 'http://localhost:2222/api/authentication/token/generate', {
+                            .post( config.AUTH_SERVER_HOST+'/api/authentication/token/generate', {
                                 password: values.password,
                                 username: values.username
                             })

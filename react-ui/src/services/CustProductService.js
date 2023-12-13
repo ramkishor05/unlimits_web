@@ -1,7 +1,7 @@
 import {axios} from './index';
 import config from '../config';
 
-const CUST_PRODUCT_URL=`${config.API_ITEM_SERVER}/api/cust/product`;
+const CUST_PRODUCT_URL=config.ITEM_SERVER_HOST+`/api/cust/product`;
 
 const headers = {
     'Content-Type': 'application/json',

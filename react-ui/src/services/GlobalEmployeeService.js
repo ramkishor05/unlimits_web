@@ -1,6 +1,7 @@
+import config from '../config';
 import {axios} from './index';
 
-const EMPLOYEE_URL="http://localhost:3333/api/employee";
+const EMPLOYEE_URL=config.CRM_SERVER_HOST+"/api/employee";
 
 const headers = {
     'Content-Type': 'application/json'

@@ -5,9 +5,9 @@ import {
 } from '../../types';
 
 const INITIAL_STATE = {
-    vendorCustomerList: [],
-    vendorCustomerList_finishing: [],
-    vendorCustomer: {
+    custCustomerList: [],
+    custCustomerList_finishing: [],
+    custCustomer: {
         id: '',
         title: '',
         name: '',
@@ -18,31 +18,31 @@ const INITIAL_STATE = {
         presentAddress: '',
         vendorId: 0
     },
-    show_vendor_customer_loader: false,
+    show_cust_customer_loader: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case GET_ALL_VENDOR_CUSTOMER_LIST_SUCCESS:
-            return { ...state, vendorCustomerList: action.payload, show_vendor_customer_loader: false };
+            return { ...state, custCustomerList: action.payload, show_cust_customer_loader: false };
 
         case SHOW_VENDOR_CUSTOMER_LOADER:
-            return { ...state, show_vendor_customer_loader: true };
+            return { ...state, show_cust_customer_loader: true };
     
         case REMOVE_VENDOR_CUSTOMER_LOADER:
-            return { ...state, show_vendor_customer_loader: false };
+            return { ...state, show_cust_customer_loader: false };
 
         case VENDOR_CUSTOMER_ADD_SUCCESS:
-            return { ...state, show_vendor_customer_loader: false };
+            return { ...state, show_cust_customer_loader: false };
 
         case VENDOR_CUSTOMER_TO_EDIT:
-            return { ...state, vendorCustomer: action.payload };
+            return { ...state, custCustomer: action.payload };
 
         case VENDOR_CUSTOMER_EDIT_SUCCESS:
-            return { ...state, show_vendor_customer_loader: false };
+            return { ...state, show_cust_customer_loader: false };
 
         case GET_FINISHING_VENDOR_CUSTOMER_LIST:
-            return { ...state, show_vendor_customer_loader: false, vendorCustomerList_finishing: action.payload };
+            return { ...state, show_cust_customer_loader: false, custCustomerList_finishing: action.payload };
 
         default:
             return state;

@@ -1,7 +1,7 @@
 import {axios} from './index';
 import config from '../config';
 
-const GLOBAL_CURRENCY_URL=`${config.API_ITEM_SERVER}/api/global/currency/item`;
+const GLOBAL_CURRENCY_URL=`${config.ITEM_SERVER_HOST}/api/global/currency/item`;
 
 export default {
     getAll() {

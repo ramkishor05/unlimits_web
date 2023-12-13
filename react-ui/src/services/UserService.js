@@ -1,16 +1,10 @@
+import config from '../config';
 import {axios} from './index';
-const hostname = `localhost`;
 
-var endpoint = `http://${hostname}:2222/api/user`;
+var endpoint = config.AUTH_SERVER_HOST+`/api/user`;
 
-var custendpoint = `http://${hostname}:2222/api/cust/user`;
+var custendpoint = config.AUTH_SERVER_HOST+`/api/cust/user`;
 
-
-const headers = {
-    'Content-Type': 'application/json',
-    'custAppId': 1,
-    'vendorId' : 31
-};
 export default {
    
     getAll() {

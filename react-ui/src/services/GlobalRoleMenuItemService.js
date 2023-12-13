@@ -1,6 +1,7 @@
+import config from '../config';
 import {axios} from './index';
 
-const USER_MENU_URL="http://localhost:2222/api/role/menu/item";
+const USER_MENU_URL=config.AUTH_SERVER_HOST+"/api/role/menu/item";
 
 const headers = {
     'Content-Type': 'application/json'

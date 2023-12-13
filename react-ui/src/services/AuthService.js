@@ -1,7 +1,7 @@
+import config from '../config';
 import {axios} from './index';
-const hostname = `localhost`;
 
-var endpoint = `http://${hostname}:2222/api/authentication`;
+var endpoint = config.AUTH_SERVER_HOST+`/api/authentication`;
 
 export default {
     

@@ -17,28 +17,28 @@ const INITIAL_STATE = {
         presentAddress: '',
         vendorId: 0
     },
-    show_vendor_business_loader: false,
+    show_cust_business_loader: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case GET_ALL_VENDOR_BUSINESS_LIST_SUCCESS:
-            return { ...state, custBusinessList: action.payload, show_vendor_business_loader: false };
+            return { ...state, custBusinessList: action.payload, show_cust_business_loader: false };
 
         case SHOW_VENDOR_BUSINESS_LOADER:
-            return { ...state, show_vendor_business_loader: true };
+            return { ...state, show_cust_business_loader: true };
     
         case REMOVE_VENDOR_BUSINESS_LOADER:
-            return { ...state, show_vendor_business_loader: false };
+            return { ...state, show_cust_business_loader: false };
 
         case VENDOR_BUSINESS_ADD_SUCCESS:
-            return { ...state, show_vendor_business_loader: false };
+            return { ...state, show_cust_business_loader: false };
 
         case VENDOR_BUSINESS_TO_EDIT:
-            return { ...state, vendorBusiness: action.payload };
+            return { ...state, custBusiness: action.payload };
 
         case VENDOR_BUSINESS_EDIT_SUCCESS:
-            return { ...state, show_vendor_business_loader: false };
+            return { ...state, show_cust_business_loader: false };
 
         default:
             return state;

@@ -34,6 +34,7 @@ import AnimateButton from '../../../../component/extended/AnimateButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Google from './../../../../assets/images/icons/social-google.svg';
+import config from '../../../../config';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -158,7 +159,7 @@ const FirebaseLogin = (props, { ...others }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     axios
-                        .post('http://localhost:2222/api/authentication/token/generate', {
+                        .post(config.AUTH_SERVER_HOST+'/api/authentication/token/generate', {
                             firstName: 'Fred',
                             lastName: 'Flintstone'
                         })

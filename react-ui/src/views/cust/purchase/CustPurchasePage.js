@@ -32,7 +32,7 @@ const mainheaders = [
         label: "Supplier",
         type: 'text',
         render: (value, row, header, props)=>{
-            let supplier=  props.custSupplierList.find((custSupplier)=>custSupplier.id==value)
+            let supplier= props.custSupplierList ?  props.custSupplierList.find((custSupplier)=>custSupplier.id==value): null
            return supplier?  supplier.name: value;
         }
     },
@@ -308,13 +308,6 @@ const mapStateToProps = state => {
     const { custSupplierList} = state.custSupplierReducer;
     const { custBusinessList} = state.custBusinessReducer;
     return { user, custPurchaseList, custSupplierList, custBusinessList};
-};
-
-const styles = {
-    addSupplierButton: {
-        color: 'white',
-        backgroundColor: 'purple'
-    },
 };
 
 export default connect(mapStateToProps, { addCustPurchase, editCustPurchase,deleteCustPurchase, getCustPurchaseList, getCustSupplierList, getCustBusinessList})(CustPurchasePage);

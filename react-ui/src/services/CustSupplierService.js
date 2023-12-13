@@ -1,6 +1,7 @@
+import config from '../config';
 import {axios} from './index';
 
-const SUPPLIER_URL="http://localhost:3333/api/supplier";
+const SUPPLIER_URL=config.CRM_SERVER_HOST+"/api/supplier";
 
 const headers = {
     'Content-Type': 'application/json'
