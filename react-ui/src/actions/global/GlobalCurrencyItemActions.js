@@ -14,7 +14,6 @@ export const getGlobalCurrencyItemList = () => async dispatch => {
     dispatch({ type: SHOW_LOADER });
     try {
         const globalCategoryList = await GlobalCurrencyItemService.getAll();
-        console.log("coll globalCategoryList 2")
         if (globalCategoryList) {
             dispatch({ type: GET_ALL_GLOBAL_CURRENCY_ITEM_SUCCESS, payload: globalCategoryList });
             dispatch({ type: REMOVE_LOADER });
@@ -22,7 +21,7 @@ export const getGlobalCurrencyItemList = () => async dispatch => {
     } catch(error) {
         dispatch({ type: GET_ALL_GLOBAL_CURRENCY_ITEM_FAIL });
         dispatch({ type: REMOVE_LOADER });
-        //console.log(error);
+        console.log(error);
     }
 };
 

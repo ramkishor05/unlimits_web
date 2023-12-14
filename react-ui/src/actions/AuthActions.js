@@ -1,16 +1,12 @@
 import {
-     USERNAME_CHANGED, PASSWORD_CHANGED,
     LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS,
     SHOW_LOADER, REMOVE_LOADER,
     GET_USER_SUCCESS,
-    GET_USER_FAIL
+    GET_USER_FAIL,
+    SET_OWNER_ACCOUNT
 } from '../types';
 import AuthService from '../services/AuthService';
-export const usernameChanged = payload => ({type: USERNAME_CHANGED, payload});
-
-export const passwordChanged = payload => ({type: PASSWORD_CHANGED, payload});
-
-const API_TOKEN="api_token"
+import { getMenuGroupByRoleId } from './global/GlobalMenuGroupActions';
 
 /**
  * User Action - For logging user into the system.
@@ -24,19 +20,14 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
 
         const token = await AuthService.generateToken({ username, password });
         if (token) {
-            localStorage.setItem(API_TOKEN, token);
-
-            if (localStorage.getItem(API_TOKEN)) {
-                dispatch({ type: LOGIN_SUCCESS, payload: token });
-
-                if (_clearCredentials) {
-                    _clearCredentials();
-                }
+            dispatch({ type: LOGIN_SUCCESS, payload: token });
+            if (_clearCredentials) {
+                _clearCredentials();
             }
+            //dispatch(getUser(token));
         }
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {
-        localStorage.removeItem(API_TOKEN);
         let msg=error.error? error.error.message: "";
         dispatch({ type: LOGIN_FAIL, payload: msg });
         dispatch({ type: REMOVE_LOADER });
@@ -47,7 +38,6 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
 
 // Action creator for logging out the user.
 export const logout = () => {
-    localStorage.removeItem(API_TOKEN);
     return { type: LOGOUT_SUCCESS };
 };
 
@@ -58,28 +48,26 @@ export const logout = () => {
  * @param {Object} param0
  * @param {Function} _clearCredentials
  */
-export const getUser = (token, _clearCredentials) => async dispatch => {
+export const getUser = (token) => async dispatch => {
     try {
+        if(!token){
+            return ;
+        }
         dispatch({ type: SHOW_LOADER });
-
+        console.log("token====", token)
         const user = await AuthService.getUser(token);
-
+        console.log("user====", user)
         if (user) {
             dispatch({ type: GET_USER_SUCCESS, payload: user });
+            dispatch({ type: SET_OWNER_ACCOUNT, payload: user.ownerId });
+            dispatch(getMenuGroupByRoleId(user.userRole.id))
         } else{
             dispatch({ type: GET_USER_FAIL, payload: user });
-            localStorage.removeItem(API_TOKEN);
         }
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {
-        let msg=error.error? error.error.message: "";
-        dispatch({ type: LOGIN_FAIL, payload: msg });
+        dispatch({ type: GET_USER_FAIL, payload: null });
         dispatch({ type: REMOVE_LOADER });
         console.log(error);
     }
-};
-
-// Function for parsing error gotten from server.
-const parseError = error => {
-    return error;
 };

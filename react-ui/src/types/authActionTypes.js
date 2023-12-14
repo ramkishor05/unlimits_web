@@ -14,4 +14,8 @@ export const ALREADY_EXISTS_FAIL = 'user_already_fail';
 
 export const ALREADY_EXISTS_SUCCESS = 'user_already_success';
 
+export const ACCOUNT_INITIALIZE = 'ACCOUNT_INITIALIZE';
 
+export const SET_BUSSINESS_ACCOUNT="SET_BUSSINESS_ACCOUNT";
+
+export const SET_OWNER_ACCOUNT="SET_OWNER_ACCOUNT";

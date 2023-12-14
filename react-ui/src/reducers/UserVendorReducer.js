@@ -26,7 +26,6 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, userVendorList: action.payload, show_userVendor_loader: false };
 
         case GET_VENDOR_SUCCESS:
-            console.log("GET_VENDOR_SUCCESS",action.payload)
             return { ...state, userVendor: action.payload, show_userVendor_loader: false };
 
         case SHOW_VENDOR_LOADER:

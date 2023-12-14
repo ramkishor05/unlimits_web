@@ -79,7 +79,6 @@ class CustUnitGroup extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
             this.props.addCustUnitGroup(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -148,7 +147,6 @@ class CustUnitGroup extends Component {
 const mapStateToProps = state => {
     const { custUnitGroupList, show_cust_UnitGroup_loader } = state.custUnitGroupReducer;
 
-    console.log("custUnitGroupList=",custUnitGroupList)
     return { custUnitGroupList, show_cust_UnitGroup_loader };
 };
 

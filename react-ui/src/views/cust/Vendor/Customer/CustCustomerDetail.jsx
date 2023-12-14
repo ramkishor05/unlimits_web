@@ -227,7 +227,7 @@ class VendorCustomerDetail extends Component {
 };
 
 const mapStateToProps = state => {
-    const { userDetail, } = state.account;
+    const { userDetail, } = state.userReducer;
     const { custSaleList} = state.custSaleReducer;
     return { userDetail, custSaleList };
 };

@@ -15,8 +15,8 @@ import { useEffect } from 'react';
 
 const UserProfile = () => {
     const dispatch= useDispatch();
-    const accountReducer = useSelector((state) => state.account);
-    const userDetail = accountReducer.userDetail;
+    const {userDetail} = useSelector((state) => state.userReducer);
+    
     const [userProfile, setUserProfile]= useState(userDetail.userProfile);
 
     const setUserProfileField= (event, name)=>{

@@ -125,7 +125,7 @@ class GlobalSupplierPage extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addGlobalSupplier(row, this.clearAndRefresh)
         if(type=='Edit')

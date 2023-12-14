@@ -168,7 +168,6 @@ class CustPurchasePage extends Component {
     }
 
     build=(row)=>{
-        console.log("row=",row);
         let custSupplier= this.props.custSupplierList.find(custSupplier=>custSupplier.id==row.supplierId);
         let custBusiness= this.props.custBusinessList.find(custBusiness=>custBusiness.id==row.businessId);
         const subTotal=row.custProductPurchaseItemList.reduce((previousValue, currentValue) => {
@@ -203,7 +202,6 @@ class CustPurchasePage extends Component {
     _print = (row) => {
         this._clearModel();
         this.setState({ dataObject: this.build(row), title:"Purchase Invoice", type:"Print", printModel: true  });
-        console.log("_print")
      }
 
      

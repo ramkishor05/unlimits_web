@@ -121,7 +121,6 @@ const useStyles = makeStyles((theme) => ({
     constructor (props){
         super(props)
         let {data, custProductList}=this.props;
-        console.log("custProductList=",custProductList)
         let object={
             id:data.id,
             idenNo:data.idenNo,
@@ -133,7 +132,6 @@ const useStyles = makeStyles((theme) => ({
             userId: data.userId?data.userId:0,
             discounts : data.discounts? data.discounts:0
         }
-        console.log("custProductList=",custProductList)
         data.custProductSaleItemList && data.custProductSaleItemList.forEach(custProductSaleItem=>{
             let custProductSaleItemObj={...custProductSaleItem};
             custProductSaleItemObj['id']=custProductSaleItem.id;
@@ -159,7 +157,6 @@ const useStyles = makeStyles((theme) => ({
     };
 
     setDiscounts = (event) => {
-        console.log(event)
         this.setState({discounts: event.target.value});
     };
 

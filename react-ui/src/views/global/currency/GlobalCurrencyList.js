@@ -69,7 +69,7 @@ class GlobalCurrencyList extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addGlobalCurrencyItem(row, this.clearAndRefresh)
         if(type=='Edit')

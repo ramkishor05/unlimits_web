@@ -140,7 +140,7 @@ class CustUser extends Component {
     
     _edit = row => {
         row['enableAccess']=true;
-        console.log("row=",row)
+      
         row['userRoleId']=row.userRole.id;
        this.setState({ dataObject: row, title:"Edit user", type:"Edit", saveModel: true  });
     }
@@ -154,7 +154,6 @@ class CustUser extends Component {
     };
     
      saveObject = async (type, row) => {
-        console.log("row==",row)
         if(type=='Add')
             this.props.addCustUser(row, this.clearAndRefresh)
         if(type=='Edit'){
@@ -236,12 +235,10 @@ class CustUser extends Component {
 }
 
 const mapStateToProps = state => {
-    const { user, users} = state.userReducer;
-    const { userDetail } = state.account;
+    const { user, users, userDetail} = state.userReducer;
     const { userRoleList } = state.userRoleReducer
 
     const { custUserList, show_user_loader } = state.custUserReducer;
-    console.log("userRoleList=",userRoleList)
     return { user, custUserList,users, show_user_loader, userDetail, userRoleList };
 };
 

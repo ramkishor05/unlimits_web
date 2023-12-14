@@ -98,7 +98,7 @@ class RoleMenuGroupsPage extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addRoleMenuGroup(row, this.clearAndRefresh)
         if(type=='Edit')

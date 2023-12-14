@@ -216,7 +216,6 @@ class CustProductPage extends Component {
     }
     
     _edit = row => {
-       console.log("row=",row)
        this.setState({ dataObject: row, title:"Edit product", type:"Edit", saveModel: true  });
     }
 

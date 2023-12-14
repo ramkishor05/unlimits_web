@@ -78,7 +78,6 @@ class CustCategoryGroup extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
             this.props.addCustCategoryGroup(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -149,7 +148,6 @@ class CustCategoryGroup extends Component {
 const mapStateToProps = state => {
     const { custCategoryGroupList, show_cust_category_group_loader } = state.custCategoryGroupReducer;
 
-    console.log("custCategoryGroupList=",custCategoryGroupList)
     return { custCategoryGroupList, show_cust_category_group_loader };
 };
 

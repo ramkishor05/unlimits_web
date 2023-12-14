@@ -63,10 +63,6 @@ class DynamicModel extends React.Component {
   
   setField= (event, field, data, props)=>{
     let name=field.name
-    console.log("data=",data)
-    console.log("name=",name)
-    console.log("val=",event.target.value)
-    console.log("field.find=",field.find)
     let value = field.find ?  field.find(event.target.value, data, field, props) : event.target.value;
     this.setValue(value, field.key ?  field.key : field.name,  data )
   }

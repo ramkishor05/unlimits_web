@@ -1,13 +1,8 @@
 // action - state management
 import MenuGroupService from '../services/GlobalMenuGroupService';
-import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, SET_BUSSINESS_ACCOUNT } from '../store/actions';
 
 import {
-    USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_PROFILE_FAIL,
-    GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL,
-    USER_UPDATE_SUCCESS,USER_UPDATE_FAIL,
-    GET_USER_SUCCESS,
-    GET_USER_FAIL,GET_MENU_GROUP_LIST_SUCCESS
+    ACCOUNT_INITIALIZE,LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, SET_OWNER_ACCOUNT, SET_BUSSINESS_ACCOUNT
 } from '../types';
 
 const collapse=(item)=>{
@@ -31,23 +26,39 @@ export const initialState = {
     token: '',
     isLoggedIn: false,
     isInitialized: false,
-    userDetail: null,
     businessId: null,
+    ownerId : null,
     loadMenuGroupByRole : async (roleId)=>{
         return await MenuGroupService.findByRoleId(roleId);
     },
-    defaultPath: (userRole)=>{
-        if(!userRole){
-            return "";
+    defaultPath: (userRole, location,isLoggedIn)=>{
+        if(!isLoggedIn){
+            return "/login";
+        } else{
+            if(!userRole){
+                return location.pathname;
+            }
+            let roleEndpoints=userRole.roleEndpoints;
+    
+            for(let menuItemIndex in roleEndpoints){
+                let menuItem= roleEndpoints[menuItemIndex];
+                if(location.pathname===menuItem.url){
+                    return menuItem.url;
+                }
+            }
+    
+            for(let menuItemIndex in roleEndpoints){
+                let menuItem= roleEndpoints[menuItemIndex];
+                if(location.pathname=="/" || location.pathname=="/login"){
+                    if(menuItem.homePage){
+                        return menuItem.url;
+                    }
+                }
+            }
         }
-        let roleEndpoints=userRole.roleEndpoints;
-        for(let menuItemIndex in roleEndpoints){
-           let menuItem= roleEndpoints[menuItemIndex];
-            if(menuItem.homePage){
-                return menuItem.url;
-             }
-        }
-        return "";
+        
+       
+        return '/invalidUrl';
     },
     contains : (id, userRole) => {
         return userRole.roleEndpoints.find(roleEndpoint=>roleEndpoint.type===id) !=null;
@@ -106,71 +117,42 @@ export const initialState = {
 const accountReducer = (state = initialState, action) => {
     switch (action.type) {
         case ACCOUNT_INITIALIZE: {
-            const { isLoggedIn, userDetail, token } = action.payload;
+            const { isLoggedIn,  token } = action.payload;
             return {
                 ...state,
                 isLoggedIn,
                 isInitialized: true,
                 token,
-                userDetail
+                businessId :null,
+                ownerId: null
             };
         }
-        case GET_USER_SUCCESS:
-            return { ...state, userDetail: action.payload };
-        case GET_USER_FAIL:
-                return { ...state, userDetail: action.payload, isLoggedIn:false };
-        case LOGIN: {
+        
+        case LOGIN_SUCCESS: {
             const { userDetail } = action.payload;
             return {
                 ...state,
                 isLoggedIn: true,
-                userDetail
+                businessId :null,
+                ownerId: null
             };
         }
-        case LOGOUT: {
+
+        case LOGIN_FAIL:
+        case LOGOUT_SUCCESS: {
             return {
                 ...state,
                 isLoggedIn: false,
                 token: '',
-                userDetail: null
+                businessId :null,
+                ownerId: null
             };
         }
-        case USER_UPDATE_SUCCESS:
-            return {
-                    ...state, 
-                userDetail : {
-                    ...state.userDetail,
-                    ...action.payload
-                } 
-            };
         
-        case USER_UPDATE_FAIL:
-                    return { ...state };
-        case USER_UPDATE_PROFILE_SUCCESS:
-                return {
-                     ...state, 
-                    userDetail : {
-                        ...state.userDetail,
-                        userProfile: action.payload
-                    } 
-                };
-    
-        case USER_UPDATE_PROFILE_FAIL:
-                return { ...state };
-       
-        case GET_USER_PROFILE_SUCCESS:
-                    return {
-                         ...state, 
-                        userDetail : {
-                            ...state.userDetail,
-                            userProfile: action.payload
-                        } 
-                    };
-        
-        case GET_USER_PROFILE_FAIL:
-                    return { ...state };
         case SET_BUSSINESS_ACCOUNT:
               return { ...state, businessId:action.payload };
+        case SET_OWNER_ACCOUNT:
+              return { ...state, ownerId:action.payload };
         default: {
             return { ...state };
         }

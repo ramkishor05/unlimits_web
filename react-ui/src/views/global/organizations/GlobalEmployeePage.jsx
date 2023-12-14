@@ -169,7 +169,7 @@ class GlobalEmployeePage extends Component {
     
     _edit = row => {
         row['enableAccess']=true;
-        console.log("row=",row)
+      
        this.setState({ dataObject: row, title:"Edit employee", type:"Edit", saveModel: true  });
     }
 
@@ -185,7 +185,6 @@ class GlobalEmployeePage extends Component {
         if(type=='Add')
             this.props.addGlobalEmployee(row, this.clearAndRefresh)
         if(type=='Edit'){
-            console.log("saveObject=",row);
             if(row.enableAccess){
                 let register={
                     mobile: row.mobileNumber,
@@ -196,7 +195,6 @@ class GlobalEmployeePage extends Component {
                     userRoleId: 4,
                     ownerId: this.props.userDetail.ownerId
                 }
-                console.log("register=",register);
                 let user= await UserService.addCustom(register);
                 row['accountId']=user.id;
             }
@@ -276,11 +274,8 @@ class GlobalEmployeePage extends Component {
 }
 
 const mapStateToProps = state => {
-    const { user, users, show_user_loader  } = state.userReducer;
-    const { userDetail } = state.account;
-
+    const { user, users, show_user_loader, userDetail  } = state.userReducer;
     const { globalEmployeeList, show_employee_loader } = state.globalEmployeeReducer;
-    console.log("users=",users)
     return { user, globalEmployeeList,users, show_employee_loader, show_user_loader, userDetail };
 };
 

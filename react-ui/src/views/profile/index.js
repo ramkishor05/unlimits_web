@@ -40,7 +40,7 @@ class UserProfilePage extends Component {
 };
 
 const mapStateToProps = state => {
-    const { userDetail, } = state.account;
+    const { userDetail, } = state.userReducer;
     const { vendor} = state.userVendorReducer;
     return { userDetail, vendor };
 };

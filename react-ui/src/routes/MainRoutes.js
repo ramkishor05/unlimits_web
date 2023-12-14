@@ -6,24 +6,27 @@ import MainPage from '../views/pages/MainPage';
 import MainLayout from './../layout/MainLayout';
 import AuthGuard from './../utils/route-guard/AuthGuard';
 import { UrlMapper } from '../constants/UrlMapper';
-import { getMenuGroupByRoleId } from '../actions';
 import ViewPage from '../views/pages/ViewPage';
+import UIColor from '../views/utilities/Color';
+import { getMenuGroupByRoleId, getUser } from '../actions';
+import accountReducer from '../reducers/AccountReducer';
+import PageNotFound from '../views/utilities/PageNotFound';
 
 //-----------------------|| MAIN ROUTING ||-----------------------//
 
 const MainRoutes = () => {
-    const dispatch=useDispatch()
 
     const location = useLocation();
-    const [isLoading, setLoading]=useState(true);
-    const accountReducer = useSelector((state) => state.account);
+
+    const dispatch=useDispatch();
+    const {isLoggedIn, token, defaultPath}= useSelector((state) => state.accountReducer);
+    const {userDetail}= useSelector((state) => state.userReducer);
+    const userRole = userDetail?.userRole;
     
     const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);
 
     let menuGroups = userMenuGroupReducer.userMenuGroups;
-    const userRole = accountReducer?.userDetail?.userRole;
-        
-    console.log("userMenuGroups=",menuGroups)
+    
     const getRouteGroups=(menuGroups)=>{
         let list=[];
         
@@ -57,14 +60,17 @@ const MainRoutes = () => {
     }
 
     useEffect(()=>{
-        if(userRole)
-            dispatch(getMenuGroupByRoleId(userRole.id));
-            setLoading(false)
-    },[getMenuGroupByRoleId])
+        if(isLoggedIn){
+            dispatch(getUser(token));
+            if(userRole){
+                dispatch(getMenuGroupByRoleId(userRole.id))
+            }
+        }
+    },[getUser,getMenuGroupByRoleId])
 
     return (
         <Route
-                path={[...getRouteUrls(menuGroups)]}
+                path={[...getRouteUrls(menuGroups),"/invalidUrl"]}
             >
                 <MainLayout>
                     <Switch location={location} key={location.pathname}>
@@ -72,6 +78,7 @@ const MainRoutes = () => {
                             {
                                 getRouteGroups(menuGroups)
                             }
+                            <Route key="invalidUrl" exact path="/invalidUrl" component={PageNotFound} ></Route>
                         </AuthGuard>
                     </Switch>
                 </MainLayout>

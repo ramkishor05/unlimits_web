@@ -114,14 +114,14 @@ const RestLogin = (props, { ...others }) => {
                                 username: values.username
                             })
                             .then(function (response) {
-                                console.log(response.data);
                                 if (response) {
-                                    console.log(response.data);
-                                    dispatcher(getUser(response.data));
+                                    
                                     dispatcher({
                                         type: ACCOUNT_INITIALIZE,
-                                        payload: { isLoggedIn: true, user: userReducer.userDetail, token: response.data}
+                                        payload: { isLoggedIn: true, token: response.data}
                                     });
+                                   // console.log("/api/authentication/token/generate response : " ,response.data);
+                                   // dispatcher(getUser(response.data));
                                     if (scriptedRef.current) {
                                         setStatus({ success: true });
                                         setSubmitting(false);

@@ -64,7 +64,7 @@ class GlobalCurrencyGroup extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addGlobalCurrencyGroup(row, this.clearAndRefresh)
         if(type=='Edit')

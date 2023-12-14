@@ -73,7 +73,7 @@ class GlobalCountFreq extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addGlobalCountFreq(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -142,7 +142,6 @@ class GlobalCountFreq extends Component {
 const mapStateToProps = state => {
     const { globalCountFreqList, show_global_CountFreq_loader } = state.globalCountFreqReducer;
 
-    console.log("globalCountFreqList=",globalCountFreqList)
     return { globalCountFreqList, show_global_CountFreq_loader };
 };
 

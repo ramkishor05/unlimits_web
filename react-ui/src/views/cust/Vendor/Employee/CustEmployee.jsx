@@ -181,10 +181,8 @@ class CustEmployee extends Component {
     
      saveObject = async (type, row) => {
         let ownerId= this.props.userDetail.ownerId;
-        console.log("ownerId==",ownerId)
         if(type=='Add'){
             this.portalAccess(row, ownerId).then(user=>{
-                console.log("user==",user)
                 row['accountId']=user.id;
                 row['ownerId']=ownerId;
                this.props.addCustEmployee(row, this.clearAndRefresh)
@@ -192,7 +190,6 @@ class CustEmployee extends Component {
         }
         if(type=='Edit'){
             this.portalAccess(row, ownerId).then(user=>{
-                console.log("user==",user)
                 row['accountId']=user.id;
                 row['ownerId']=ownerId;
                 this.props.editCustEmployee(row.id,row, this.clearAndRefresh)
@@ -213,7 +210,6 @@ class CustEmployee extends Component {
             userRoleId: 4,
             ownerId: ownerId
         }
-        console.log("register=",register)
         return await row.portalAccess ? UserService.saveCustUser(register) : UserService.deleteCustUser(register.email);
     }
 
@@ -282,11 +278,9 @@ class CustEmployee extends Component {
 }
 
 const mapStateToProps = state => {
-    const { user, users, show_user_loader  } = state.userReducer;
-    const { userDetail } = state.account;
-
+    const { user, users, show_user_loader , userDetail } = state.userReducer;
+    
     const { custEmployeeList, show_employee_loader } = state.custEmployeeReducer;
-    console.log("userDetail=",userDetail)
     return { user, custEmployeeList,users, show_employee_loader, show_user_loader, userDetail };
 };
 

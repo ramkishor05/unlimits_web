@@ -120,7 +120,7 @@ class RoleMenuItemsPage extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addRoleMenuItem(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -203,7 +203,6 @@ const mapStateToProps = state => {
     const { roleMenuGroups } = state.globalRoleMenuGroupReducer;
     const { menuItems } = state.globalMenuItemReducer;
     const { userRoleList } = state.userRoleReducer;
-    console.log("list=",menuItems, userRoleList, roleMenuGroups)
     return { roleMenuItems, roleMenuGroups, menuItems, userRoleList };
 };
 

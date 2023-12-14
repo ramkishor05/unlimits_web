@@ -79,7 +79,6 @@ class CustCategoryList extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
             this.props.addCustCategory(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -147,8 +146,6 @@ class CustCategoryList extends Component {
 
 const mapStateToProps = state => {
     const { custCategoryList, show_cust_category_loader } = state.custCategoryReducer;
-
-    console.log("custCategoryList=",custCategoryList)
     return { custCategoryList, show_cust_category_loader };
 };
 

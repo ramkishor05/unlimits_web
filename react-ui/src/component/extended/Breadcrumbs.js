@@ -77,7 +77,8 @@ const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAl
     const [item, setItem] = useState([]);
 
     useEffect(() => {
-        navigation.items.map((item, index) => {
+       navigation.menuItems && navigation.menuItems.map((item, index) => {
+            item['breadcrumbs']= true
             if (item.type && item.type === 'group') {
                 getCollapse(item, index);
             }
@@ -87,11 +88,13 @@ const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAl
 
     // set active item state
     const getCollapse = (item) => {
-        if (item.children) {
-            item.children.filter((collapse) => {
+        if (item.menuItems) {
+            item.menuItems.filter((collapse) => {
+                
                 if (collapse.type && collapse.type === 'collapse') {
                     getCollapse(collapse);
                 } else if (collapse.type && collapse.type === 'item') {
+                    item['breadcrumbs']= true
                     if (document.location.pathname === config.basename + collapse.url) {
                         setMain(item);
                         setItem(collapse);

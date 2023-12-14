@@ -125,7 +125,7 @@ class GlobalCustomerPage extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addGlobalCustomer(row, this.clearAndRefresh)
         if(type=='Edit')

@@ -37,9 +37,7 @@ import { LOGOUT } from './../../../../store/actions';
 
 // assets
 import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
-import User1 from './../../../../assets/images/users/user-round.svg';
-
-import { getUser } from '../../../../actions';
+import { LOGOUT_SUCCESS } from '../../../../types';
 
 // style const
 const useStyles = makeStyles((theme) => ({
@@ -124,8 +122,8 @@ const ProfileSection = () => {
     const classes = useStyles();
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
-    const account = useSelector((state) => state.account);
-    const userDetail = account.userDetail;
+    const accountReducer= useSelector((state) => state.accountReducer);
+    const {userDetail} = useSelector((state) => state.userReducer);
     const dispatcher = useDispatch();
 
     const [sdm, setSdm] = React.useState(true);
@@ -136,10 +134,9 @@ const ProfileSection = () => {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const handleLogout = () => {
-        console.log(account.token);
-        dispatcher({ type: LOGOUT });
+        dispatcher({ type: LOGOUT_SUCCESS });
        /* axios
-            .post( configData.API_SERVER + 'users/logout', {token: `${account.token}`}, { headers: { Authorization: `${account.token}` } })
+            .post( configData.API_SERVER + 'users/logout', {token: `${accountReducer.token}`}, { headers: { Authorization: `${accountReducer.token}` } })
             .then(function (response) {
                 
                 // Force the LOGOUT
@@ -181,7 +178,6 @@ const ProfileSection = () => {
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
         }
-        dispatcher(getUser(account.token));
         prevOpen.current = open;
         
     }, [open]);

@@ -71,7 +71,7 @@ class GlobalCategoryList extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addGlobalCategory(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -140,7 +140,6 @@ class GlobalCategoryList extends Component {
 const mapStateToProps = state => {
     const { globalCategoryList, show_global_category_loader } = state.globalCategoryReducer;
 
-    console.log("globalCategoryList=",globalCategoryList)
     return { globalCategoryList, show_global_category_loader };
 };
 

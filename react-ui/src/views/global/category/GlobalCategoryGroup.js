@@ -68,7 +68,7 @@ class CustCategoryGroup extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
+        
         if(type=='Add')
             this.props.addGlobalCategoryGroup(row, this.clearAndRefresh)
         if(type=='Edit')

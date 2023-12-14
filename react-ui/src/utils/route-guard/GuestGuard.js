@@ -5,7 +5,8 @@ import { Redirect } from 'react-router-dom';
 
 // project imports
 import config from '../../config';
-import { getUser } from '../../actions';
+import { getMenuGroupByRoleId, getUser } from '../../actions';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 //-----------------------|| GUEST GUARD ||-----------------------//
 
@@ -14,19 +15,29 @@ import { getUser } from '../../actions';
  * @param {PropTypes.node} children children element/node
  */
 const GuestGuard = ({ children }) => {
-    const account = useSelector((state) => state.account);
-    const { isLoggedIn } = account;
+    const location = useLocation();
+
+    const { isLoggedIn, defaultPath,token} = useSelector((state) => state.accountReducer);
+    const { userDetail }= useSelector((state) => state.userReducer);
+    const userRole = userDetail?.userRole;
     const dispatch=useDispatch();
-    console.log("GuestGuard account.isLoggedIn==",account.isLoggedIn)
+   
     useEffect(()=>{
-       if(account.isLoggedIn)
-        dispatch(getUser(account.token));
-    },[getUser])
+        if(isLoggedIn && token){
+            console.log("useEffect(()=>", token)
+            dispatch(getUser(token));
+            if(userRole){
+               // dispatch(getMenuGroupByRoleId(userRole.id))
+            }
+            console.log("useEffect(()=>", token)
+        }
+    },[])
 
     if (isLoggedIn ) {
-        console.log("page:", account.defaultPath(account?.userDetail?.userRole))
-        if(account?.userDetail?.userRole)
-             return <Redirect to={account.defaultPath(account?.userDetail?.userRole)} />;
+        console.log("GuestGuard accountReducer.isLoggedIn==",isLoggedIn)
+        console.log("GuestGuard userRole==",userRole)
+        if(userRole)
+             return <Redirect to={defaultPath(userRole, location, isLoggedIn)} />;
         else
              return <Redirect to={'/login'} />;
     } 

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getUser } from '../../actions';
+import { getMenuGroupByRoleId, getUser } from '../../actions';
 
 //-----------------------|| AUTH GUARD ||-----------------------//
 
@@ -12,13 +12,20 @@ import { getUser } from '../../actions';
  */
 const AuthGuard = ({ children }) => {
     const dispatch=useDispatch();
-    const account = useSelector((state) => state.account);
-    console.log("AuthGuard account.isLoggedIn==",account.isLoggedIn)
+    const {isLoggedIn, token, defaultPath }= useSelector((state) => state.accountReducer);
+    const {userDetail}= useSelector((state) => state.userReducer);
+    const userRole = userDetail?.userRole;
+    console.log("AuthGuard accountReducer.isLoggedIn==",isLoggedIn)
+
     useEffect(()=>{
-       // if(account.isLoggedIn)
-        dispatch(getUser(account.token));
+        if(isLoggedIn){
+            dispatch(getUser(token));
+            if(userRole){
+                dispatch(getMenuGroupByRoleId(userRole.id))
+            }
+        }
     },[getUser])
-    if (!account.isLoggedIn) {
+    if (!isLoggedIn) {
         return <Redirect to="/login" />;
     }
     return children;

@@ -139,7 +139,7 @@ class GlobalUserPage extends Component {
     
     _edit = row => {
         row['enableAccess']=true;
-        console.log("row=",row)
+      
         row['userRoleId']=row.userRole.id;
        this.setState({ dataObject: row, title:"Edit user", type:"Edit", saveModel: true  });
     }
@@ -153,7 +153,7 @@ class GlobalUserPage extends Component {
     };
     
      saveObject = async (type, row) => {
-        console.log("row==",row)
+        
         if(type=='Add')
             this.props.addGlobalUser(row, this.clearAndRefresh)
         if(type=='Edit'){
@@ -236,7 +236,7 @@ class GlobalUserPage extends Component {
 
 const mapStateToProps = state => {
     const { user, users} = state.userReducer;
-    const { userDetail } = state.account;
+    const { userDetail } = state.userReducer;
     const { userRoleList } = state.userRoleReducer
 
     const { globalUserList, show_user_loader } = state.globalUserReducer;

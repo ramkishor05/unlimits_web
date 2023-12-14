@@ -155,7 +155,6 @@ const useStyles = makeStyles((theme) => ({
     };
 
     setDiscounts = (event) => {
-        console.log(event)
         this.setState({discounts: event.target.value});
     };
 

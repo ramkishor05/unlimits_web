@@ -30,7 +30,6 @@ export default function PaymentFieldGroup(props) {
     }
     newformValues[i][e.target.name] = e.target.value;
     setFormValues(newformValues);
-    console.log("newformValues=",newformValues)
   }
 
   const  addFormFields= ()=> {

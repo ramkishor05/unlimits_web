@@ -43,8 +43,6 @@ export const addCustBusiness = (data, refreshCustBusinessList, clear, successNot
                 businessId: vendorBusiness.id,
                 appId: 1
             }
-            console.log("ITEM_APP_URL="+ITEM_APP_URL)
-            console.log("CRM_APP_URL="+CRM_APP_URL)
             CustAppService.add(ITEM_APP_URL,data);
             CustAppService.add(CRM_APP_URL,data);
         }
@@ -84,8 +82,7 @@ export const editCustBusiness = (id, data, clearAndRefresh, successNotification,
                 businessId: vendorBusiness.id,
                 appId: 1
             }
-            console.log("ITEM_APP_URL="+ITEM_APP_URL)
-            console.log("CRM_APP_URL="+CRM_APP_URL)
+           
             CustAppService.add(ITEM_APP_URL,data);
             CustAppService.add(CRM_APP_URL,data);
             

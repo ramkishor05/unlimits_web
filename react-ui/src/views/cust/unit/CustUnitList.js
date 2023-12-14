@@ -73,7 +73,6 @@ class CustUnitList extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
             this.props.addCustUnit(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -142,7 +141,6 @@ class CustUnitList extends Component {
 const mapStateToProps = state => {
     const { custUnitList, show_cust_Unit_loader } = state.custUnitReducer;
 
-    console.log("custUnitList=",custUnitList)
     return { custUnitList, show_cust_Unit_loader };
 };
 

@@ -14,12 +14,12 @@ import Breadcrumbs from './../../component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Customization from './../Customization';
-import navigation from './../../menu-items';
 import { drawerWidth } from '../../store/constant';
 import { SET_MENU } from './../../store/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+import { getMenuGroupByRoleId, getUser } from '../../actions';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +77,14 @@ const useStyles = makeStyles((theme) => ({
 //-----------------------|| MAIN LAYOUT ||-----------------------//
 
 const MainLayout = ({ children }) => {
+    const {isLoggedIn, token, defaultPath}= useSelector((state) => state.accountReducer);
+    const {userDetail}= useSelector((state) => state.userReducer);
+    const userRole = userDetail?.userRole;
+    const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);
+    let menuGroups = userMenuGroupReducer.userMenuGroups;
+    let navigation={
+        menuItems : menuGroups
+    }
     const classes = useStyles();
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -89,9 +97,15 @@ const MainLayout = ({ children }) => {
     };
 
     React.useEffect(() => {
+        if(isLoggedIn){
+            dispatch(getUser(token));
+            if(userRole){
+                dispatch(getMenuGroupByRoleId(userRole.id))
+            }
+        }
         dispatch({ type: SET_MENU, opened: !matchDownMd });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDownMd]);
+    }, [matchDownMd, getUser,getMenuGroupByRoleId]);
 
     return (
         <div className={classes.root}>

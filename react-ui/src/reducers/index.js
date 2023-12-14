@@ -56,7 +56,7 @@ import UserVendorReducer from './UserVendorReducer';
 
 const reducer = combineReducers({
     loaderReducer: LoaderReducer,
-    account: persistReducer(
+    accountReducer: persistReducer(
         {
             key: 'account',
             storage,

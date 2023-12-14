@@ -79,7 +79,6 @@ class CustCountFreq extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
             this.props.addCustCountFreq(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -148,7 +147,6 @@ class CustCountFreq extends Component {
 const mapStateToProps = state => {
     const { custCountFreqList, show_cust_CountFreq_loader } = state.custCountFreqReducer;
 
-    console.log("custCountFreqList=",custCountFreqList)
     return { custCountFreqList, show_cust_CountFreq_loader };
 };
 

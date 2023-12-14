@@ -8,14 +8,18 @@ import { ButtonBase } from '@material-ui/core';
 
 import Logo from './../../../component/Logo';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 //-----------------------|| MAIN LOGO ||-----------------------//
 
 const LogoSection = () => {
-    const account = useSelector((state) => state.account);
-
+    const location = useLocation();
+    const {isLoggedIn, defaultPath}= useSelector((state) => state.accountReducer);
+    const {userDetail}= useSelector((state) => state.userReducer);
+    const userRole = userDetail?.userRole;
+    
     return (
-        <ButtonBase disableRipple component={Link} to={account.defaultPath(account?.userDetail?.userRole)}>
+        <ButtonBase disableRipple component={Link} to={defaultPath(userRole, location, isLoggedIn)}>
             <Logo />
         </ButtonBase>
     );

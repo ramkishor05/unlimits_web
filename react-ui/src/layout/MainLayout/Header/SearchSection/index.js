@@ -85,10 +85,8 @@ const SearchSection = (props) => {
     const [value, setValue] = useState('');
 
     const onSeach =(event)=>{
-        console.log("========onSeach=====")
         setValue(event.target.value);
-        console.log("========onSeach=====")
-        props.onSeach(event.target.value);
+        props.onSeach && props.onSeach(event.target.value);
     }
 
 

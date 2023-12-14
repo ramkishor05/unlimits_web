@@ -120,7 +120,7 @@ class GlobalVendorPage extends Component {
      };
      
       saveObject = (type, row) => {
-         console.log(type+"=",row)
+         
          if(type=='Add')
              this.props.addGlobalVendor(row, this.clearAndRefresh)
          if(type=='Edit')

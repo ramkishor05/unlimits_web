@@ -64,7 +64,6 @@ class CustCurrencyGroup extends Component {
     };
     
      saveObject = (type, row) => {
-        console.log(type+"=",row)
         if(type=='Add')
             this.props.addCustCurrencyGroup(row, this.clearAndRefresh)
         if(type=='Edit')
