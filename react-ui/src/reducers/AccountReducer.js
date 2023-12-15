@@ -129,9 +129,10 @@ const accountReducer = (state = initialState, action) => {
         }
         
         case LOGIN_SUCCESS: {
-            const { userDetail } = action.payload;
+            const { token } = action.payload;
             return {
                 ...state,
+                token: token,
                 isLoggedIn: true,
                 businessId :null,
                 ownerId: null
@@ -143,7 +144,18 @@ const accountReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: false,
-                token: '',
+                token: null,
+                businessId :null,
+                ownerId: null
+            };
+        }
+
+        case LOGIN_FAIL:
+        case LOGOUT_SUCCESS: {
+            return {
+                ...state,
+                isLoggedIn: false,
+                token: null,
                 businessId :null,
                 ownerId: null
             };

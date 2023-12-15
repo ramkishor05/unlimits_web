@@ -93,13 +93,13 @@ const BusinessOptions= (props) =>  {
 
   const { custBusinessList} = useSelector(state => state.custBusinessReducer);
 
-  const accountReducer= useSelector(state => state.accountReducer);
+  const {businessId}= useSelector(state => state.accountReducer);
 
   const dispatch=useDispatch();
 
 
 
-  const [value, setValue] = useState(accountReducer.businessId);
+  const [value, setValue] = useState(businessId);
 
   const onSeach = async (event)=>{
       setValue(event.target.value);

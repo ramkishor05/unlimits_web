@@ -122,6 +122,8 @@ export const deleteCustCategory = (id, refresh) => async dispatch => {
         dispatch({ type: REMOVE_LOADER });
 
     } catch (error) {
+        dispatch({ type: REMOVE_LOADER });
+
         console.log(error);
     }
 };

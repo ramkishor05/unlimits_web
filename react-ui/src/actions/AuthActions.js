@@ -67,6 +67,8 @@ export const getUser = (token) => async dispatch => {
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         dispatch({ type: GET_USER_FAIL, payload: null });
+        dispatch({ type: LOGIN_FAIL, payload: null });
+        
         dispatch({ type: REMOVE_LOADER });
         console.log(error);
     }

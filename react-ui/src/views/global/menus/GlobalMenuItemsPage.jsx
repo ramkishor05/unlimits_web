@@ -2,15 +2,16 @@ import React, { useEffect, useReducer, useState,Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 
 // project imports
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getMenuGroupList, addMenuGroup, editMenuGroup, deleteMenuGroup } from '../../../actions';
+import { getMenuItemList, addMenuItem, editMenuItem, deleteMenuItem } from '../../../actions';
 
-const tableHeaders = [
+const tableheaders = [
     {
         name: "idenNo",
         label: "IdenNo",
@@ -38,6 +39,11 @@ const tableHeaders = [
     {
         name: "url",
         label: "Url",
+        type: 'text'
+    },
+    {
+        name: "menuGroup",
+        label: "Menu Group",
         type: 'text'
     },
     {
@@ -47,7 +53,7 @@ const tableHeaders = [
 ]
 
 
-const modelHeaders = [
+const modelheaders = [
     {
         name: "idenNo",
         label: "IdenNo",
@@ -76,9 +82,14 @@ const modelHeaders = [
         name: "url",
         label: "Url",
         type: 'text'
+    },
+    {
+        name: "menuGroup",
+        label: "Menu Group",
+        type: 'text'
     }
 ]
-//==============================|| SAMPLE PAGE ||==============================//
+
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -88,7 +99,7 @@ const styles = theme => ({
     },
   });
 
-class MenuGroupsPage extends Component {
+class GlobalMenuItemsPage extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -98,34 +109,35 @@ class MenuGroupsPage extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit menu group", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit menu item", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add menu group", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add menu item", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete menu group", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete  menu item", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
+        
         if(type=='Add')
-            this.props.addMenuGroup(row, this.clearAndRefresh)
+            this.props.addMenuItem(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editMenuGroup(row.id, row, this.clearAndRefresh)
+            this.props.editMenuItem(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteMenuGroup(row.id, this.clearAndRefresh)
+            this.props.deleteMenuItem(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getMenuGroupList();
+        this.props.getMenuItemList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getMenuGroupList();
+        this.props.getMenuItemList();
     }
 
  render() {
@@ -144,13 +156,14 @@ class MenuGroupsPage extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={tableHeaders} 
-                        dataList={this.props.menuGroups}
+                        headers={tableheaders} 
+                        dataList={this.props.menuItems}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
-                {
+                
+                    {
                     this.state.saveModel && 
                     <DynamicModel
                     title={this.state.title}
@@ -158,7 +171,7 @@ class MenuGroupsPage extends Component {
                     closeAction={()=> this.setState({saveModel: false})}
                     data={this.state.dataObject} 
                     type={this.state.type}
-                    fields= {modelHeaders}
+                    fields= {modelheaders}
                     saveAction = {this.saveObject}
                     >
                     </DynamicModel>
@@ -181,11 +194,12 @@ class MenuGroupsPage extends Component {
 
 
 const mapStateToProps = state => {
-    const { menuGroups } = state.globalMenuGroupReducer;
-    return { menuGroups};
+    const { menuItems } = state.globalMenuItemReducer;
+    
+    return { menuItems };
 };
 
 
-export default connect(mapStateToProps, { getMenuGroupList, addMenuGroup, editMenuGroup, deleteMenuGroup })(MenuGroupsPage);
+export default connect(mapStateToProps, { getMenuItemList, addMenuItem, editMenuItem, deleteMenuItem })(GlobalMenuItemsPage);
 
 

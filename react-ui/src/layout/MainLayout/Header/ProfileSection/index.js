@@ -123,7 +123,7 @@ const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
     const accountReducer= useSelector((state) => state.accountReducer);
-    const {userDetail} = useSelector((state) => state.userReducer);
+    const { userDetail } = useSelector((state) => state.userReducer);
     const dispatcher = useDispatch();
 
     const [sdm, setSdm] = React.useState(true);
@@ -133,6 +133,7 @@ const ProfileSection = () => {
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+
     const handleLogout = () => {
         dispatcher({ type: LOGOUT_SUCCESS });
        /* axios

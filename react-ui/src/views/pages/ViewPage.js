@@ -1,5 +1,5 @@
 import React from "react";
-import { PageMapper } from "./dynamicpage";
+import { PageMapper } from "../../constants/PageMapper";
 
 
 const ViewPage=(props)=>{

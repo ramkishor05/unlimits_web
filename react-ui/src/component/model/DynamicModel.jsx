@@ -26,6 +26,9 @@ class DynamicModel extends React.Component {
   }
 
   getValue=(data, keyStr)=>{
+    if(!keyStr){
+      return '';
+    }
     let keys=keyStr.split("\.");
     let val=data;
     for (let i = 0; i < keys.length; i++){
@@ -39,6 +42,9 @@ class DynamicModel extends React.Component {
   }
 
   findTargetObject=(data, keyStr)=>{
+    if(!keyStr){
+      return '';
+    }
     let keys=keyStr.split("\.");
     let val=data;
     for (let i = 0; i < keys.length-1; i++){
@@ -53,6 +59,9 @@ class DynamicModel extends React.Component {
   }
 
   findTargetKey=(keyStr)=>{
+    if(!keyStr){
+      return '';
+    }
     let keys=keyStr.split("\.");
     let key=keyStr;
     for (let i = 0; i < keys.length; i++){
@@ -77,8 +86,7 @@ class DynamicModel extends React.Component {
     let newdata={...data}
     let findTargetObject= this.findTargetObject(newdata,name);
     let findTargetKey= this.findTargetKey(name);
-    console.log("findTargetObject", findTargetObject)
-    console.log("findTargetKey", findTargetKey)
+   
     findTargetObject[findTargetKey]=value;
     this.setState({data:newdata})
   }

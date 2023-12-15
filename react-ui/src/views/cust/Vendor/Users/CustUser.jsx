@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import { Fab } from '@material-ui/core';
 
 
-import { getCustUserList, addCustUser, editCustUser, deleteCustUser, getCustVendorList , getUserRoleList} from '../../../../actions';
-import { getUsers } from '../../../../actions';
+import { getCustUserList, addCustUser, editCustUser, deleteCustUser, getCustVendorList , getCustRoleList} from '../../../../actions';
 import MainCard from '../../../../component/cards/MainCard';
 import DynamicModel from '../../../../component/model/DynamicModel';
 import ConfirmModel from '../../../../component/model/ConfirmModel';
 import { AddTaskOutlined } from '@material-ui/icons';
 import CollapsibleTable from '../../../../component/table/CollapsibleTable';
-import UserService from '../../../../services/UserService';
 
 const mainheaders = [
     {
@@ -23,7 +21,7 @@ const mainheaders = [
     },
     {
         name: "username",
-        label: "Name",
+        label: "Username",
         type: 'text'
     },
     {
@@ -98,8 +96,13 @@ const modelheaders = [
     },
     {
         name: "username",
-        label: "Name",
+        label: "Userame",
         type: 'text'
+    },
+    {
+        name: "password",
+        label: "Password",
+        type: 'password'
     },
     {
         name: "registeredEmail",
@@ -112,9 +115,14 @@ const modelheaders = [
         type: 'text'
     },
     {
-        name: "type",
-        label: "User type",
-        type: 'text'
+        name: "User type",
+        label: "type",
+        type: 'select',
+        onItems: (value, row, header, props ) =>{
+            return props.custRoleList
+        },
+        itemKey: 'id',
+        itemVal: 'roleName'
     },
     {
         name: "userRoleId",
@@ -122,7 +130,7 @@ const modelheaders = [
         label: "User Role",
         type: 'select',
         onItems: (value, row, header, props ) =>{
-            return props.userRoleList
+            return props.custRoleList
         },
         itemKey: 'id',
         itemVal: 'roleName'
@@ -174,10 +182,9 @@ class CustUser extends Component {
     
    async componentDidMount() {
         this.props.getCustVendorList();
-        this.props.getUserRoleList();
+        this.props.getCustRoleList();
 
-        this.props.getCustUserList();
-       await this.props.getUsers();
+        await this.props.getCustUserList();
     }
 
     render() {
@@ -211,7 +218,7 @@ class CustUser extends Component {
                     openAction={this.state.saveModel}
                     closeAction={()=> this.setState({saveModel: false})}
                     data={this.state.dataObject} 
-                    userRoleList={this.props.userRoleList}
+                    custRoleList={this.props.custRoleList}
                     type={this.state.type}
                     fields= {modelheaders}
                     saveAction = {this.saveObject}
@@ -236,10 +243,10 @@ class CustUser extends Component {
 
 const mapStateToProps = state => {
     const { user, users, userDetail} = state.userReducer;
-    const { userRoleList } = state.userRoleReducer
+    const { custRoleList } = state.custRoleReducer
 
     const { custUserList, show_user_loader } = state.custUserReducer;
-    return { user, custUserList,users, show_user_loader, userDetail, userRoleList };
+    return { user, custUserList,users, show_user_loader, userDetail, custRoleList };
 };
 
 const styles = {
@@ -249,4 +256,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { getCustUserList, addCustUser,editCustUser, deleteCustUser, getCustVendorList , getUsers , getUserRoleList})(CustUser);
+export default connect(mapStateToProps, { getCustUserList, addCustUser,editCustUser, deleteCustUser, getCustVendorList , getCustRoleList})(CustUser);

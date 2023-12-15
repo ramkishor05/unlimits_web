@@ -6,13 +6,13 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormL
 // project imports
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUserVendor, updateUserVendor} from '../../actions';
+import { getUserVendor, updateUserVendor} from '../../../actions';
 import { EditOutlined, Refresh } from '@material-ui/icons';
 import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
-const OwnerAccount = ({vendorAccount, userAccount}) => {
+const CustOwnerAccount = ({vendorAccount, userAccount}) => {
     const dispatch= useDispatch();
         
     const [vendorDetail, setVendorDetail]= useState(vendorAccount);
@@ -134,4 +134,4 @@ const OwnerAccount = ({vendorAccount, userAccount}) => {
     );
 };
 
-export default OwnerAccount;
+export default CustOwnerAccount;

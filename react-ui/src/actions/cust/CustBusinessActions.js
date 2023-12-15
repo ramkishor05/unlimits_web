@@ -90,13 +90,14 @@ export const editCustBusiness = (id, data, clearAndRefresh, successNotification,
 
             clearAndRefresh && clearAndRefresh();
             
-            dispatch({ type: REMOVE_LOADER });
-
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch(error) {
         dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();
     }
+    
+
 };
 
 export const deleteCustBusiness = (id, clearAndRefresh, successNotification, errorNotification) => async dispatch => {

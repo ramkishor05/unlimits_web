@@ -5,11 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import MainPage from '../views/pages/MainPage';
 import MainLayout from './../layout/MainLayout';
 import AuthGuard from './../utils/route-guard/AuthGuard';
-import { UrlMapper } from '../constants/UrlMapper';
+import { PageMapper } from '../constants/PageMapper'; 
 import ViewPage from '../views/pages/ViewPage';
-import UIColor from '../views/utilities/Color';
 import { getMenuGroupByRoleId, getUser } from '../actions';
-import accountReducer from '../reducers/AccountReducer';
 import PageNotFound from '../views/utilities/PageNotFound';
 
 //-----------------------|| MAIN ROUTING ||-----------------------//
@@ -35,7 +33,7 @@ const MainRoutes = () => {
             list.push(<Route key={menuGroup.id} exact path={menuGroup.url} render={(props) => <MainPage menuGroup={menuGroup} {...props}></MainPage>} />)
             for(let menuItemIdex in menuGroups[menuGroupIndex].menuItems){
                 let menuItem= menuGroups[menuGroupIndex].menuItems[menuItemIdex];
-                let component= UrlMapper[menuItem.url];
+                let component= PageMapper[menuItem.url];
                 if(component)
                   list.push(<Route key={menuItem.id} exact path={menuItem.url} component={component} />)
                 else

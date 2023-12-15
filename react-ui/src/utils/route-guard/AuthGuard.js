@@ -15,7 +15,7 @@ const AuthGuard = ({ children }) => {
     const {isLoggedIn, token, defaultPath }= useSelector((state) => state.accountReducer);
     const {userDetail}= useSelector((state) => state.userReducer);
     const userRole = userDetail?.userRole;
-    console.log("AuthGuard accountReducer.isLoggedIn==",isLoggedIn)
+    console.log("AuthGuard isLoggedIn==",isLoggedIn)
 
     useEffect(()=>{
         if(isLoggedIn){

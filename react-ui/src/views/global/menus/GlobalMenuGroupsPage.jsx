@@ -2,27 +2,42 @@ import React, { useEffect, useReducer, useState,Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
+
 // project imports
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getRoleMenuGroupList, addRoleMenuGroup, editRoleMenuGroup, deleteRoleMenuGroup } from '../../../actions';
+import { getMenuGroupList, addMenuGroup, editMenuGroup, deleteMenuGroup } from '../../../actions';
 
-const tableheaders = [
+const tableHeaders = [
     {
         name: "idenNo",
         label: "IdenNo",
         type: 'text'
-    },
-    {
-        name: "userRole.roleId",
-        label: "User Role",
+    },{
+        name: "title",
+        label: "Title",
         type: 'text'
     },
     {
-        name: "menuGroup.title",
-        label: "Menu Group",
+        name: "type",
+        label: "Type",
+        type: 'text'
+    },
+    {
+        name: "icon",
+        label: "Icon",
+        type: 'text'
+    },
+    {
+        name: "order",
+        label: "Order",
+        type: 'text'
+    },
+    {
+        name: "url",
+        label: "Url",
         type: 'text'
     },
     {
@@ -32,41 +47,38 @@ const tableheaders = [
 ]
 
 
-const modelheaders = [
+const modelHeaders = [
     {
         name: "idenNo",
         label: "IdenNo",
         type: 'text'
+    },{
+        name: "title",
+        label: "Title",
+        type: 'text'
     },
     {
-        name: "userRole.id",
-        key: "userRole",
-        label: "User Role",
-        type: 'select',
-        find : (value, row, field, props)=>{
-            return props.userRoles.find(userRole=>userRole.id==value)
-        },
-        onItems : (value,row, field, props )=>{
-            return props.userRoles;
-        },
-        itemKey: 'id',
-        itemVal:"roleId"
+        name: "type",
+        label: "Type",
+        type: 'text'
     },
     {
-        name: "menuGroup.id",
-        key: "menuGroup",
-        label: "Menu Group",
-        type: 'select',
-        find : (value, row, field, props)=>{
-            return props.menuGroups.find(menuGroup=>menuGroup.id==value)
-        },
-        onItems : (value,row, field, props )=>{
-            return props.menuGroups;
-        },
-        itemKey: 'id',
-        itemVal:"idenNo"
+        name: "icon",
+        label: "Icon",
+        type: 'text'
+    },
+    {
+        name: "order",
+        label: "Order",
+        type: 'text'
+    },
+    {
+        name: "url",
+        label: "Url",
+        type: 'text'
     }
 ]
+//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -76,7 +88,7 @@ const styles = theme => ({
     },
   });
 
-class RoleMenuGroupsPage extends Component {
+class GlobalMenuGroupsPage extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -86,34 +98,34 @@ class RoleMenuGroupsPage extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit Role menu group", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit menu group", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Role menu group", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add menu group", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete Role menu group", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete menu group", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
-        
         if(type=='Add')
-            this.props.addRoleMenuGroup(row, this.clearAndRefresh)
+            this.props.addMenuGroup(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editRoleMenuGroup(row.id, row, this.clearAndRefresh)
+            this.props.editMenuGroup(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteRoleMenuGroup(row.id, this.clearAndRefresh)
+            this.props.deleteMenuGroup(row.id, this.clearAndRefresh)
+
     };
 
     clearAndRefresh = () => {
-        this.props.getRoleMenuGroupList();
+        this.props.getMenuGroupList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getRoleMenuGroupList();
+        this.props.getMenuGroupList();
     }
 
  render() {
@@ -132,14 +144,13 @@ class RoleMenuGroupsPage extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={tableheaders} 
-                        dataList={this.props.roleMenuGroups}
+                        headers={tableHeaders} 
+                        dataList={this.props.menuGroups}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
-                
-                    {
+                {
                     this.state.saveModel && 
                     <DynamicModel
                     title={this.state.title}
@@ -147,9 +158,7 @@ class RoleMenuGroupsPage extends Component {
                     closeAction={()=> this.setState({saveModel: false})}
                     data={this.state.dataObject} 
                     type={this.state.type}
-                    fields= {modelheaders}
-                    menuGroups= {this.props.menuGroups}
-                    userRoles = {this.props.userRoleList}
+                    fields= {modelHeaders}
                     saveAction = {this.saveObject}
                     >
                     </DynamicModel>
@@ -172,13 +181,11 @@ class RoleMenuGroupsPage extends Component {
 
 
 const mapStateToProps = state => {
-    const { roleMenuGroups } = state.globalRoleMenuGroupReducer;
     const { menuGroups } = state.globalMenuGroupReducer;
-    const { userRoleList } = state.userRoleReducer;
-    return { roleMenuGroups, menuGroups, userRoleList };
+    return { menuGroups};
 };
 
 
-export default connect(mapStateToProps, { getRoleMenuGroupList, addRoleMenuGroup, editRoleMenuGroup, deleteRoleMenuGroup })(RoleMenuGroupsPage);
+export default connect(mapStateToProps, { getMenuGroupList, addMenuGroup, editMenuGroup, deleteMenuGroup })(GlobalMenuGroupsPage);
 
 

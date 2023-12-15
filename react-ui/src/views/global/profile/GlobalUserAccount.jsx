@@ -6,13 +6,13 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormL
 // project imports
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateUser} from '../../actions';
+import { updateUser} from '../../../actions';
 import { EditOutlined } from '@material-ui/icons';
 import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
-const UserAccount = (props) => {
+const GlobalUserAccount = (props) => {
     const dispatch= useDispatch();
    
     const [userAccont, setUserAccont]= useState(props.userAccount);
@@ -130,4 +130,4 @@ const UserAccount = (props) => {
     );
 };
 
-export default UserAccount;
+export default GlobalUserAccount;

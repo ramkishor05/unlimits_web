@@ -3,7 +3,7 @@ import {
     GET_USER_ROLES_SUCCESS,
     USER_ROLE_UPDATE_SUCCESS, USER_ROLE_UPDATE_FAIL,
     GET_USER_ROLE_PROFILE_SUCCESS, GET_USER_ROLE_PROFILE_FAIL,
-    OPEN_ADD_USER_ROLE_MODAL, OPEN_EDIT_USER_ROLE_MODAL, OPEN_DELETE_USER_ROLE_MODAL,USER_ROLE_TO_EDIT, SHOW_LOADER
+    OPEN_ADD_USER_ROLE_MODAL, OPEN_EDIT_USER_ROLE_MODAL, OPEN_DELETE_USER_ROLE_MODAL,USER_ROLE_TO_EDIT, SHOW_LOADER, REMOVE_LOADER
 } from '../types';
 import UserRoleService from '../services/UserRoleService';
 
@@ -23,9 +23,11 @@ export const addUserRole = (data, callBack) => async dispatch => {
                 callBack();
             }
         }
+
     } catch (error) {
         console.log(error);
     }
+    dispatch({ type: REMOVE_LOADER });
 };
 
 /**
@@ -51,6 +53,7 @@ export const updateUserRole = (id, data, callBack) => async dispatch => {
         dispatch({ type: USER_ROLE_UPDATE_FAIL, payload: parseError(error) });
         console.log(error);
     }
+    dispatch({ type: REMOVE_LOADER });
 };
 
 /**
@@ -72,6 +75,7 @@ export const deleteUserRole = (id, callBack) => async dispatch => {
     } catch (error) {
         console.log(error);
     }
+    dispatch({ type: REMOVE_LOADER });
 };
 
 // Action creator for getting all users.
@@ -86,6 +90,7 @@ export const getUserRoleList = () => async dispatch => {
     } catch (error) {
         console.log(error);
     }
+    dispatch({ type: REMOVE_LOADER });
 };
 
 // Action creator for opening the Add UserRole modal.

@@ -16,8 +16,9 @@ export const getGlobalCurrencyItemList = () => async dispatch => {
         const globalCategoryList = await GlobalCurrencyItemService.getAll();
         if (globalCategoryList) {
             dispatch({ type: GET_ALL_GLOBAL_CURRENCY_ITEM_SUCCESS, payload: globalCategoryList });
-            dispatch({ type: REMOVE_LOADER });
         }
+        dispatch({ type: REMOVE_LOADER });
+
     } catch(error) {
         dispatch({ type: GET_ALL_GLOBAL_CURRENCY_ITEM_FAIL });
         dispatch({ type: REMOVE_LOADER });
@@ -34,7 +35,7 @@ export const addGlobalCurrencyItem = (data, refreshItemsList, clear, successNoti
 
         if (globalCategory) {
             dispatch({ type: ADD_GLOBAL_CURRENCY_ITEM_SUCCESS });
-            dispatch({ type: REMOVE_LOADER });
+            
         }
 
         refreshItemsList && refreshItemsList();
@@ -42,7 +43,7 @@ export const addGlobalCurrencyItem = (data, refreshItemsList, clear, successNoti
         clear && clear();
 
         successNotification && successNotification();
-        
+        dispatch({ type: REMOVE_LOADER });
     } catch(error) {
         dispatch({ type: REMOVE_LOADER });
         
@@ -67,12 +68,12 @@ export const editGlobalCurrencyItem = (id, data, clearAndRefresh, successNotific
 
         if (globalCategory) {
             dispatch({ type: EDIT_GLOBAL_CURRENCY_ITEM_SUCCESS });
-            dispatch({ type: REMOVE_LOADER });
-            
+                        
             successNotification && successNotification();
 
             clearAndRefresh && clearAndRefresh();
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch(error) {
         dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();
@@ -80,19 +81,19 @@ export const editGlobalCurrencyItem = (id, data, clearAndRefresh, successNotific
 };
 
 export const updateGlobalCurrencyItem = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
-    dispatch({ type: SHOW_LOADER });
+    
 
     try {
+        dispatch({ type: SHOW_LOADER });
         const globalCategory = await GlobalCurrencyItemService.update(id, data);
 
         if (globalCategory) {
             dispatch({ type: EDIT_GLOBAL_CURRENCY_ITEM_SUCCESS });
-            dispatch({ type: REMOVE_LOADER });
-            
             successNotification && successNotification();
 
             clearAndRefresh && clearAndRefresh();
         }
+        dispatch({ type: REMOVE_LOADER });
     } catch(error) {
         dispatch({ type: REMOVE_LOADER });
         errorNotification && errorNotification();

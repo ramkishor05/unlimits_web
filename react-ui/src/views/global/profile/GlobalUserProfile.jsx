@@ -6,14 +6,14 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormL
 // project imports
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateUserProfile, getUserProfile } from '../../actions';
+import { updateUserProfile, getUserProfile } from '../../../actions';
 import { EditOutlined } from '@material-ui/icons';
-import ImageUploadCard from '../../component/image/ImageUploadCard';
+import ImageUploadCard from '../../../component/image/ImageUploadCard';
 import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
-const UserProfile = () => {
+const GlobalUserProfile = () => {
     const dispatch= useDispatch();
     const {userDetail} = useSelector((state) => state.userReducer);
     
@@ -107,4 +107,4 @@ const UserProfile = () => {
     );
 };
 
-export default UserProfile;
+export default GlobalUserProfile;
