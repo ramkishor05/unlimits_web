@@ -13,176 +13,6 @@ import {
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
 import CustProductStockService from '../../../services/CustProductStockService';
 import DynamicForm from '../../../component/pages/DynamicForm';
-import { MataMapper } from '../../../constants/MataMapper';
-
-const mainheaders = [
-    {
-        "key": "title",
-        "name": "title",
-        "label": "Title",
-        "type": "text"
-    },
-    {
-        "key": "name",
-        "name": "name",
-        "label": "Name",
-        "type": "text"
-    },
-    {
-        "key": "description",
-        "name": "description",
-        "label": "Description",
-        "type": "text"
-    },
-    {
-        "key": "title",
-        "name": "purchasePrice.price",
-        "label": "Purchase",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name",
-        "itemName": "purchasePrice.currencyId"
-    },
-    {
-        "key": "retailPrice",
-        "name": "retailPrice.price",
-        "label": "Retail",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name",
-        "itemName": "retailPrice.currencyId"
-    },
-    {
-        "key": "wholePrice",
-        "name": "wholePrice.price",
-        "label": "Whole",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name",
-        "itemName": "wholePrice.currencyId"
-    },
-    {
-        name: "actions",
-        label: "Actions"
-    }
-];
-
-const custProductStockListHeaders = [
-    {
-        name: "idenNo",
-        label: "Iden No",
-        type: 'text'
-    },
-    {
-        name: "name",
-        label: "Name",
-        type: 'text'
-    },
-    {
-        name: "purchasePrice",
-        label: "Purchase Price",
-        type: 'text',
-        render:(value, row, header, props)=>{
-            return value;
-        }
-    },
-    {
-        name: "salePrice",
-        label: "Sale Price",
-        type: 'text',
-        render:(value, row, header, props)=>{
-            return value;
-        }
-    },
-    {
-        name: "status",
-        label: "Stock",
-        type: 'text'
-    }
-];
-const headers= { 
-    headers: mainheaders,
-    childrens :[
-        {
-            label: "Stocks",
-            name: "custProductStockList",
-            headers: custProductStockListHeaders
-        }
-    ]
-}
-
-
-const modelheaders = [
-    {
-        "key": "title",
-        "name": "title",
-        "label": "Title",
-        "type": "text"
-    },
-    {
-        "key": "name",
-        "name": "name",
-        "label": "Name",
-        "type": "text"
-    },
-    {
-        "key": "description",
-        "name": "description",
-        "label": "Description",
-        "type": "text"
-    },
-    {
-        "key": "title",
-        "name": "purchasePrice.price",
-        "label": "Purchase",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name",
-        "itemName": "purchasePrice.currencyId"
-    },
-    {
-        "key": "retailPrice",
-        "name": "retailPrice.price",
-        "label": "Retail",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name",
-        "itemName": "retailPrice.currencyId"
-    },
-    {
-        "key": "wholePrice",
-        "name": "wholePrice.price",
-        "label": "Whole",
-        "type": "amount",
-        "items": [{
-            id: "Kg",
-            name: "Kg"
-        }],
-        "itemKey": "id",
-        "itemVal": "name",
-        "itemName": "wholePrice.currencyId"
-    }
-];
 
 const styles = theme => ({
     button: {
@@ -247,14 +77,6 @@ class CustProductPage extends Component {
         console.log("this.props",this.props)
         this.props.getCustUnitList();
         await this.props.getCustCurrencyItemList();
-        modelheaders.forEach(header=>{
-            if(header.items){
-                let custCurrencyItemList=this.props.custCurrencyItemList;
-                if(custCurrencyItemList){
-                    header['items']=custCurrencyItemList;
-                }
-            }
-        })
         await this.props.getCustProductList();
         this.props.custProductList.forEach(custProduct=>{
            this.getCustProductStock(custProduct);
@@ -294,8 +116,9 @@ class CustProductPage extends Component {
                 closeAction={this.clearAndRefresh}
                 data={this.state.dataObject} 
                 type={this.state.type}
-                fields= {modelheaders}
+                fields= {this.props.metadata.model}
                 saveAction = {this.saveObject}
+                {... this.props}
                 >
                 </DynamicForm>
                }
@@ -307,8 +130,9 @@ class CustProductPage extends Component {
                 closeAction={this.clearAndRefresh}
                 data={this.state.dataObject} 
                 type={this.state.type}
-                fields= {modelheaders}
+                fields= {this.props.metadata.model}
                 saveAction = {this.saveObject}
+                {... this.props}
                 >
                 </DynamicModel>
                } 

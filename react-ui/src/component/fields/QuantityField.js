@@ -21,7 +21,6 @@ export default function QuantityField(props) {
   }
 
   return (
-    <div>
       <TextField
           label={field.label}
           id={field.id}
@@ -42,6 +41,5 @@ export default function QuantityField(props) {
           }}
           variant="standard"
         />
-    </div>
   );
 }

@@ -1,16 +1,12 @@
 const productsMeta = {
     "id": "",
     "table": {
+        "type": "",
         "headers": [
             {
                 "key": "title",
                 "name": "title",
                 "label": "Title",
-                "type": "text"
-            },{
-                "key": "title",
-                "name": "title",
-                "label": "Home",
                 "type": "text"
             },
             {
@@ -29,40 +25,19 @@ const productsMeta = {
                 "key": "title",
                 "name": "purchasePrice.price",
                 "label": "Purchase",
-                "type": "amount",
-                "items": [{
-                    "id": "Kg",
-                    "name": "Kg"
-                }],
-                "itemKey": "id",
-                "itemVal": "name",
-                "itemName": "purchasePrice.currencyId"
+                "type": "amount"
             },
             {
                 "key": "retailPrice",
                 "name": "retailPrice.price",
                 "label": "Retail",
-                "type": "amount",
-                "items": [{
-                    "id": "Kg",
-                    "name": "Kg"
-                }],
-                "itemKey": "id",
-                "itemVal": "name",
-                "itemName": "retailPrice.currencyId"
+                "type": "amount"
             },
             {
                 "key": "wholePrice",
                 "name": "wholePrice.price",
                 "label": "Whole",
-                "type": "amount",
-                "items": [{
-                    "id": "Kg",
-                    "name": "Kg"
-                }],
-                "itemKey": "id",
-                "itemVal": "name",
-                "itemName": "wholePrice.currencyId"
+                "type": "amount"
             },
             {
                 "name": "actions",
@@ -108,7 +83,69 @@ const productsMeta = {
                 ]
             }
         ]
-    }
+    },
+    "model" :[
+        {
+            "id": "title",
+            "key": "title",
+            "name": "title",
+            "label": "Title",
+            "type": "text"
+        },
+        {
+            "id": "name",
+            "key": "name",
+            "name": "name",
+            "label": "Name",
+            "type": "text"
+        },
+        {
+            "id": "description",
+            "key": "description",
+            "name": "description",
+            "label": "Description",
+            "type": "text"
+        },
+        {
+            "id": "purchasePrice",
+            "key": "purchasePrice",
+            "name": "purchasePrice.price",
+            "label": "Purchase",
+            "type": "amount",
+            "onItems": (value,data, field, props )=>{
+                return props.custCurrencyItemList? props.custCurrencyItemList: []
+            },
+            "itemKey": "id",
+            "itemVal": "name",
+            "itemName": "purchasePrice.currencyId"
+        },
+        {
+            "id": "retailPrice",
+            "key": "retailPrice",
+            "name": "retailPrice.price",
+            "label": "Retail",
+            "type": "amount",
+            "onItems": (value,data, field, props )=>{
+                return props.custCurrencyItemList? props.custCurrencyItemList: []
+            },
+            "itemKey": "id",
+            "itemVal": "name",
+            "itemName": "retailPrice.currencyId"
+        },
+        {
+            "id": "wholePrice",
+            "key": "wholePrice",
+            "name": "wholePrice.price",
+            "label": "Whole",
+            "type": "amount",
+            "onItems": (value,data, field, props )=>{
+                return props.custCurrencyItemList? props.custCurrencyItemList: []
+            },
+            "itemKey": "id",
+            "itemVal": "name",
+            "itemName": "wholePrice.currencyId"
+        }
+    ]
 }
 
 export default productsMeta;

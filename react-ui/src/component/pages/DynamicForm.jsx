@@ -8,6 +8,9 @@ import ImageUploadCard from '../image/ImageUploadCard';
 import { connect } from 'react-redux';
 import MainCard from '../cards/MainCard';
 
+import { getValue, setChecked, setField, setValue } from '../utils/CommanUtil';
+
+
 class DynamicForm extends React.Component {
 
    state={
@@ -18,92 +21,31 @@ class DynamicForm extends React.Component {
     super(props);
     let {data}=this.props;
     this.state={ data:data};
-    
   }
 
-  getValue=(data, keyStr)=>{
-    if(!keyStr){
-      return '';
-    }
-    let keys=keyStr.split("\.");
-    let val=data;
-    for (let i = 0; i < keys.length; i++){
-      if(!val){
-        return "";
-      }
-      if( typeof val === 'object')
-      val=val[keys[i]];
-    }
-    return val;
+  setData=(newData)=>{
+    console.log("newData==",newData)
+    this.setState({data:newData})
   }
 
-  findTargetObject=(data, keyStr)=>{
-    if(!keyStr){
-      return '';
-    }
-    let keys=keyStr.split("\.");
-    let val=data;
-    for (let i = 0; i < keys.length-1; i++){
-      if( typeof val === 'object'){
-        val=val[keys[i]];
-        if(!val){
-          val[keys[i]]={};
-        }
-      }
-    }
-    return val;
-  }
 
-  findTargetKey=(keyStr)=>{
-    if(!keyStr){
-      return '';
-    }
-    let keys=keyStr.split("\.");
-    let key=keyStr;
-    for (let i = 0; i < keys.length; i++){
-      key=keys[i];
-    }
-    return key;
-  }
-  
-  setField= (event, field, data, props)=>{
-    let name=field.name
-    let value = field.find ?  field.find(event.target.value, data, field, props) : event.target.value;
-    this.setValue(value, field.key ?  field.key : field.name,  data )
-  }
-
-  setChecked= (event, name, data)=>{
-    let newdata={...data}
-    newdata[name]=event.target.checked;
-    this.setState({data:newdata})
-  }
-
-  setValue= (value, name, data)=>{
-    let newdata={...data}
-    let findTargetObject= this.findTargetObject(newdata,name);
-    let findTargetKey= this.findTargetKey(name);
-   
-    findTargetObject[findTargetKey]=value;
-    this.setState({data:newdata})
-  }
-
-  renderSwitch(field, data) {
+  renderSwitch(field, data, props) {
     switch(field.type) {
       case 'select':
-        return  <FormControl fullWidth>
+        return  <FormControl>
         <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
         <Select
           variant='standard'
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={this.getValue(data,field.name)}
-          defaultValue={this.getValue(data,field.key)}
+          value={getValue(data,field.name)}
+          defaultValue={getValue(data,field.name)}
           label="{field.label}"
-          onChange={(event)=>this.setField(event, field, data, this.props)}
+          onChange={(event)=>setField(event.target.value, field, data, props, this.setData)}
         >
           {
             field.onItems ? 
-            field.onItems(this.getValue(data,field.name),data, field, this.props ).
+            field.onItems(getValue(data,field.name),data, field, props ).
             map(item=> 
             
               <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>
@@ -119,39 +61,44 @@ class DynamicForm extends React.Component {
          return <FormControlLabel
          control={
            <Switch 
-            checked={this.getValue(data,field.name)}
-            onChange={(event)=>this.setChecked(event, field.name, data)}
-            name={field.name} />
+            checked={getValue(data,field.name)}
+            onChange={(event)=>setChecked(event, field.name, data, props , this.setData)}
+            name={field.name} 
+            {...props }
+            />
          }
          label={field.label}
        />
       case 'img':
          return <ImageUploadCard name="pictureURL" 
-         value={this.getValue(data,field.name)} 
-         setUserProfileImge={(value)=> this.setValue(value,field.name, data)}>
+         value={getValue(data,field.name)} 
+         setUserProfileImge={(value)=> setValue(value,field.name, data, props , this.setData)}
+         {...props }
+         >
          </ImageUploadCard>
       case 'qnt':
-        return <QuantityField field={field} data={data}></QuantityField>
+        return <QuantityField field={field} {...props  } setData={this.setData} ></QuantityField>
       case 'amount':
-        return <AmountField field={field} data={data}></AmountField>
+        return <AmountField field={field} {...props} setData={this.setData}  ></AmountField>
       default:
-        return <TextField
+        return <FormControl>
+          <TextField
         key={field.id}
         variant='standard'
         id={field.id}
         label={field.label}
         name={field.name}
         type={field.type}
-        value={data[field.name]}
-        defaultValue={data[field.name]}
-        onChange={(event)=>this.setField(event, field, data, this.props)}
+        value={getValue(data,field.name)}
+          defaultValue={getValue(data,field.name)}
+        onChange={(event)=>setField(event.target.value, field.name, field, data, props , this.setData)}
         fullWidth>
-        </TextField>;
+        </TextField></FormControl>
     }
   }
   
 
-  rendorFields = (fields, data)=>{
+  rendorFields = (fields, data, props)=>{
     return (
       <Grid container spacing={2}>
         {
@@ -159,7 +106,7 @@ class DynamicForm extends React.Component {
               (
                 <Grid key={field.name} item xs={6}>
                   {
-                    this.renderSwitch(field, data)
+                    this.renderSwitch(field, data, props)
                   }
               </Grid>)
           )
@@ -169,23 +116,25 @@ class DynamicForm extends React.Component {
   }
 
   render() {
-    const { title, type, fields } = this.props;
+    const { title, type, fields, loader, closeAction , saveAction} = this.props;
+    const {data} = this.state;
+    console.log("this.props====",this.props)
     return (
              <MainCard title={title}
                   button ={
                       <Button variant="outlined" 
                       color="primary" 
-                      onClick={this.props.closeAction}
+                      onClick={closeAction}
                       >
                           Close
                       </Button>
                   }
                   content={true}
               >
-                {this.rendorFields(fields, this.state.data)}
+                {this.rendorFields(fields, data, this.props)}
                 <Grid container spacing={2}>
                   <Grid key={'action'} item xs={12} textAlign={'right'}>
-                    <Button variant='outlined' color="primary" disabled={this.props.loader} onClick={(event)=>this.props.saveAction(type, this.state.data)} >
+                    <Button variant='outlined' color="primary" disabled={loader} onClick={(event)=>saveAction(type, data)} >
                       {type}
                     </Button>
                   </Grid>
