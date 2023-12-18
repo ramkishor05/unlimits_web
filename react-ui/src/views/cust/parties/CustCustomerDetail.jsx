@@ -1,9 +1,9 @@
 import { Button, Grid } from "@material-ui/core";
-import MainCard from "../../../../component/cards/MainCard";
+import MainCard from "../../../component/cards/MainCard";
 import { Component } from "react";
 import { connect } from "react-redux";
-import { getCustSaleListByCustomer, addCustSale, editCustSale, deleteCustSale } from "../../../../actions";
-import CustomerBill from "../../sales/CustomerBill";
+import { getCustSaleListByCustomer, addCustSale, editCustSale, deleteCustSale } from "../../../actions";
+import CustomerBill from "../sales/CustomerBill";
 const modelheaders = [
     {
         name: "name",

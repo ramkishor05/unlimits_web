@@ -1,10 +1,10 @@
 import { Button, Grid, Tooltip} from "@material-ui/core";
-import MainCard from "../../../../component/cards/MainCard";
+import MainCard from "../../../component/cards/MainCard";
 import { Component } from "react";
 import { connect } from "react-redux";
-import { getCustPurchaseListBySupplier } from "../../../../actions";
+import { getCustPurchaseListBySupplier } from "../../../actions";
 import { Close } from "@material-ui/icons";
-import CustPurchaseService from "../../../../services/CustPurchaseService";
+import CustPurchaseService from "../../../services/CustPurchaseService";
 
 class VendorSupplierDetail extends Component {
    

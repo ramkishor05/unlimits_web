@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Grid, Button, IconButton, DeleteIcon, Fab } from '@material-ui/core';
 import { AddAlert, AddIcCallOutlined } from '@material-ui/icons';
 
-import { getCustBusinessList, addCustBusiness, editCustBusiness, deleteCustBusiness, getCustVendorList } from '../../../../actions';
-import MainCard from '../../../../component/cards/MainCard';
-import DynamicTable from '../../../../component/table/DynamicTable';
-import DynamicModel from '../../../../component/model/DynamicModel';
-import ConfirmModel from '../../../../component/model/ConfirmModel';
+import { getCustBusinessList, addCustBusiness, editCustBusiness, deleteCustBusiness, getCustVendorList } from '../../../actions';
+import MainCard from '../../../component/cards/MainCard';
+import DynamicTable from '../../../component/table/DynamicTable';
+import DynamicModel from '../../../component/model/DynamicModel';
+import ConfirmModel from '../../../component/model/ConfirmModel';
 
 
 const tableheaders = [

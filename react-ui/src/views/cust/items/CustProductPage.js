@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 // project imports
 import MainCard from '../../../component/cards/MainCard';
-import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import { 
@@ -13,9 +12,8 @@ import {
  } from '../../../actions';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
 import CustProductStockService from '../../../services/CustProductStockService';
-function createData(name, description, typeId, actions) {
-    return { name, description, typeId, actions};
-}
+import DynamicForm from '../../../component/pages/DynamicForm';
+import { MataMapper } from '../../../constants/MataMapper';
 
 const mainheaders = [
     {
@@ -186,17 +184,6 @@ const modelheaders = [
     }
 ];
 
-function actions(){
-    return ['edit', 'update']
-}
-
-
-let dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -208,19 +195,29 @@ const styles = theme => ({
 
 class CustProductPage extends Component {
     state={
+        configPage : true,
         saveModel: false,
         deleteModel: false,
+        savePage : false,
         dataObject: {},
         title: "",
         type: ""
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit product", type:"Edit", saveModel: true  });
+        if(this.state.configPage){
+            this.setState({ dataObject: row, title:"Edit product", type:"Edit", savePage: true  });
+        } else{
+            this.setState({ dataObject: row, title:"Edit product", type:"Edit", saveModel: true  });
+        }
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add product", type:"Add", saveModel: true  });
+        if(this.state.configPage){
+            this.setState({ dataObject: {}, title:"Add product", type:"Add", savePage: true  });
+        } else{
+            this.setState({ dataObject: {}, title:"Add product", type:"Add", saveModel: true  });
+        }
     }
 
     _delete = row => {
@@ -239,7 +236,7 @@ class CustProductPage extends Component {
 
     clearAndRefresh = () => {
         this.props.getCustProductList();
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+        this.setState({ dataObject: {}, saveModel: false,deleteModel:false, savePage: false   });
     }
 
      getCustProductStock= async (custProduct)=>{
@@ -247,7 +244,7 @@ class CustProductPage extends Component {
     }
     
     async componentDidMount() {
-        
+        console.log("this.props",this.props)
         this.props.getCustUnitList();
         await this.props.getCustCurrencyItemList();
         modelheaders.forEach(header=>{
@@ -267,7 +264,7 @@ class CustProductPage extends Component {
  render() {
         return (
                 <>
-                
+                { !this.state.savePage &&
                     <MainCard title="Product" 
                         button ={
                             <Button variant="outlined" 
@@ -281,20 +278,33 @@ class CustProductPage extends Component {
                         content={false}
                     >
                      <CollapsibleTable
-                        headers={headers} 
+                        headers={this.props.metadata.table} 
                         dataList={this.props.custProductList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         
                         ></CollapsibleTable>
                     </MainCard>
-                
+                }
                {
+                this.state.savePage &&
+                <DynamicForm
+                title={this.state.title}
+                openAction={this.state.saveModel}
+                closeAction={this.clearAndRefresh}
+                data={this.state.dataObject} 
+                type={this.state.type}
+                fields= {modelheaders}
+                saveAction = {this.saveObject}
+                >
+                </DynamicForm>
+               }
+              {
                this.state.saveModel &&
                 <DynamicModel
                 title={this.state.title}
                 openAction={this.state.saveModel}
-                closeAction={()=> this.setState({saveModel: false})}
+                closeAction={this.clearAndRefresh}
                 data={this.state.dataObject} 
                 type={this.state.type}
                 fields= {modelheaders}
@@ -307,7 +317,7 @@ class CustProductPage extends Component {
                 this.state.deleteModel && 
                 <ConfirmModel
                 openAction={this.state.deleteModel}
-                closeAction={()=> this.setState({deleteModel: false})}
+                closeAction={this.clearAndRefresh}
                 data={this.state.dataObject} 
                 type={this.state.type}
                 message= 'Do you want to delete'

@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { Fab } from '@material-ui/core';
 
 
-import { getCustEmployeeList, addCustEmployee, editCustEmployee, deleteCustEmployee, getCustVendorList } from '../../../../actions';
-import { getUsers } from '../../../../actions';
-import MainCard from '../../../../component/cards/MainCard';
-import DynamicModel from '../../../../component/model/DynamicModel';
-import ConfirmModel from '../../../../component/model/ConfirmModel';
+import { getCustEmployeeList, addCustEmployee, editCustEmployee, deleteCustEmployee, getCustVendorList } from '../../../actions';
+import { getUsers } from '../../../actions';
+import MainCard from '../../../component/cards/MainCard';
+import DynamicModel from '../../../component/model/DynamicModel';
+import ConfirmModel from '../../../component/model/ConfirmModel';
 import { AddTaskOutlined } from '@material-ui/icons';
-import CollapsibleTable from '../../../../component/table/CollapsibleTable';
-import UserService from '../../../../services/UserService';
+import CollapsibleTable from '../../../component/table/CollapsibleTable';
+import UserService from '../../../services/UserService';
 
 const mainheaders = [
     {

@@ -9,6 +9,7 @@ import { PageMapper } from '../constants/PageMapper';
 import ViewPage from '../views/pages/ViewPage';
 import { getMenuGroupByRoleId, getUser } from '../actions';
 import PageNotFound from '../views/utilities/PageNotFound';
+import { MataMapper } from '../constants/MataMapper';
 
 //-----------------------|| MAIN ROUTING ||-----------------------//
 
@@ -33,9 +34,10 @@ const MainRoutes = () => {
             list.push(<Route key={menuGroup.id} exact path={menuGroup.url} render={(props) => <MainPage menuGroup={menuGroup} {...props}></MainPage>} />)
             for(let menuItemIdex in menuGroups[menuGroupIndex].menuItems){
                 let menuItem= menuGroups[menuGroupIndex].menuItems[menuItemIdex];
-                let component= PageMapper[menuItem.url];
-                if(component)
-                  list.push(<Route key={menuItem.id} exact path={menuItem.url} component={component} />)
+                let CustPage= PageMapper[menuItem.url];
+                let metadata=MataMapper[menuItem.url];
+                if(CustPage)
+                  list.push(<Route key={menuItem.id} exact path={menuItem.url}  render={(props) => <CustPage metadata={metadata} {...props} ></CustPage> }/>)
                 else
                   list.push(<Route key={menuItem.id} exact path={menuItem.url} render={(props) => <ViewPage menuItem={menuItem} {...props}></ViewPage>} />)
             }

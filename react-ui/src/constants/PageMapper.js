@@ -1,4 +1,7 @@
 
+import Loadable from '../component/Loadable';
+
+import { lazy } from "react";
 
 import GlobalDashboard from "../views/global/dasboard";
 import GlobalCategoryGroup from "../views/global/category/GlobalCategoryGroup";
@@ -19,9 +22,8 @@ import GlobalCustomerPage from "../views/global/parties/GlobalCustomerPage";
 import GlobalUserPage from "../views/global/organizations/GlobalUserPage";
 import GlobalEmployeePage from "../views/global/organizations/GlobalEmployeePage";
 
-import Loadable from '../component/Loadable';
-
 // project imports
+import CustDashboard from  '../views/cust/dashboard';
 import CustCategoryGroup from '../views/cust/category/CustCategoryGroup';
 import CustCategoryList from '../views/cust/category/CustCategoryList';
 import CustCountFreq from '../views/cust/count_freq/CustCountFreq';
@@ -33,12 +35,12 @@ import CustCurrencyList from '../views/cust/currency/CustCurrencyList';
 import CustCurrencyGroup from '../views/cust/currency/CustCurrencyGroup';
 import CustPurchasePage from '../views/cust/purchase/CustPurchasePage';
 import CustUserProfilePage from '../views/cust/profile';
-import CustCustomerPage from '../views/cust/Vendor/Customer/CustCustomer';
-import CustSupplierPage from '../views/cust/Vendor/Supplier/CustSupplier';
-import CustBusinessPage from '../views/cust/Vendor/Business/CustBusiness';
-import CustEmployeePage from '../views/cust/Vendor/Employee/CustEmployee';
-import CustUserPage from '../views/cust/Vendor/Users/CustUser';
-import { lazy } from "react";
+import CustCustomerPage from '../views/cust/parties/CustCustomer';
+import CustSupplierPage from '../views/cust/parties/CustSupplier';
+import CustBusinessPage from '../views/cust/organizations/CustBusiness';
+import CustEmployeePage from '../views/cust/organizations/CustEmployee';
+import CustUserPage from '../views/cust/organizations/CustUser';
+
 
 export const PageMapper = {
     "/global/dashboard/default": GlobalDashboard,
@@ -60,7 +62,7 @@ export const PageMapper = {
     "/global/portal/organizations/users":GlobalUserPage,
     "/global/portal/organizations/employee":GlobalEmployeePage,
 
-    "/business/portal/dashboard/default" :Loadable(lazy(() => import('../views/dashboard/Default'))),
+    "/business/portal/dashboard/default" :CustDashboard,
     "/business/portal/orders/sales" :CustSalePage,
     "/business/portal/orders/purchase" :CustPurchasePage,
     "/business/portal/items/products" :CustProductPage,

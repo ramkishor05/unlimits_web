@@ -3,16 +3,17 @@ import { connect } from 'react-redux';
 import { Fab, TableCell } from '@material-ui/core';
 
 
-import { getCustSupplierList, addCustSupplier, editCustSupplier, deleteCustSupplier, getCustVendorList } from '../../../../actions';
-import MainCard from '../../../../component/cards/MainCard';
-import DynamicTable from '../../../../component/table/DynamicTable';
-import DynamicModel from '../../../../component/model/DynamicModel';
-import ConfirmModel from '../../../../component/model/ConfirmModel';
-import { AddTaskOutlined } from '@material-ui/icons';
+import { getCustCustomerList, addCustCustomer, editCustCustomer, deleteCustCustomer, getCustVendorList } from '../../../actions';
+import MainCard from '../../../component/cards/MainCard';
+import { AddIcCallOutlined, AddTask } from '@material-ui/icons';
+import DynamicTable from '../../../component/table/DynamicTable';
+import DynamicModel from '../../../component/model/DynamicModel';
+import ConfirmModel from '../../../component/model/ConfirmModel';
+import Loader from '../../../component/Loader';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PreviewIcon from '@mui/icons-material/Preview';
-import CustSupplierDetail from './CustSupplierDetail';
+import CustCustomerDetail from './CustCustomerDetail';
 
 const tableheaders = [
     {
@@ -97,86 +98,80 @@ const modelheaders = [
     }
 ];
 
-class CustSupplier extends Component {
+class CustCustomer extends Component {
     state={
         saveModel: false,
         deleteModel: false,
-        dataObject: {},
         viewModel: false,
+        dataObject: {},
         title: "",
         type: ""
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit supplier", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit customer", type:"Edit", saveModel: true  });
     }
 
     _preview = row => {
-        this.setState({ dataObject: row, title:"View supplier", type:"View", viewModel: true  });
+        this.setState({ dataObject: row, title:"View customer", type:"View", viewModel: true  });
      }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add supplier", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add customer", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete supplier", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete customer", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         
         if(type=='Add')
-            this.props.addCustSupplier(row, this.clearAndRefresh)
+            this.props.addCustCustomer(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustSupplier(row.id,row, this.clearAndRefresh)
+            this.props.editCustCustomer(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteCustSupplier(row.id, this.clearAndRefresh)
+            this.props.deleteCustCustomer(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getCustSupplierList();
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+        this.props.getCustCustomerList();
+        this.setState({ dataObject: {}, saveModel: false,deleteModel:false,viewModel: false  });
     }
     
     componentDidMount() {
         this.props.getCustVendorList();
-        this.props.getCustSupplierList();
+        this.props.getCustCustomerList();
     }
 
     render() {
         return (
-            <>
+             <>
                  {
-                            !this.state.viewModel && 
-                <MainCard title="Supplier List" 
+                            !this.state.viewModel &&  
+                <MainCard title="Customer List" 
                         button ={
                             
                             <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
                                 onClick={this._add}>
-                                <AddTaskOutlined/>
+                                <AddTask/>
                             </Fab>
                         }
                     >
-                       <DynamicTable 
-                            headers={tableheaders} 
-                            dataList={this.props.custSupplierList}
-                            deleteAction = {this._delete}
-                            editAction = {this._edit}
-                            previewAction={this._preview}
-                            ></DynamicTable>
-
-                        
-                        
+                        <DynamicTable 
+                        headers={tableheaders} 
+                        dataList={this.props.custCustomerList}
+                        deleteAction = {this._delete}
+                        editAction = {this._edit}
+                        previewAction={this._preview}
+                        ></DynamicTable>
                     </MainCard>
-                    }
-
-                {
+                    } {
                 this.state.viewModel && 
-                <CustSupplierDetail
-                 supplier={this.state.dataObject}
-                 setLoadingView = {()=> this.setState({viewModel: false})}
-                 />
+                <CustCustomerDetail customer={this.state.dataObject}>
+
+                </CustCustomerDetail>
                 }
                 <DynamicModel
                 title={this.state.title}
@@ -198,6 +193,10 @@ class CustSupplier extends Component {
                 saveAction = {this.saveObject}
                 >
                 </ConfirmModel>
+                {
+                    this.props.show_customer_loader && <Loader></Loader>
+                }
+                
             </>
         );
     }
@@ -205,16 +204,16 @@ class CustSupplier extends Component {
 
 const mapStateToProps = state => {
     const { user } = state.userReducer;
-    const { custSupplierList, show_supplier_loader } = state.custSupplierReducer;
+    const { custCustomerList, show_customer_loader } = state.custCustomerReducer;
 
-    return { user, custSupplierList, show_supplier_loader };
+    return { user, custCustomerList, show_customer_loader };
 };
 
 const styles = {
-    addSupplierButton: {
+    addCustomerButton: {
         color: 'white',
         backgroundColor: 'purple'
     },
 };
 
-export default connect(mapStateToProps, { getCustSupplierList, addCustSupplier,editCustSupplier, deleteCustSupplier, getCustVendorList })(CustSupplier);
+export default connect(mapStateToProps, { getCustCustomerList, addCustCustomer,editCustCustomer, deleteCustCustomer, getCustVendorList })(CustCustomer);
