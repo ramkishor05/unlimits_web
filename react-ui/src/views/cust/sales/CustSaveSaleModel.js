@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const DATE_TIME_FORMAT_UI="YYYY-MM-DD HH:MM";
-  class CustomerSale extends Component {
+  class CustSaveSaleModel extends Component {
 
     
     state = {
@@ -486,4 +486,4 @@ const mapStateToProps = state => {
     return { custProductList, custCustomerList };
 }
 
-export default connect(mapStateToProps, { getCustProductList, getCustCustomerList})(CustomerSale);
+export default connect(mapStateToProps, { getCustProductList, getCustCustomerList})(CustSaveSaleModel);

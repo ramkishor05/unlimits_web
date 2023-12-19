@@ -3,7 +3,7 @@ import MainCard from "../../../component/cards/MainCard";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { getCustSaleListByCustomer, addCustSale, editCustSale, deleteCustSale } from "../../../actions";
-import CustomerBill from "../sales/CustomerBill";
+import CustSaveSaleModel from "../sales/CustSaveSaleModel";
 const modelheaders = [
     {
         name: "name",
@@ -209,7 +209,7 @@ class VendorCustomerDetail extends Component {
                     </Grid>
                 </Grid>
                 {
-                    this.state.saveModel && <CustomerBill
+                    this.state.saveModel && <CustSaveSaleModel
                     title={this.state.title}
                     open={this.state.saveModel}
                     close={()=> this.setState({saveModel: false})}
@@ -219,7 +219,7 @@ class VendorCustomerDetail extends Component {
                     custProductList={this.props.custProductList}
                     saveAction = {this.saveObject}
                 >
-                </CustomerBill>
+                </CustSaveSaleModel>
                 }
             </MainCard>
         );

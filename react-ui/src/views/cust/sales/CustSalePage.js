@@ -11,9 +11,10 @@ import {
  import AddIcon from '@material-ui/icons/Add';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
-import CustomerBill from './CustomerBill';
 import { makeStyles } from '@material-ui/styles';
 import PrintBill from './PrintBill';
+import CustSaveSaleModel from './CustSaveSaleModel';
+import CustSaveSalePage from './CustSaveSalePage';
 
 
 const mainheaders = [
@@ -141,6 +142,8 @@ const useStyles = makeStyles((theme) => ({
 
 class CustSalePage extends Component {
     state={
+        configPage : true,
+        savePage : false,
         saveModel: false,
         deleteModel: false,
         printModel: false,
@@ -153,12 +156,20 @@ class CustSalePage extends Component {
     }
     _edit = row => {
         this._clearModel();
-       this.setState({ dataObject: row, title:"Edit sale", type:"Edit", saveModel: true  });
+        if(this.state.configPage){
+             this.setState({ dataObject: row, title:"Edit sale", type:"Edit", savePage: true  });
+        } else{
+            this.setState({ dataObject: row, title:"Edit sale", type:"Edit", saveModel: true  });
+        }
     }
 
     _add = () => {
         this._clearModel();
-       this.setState({ dataObject: {}, title:"Add sale", type:"Add", saveModel: true  });
+        if(this.state.configPage){
+            this.setState({ dataObject: {}, title:"Add sale", type:"Add", savePage: true  });
+        } else{
+            this.setState({ dataObject: {}, title:"Add sale", type:"Add", saveModel: true  });
+        }
     }
 
     build=(row)=>{
@@ -229,7 +240,7 @@ class CustSalePage extends Component {
     render() {
         return (
             <>
-                
+                { !this.state.savePage &&
                 <MainCard title="Sale List" 
                         button ={
                             
@@ -252,18 +263,33 @@ class CustSalePage extends Component {
 
                         </CollapsibleTable>
                     </MainCard>
+                }
                 {
-                    this.state.saveModel && <CustomerBill
+                    this.state.savePage && <CustSaveSalePage
                     title={this.state.title}
-                    open={this.state.saveModel}
-                    close={()=> this.setState({saveModel: false})}
+                    open={this.state.savePage}
+                    close={this._clearModel}
                     data={this.state.dataObject} 
                     type={this.state.type}
                     fields= {modelheaders}
                     custProductList={this.props.custProductList}
                     saveAction = {this.saveObject}
                 >
-                </CustomerBill>
+                </CustSaveSalePage>
+                }
+
+{
+                    this.state.saveModel && <CustSaveSaleModel
+                    title={this.state.title}
+                    open={this.state.saveModel}
+                    close={this._clearModel}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    custProductList={this.props.custProductList}
+                    saveAction = {this.saveObject}
+                >
+                </CustSaveSaleModel>
                 }
                 
                 {
@@ -272,7 +298,7 @@ class CustSalePage extends Component {
                     open={this.state.printModel}
                     headers={headers} 
                     custCustomerList={this.props.custCustomerList}
-                    close={()=> this.setState({printModel: false})}
+                    close={this._clearModel}
                     data={this.state.dataObject} 
                     type={this.state.type}
                     fields= {modelheaders}
@@ -283,7 +309,7 @@ class CustSalePage extends Component {
             
                 <ConfirmModel
                     openAction={this.state.deleteModel}
-                    closeAction={()=> this.setState({deleteModel: false})}
+                    closeAction={this._clearModel}
                     data={this.state.dataObject} 
                     type={this.state.type}
                     message= 'Do you want to delete'

@@ -4,7 +4,7 @@ import 'date-fns';
 import moment from 'moment';
 
 // material-ui
-import { Avatar, Button, Card, CardContent, CardHeader, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, FormLabel, Grid, IconButton, List, ListItem, ListItemText, Modal, Paper, Radio, RadioGroup, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography} from '@material-ui/core';
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, List, ListItem, ListItemText,Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography} from '@material-ui/core';
 import SupplierDropDwon from '../../../component/dropdwons/SupplierDropDwon';
 // project imports
 import { makeStyles, styled } from '@material-ui/styles';
@@ -18,7 +18,6 @@ import DynamicField from '../../../component/fields/DynamicField';
 import { connect } from 'react-redux';
 import { GridCloseIcon } from '@mui/x-data-grid';
 import { LabelImportant } from '@material-ui/icons';
-import PaymentField from '../../../component/fields/PaymentField';
 import PaymentFieldGroup from '../../../component/fields/PaymentFieldGroup';
 
   const ToggleSwitch = styled((props) => (
@@ -101,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const DATE_TIME_FORMAT_UI="YYYY-MM-DD HH:MM";
-  class SupplierPurchase extends Component {
+  class CustSavePurchaseModel extends Component {
 
     
     state = {
@@ -477,4 +476,4 @@ const mapStateToProps = state => {
     return { custProductList, custSupplierList };
 }
 
-export default connect(mapStateToProps, { getCustProductList, getCustSupplierList})(SupplierPurchase);
+export default connect(mapStateToProps, { getCustProductList, getCustSupplierList})(CustSavePurchaseModel);

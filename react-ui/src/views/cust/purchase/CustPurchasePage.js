@@ -11,9 +11,10 @@ import {
  import AddIcon from '@material-ui/icons/Add';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
-import SupplierBill from './SupplierBill';
+import CustSavePurchaseModel from './CustSavePurchaseModel';
 import { makeStyles } from '@material-ui/styles';
 import PrintBill from './PrintBill';
+import CustSavePurchasePage from './CustSavePurchasePage';
 
 
 const mainheaders = [
@@ -147,6 +148,8 @@ const useStyles = makeStyles((theme) => ({
 
 class CustPurchasePage extends Component {
     state={
+        configPage : true,
+        savePage : false,
         saveModel: false,
         deleteModel: false,
         printModel: false,
@@ -155,16 +158,24 @@ class CustPurchasePage extends Component {
         type: ""
     }
     _clearModel=()=>{
-        this.setState({ deleteModel:false, saveModel:false, printModel: false });
+        this.setState({ deleteModel:false, saveModel:false, printModel: false, savePage:false });
     }
     _edit = row => {
         this._clearModel();
-       this.setState({ dataObject: row, title:"Edit purchase", type:"Edit", saveModel: true  });
+        if(this.state.configPage){
+            this.setState({ dataObject: row, title:"Edit purchase", type:"Edit", savePage: true  });
+        } else{
+            this.setState({ dataObject: row, title:"Edit purchase", type:"Edit", saveModel: true  });
+        }
     }
 
     _add = () => {
         this._clearModel();
-       this.setState({ dataObject: {}, title:"Add purchase", type:"Add", saveModel: true  });
+        if(this.state.configPage){
+            this.setState({ dataObject: {}, title:"Add purchase", type:"Add", savePage: true  });
+        } else {
+            this.setState({ dataObject: {}, title:"Add purchase", type:"Add", saveModel: true  });
+        }
     }
 
     build=(row)=>{
@@ -236,40 +247,55 @@ class CustPurchasePage extends Component {
     render() {
         return (
             <>
-                
-                <MainCard title="Purchase List" 
-                        button ={
-                            
-                            <Tooltip title="Add" aria-label="add">
-                                <Button variant='contained' color="error" className={useStyles.absolute} onClick={this._add}>
-                                    <AddIcon />
-                                </Button>
-                            </Tooltip>
-                        }
-                        content={false}
-                    >
-                        <CollapsibleTable 
-                            headers={headers} 
-                            dataList={this.props.custPurchaseList}
-                            custSupplierList= {this.props.custSupplierList}
-                            deleteAction = {this._delete}
-                            editAction = {this._edit}
-                            printAction= {this._print}
-                            >
-
-                        </CollapsibleTable>
-                    </MainCard>
                 {
-                    this.state.saveModel && <SupplierBill
+                !this.state.savePage 
+                 && <MainCard title="Purchase List" 
+                    button ={
+                        
+                        <Tooltip title="Add" aria-label="add">
+                            <Button variant='contained' color="error" className={useStyles.absolute} onClick={this._add}>
+                                <AddIcon />
+                            </Button>
+                        </Tooltip>
+                    }
+                    content={false}
+                >
+                    <CollapsibleTable 
+                        headers={headers} 
+                        dataList={this.props.custPurchaseList}
+                        custSupplierList= {this.props.custSupplierList}
+                        deleteAction = {this._delete}
+                        editAction = {this._edit}
+                        printAction= {this._print}
+                        >
+
+                    </CollapsibleTable>
+                </MainCard>
+                }
+                
+                {
+                    this.state.savePage && <CustSavePurchasePage
                     title={this.state.title}
-                    open={this.state.saveModel}
-                    close={()=> this.setState({saveModel: false})}
+                    open={this.state.savePage}
+                    close={this._clearModel}
                     data={this.state.dataObject} 
                     type={this.state.type}
                     fields= {modelheaders}
                     saveAction = {this.saveObject}
                 >
-                </SupplierBill>
+                </CustSavePurchasePage>
+                }
+                {
+                    this.state.saveModel && <CustSavePurchaseModel
+                    title={this.state.title}
+                    open={this.state.saveModel}
+                    close={this._clearModel}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {modelheaders}
+                    saveAction = {this.saveObject}
+                >
+                </CustSavePurchaseModel>
                 }
                 
                 {
@@ -277,7 +303,7 @@ class CustPurchasePage extends Component {
                     title={this.state.title}
                     open={this.state.printModel}
                     headers={headers} 
-                    close={()=> this.setState({printModel: false})}
+                    close={this._clearModel}
                     data={this.state.dataObject} 
                     type={this.state.type}
                     fields= {modelheaders}
@@ -288,7 +314,7 @@ class CustPurchasePage extends Component {
             
                 <ConfirmModel
                     openAction={this.state.deleteModel}
-                    closeAction={()=> this.setState({deleteModel: false})}
+                    closeAction={this._clearModel}
                     data={this.state.dataObject} 
                     type={this.state.type}
                     message= 'Do you want to delete'
