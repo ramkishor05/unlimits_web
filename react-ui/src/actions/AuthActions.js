@@ -20,11 +20,13 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
 
         const token = await AuthService.generateToken({ username, password });
         if (token) {
+            console.log("token====", token)
+       
             dispatch({ type: LOGIN_SUCCESS, payload: token });
             if (_clearCredentials) {
                 _clearCredentials();
             }
-            //dispatch(getUser(token));
+            dispatch(getUser(token));
         }
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {
@@ -54,7 +56,6 @@ export const getUser = (token) => async dispatch => {
             return ;
         }
         dispatch({ type: SHOW_LOADER });
-        console.log("token====", token)
         const user = await AuthService.getUser(token);
         console.log("user====", user)
         if (user) {

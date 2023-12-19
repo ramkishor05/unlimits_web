@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 // project imports
-import config from '../../config';
-import { getMenuGroupByRoleId, getUser } from '../../actions';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { getUser } from '../../actions';
 
 //-----------------------|| GUEST GUARD ||-----------------------//
 
@@ -23,14 +22,7 @@ const GuestGuard = ({ children }) => {
     const dispatch=useDispatch();
    
     useEffect(()=>{
-        if(isLoggedIn && token){
-            console.log("useEffect(()=>", token)
-            dispatch(getUser(token));
-            if(userRole){
-               // dispatch(getMenuGroupByRoleId(userRole.id))
-            }
-            console.log("useEffect(()=>", token)
-        }
+        dispatch(getUser(token));
     },[])
 
     if (isLoggedIn ) {

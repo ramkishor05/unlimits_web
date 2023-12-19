@@ -350,7 +350,9 @@ const RestRegister = ({ ...others }) => {
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={
-                    (values, { setErrors, setStatus, setSubmitting }) => doProcess(values, { setErrors, setStatus, setSubmitting })
+                    (values, { setErrors, setStatus, setSubmitting }) => 
+                    doProcess(values, { setErrors, setStatus, setSubmitting }
+                    )
                 }
             >
                 {

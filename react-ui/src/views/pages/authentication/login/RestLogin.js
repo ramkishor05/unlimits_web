@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import configData from '../../../../config';
-import { getUser } from '../../../../actions';
+import { getUser, login } from '../../../../actions';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -107,36 +107,14 @@ const RestLogin = (props, { ...others }) => {
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
+                    let password= values.password;
+                    let username= values.username;
                     try {
-                        axios
-                            .post( config.AUTH_SERVER_HOST+'/api/authentication/token/generate', {
-                                password: values.password,
-                                username: values.username
-                            })
-                            .then(function (response) {
-                                if (response) {
-                                    
-                                    dispatcher({
-                                        type: ACCOUNT_INITIALIZE,
-                                        payload: { isLoggedIn: true, token: response.data}
-                                    });
-                                   // console.log("/api/authentication/token/generate response : " ,response.data);
-                                   // dispatcher(getUser(response.data));
-                                    if (scriptedRef.current) {
-                                        setStatus({ success: true });
-                                        setSubmitting(false);
-                                    }
-                                } else {
-                                    setStatus({ success: false });
-                                    setErrors({ submit: response.data.msg });
-                                    setSubmitting(false);
-                                }
-                            })
-                            .catch(function (error) {
-                                setStatus({ success: false });
-                                setErrors({ submit: error.response.data.msg });
-                                setSubmitting(false);
-                            });
+                        dispatcher(login({username,password}));
+                        if (scriptedRef.current) {
+                            setStatus({ success: true });
+                            setSubmitting(false);
+                        }
                     } catch (err) {
                         console.error(err);
                         if (scriptedRef.current) {
