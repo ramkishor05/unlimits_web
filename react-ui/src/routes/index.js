@@ -27,8 +27,10 @@ const Routes = () => {
    
     useEffect(()=>{
         console.log("Routes location=",location);
-        if(isLoggedIn && token && isLoading){
-            dispatch(getUser(token));
+        if(isLoading){
+            if(isLoggedIn){
+                dispatch(getUser(token));
+            }
             setLoading(false);
         }
     });
