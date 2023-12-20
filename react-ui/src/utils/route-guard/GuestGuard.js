@@ -22,11 +22,11 @@ const GuestGuard = ({ children }) => {
     const dispatch=useDispatch();
    
     useEffect(()=>{
-        dispatch(getUser(token));
+       
     },[])
 
     if (isLoggedIn ) {
-        console.log("GuestGuard accountReducer.isLoggedIn==",isLoggedIn)
+        console.log("GuestGuard accountReducer.isLoggedIn== token",isLoggedIn, token)
         console.log("GuestGuard userRole==",userRole)
         if(userRole)
              return <Redirect to={defaultPath(userRole, location, isLoggedIn)} />;

@@ -23,7 +23,7 @@ const collapse=(item)=>{
 }
 
 export const initialState = {
-    token: '',
+    token: null,
     isLoggedIn: false,
     isInitialized: false,
     businessId: null,
@@ -32,23 +32,24 @@ export const initialState = {
         return await MenuGroupService.findByRoleId(roleId);
     },
     defaultPath: (userRole, location,isLoggedIn)=>{
+        console.log("defaultPath:",userRole, location,isLoggedIn)
         if(!isLoggedIn){
             return "/login";
         } else{
             if(!userRole){
                 return location.pathname;
             }
-            let roleEndpoints=userRole.roleEndpoints;
+            let roleMenuItems=userRole.roleMenuItems;
     
-            for(let menuItemIndex in roleEndpoints){
-                let menuItem= roleEndpoints[menuItemIndex];
+            for(let menuItemIndex in roleMenuItems){
+                let menuItem= roleMenuItems[menuItemIndex];
                 if(location.pathname===menuItem.url){
                     return menuItem.url;
                 }
             }
     
-            for(let menuItemIndex in roleEndpoints){
-                let menuItem= roleEndpoints[menuItemIndex];
+            for(let menuItemIndex in roleMenuItems){
+                let menuItem= roleMenuItems[menuItemIndex];
                 if(location.pathname=="/" || location.pathname=="/login"){
                     if(menuItem.homePage){
                         return menuItem.url;
@@ -56,20 +57,18 @@ export const initialState = {
                 }
             }
         }
-        
-       
         return '/invalidUrl';
     },
     contains : (id, userRole) => {
-        return userRole.roleEndpoints.find(roleEndpoint=>roleEndpoint.type===id) !=null;
+        return userRole.roleMenuItems.find(roleEndpoint=>roleEndpoint.type===id) !=null;
      },
      filter: (itemChildrenList, userRole)=>{
-        let roleEndpoints= userRole.roleEndpoints;
-        return itemChildrenList.filter(itemChildren=>roleEndpoints.find(roleEndpoint=>roleEndpoint.url===itemChildren.url) !=null)
+        let roleMenuItems= userRole.roleMenuItems;
+        return itemChildrenList.filter(itemChildren=>roleMenuItems.find(roleEndpoint=>roleEndpoint.url===itemChildren.url) !=null)
      },
      paths: (userRole) => {
        let paths=[];
-       userRole.roleEndpoints.forEach(roleEndpoint=>{
+       userRole.roleMenuItems.forEach(roleEndpoint=>{
         paths.push(roleEndpoint.url);
        })
        return  paths;
@@ -129,22 +128,10 @@ const accountReducer = (state = initialState, action) => {
         }
         
         case LOGIN_SUCCESS: {
-            const { token } = action.payload;
             return {
                 ...state,
-                token: token,
+                token: action.payload,
                 isLoggedIn: true,
-                businessId :null,
-                ownerId: null
-            };
-        }
-
-        case LOGIN_FAIL:
-        case LOGOUT_SUCCESS: {
-            return {
-                ...state,
-                isLoggedIn: false,
-                token: null,
                 businessId :null,
                 ownerId: null
             };

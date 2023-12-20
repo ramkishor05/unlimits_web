@@ -55,6 +55,7 @@ export default (state = INITIAL_STATE, action) => {
                 return {
                      ...state, 
                     userDetail : {
+                        ...state.userDetail,
                         userProfile: action.payload
                     } 
                 };
@@ -65,6 +66,7 @@ export default (state = INITIAL_STATE, action) => {
             return {
                     ...state, 
                 userDetail : {
+                    ...state.userDetail,
                     userProfile: action.payload
                 } 
             };

@@ -1,7 +1,8 @@
 import { 
-    GET_ALL_VENDOR_LIST_SUCCESS,GET_VENDOR_SUCCESS, VENDOR_ADD_SUCCESS,
     SHOW_LOADER, REMOVE_LOADER,
-    VENDOR_TO_EDIT, VENDOR_EDIT_SUCCESS, GET_FINISHING_VENDOR_LIST
+    USER_GET_VENDOR_LIST_SUCCESS,
+    USER_GET_VENDOR_SUCCESS, 
+    USER_UPDATE_VENDOR_SUCCESS
 } from '../types';
 
 import UserVendorService from '../services/UserVendorService';
@@ -13,7 +14,7 @@ export const getUserVendorList = () => async dispatch => {
         const vendors = await UserVendorService.getAll();
 
         if (vendors) {
-            dispatch({ type: GET_ALL_VENDOR_LIST_SUCCESS, payload: vendors });
+            dispatch({ type: USER_GET_VENDOR_LIST_SUCCESS, payload: vendors });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
@@ -29,7 +30,7 @@ export const getUserVendor = (id) => async dispatch => {
         const vendor = await UserVendorService.get(id);
 
         if (vendor) {
-            dispatch({ type: GET_VENDOR_SUCCESS, payload: vendor });
+            dispatch({ type: USER_GET_VENDOR_SUCCESS, payload: vendor });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
@@ -47,7 +48,7 @@ export const updateUserVendor = (id, data, clearAndRefresh, successNotification,
         const vendor = await UserVendorService.update(id, data);
 
         if (vendor) {
-            dispatch({ type: VENDOR_EDIT_SUCCESS });
+            dispatch({ type: USER_UPDATE_VENDOR_SUCCESS, payload: vendor });
             
             successNotification && successNotification();
 

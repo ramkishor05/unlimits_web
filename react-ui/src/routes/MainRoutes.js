@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import MainPage from '../views/pages/MainPage';
 import MainLayout from './../layout/MainLayout';
 import AuthGuard from './../utils/route-guard/AuthGuard';
@@ -17,18 +17,16 @@ const MainRoutes = () => {
 
     const location = useLocation();
 
-    const dispatch=useDispatch();
-    const {isLoggedIn, token, defaultPath}= useSelector((state) => state.accountReducer);
     const {userDetail}= useSelector((state) => state.userReducer);
     const userRole = userDetail?.userRole;
     
-    const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);
-
-    let menuGroups = userMenuGroupReducer.userMenuGroups;
+    let menuGroups = userRole?.roleMenuGroups;
     
     const getRouteGroups=(menuGroups)=>{
         let list=[];
-        
+        if(!menuGroups){
+            return list;
+        }
         for(let menuGroupIndex in menuGroups){
             let menuGroup= menuGroups[menuGroupIndex];
             list.push(<Route key={menuGroup.id} exact path={menuGroup.url} render={(props) => <MainPage menuGroup={menuGroup} {...props}></MainPage>} />)
@@ -47,6 +45,9 @@ const MainRoutes = () => {
 
     const getRouteUrls=(menuGroups)=>{
         let list=[];
+        if(!menuGroups){
+            return list;
+        }
         
         for(let menuGroupIndex in menuGroups){
             let menuGroup= menuGroups[menuGroupIndex];
@@ -60,12 +61,7 @@ const MainRoutes = () => {
     }
 
     useEffect(()=>{
-        if(isLoggedIn){
-            dispatch(getUser(token));
-            if(userRole){
-                dispatch(getMenuGroupByRoleId(userRole.id))
-            }
-        }
+       
     },[getUser,getMenuGroupByRoleId])
 
     return (

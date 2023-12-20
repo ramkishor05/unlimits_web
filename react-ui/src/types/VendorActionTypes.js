@@ -41,4 +41,4 @@ export const USER_GET_VENDOR_SUCCESS = 'user_get_vendor_success';
 
 export const USER_ADD_VENDOR_SUCCESS = 'user_add_vendor_success';
 
-export const USER_VENDOR_EDIT_SUCCESS = 'user_vendor_edit_success';
+export const USER_UPDATE_VENDOR_SUCCESS = 'user_edit_vendor_success';

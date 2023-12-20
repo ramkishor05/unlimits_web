@@ -28,7 +28,7 @@ const CustOwnerAccount = ({vendorAccount, userAccount}) => {
     }
 
     const isNotOwner= ()=>{
-        return vendorAccount?.id!==userAccount?.id;
+        return vendorAccount?.id!==userAccount?.ownerId;
     }
 
     return (

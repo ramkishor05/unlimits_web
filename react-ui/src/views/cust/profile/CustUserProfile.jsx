@@ -13,11 +13,9 @@ import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
 
-const CustUserProfile = () => {
-    const dispatch= useDispatch();
-    const {userDetail} = useSelector((state) => state.userReducer);
-    
-    const [userProfile, setUserProfile]= useState(userDetail.userProfile);
+const CustUserProfile = (props) => {
+    const dispatch= useDispatch();    
+    const [userProfile, setUserProfile]= useState(props.userProfile);
 
     const setUserProfileField= (event, name)=>{
         let newUserProfile={...userProfile};
@@ -35,8 +33,17 @@ const CustUserProfile = () => {
         dispatch(updateUserProfile(userProfile));
     }
 
+    const titleOptions= ['Mr.','Mrs','Ms']
+
+    const validtitle=(title)=>{
+        if(titleOptions.find(titleOp=>titleOp==title)){
+            return title;
+        }
+        return "";
+    }
+
     useEffect(()=>{
-        dispatch(getUserProfile(userProfile?.id));
+        
     },[getUserProfile])
     
     return (
@@ -69,7 +76,7 @@ const CustUserProfile = () => {
                                 <Select
                                     labelId="userProfile-title-label"
                                     id="userProfile-title"
-                                    value={userProfile?.title}
+                                    value={validtitle(userProfile?.title)}
                                     label="Title"
                                     onChange={(event)=> setUserProfileField(event,'title')}
                                     variant='standard'

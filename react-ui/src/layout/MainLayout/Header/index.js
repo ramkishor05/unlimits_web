@@ -16,6 +16,7 @@ import { getUser } from '../../../actions/UserActions';
 import { IconMenu2 } from '@tabler/icons';
 import { useSelector } from 'react-redux';
 import BusinessOptions from '../../../component/dropdwons/BusinessOptions';
+import { ItemMapper } from '../../../constants/ItemMapper';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +46,21 @@ const useStyles = makeStyles((theme) => ({
 //-----------------------|| MAIN NAVBAR / HEADER ||-----------------------//
 
 const Header = ({ handleLeftDrawerToggle }) => {
+    const userMenuGroupReducer = useSelector((state) => state.userReducer);
+    let userRole=userMenuGroupReducer?.userDetail?.userRole;
+    let headerItems = userRole? userRole.roleHeaderItems: [];
     const classes = useStyles();
+
+    const getHeaderItem= (headerItem)=>{
+       let Section = ItemMapper[headerItem.title];
+       if(Section){
+          return  <>
+            <div className={classes.grow} />
+            <Section metadata={headerItem}></Section>
+            </>
+       }
+       return "";
+    }
    
     return (
         <React.Fragment>
@@ -63,16 +78,10 @@ const Header = ({ handleLeftDrawerToggle }) => {
             </div>
             
             {/* header search */}
-            <div className={classes.grow} />
-            <SearchSection theme="light" />
-            <div className={classes.grow} />
-            <BusinessOptions theme="light" />
-
-            <div className={classes.grow} />
-
-            {/* notification & profile */}
-            <NotificationSection />
-            <ProfileSection />
+            {
+               headerItems.map(headerItem=> getHeaderItem(headerItem))
+            }
+            
         </React.Fragment>
     );
 };

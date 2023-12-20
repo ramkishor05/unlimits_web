@@ -12,19 +12,12 @@ import { getMenuGroupByRoleId, getUser } from '../../actions';
  */
 const AuthGuard = ({ children }) => {
     const dispatch=useDispatch();
-    const {isLoggedIn, token, defaultPath }= useSelector((state) => state.accountReducer);
-    const {userDetail}= useSelector((state) => state.userReducer);
-    const userRole = userDetail?.userRole;
+    const {isLoggedIn, token}= useSelector((state) => state.accountReducer);
     console.log("AuthGuard isLoggedIn==",isLoggedIn)
 
     useEffect(()=>{
-        if(isLoggedIn){
-            dispatch(getUser(token));
-            if(userRole){
-                dispatch(getMenuGroupByRoleId(userRole.id))
-            }
-        }
-    },[getUser])
+        
+    },[])
     if (!isLoggedIn) {
         return <Redirect to="/login" />;
     }

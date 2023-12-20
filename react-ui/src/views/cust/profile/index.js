@@ -31,7 +31,7 @@ class CustUserProfilePage extends Component {
                 
                 <CustUserAccount userAccount={this.props.userDetail}/>
                 <Divider></Divider>
-                <CustOwnerAccount vendorAccount={this.props.vendor} userAccount={this.props.userDetail}/>
+                <CustOwnerAccount vendorAccount={this.props.userVendor} userAccount={this.props.userDetail}/>
             </MainCard>
         
             
@@ -42,8 +42,10 @@ class CustUserProfilePage extends Component {
 const mapStateToProps = state => {
     const { ownerId} = state.accountReducer;
     const { userDetail} = state.userReducer;
-    const { vendor} = state.userVendorReducer;
-    return { userDetail, vendor, ownerId };
+    console.log("userDetailuserDetailuserDetail=",userDetail)
+    const { userVendor} = state.userVendorReducer;
+    console.log("userVendor=",userVendor)
+    return { userDetail, userVendor, ownerId };
 };
 
 export default connect(mapStateToProps, { getUserVendor })(CustUserProfilePage);

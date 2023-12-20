@@ -12,8 +12,9 @@ import { useEffect } from 'react';
 //-----------------------|| SIDEBAR MENU LIST ||-----------------------//
 
 const MenuList = () => {
-    const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);
-    let menuGroups = userMenuGroupReducer.userMenuGroups;
+    const userMenuGroupReducer = useSelector((state) => state.userReducer);
+    let userRole=userMenuGroupReducer?.userDetail?.userRole;
+    let menuGroups = userRole? userRole.roleMenuGroups: [];
     const navItems = menuGroups.map((item) => {
         switch (item.type) {
             case 'group':

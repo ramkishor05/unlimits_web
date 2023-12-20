@@ -6,7 +6,6 @@ import {
     SET_OWNER_ACCOUNT
 } from '../types';
 import AuthService from '../services/AuthService';
-import { getMenuGroupByRoleId } from './global/GlobalMenuGroupActions';
 
 /**
  * User Action - For logging user into the system.
@@ -20,9 +19,7 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
 
         const token = await AuthService.generateToken({ username, password });
         if (token) {
-            console.log("token====", token)
-       
-            dispatch({ type: LOGIN_SUCCESS, payload: token });
+           dispatch({ type: LOGIN_SUCCESS, payload: token });
             if (_clearCredentials) {
                 _clearCredentials();
             }
@@ -53,23 +50,22 @@ export const logout = () => {
 export const getUser = (token) => async dispatch => {
     try {
         if(!token){
+            dispatch({ type: LOGOUT_SUCCESS, payload: null });
             return ;
         }
         dispatch({ type: SHOW_LOADER });
         const user = await AuthService.getUser(token);
-        console.log("user====", user)
         if (user) {
             dispatch({ type: GET_USER_SUCCESS, payload: user });
             dispatch({ type: SET_OWNER_ACCOUNT, payload: user.ownerId });
-            dispatch(getMenuGroupByRoleId(user.userRole.id))
         } else{
             dispatch({ type: GET_USER_FAIL, payload: user });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {
         dispatch({ type: GET_USER_FAIL, payload: null });
+        dispatch({ type: LOGOUT_SUCCESS, payload: null });
         dispatch({ type: LOGIN_FAIL, payload: null });
-        
         dispatch({ type: REMOVE_LOADER });
         console.log(error);
     }

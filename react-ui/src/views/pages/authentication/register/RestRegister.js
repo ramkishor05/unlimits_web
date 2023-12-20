@@ -38,6 +38,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import UserService from '../../../../services/UserService';
 import UserVendorService from '../../../../services/UserVendorService';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../../actions';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -81,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
 //===========================|| API JWT - REGISTER ||===========================//
 
 const RestRegister = ({ ...others }) => {
+    const dispatch=useDispatch()
     const classes = useStyles();
     let history = useHistory();
     const scriptedRef = useScriptRef();
@@ -90,6 +93,8 @@ const RestRegister = ({ ...others }) => {
 
     const [strength, setStrength] = React.useState(0);
     const [level, setLevel] = React.useState('');
+
+    const [form, setForm] = React.useState('registeration');
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -117,14 +122,16 @@ const RestRegister = ({ ...others }) => {
                         emailAddress: values.email
                     }).then(function (owner) {
                         if (owner) {
+                            let password= values.password;
+                            let username= values.username;
                             UserService.add({
-                                username: values.username,
-                                password: values.password,
+                                username: username,
+                                password: password,
                                 ownerId: owner.id
                             })
                             .then(function (user) {
                                 if (user) {
-                                    history.push('/login');
+                                    dispatch(login({username,password}));
                                 } else {
                                     setStatus({ success: false });
                                     setErrors({ submit: ''});
@@ -162,6 +169,198 @@ const RestRegister = ({ ...others }) => {
                 setSubmitting(false);
             }
         }
+    }
+
+    const businessForm=({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+        <form noValidate onSubmit={handleSubmit} {...others}>
+            <Grid container spacing={matchDownSM ? 0 : 2}>
+                <Grid item xs={12}>
+                    <TextField
+                        fullWidth
+                        label="Email address"
+                        margin="normal"
+                        name="emailAddress"
+                        id="emailAddress"
+                        type="email"
+                        value={values.emailAddress}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        className={classes.loginInput}
+                        error={touched.emailAddress && Boolean(errors.emailAddress)}
+                    />
+                    {touched.emailAddress && errors.emailAddress && (
+                        <FormHelperText error id="standard-weight-helper-text--register">
+                            {errors.emailAddress}
+                        </FormHelperText>
+                    )}
+                </Grid>
+            </Grid>
+            <FormControl fullWidth error={Boolean(touched.phoneNumber && errors.phoneNumber)} 
+            className={classes.loginInput}>
+                <InputLabel htmlFor="outlined-adornment-phoneNumber-register">PhoneNumber</InputLabel>
+                <OutlinedInput
+                    id="outlined-adornment-email-register"
+                    type="phoneNumber"
+                    value={values.phoneNumber}
+                    name="phone"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    inputProps={{
+                        classes: {
+                            notchedOutline: classes.notchedOutline
+                        }
+                    }}
+                />
+                {touched.phoneNumber && errors.phoneNumber && (
+                    <FormHelperText error id="standard-weight-helper-text--register">
+                        {' '}
+                        {errors.phoneNumber}{' '}
+                    </FormHelperText>
+                )}
+            </FormControl>
+
+            <FormControl fullWidth error={Boolean(touched.permamentAddress && errors.permamentAddress)} className={classes.loginInput}>
+                <InputLabel htmlFor="outlined-adornment-password-register">permamentAddress</InputLabel>
+                <OutlinedInput
+                    id="outlined-adornment-password-register"
+                    type={showPassword ? 'text' : 'password'}
+                    value={values.permamentAddress}
+                    name="permamentAddress"
+                    label="permamentAddress"
+                    onBlur={handleBlur}
+                    onChange={(e) => {
+                        handleChange(e);
+                        changePassword(e.target.value);
+                    }}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                            >
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                    inputProps={{
+                        classes: {
+                            notchedOutline: classes.notchedOutline
+                        }
+                    }}
+                />
+                {touched.permamentAddress && errors.permamentAddress && (
+                    <FormHelperText error id="standard-weight-helper-text-permamentAddress-register">
+                        {errors.permamentAddress}
+                    </FormHelperText>
+                )}
+            </FormControl>
+
+            {strength !== 0 && (
+                <FormControl fullWidth>
+                    <Box
+                        sx={{
+                            mb: 2
+                        }}
+                    >
+                        <Grid container spacing={2} alignItems="center">
+                            <Grid item>
+                                <Box
+                                    backgroundColor={level.color}
+                                    sx={{
+                                        width: 85,
+                                        height: 8,
+                                        borderRadius: '7px'
+                                    }}
+                                ></Box>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant="subtitle1" fontSize="0.75rem">
+                                    {level.label}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </FormControl>
+            )}
+
+            <Grid container alignItems="center" justifyContent="space-between">
+                <Grid item>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={checked}
+                                onChange={(event) => setChecked(event.target.checked)}
+                                name="checked"
+                                color="primary"
+                            />
+                        }
+                        label={
+                            <Typography variant="subtitle1">
+                                Agree with &nbsp;
+                                <Typography variant="subtitle1" component={Link} to="#">
+                                    Terms & Condition.
+                                </Typography>
+                            </Typography>
+                        }
+                    />
+                </Grid>
+            </Grid>
+            {errors.submit && (
+                <Box
+                    sx={{
+                        mt: 3
+                    }}
+                >
+                    <FormHelperText error>{errors.submit}</FormHelperText>
+                </Box>
+            )}
+
+            <Box
+                sx={{
+                    mt: 2
+                }}
+            >
+                <AnimateButton>
+                    <Button
+                        disableElevation
+                        disabled={isSubmitting}
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        color="secondary"
+                    >
+                        Add business
+                    </Button>
+                </AnimateButton>
+            </Box>
+        </form>
+    );
+
+    const bussinessProcess=()=>{
+         return <Formik
+                initialValues={{
+                    phoneNumber: '',
+                    emailAddress: '',
+                    permamentAddress: '',
+                    presentAddress: '',
+                    submit: null
+                }}
+                validationSchema={Yup.object().shape({
+                    permamentAddress: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                    phoneNumber: Yup.string().required('Phone number is required')
+                })}
+                onSubmit={
+                    (values, { setErrors, setStatus, setSubmitting }) => 
+                    businessForm(values, { setErrors, setStatus, setSubmitting })
+                 }
+            >
+                {
+                   ({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values })=> registerationForm({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values })
+                }
+            </Formik>
     }
 
     const registerationForm=({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -335,30 +534,37 @@ const RestRegister = ({ ...others }) => {
         changePassword('123456');
     }, []);
 
+    const registerationProcess=()=>{
+        return <Formik
+        initialValues={{
+            username: '',
+            email: '',
+            password: '',
+            submit: null
+        }}
+        validationSchema={Yup.object().shape({
+            email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+            username: Yup.string().required('Username is required'),
+            password: Yup.string().max(255).required('Password is required')
+        })}
+        onSubmit={
+            (values, { setErrors, setStatus, setSubmitting }) => 
+               doProcess(values, { setErrors, setStatus, setSubmitting }
+            )
+        }
+    >
+        {
+           ({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values })=> registerationForm({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values })
+        }
+    </Formik>
+    }
+
     return (
         <React.Fragment>
-            <Formik
-                initialValues={{
-                    username: '',
-                    email: '',
-                    password: '',
-                    submit: null
-                }}
-                validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    username: Yup.string().required('Username is required'),
-                    password: Yup.string().max(255).required('Password is required')
-                })}
-                onSubmit={
-                    (values, { setErrors, setStatus, setSubmitting }) => 
-                    doProcess(values, { setErrors, setStatus, setSubmitting }
-                    )
-                }
-            >
-                {
-                   ({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values })=> registerationForm({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values })
-                }
-            </Formik>
+            {
+                bussinessProcess()
+
+            }
         </React.Fragment>
     );
 };
