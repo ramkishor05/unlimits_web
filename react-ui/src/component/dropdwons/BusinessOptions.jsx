@@ -2,27 +2,14 @@ import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, Box, ButtonBase, Card, CardContent, Grid, InputAdornment, OutlinedInput, Popper } from '@material-ui/core';
 
-// third-party
-import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
-
-// project imports
-import Transitions from '../extended/Transitions';
-
-// assets
-import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 
 import Select from '@mui/material/Select';
 
 import { getCustDashboardList, getCustProductList, getCustPurchaseList, getCustSaleList, getCustBusinessList, getCustCustomerList, getCustEmployeeList, getCustSupplierList, getCustUserList } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_BUSSINESS_ACCOUNT } from '../../store/actions';
-import Loader from '../Loader';
-
-import { REMOVE_LOADER, SHOW_LOADER } from '../../types';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -89,20 +76,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 const BusinessOptions= (props) =>  {
-  const classes = useStyles();
-
+    
   const { custBusinessList} = useSelector(state => state.custBusinessReducer);
 
   const {businessId}= useSelector(state => state.accountReducer);
 
   const dispatch=useDispatch();
 
-
-
-  const [value, setValue] = useState(businessId);
-
   const onSeach = async (event)=>{
-      setValue(event.target.value);
       dispatch({ type: SET_BUSSINESS_ACCOUNT, payload: event.target.value});
       dispatch(getCustDashboardList());
       // vendors
@@ -126,14 +107,13 @@ const BusinessOptions= (props) =>  {
      dispatch(getCustBusinessList());
   },[getCustBusinessList])
 
-
   return (
     <Select variant='standard'
-    value={value? value: ''}
+    value={businessId?businessId : ''}
     onChange={onSeach} sx={{width: '20%', borderStyle:'hidden'}}
   >
     {
-        custBusinessList.map((vendorBusiness, index)=><MenuItem key={index} selected={vendorBusiness.id===value} value={vendorBusiness?.id}>{vendorBusiness.name}</MenuItem>)
+        custBusinessList.map((vendorBusiness, index)=><MenuItem key={index} value={vendorBusiness?.id}>{vendorBusiness.name}</MenuItem>)
     }
   </Select>
   );

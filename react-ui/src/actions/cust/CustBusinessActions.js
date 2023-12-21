@@ -1,7 +1,7 @@
 import { 
     GET_ALL_VENDOR_BUSINESS_LIST_SUCCESS, VENDOR_BUSINESS_ADD_SUCCESS,
     SHOW_LOADER, REMOVE_LOADER,
-    VENDOR_BUSINESS_TO_EDIT, VENDOR_BUSINESS_EDIT_SUCCESS, GET_FINISHING_VENDOR_BUSINESS_LIST
+    VENDOR_BUSINESS_TO_EDIT, VENDOR_BUSINESS_EDIT_SUCCESS, GET_FINISHING_VENDOR_BUSINESS_LIST, SET_BUSSINESS_ACCOUNT
 } from '../../types';
 import CustBusinessService from '../../services/CustBusinessService';
 
@@ -17,11 +17,13 @@ export const getCustBusinessList = () => async dispatch => {
     
     try {
         dispatch({ type: SHOW_LOADER });
-        const vendorBusinesss = await CustBusinessService.getAll();
+        const vendorBusinesssList = await CustBusinessService.getAll();
 
-        if (vendorBusinesss) {
-            dispatch({ type: GET_ALL_VENDOR_BUSINESS_LIST_SUCCESS, payload: vendorBusinesss });
-           
+        if (vendorBusinesssList) {
+            dispatch({ type: GET_ALL_VENDOR_BUSINESS_LIST_SUCCESS, payload: vendorBusinesssList });
+            if(vendorBusinesssList.length==1){
+                dispatch({ type: SET_BUSSINESS_ACCOUNT, payload: vendorBusinesssList[0].id });
+            }
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {

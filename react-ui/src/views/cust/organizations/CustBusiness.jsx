@@ -110,16 +110,15 @@ class CustBusiness extends Component {
 
     };
 
-    clearAndRefresh = () => {
-        this.props.getCustBusinessList();
+    clearAndRefresh = async() => {
+        await this.props.getCustBusinessList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
         this.props.updateOnboarding(this.props.userDetail, this.props.token, this.props.custBusinessList.length===0);
-
     }
     
-    componentDidMount() {
+   async componentDidMount() {
         this.props.getCustVendorList();
-        this.props.getCustBusinessList();
+        this.clearAndRefresh();
     }
 
     render() {
