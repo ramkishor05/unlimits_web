@@ -562,7 +562,7 @@ const RestRegister = ({ ...others }) => {
     return (
         <React.Fragment>
             {
-                bussinessProcess()
+                registerationProcess()
 
             }
         </React.Fragment>

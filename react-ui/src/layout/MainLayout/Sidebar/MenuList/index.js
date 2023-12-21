@@ -12,13 +12,16 @@ import { useEffect } from 'react';
 //-----------------------|| SIDEBAR MENU LIST ||-----------------------//
 
 const MenuList = () => {
-    const userMenuGroupReducer = useSelector((state) => state.userReducer);
-    let userRole=userMenuGroupReducer?.userDetail?.userRole;
-    let menuGroups = userRole? userRole.roleMenuGroups: [];
-    const navItems = menuGroups.map((item) => {
+    const {userDetail} = useSelector((state) => state.userReducer);
+    const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);
+   // let userRole=userDetail?.userRole;
+   
+    return userMenuGroupReducer.userMenuGroups.map((item) => {
+        console.log("userDetail=",userDetail?.onBoarding)
+        let onBoarding=userDetail.onBoarding;
         switch (item.type) {
             case 'group':
-                return <NavGroup key={item.id} item={item}/>;
+                return <NavGroup key={item.id} item={item} onBoarding = {onBoarding}/>;
             default:
                 return (
                     <Typography key={item.id} variant="h6" color="error" align="center">
@@ -27,7 +30,6 @@ const MenuList = () => {
                 );
         }
     });
-    return navItems;
 };
 
 export default MenuList;

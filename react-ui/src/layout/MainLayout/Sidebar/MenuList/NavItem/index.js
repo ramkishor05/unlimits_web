@@ -48,11 +48,16 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| SIDEBAR MENU LIST ITEMS ||-----------------------//
 
-const NavItem = ({ item, level }) => {
+const NavItem = ({ item, onBoarding, level }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const customization = useSelector((state) => state.customization);
     const matchesSM = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+    const isDisabled=(menuOnBoarding)=>{
+        console.log("onBoarding : {}, menuOnBoarding: {}",onBoarding ,menuOnBoarding)
+        return onBoarding && !menuOnBoarding;
+    }
 
     const Icon = IconMapper[item.icon];
     const itemIcon = IconMapper[item.icon] ? (
@@ -99,7 +104,7 @@ const NavItem = ({ item, level }) => {
     return (
         <ListItemButton
             {...listItemProps}
-            disabled={item.disabled}
+            disabled={item.disabled || isDisabled(item.onBoarding)}
             className={level > 1 ? classes.listItemNoBack : classes.listItem}
             sx={{ borderRadius: customization.borderRadius + 'px' }}
             selected={customization.isOpen.findIndex((id) => id === item.id) > -1}

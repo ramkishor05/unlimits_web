@@ -3,7 +3,8 @@ import {
     SHOW_LOADER, REMOVE_LOADER,
     GET_USER_SUCCESS,
     GET_USER_FAIL,
-    SET_OWNER_ACCOUNT
+    SET_OWNER_ACCOUNT,
+    GET_USER_MENU_GROUP_LIST_SUCCESS
 } from '../types';
 import AuthService from '../services/AuthService';
 
@@ -54,10 +55,12 @@ export const getUser = (token) => async dispatch => {
             return ;
         }
         dispatch({ type: SHOW_LOADER });
+        dispatch({ type: GET_USER_MENU_GROUP_LIST_SUCCESS, payload: []});
         const user = await AuthService.getUser(token);
         if (user) {
             dispatch({ type: GET_USER_SUCCESS, payload: user });
             dispatch({ type: SET_OWNER_ACCOUNT, payload: user.ownerId });
+            dispatch({ type: GET_USER_MENU_GROUP_LIST_SUCCESS, payload: user.userRole.roleMenuGroups });
         } else{
             dispatch({ type: GET_USER_FAIL, payload: user });
         }

@@ -59,5 +59,10 @@ export default {
         return axios.get(endpoint+'/profile/'+`${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
+    },
+    updateOnboarding(id, onboarding) {
+        return axios.put(endpoint+'/onboarding/'+`${id}`+'/'+`${onboarding}`)
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
     }
 };

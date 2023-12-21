@@ -8,7 +8,6 @@ import { Divider, List, ListItemIcon, Typography } from '@material-ui/core';
 // project imports
 import NavItem from './../NavItem';
 import NavCollapse from './../NavCollapse';
-import { NavLink } from 'react-router-dom/cjs/react-router-dom';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import { useSelector } from 'react-redux';
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| SIDEBAR MENU LIST GROUP ||-----------------------//
 
-const NavGroup = ({ item , filter }) => {
+const NavGroup = ({ item ,onBoarding,  filter }) => {
     const customization = useSelector((state) => state.customization);
     const level=1;
     const classes = useStyles();
@@ -39,9 +38,9 @@ const NavGroup = ({ item , filter }) => {
     const items = filter? filter(item.menuItems).map((menu) => {
         switch (menu.type) {
             case 'collapse':
-                return <NavCollapse key={menu.id} menu={menu} level={1} />;
+                return <NavCollapse key={menu.id} menu={menu} level={1} onBoarding={onBoarding} />;
             case 'item':
-                return <NavItem key={menu.id} item={menu} level={1} />;
+                return <NavItem key={menu.id} item={menu} level={1} onBoarding={onBoarding} />;
             default:
                 return (
                     <Typography key={menu.id} variant="h6" color="error" align="center">
@@ -52,9 +51,9 @@ const NavGroup = ({ item , filter }) => {
     }):item.menuItems?  item.menuItems.map((menu) => {
         switch (menu.type) {
             case 'collapse':
-                return <NavCollapse key={menu.id} menu={menu} level={1} />;
+                return <NavCollapse key={menu.id} menu={menu} level={1} onBoarding={onBoarding} />;
             case 'item':
-                return <NavItem key={menu.id} item={menu} level={1} />;
+                return <NavItem key={menu.id} item={menu} level={1} onBoarding={onBoarding} />;
             default:
                 return (
                     <Typography key={menu.id} variant="h6" color="error" align="center">

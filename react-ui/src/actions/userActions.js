@@ -3,9 +3,10 @@ import {
     GET_USERS_SUCCESS,
     USER_UPDATE_SUCCESS, USER_UPDATE_FAIL,
     GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_FAIL,
-    OPEN_ADD_USER_MODAL, OPEN_EDIT_USER_MODAL, OPEN_DELETE_USER_MODAL,USER_TO_EDIT, SHOW_LOADER, REMOVE_LOADER
+    OPEN_ADD_USER_MODAL, OPEN_EDIT_USER_MODAL, OPEN_DELETE_USER_MODAL,USER_TO_EDIT, SHOW_LOADER, REMOVE_LOADER, GET_USER_SUCCESS
 } from '../types';
 import UserService from '../services/UserService';
+import { getUser } from './AuthActions';
 
 
 /**
@@ -127,6 +128,24 @@ export const deleteUser = (id, callBack) => async dispatch => {
         const result = await UserService.delete(id);
 
         if (result) {
+            if (callBack) {
+                callBack();
+            }
+        }
+        dispatch({ type: REMOVE_LOADER });
+    } catch (error) {
+        console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+    }
+};
+
+export const updateOnboarding = (user, token, onboarding, callBack) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+        const result = await UserService.updateOnboarding(user.id, onboarding);
+
+        if (result) {
+            dispatch(getUser(token));
             if (callBack) {
                 callBack();
             }
