@@ -55,11 +55,11 @@ const NavItem = ({ item, onBoarding, level }) => {
     const matchesSM = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const userReducer = useSelector((state) => state.userReducer);
     const isDisabled=(item)=>{
-        if(!item.onBoarding){
-            return false
-        }
+        if(userReducer.userDetail.onBoarding && !item.onBoarding){
+            return true;
+        } 
         console.log("onBoarding : {}, item: {}",onBoarding ,item)
-        return userReducer.userDetail.onBoarding && item.onBoarding && !userReducer.onBoardingDone(userReducer.userDetail,item);
+        return userReducer.userDetail.onBoarding && userReducer.onBoardingDone(userReducer.userDetail,item);
     }
 
     const Icon = IconMapper[item.icon];
