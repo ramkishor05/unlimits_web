@@ -53,10 +53,13 @@ const NavItem = ({ item, onBoarding, level }) => {
     const dispatch = useDispatch();
     const customization = useSelector((state) => state.customization);
     const matchesSM = useMediaQuery((theme) => theme.breakpoints.down('md'));
-
-    const isDisabled=(menuOnBoarding)=>{
-        console.log("onBoarding : {}, menuOnBoarding: {}",onBoarding ,menuOnBoarding)
-        return onBoarding && !menuOnBoarding;
+    const userReducer = useSelector((state) => state.userReducer);
+    const isDisabled=(item)=>{
+        if(!item.onBoarding){
+            return false
+        }
+        console.log("onBoarding : {}, item: {}",onBoarding ,item)
+        return userReducer.userDetail.onBoarding && item.onBoarding && !userReducer.onBoardingDone(userReducer.userDetail,item);
     }
 
     const Icon = IconMapper[item.icon];
@@ -104,7 +107,7 @@ const NavItem = ({ item, onBoarding, level }) => {
     return (
         <ListItemButton
             {...listItemProps}
-            disabled={item.disabled || isDisabled(item.onBoarding)}
+            disabled={item.disabled || isDisabled(item)}
             className={level > 1 ? classes.listItemNoBack : classes.listItem}
             sx={{ borderRadius: customization.borderRadius + 'px' }}
             selected={customization.isOpen.findIndex((id) => id === item.id) > -1}

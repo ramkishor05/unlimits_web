@@ -2,7 +2,7 @@ let APP_HOST_SERVER = null;
 if (process.env.APP_HOST_SERVER) {
   APP_HOST_SERVER = process.env.APP_HOST_SERVER;
 } else {
-  APP_HOST_SERVER = "192.168.29.222";
+  APP_HOST_SERVER = "192.168.1.53";
 }
 
 const config = {
