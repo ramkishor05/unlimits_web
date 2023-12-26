@@ -32,7 +32,7 @@
   }
   
 
-  export const setValue= (value, name, data, setData)=>{
+  export const setValue= (value, name, field, data, setData, checkValidation)=>{
     let newdata={...data}
     let targetObject= findTargetObject(newdata,name);
     console.log("targetObject=",targetObject)
@@ -40,6 +40,8 @@
     console.log("targetKey=",targetKey)
     targetObject[targetKey]=value;
     console.log("newdata=",newdata)
+    checkValidation && checkValidation(field, value);
+
     if(setData ){
         setData(newdata)
     }
@@ -57,8 +59,9 @@
     return targetObject[targetKey];
   }
 
-  export const setField= (value, name,  field, data, props, setData)=>{
-    let val = field.find ?  field.find(value, data, field, props) : value;
+  export const setField= (value, name,  field, data, props, setData, checkValidation)=>{
+     let val = field.find ?  field.find(value, data, field, props) : value;
+     checkValidation && checkValidation(field, val);
      setValue(val, name,  data, setData )
   }
  

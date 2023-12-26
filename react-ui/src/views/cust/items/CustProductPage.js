@@ -55,6 +55,8 @@ class CustProductPage extends Component {
     };
     
      saveObject = (type, row) => {
+        console.log(type, row)
+        return ;
         if(type=='Add')
             this.props.addCustProduct(row, this.clearAndRefresh)
         if(type=='Edit')

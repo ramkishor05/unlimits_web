@@ -90,7 +90,15 @@ const productsMeta = {
             "key": "title",
             "name": "title",
             "label": "Title",
-            "type": "text"
+            "type": "text",
+            "required" : {
+                value : '',
+                message: "Title is required!"
+            },
+            format : {
+                regex : '^[0-9]+$',
+                message: "Title should be number!"
+            }
         },
         {
             "id": "name",
@@ -108,16 +116,20 @@ const productsMeta = {
         },
         {
             "id": "purchasePrice",
-            "key": "purchasePrice",
+            "key": "purchasePrice.price",
             "name": "purchasePrice.price",
             "label": "Purchase",
             "type": "amount",
-            "onItems": (value,data, field, props )=>{
-                return props.custCurrencyItemList? props.custCurrencyItemList: []
-            },
-            "itemKey": "id",
-            "itemVal": "name",
-            "itemName": "purchasePrice.currencyId"
+            "prefix" : {
+                "id": "purchasePricePreFix",
+                "key": "id",
+                "value": "id",
+                "name": "purchasePrice.currencyId",
+                "label" : "name",
+                "onItems": (value, data, field, props )=>{
+                    return props.custCurrencyItemList? props.custCurrencyItemList: []
+                }
+            }
         },
         {
             "id": "retailPrice",
@@ -125,12 +137,16 @@ const productsMeta = {
             "name": "retailPrice.price",
             "label": "Retail",
             "type": "amount",
-            "onItems": (value,data, field, props )=>{
-                return props.custCurrencyItemList? props.custCurrencyItemList: []
-            },
-            "itemKey": "id",
-            "itemVal": "name",
-            "itemName": "retailPrice.currencyId"
+            "prefix" : {
+                "id": "retailPricePreFix",
+                "key": "id",
+                "value": "id",
+                "name": "retailPrice.currencyId",
+                "label" : "name",
+                "onItems": (value, data, field, props )=>{
+                    return props.custCurrencyItemList? props.custCurrencyItemList: []
+                }
+            }
         },
         {
             "id": "wholePrice",
@@ -138,12 +154,16 @@ const productsMeta = {
             "name": "wholePrice.price",
             "label": "Whole",
             "type": "amount",
-            "onItems": (value,data, field, props )=>{
-                return props.custCurrencyItemList? props.custCurrencyItemList: []
-            },
-            "itemKey": "id",
-            "itemVal": "name",
-            "itemName": "wholePrice.currencyId"
+            "prefix" : {
+                "id": "wholePricePreFix",
+                "key": "id",
+                "value": "id",
+                "name": "wholePrice.currencyId",
+                "label" : "name",
+                "onItems": (value, data, field, props )=>{
+                    return props.custCurrencyItemList? props.custCurrencyItemList: []
+                }
+            }
         }
     ]
 }

@@ -14,20 +14,56 @@ import { getValue, setChecked, setField, setValue } from '../utils/CommanUtil';
 class DynamicForm extends React.Component {
 
    state={
-    data:{}
+    data:{},
+    validationMap : {}
   }
 
   constructor(props){
     super(props);
     let {data}=this.props;
-    this.state={ data:data};
+    this.state={ data:data, validationMap : {}};
   }
 
   setData=(newData)=>{
-    console.log("newData==",newData)
     this.setState({data:newData})
   }
 
+  saveForm=(fields, type, data)=>{
+      for(var fieldIndex in fields){
+        let field= fields[fieldIndex];
+        if(field.required && field.required.state){
+
+        }
+        console.log("field===",field)
+      }
+  }
+
+  isError = (field)=>{
+    return this.state.validationMap[field.id]!=null;
+  }
+
+  errorMessage = (field)=>{
+    console.log("field====",field)
+    return this.state.validationMap[field.id];
+  }
+
+  checkValidation = (field, value)=>{
+    console.log("checkValidation=",field, value, this.state.validationMap)
+    if(field.required && value===field.value ){
+      this.state.validationMap[field.id]=field.required.message
+      return false;
+    } else{
+      
+      if(field.format && field.format.regex && !new RegExp(field.format.regex).test(value)){
+        this.state.validationMap[field.id]=field.format.message
+        return false;
+      } else{
+        delete this.state.validationMap[field.id];
+        return true;
+      }
+    }
+
+  }
 
   renderSwitch(field, data, props) {
     switch(field.type) {
@@ -41,7 +77,7 @@ class DynamicForm extends React.Component {
           value={getValue(data,field.name)}
           defaultValue={getValue(data,field.name)}
           label="{field.label}"
-          onChange={(event)=>setField(event.target.value, field, data, props, this.setData)}
+          onChange={(event)=>setField(event.target.value, field, data, props, this.setData, this.checkValidation)}
         >
           {
             field.onItems ? 
@@ -83,16 +119,18 @@ class DynamicForm extends React.Component {
       default:
         return <FormControl>
           <TextField
-        key={field.id}
-        variant='standard'
-        id={field.id}
-        label={field.label}
-        name={field.name}
-        type={field.type}
-        value={getValue(data,field.name)}
+          helperText={this.errorMessage(field)}
+          error={this.isError(field)}
+          key={field.id}
+          variant='standard'
+          id={field.id}
+          label={field.label}
+          name={field.name}
+          type={field.type}
+          value={getValue(data,field.name)}
           defaultValue={getValue(data,field.name)}
-        onChange={(event)=>setField(event.target.value, field.name, field, data, props , this.setData)}
-        fullWidth>
+          onChange={(event)=>setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)}
+          fullWidth>
         </TextField></FormControl>
     }
   }
@@ -134,7 +172,7 @@ class DynamicForm extends React.Component {
                 {this.rendorFields(fields, data, this.props)}
                 <Grid container spacing={2}>
                   <Grid key={'action'} item xs={12} textAlign={'right'}>
-                    <Button variant='outlined' color="primary" disabled={loader} onClick={(event)=>saveAction(type, data)} >
+                    <Button variant='outlined' color="primary" disabled={loader} onClick={(event)=>this.saveForm(fields, type, data)} >
                       {type}
                     </Button>
                   </Grid>
