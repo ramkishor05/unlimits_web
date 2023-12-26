@@ -12,16 +12,11 @@ import { useEffect } from 'react';
 //-----------------------|| SIDEBAR MENU LIST ||-----------------------//
 
 const MenuList = () => {
-    const {userDetail} = useSelector((state) => state.userReducer);
-    const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);
-   // let userRole=userDetail?.userRole;
-   
+    const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);   
     return userMenuGroupReducer.userMenuGroups.map((item) => {
-        console.log("userDetail=",userDetail?.onBoarding)
-        let onBoarding=userDetail.onBoarding;
         switch (item.type) {
             case 'group':
-                return <NavGroup key={item.id} item={item} onBoarding = {onBoarding}/>;
+                return <NavGroup key={item.id} item={item} />;
             default:
                 return (
                     <Typography key={item.id} variant="h6" color="error" align="center">

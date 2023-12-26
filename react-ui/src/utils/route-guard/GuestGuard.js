@@ -16,20 +16,16 @@ import { getUser } from '../../actions';
 const GuestGuard = ({ children }) => {
     const location = useLocation();
 
-    const { isLoggedIn, defaultPath,token} = useSelector((state) => state.accountReducer);
+    const { isLoggedIn, defaultPath} = useSelector((state) => state.accountReducer);
     const { userDetail }= useSelector((state) => state.userReducer);
-    const userRole = userDetail?.userRole;
-    const dispatch=useDispatch();
-   
+       
     useEffect(()=>{
        
     },[])
 
     if (isLoggedIn ) {
-        console.log("GuestGuard accountReducer.isLoggedIn== token",isLoggedIn, token)
-        console.log("GuestGuard userRole==",userRole)
-        if(userRole)
-             return <Redirect to={defaultPath(userRole, location, isLoggedIn)} />;
+        if(userDetail)
+             return <Redirect to={defaultPath(userDetail, location, isLoggedIn)} />;
         else
              return <Redirect to={'/login'} />;
     } 

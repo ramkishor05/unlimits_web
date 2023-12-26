@@ -64,9 +64,17 @@ class CustProductPage extends Component {
 
     };
 
-    clearAndRefresh = () => {
-        this.props.getCustProductList();
+     clearAndRefresh = async() => {
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false, savePage: false   });
+        await this.props.getCustProductList();
+        this.props.custProductList.forEach(custProduct=>{
+            this.getCustProductStock(custProduct);
+         });
+         console.log("this.props.menuItem=",this.props.menuItem.onBoarding)
+
+        //if(this.props.menuItem.onBoarding){
+            this.props.updateOnboarding(this.props.custProductList.length!==0);
+        //}
     }
 
      getCustProductStock= async (custProduct)=>{
@@ -74,13 +82,9 @@ class CustProductPage extends Component {
     }
     
     async componentDidMount() {
-        console.log("this.props",this.props)
         this.props.getCustUnitList();
         await this.props.getCustCurrencyItemList();
-        await this.props.getCustProductList();
-        this.props.custProductList.forEach(custProduct=>{
-           this.getCustProductStock(custProduct);
-        })
+        this.clearAndRefresh();
     }
 
  render() {
@@ -159,7 +163,6 @@ class CustProductPage extends Component {
 const mapStateToProps = state => {
     const { custProductList} = state.custProductReducer;
     const { custUnitList} = state.custUnitReducer;
-
     const { custCurrencyItemList} = state.custCurrencyItemReducer;
     return { custProductList, custCurrencyItemList, custUnitList};
 };

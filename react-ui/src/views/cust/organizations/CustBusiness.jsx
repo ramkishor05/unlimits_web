@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Button, IconButton, DeleteIcon, Fab } from '@material-ui/core';
 import { AddAlert, AddIcCallOutlined } from '@material-ui/icons';
 
-import { getCustBusinessList, addCustBusiness, editCustBusiness, deleteCustBusiness, getCustVendorList, updateOnboarding } from '../../../actions';
+import { getCustBusinessList, addCustBusiness, editCustBusiness, deleteCustBusiness, getCustVendorList} from '../../../actions';
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
@@ -113,7 +113,10 @@ class CustBusiness extends Component {
     clearAndRefresh = async() => {
         await this.props.getCustBusinessList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
-        this.props.updateOnboarding(this.props.userDetail, this.props.token, this.props.custBusinessList.length===0);
+        console.log("this.props.menuItem=",this.props.menuItem)
+        //if(this.props.menuItem.onBoarding){
+            this.props.updateOnboarding(this.props.custBusinessList.length!==0);
+       // }
     }
     
    async componentDidMount() {
@@ -174,11 +177,10 @@ class CustBusiness extends Component {
 }
 
 const mapStateToProps = state => {
-    const { userDetail } = state.userReducer;
-    const { token } = state.accountReducer;
+    
     const { loader } =  state.loaderReducer
     const { custBusinessList, show_business_loader } = state.custBusinessReducer;
-    return { token, userDetail, custBusinessList, show_business_loader , loader};
+    return { custBusinessList, show_business_loader , loader};
 };
 
 const styles = {
@@ -188,4 +190,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { getCustVendorList, getCustBusinessList, addCustBusiness , editCustBusiness, deleteCustBusiness, updateOnboarding})(CustBusiness);
+export default connect(mapStateToProps, { getCustVendorList, getCustBusinessList, addCustBusiness , editCustBusiness, deleteCustBusiness})(CustBusiness);

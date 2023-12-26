@@ -31,25 +31,40 @@ export const initialState = {
     loadMenuGroupByRole : async (roleId)=>{
         return await MenuGroupService.findByRoleId(roleId);
     },
-    defaultPath: (userRole, location,isLoggedIn)=>{
-        console.log("defaultPath:",userRole, location,isLoggedIn)
+    defaultPath: (userDetail, location,isLoggedIn)=>{
         if(!isLoggedIn){
             return "/login";
         } else{
-            if(!userRole){
+            if(!userDetail || !userDetail.userRole){
                 return location.pathname;
             }
+            let userRole=userDetail.userRole;
             let roleMenuItems=userRole.roleMenuItems;
-    
+                     
             for(let menuItemIndex in roleMenuItems){
                 let menuItem= roleMenuItems[menuItemIndex];
+                if(menuItem.disabled){
+                    continue;
+                }
                 if(location.pathname===menuItem.url){
                     return menuItem.url;
+                }
+            }
+
+            if(userDetail.onBoarding){
+                for(let onBoardingIndex in userDetail.onBoardingList){
+                    let onBoarding= userDetail.onBoardingList[onBoardingIndex];
+                    if(onBoarding.onBoardingActive){
+                        return onBoarding.roleMenuItem.url;
+                    }
                 }
             }
     
             for(let menuItemIndex in roleMenuItems){
                 let menuItem= roleMenuItems[menuItemIndex];
+                if(menuItem.disabled){
+                    continue;
+                }
                 if(location.pathname=="/" || location.pathname=="/login"){
                     if(menuItem.homePage){
                         return menuItem.url;

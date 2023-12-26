@@ -139,10 +139,10 @@ export const deleteUser = (id, callBack) => async dispatch => {
     }
 };
 
-export const updateOnboarding = (user, token, onboarding, callBack) => async dispatch => {
+export const updateOnboarding = (user, token, onboarding, idenNo, callBack) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
-        const result = await UserService.updateOnboarding(user.id, onboarding);
+        const result = await UserService.updateOnboarding(user.id, onboarding, idenNo);
 
         if (result) {
             dispatch(getUser(token));

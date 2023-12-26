@@ -27,7 +27,6 @@ export default {
     getUser(token) {
         let headers={};
         headers['api_token']=token;
-        console.log(endpoint+'/userdetail',headers)
         return axios.get(endpoint+'/userdetail', {headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));

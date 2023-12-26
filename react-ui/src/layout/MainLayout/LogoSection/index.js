@@ -16,10 +16,9 @@ const LogoSection = () => {
     const location = useLocation();
     const {isLoggedIn, defaultPath}= useSelector((state) => state.accountReducer);
     const {userDetail}= useSelector((state) => state.userReducer);
-    const userRole = userDetail?.userRole;
     
     return (
-        <ButtonBase disableRipple component={Link} to={defaultPath(userRole, location, isLoggedIn)}>
+        <ButtonBase disableRipple component={Link} to={defaultPath(userDetail, location, isLoggedIn)}>
             <Logo />
         </ButtonBase>
     );

@@ -13,8 +13,6 @@ import { getMenuGroupByRoleId, getUser } from '../../actions';
 const AuthGuard = ({ children }) => {
     const dispatch=useDispatch();
     const {isLoggedIn, token}= useSelector((state) => state.accountReducer);
-    console.log("AuthGuard isLoggedIn==",isLoggedIn)
-
     useEffect(()=>{
         
     },[])

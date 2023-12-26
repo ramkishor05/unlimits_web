@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| SIDEBAR MENU LIST GROUP ||-----------------------//
 
-const NavGroup = ({ item ,onBoarding,  filter }) => {
+const NavGroup = ({ item ,filter }) => {
     const customization = useSelector((state) => state.customization);
     const level=1;
     const classes = useStyles();
@@ -38,9 +38,9 @@ const NavGroup = ({ item ,onBoarding,  filter }) => {
     const items = filter? filter(item.menuItems).map((menu) => {
         switch (menu.type) {
             case 'collapse':
-                return <NavCollapse key={menu.id} menu={menu} level={1} onBoarding={onBoarding} />;
+                return <NavCollapse key={menu.id} menu={menu} level={1} />;
             case 'item':
-                return <NavItem key={menu.id} item={menu} level={1} onBoarding={onBoarding} />;
+                return <NavItem key={menu.id} item={menu} level={1} />;
             default:
                 return (
                     <Typography key={menu.id} variant="h6" color="error" align="center">
@@ -51,9 +51,9 @@ const NavGroup = ({ item ,onBoarding,  filter }) => {
     }):item.menuItems?  item.menuItems.map((menu) => {
         switch (menu.type) {
             case 'collapse':
-                return <NavCollapse key={menu.id} menu={menu} level={1} onBoarding={onBoarding} />;
+                return <NavCollapse key={menu.id} menu={menu} level={1} />;
             case 'item':
-                return <NavItem key={menu.id} item={menu} level={1} onBoarding={onBoarding} />;
+                return <NavItem key={menu.id} item={menu} level={1} />;
             default:
                 return (
                     <Typography key={menu.id} variant="h6" color="error" align="center">
@@ -81,22 +81,23 @@ const NavGroup = ({ item ,onBoarding,  filter }) => {
 
     return (
         <React.Fragment>
-            <List
+            <List 
+              style={{'disabled': item.disabled}}
                 subheader={
                     item.title && (
                         <>
                          
                         <Typography variant="caption" className={classes.menuCaption} display="block" gutterBottom>
                            {
-                            item.url? 
-                            <Link to={item.url}>
+                            item.url && !item.disabled && items.length>1 ? 
+                            <Link to={item.url}  >
                             {itemIcon}{item.title}
                            </Link>
                            : <>
                            {itemIcon}{item.title}
                            
                             {item.caption && (
-                                <Typography variant="caption" className={classes.subMenuCaption} display="block" gutterBottom>
+                                <Typography variant="caption" disabled className={classes.subMenuCaption} display="block" gutterBottom>
                                     {item.caption}
                                 </Typography>
                             )}

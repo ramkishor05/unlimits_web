@@ -60,8 +60,8 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-    updateOnboarding(id, onboarding) {
-        return axios.put(endpoint+'/onboarding/'+`${id}`+'/'+`${onboarding}`)
+    updateOnboarding(id, onboarding, idenNo) {
+        return axios.put(endpoint+'/onboarding/'+`${id}`+'/'+`${onboarding}`+'/'+`${idenNo}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     }

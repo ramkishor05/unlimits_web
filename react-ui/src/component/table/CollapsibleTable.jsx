@@ -187,9 +187,15 @@ export default function CollapsibleTable(props) {
         </TableHead>
         <TableBody>
           {  
-            dataList.map((row) => (
+           dataList && dataList.length>0 ? dataList.map((row) => (
                 <Row key={row.id} row={row} {...props}/>
             ))
+            :
+            <TableRow>
+              <TableCell colSpan={headers.headers.length+1} align='center'>
+                No rows found
+              </TableCell>
+            </TableRow>
           }
         </TableBody>
         <TableFooter>

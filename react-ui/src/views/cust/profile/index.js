@@ -42,9 +42,7 @@ class CustUserProfilePage extends Component {
 const mapStateToProps = state => {
     const { ownerId} = state.accountReducer;
     const { userDetail} = state.userReducer;
-    console.log("userDetailuserDetailuserDetail=",userDetail)
     const { userVendor} = state.userVendorReducer;
-    console.log("userVendor=",userVendor)
     return { userDetail, userVendor, ownerId };
 };
 

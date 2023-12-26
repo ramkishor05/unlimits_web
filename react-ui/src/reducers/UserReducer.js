@@ -22,20 +22,7 @@ const INITIAL_STATE = {
     exists: false,
     open_add_user_modal: false,
     open_edit_user_modal: false,
-    open_delete_user_modal: false,
-    onBoardingDone : (userDetail, menuItem)=>{
-       let onBoardingList= userDetail.onBoardingList;
-       for( let onBoardingIndex in  onBoardingList){
-            let onBoarding = onBoardingList[onBoardingIndex];
-            console.log("onBoarding===",onBoarding)
-            console.log("menuItem===",menuItem)
-            console.log("onBoarding.roleMenuItem.id, menuItem.id===",onBoarding.roleMenuItem.idenNo,menuItem.idenNo)
-            if(onBoarding.roleMenuItem.idenNo==menuItem.idenNo){
-                return onBoarding.onBoardingStatus;
-            }
-       }
-       return false;
-    }
+    open_delete_user_modal: false
 };
 
 export default (state = INITIAL_STATE, action) => {

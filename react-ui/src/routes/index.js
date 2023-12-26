@@ -22,11 +22,9 @@ const Routes = () => {
     const location = useLocation();
     const {isLoggedIn, defaultPath, token}= useSelector((state) => state.accountReducer);
     const {userDetail}= useSelector((state) => state.userReducer);
-    const userRole = userDetail?.userRole;
     const [isLoading, setLoading] = useState(true);
    
     useEffect(()=>{
-        console.log("Routes location=",location);
         if(isLoading){
             if(isLoggedIn){
                 dispatch(getUser(token));
@@ -48,7 +46,7 @@ const Routes = () => {
                 {/* Routes for main layouts */}
                 <MainRoutes />
                 <UnauthRoutes/>
-                <Redirect from="/**" to={defaultPath(userRole, location, isLoggedIn)} />
+                <Redirect from="/**" to={defaultPath(userDetail, location, isLoggedIn)} />
             
             </React.Fragment>
         </Switch>
