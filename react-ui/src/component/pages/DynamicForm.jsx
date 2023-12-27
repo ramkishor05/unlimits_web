@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
+import { Box, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../image/ImageUploadCard';
@@ -58,10 +58,18 @@ class DynamicForm extends React.Component {
   saveForm=(fields, type, data)=>{
     for(var fieldIndex in  fields){
       let field= fields[fieldIndex];
+      if(field.prefix){
+        this.checkValidation(field.prefix,getValue(data,field.prefix.name));
+      }
       this.checkValidation(field,getValue(data,field.name));
+      if(field.postfix){
+        this.checkValidation(field.postfix,getValue(data,field.postfix.name));
+      }
     };
     if(Object.keys(this.state.validationMap).length === 0){
       this.props.saveAction(type, data);
+    }else{
+      console.log("this.state.validationMap=",this.state.validationMap)
     }
   }
 
@@ -76,6 +84,9 @@ class DynamicForm extends React.Component {
 
   renderSwitch(field, data, props) {
     switch(field.type) {
+      case 'label':
+        return <Box 
+        >{field.label}</Box>;
       case 'select':
         return  <FormControl>
         <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
@@ -124,22 +135,31 @@ class DynamicForm extends React.Component {
       case 'qnt':
         return <QuantityField field={field} {...props  } setData={this.setData} ></QuantityField>
       case 'amount':
-        return <AmountField field={field} {...props} setData={this.setData}  ></AmountField>
+        return <FormControl  fullWidth><AmountField 
+        field={field} {...props} 
+        setData={this.setData}  
+        errorMessage={this.errorMessage}
+        isError={this.isError}
+        checkValidation={this.checkValidation}
+        ></AmountField></FormControl> 
       default:
-        return <FormControl>
+        return <FormControl  fullWidth>
           <TextField
           helperText={this.errorMessage(field)}
           error={this.isError(field)}
           key={field.id}
-          variant='standard'
+          variant={ 'standard'}
           id={field.id}
-          label={field.label}
+          label={field.required ?  field.label + " ( * )" : field.label+ " ( optional )" }
           name={field.name}
-          type={field.type}
+          type={'textarea'===field.type? 'text':  field.type}
+          multiline={'textarea'===field.type}
+          rows={'textarea'===field.type ? field.rows ? field.rows : 5 : 1}
           value={getValue(data,field.name)}
           defaultValue={getValue(data,field.name)}
           onChange={(event)=>setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)}
-          fullWidth>
+           sx={'textarea'===field.type ? {border:1, borderStyle: 'groove'}:{}}
+          >
         </TextField></FormControl>
     }
   }
@@ -151,7 +171,7 @@ class DynamicForm extends React.Component {
         {
           fields.map(field=>
               (
-                <Grid key={field.name} item xs={6}>
+                <Grid key={field.name} item xs={12} xl={field.grid? field.grid: 4} sm={field.grid? field.grid: 4} >
                   {
                     this.renderSwitch(field, data, props)
                   }
@@ -163,7 +183,7 @@ class DynamicForm extends React.Component {
   }
 
   render() {
-    const { title, type, fields, loader, closeAction , saveAction} = this.props;
+    const { title, type, fields, loader, closeAction} = this.props;
     const {data} = this.state;
     return (
              <MainCard title={title}

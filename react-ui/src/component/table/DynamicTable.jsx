@@ -62,7 +62,7 @@ function DynamicTable (props){
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {dataList && dataList.map((row, i) => (
+                {dataList && dataList.length>0 ?  dataList.map((row, i) => (
                     <TableRow key={i}>{
                         headers &&  headers.map(header=>
                             header.name=='actions' 
@@ -83,7 +83,13 @@ function DynamicTable (props){
                             )
                         }
                     </TableRow>
-                ))}
+                )) :
+                <TableRow>
+                    <TableCell colSpan={headers.length+1} align='center'>
+                        No rows found
+                    </TableCell>
+                </TableRow>
+                }
                 </TableBody>
             </Table>
         </TableContainer>

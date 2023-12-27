@@ -10,105 +10,6 @@ import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import DynamicForm from '../../../component/pages/DynamicForm';
 
-const tableheaders = [
-    {
-        name: "name",
-        label: "Name",
-        type: 'text'
-    },
-    {
-        name: "emailAddress",
-        label: "Email address",
-        type: 'email'
-    },
-    {
-        name: "phoneNumber",
-        label: "Phone number",
-        type: 'text'
-    },
-    {
-        name: "mobileNumber",
-        label: "mobileNumber",
-        type: 'text'
-    },
-    {
-        name: "permamentAddress",
-        label: "Permament address",
-        type: 'text'
-    },
-    {
-        name: "presentAddress",
-        label: "Present Address",
-        type: 'text'
-    },
-    {
-        name: "actions",
-        label: "Actions"
-    }
-];
-
-const modelheaders = [
-    {
-        "id":"name",
-        name: "name",
-        label: "Name",
-        type: 'text',
-        "required" : {
-            value : '',
-            message: "Name is required!"
-        }
-    },
-    {
-        name: "emailAddress",
-        label: "Email address",
-        type: 'email',
-        "required" : {
-            value : '',
-            message: "Email address is required!"
-        },
-        format : {
-            regex : '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/',
-            message: "Invalid format!"
-        }
-    },
-    {
-        name: "phoneNumber",
-        label: "Phone number",
-        type: 'text',
-        format : {
-            regex : '^[0-9]+$',
-            message: "Title should be number!"
-        }
-    },
-    {
-        name: "mobileNumber",
-        label: "Mobile Number",
-        type: 'text',
-        "required" : {
-            value : '',
-            message: "Mobile number is required!"
-        },
-        format : {
-            regex : '^[0-9]+$',
-            message: "Title should be number!"
-        }
-        
-    },
-    {
-        name: "permamentAddress",
-        label: "Permament address",
-        type: 'text'
-    },
-    {
-        name: "presentAddress",
-        label: "Present Address",
-        type: 'text',
-        "required" : {
-            value : '',
-            message: "Address is required!"
-        }
-    }
-];
 class CustBusiness extends Component {
     state={
         configPage : true,
@@ -155,9 +56,9 @@ class CustBusiness extends Component {
         await this.props.getCustBusinessList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false , savePage: false  });
         console.log("this.props.menuItem=",this.props.menuItem)
-        //if(this.props.menuItem.onBoarding){
+        if(this.props.menuItem.onBoarding){
             this.props.updateOnboarding(this.props.custBusinessList.length!==0);
-       // }
+        }
     }
     
    async componentDidMount() {
@@ -180,7 +81,7 @@ class CustBusiness extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={tableheaders} 
+                        headers={this.props.metadata.table} 
                         dataList={this.props.custBusinessList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
@@ -196,7 +97,7 @@ class CustBusiness extends Component {
                 closeAction={this.clearAndRefresh}
                 data={this.state.dataObject} 
                 type={this.state.type}
-                fields= {modelheaders}
+                fields= {this.props.metadata.model}
                 saveAction = {this.saveObject}
                 {... this.props}
                 >
@@ -211,7 +112,7 @@ class CustBusiness extends Component {
                     closeAction={()=> this.setState({saveModel: false})}
                     data={this.state.dataObject} 
                     type={this.state.type}
-                    fields= {modelheaders}
+                    fields= {this.props.metadata.model}
                     saveAction = {this.saveObject}
                     >
                     </DynamicModel>

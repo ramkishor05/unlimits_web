@@ -56,7 +56,6 @@ class CustProductPage extends Component {
     
      saveObject = (type, row) => {
         console.log(type, row)
-        return ;
         if(type=='Add')
             this.props.addCustProduct(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -72,11 +71,9 @@ class CustProductPage extends Component {
         this.props.custProductList.forEach(custProduct=>{
             this.getCustProductStock(custProduct);
          });
-         console.log("this.props.menuItem=",this.props.menuItem.onBoarding)
-
-        //if(this.props.menuItem.onBoarding){
+        if(this.props.menuItem.onBoarding){
             this.props.updateOnboarding(this.props.custProductList.length!==0);
-        //}
+        }
     }
 
      getCustProductStock= async (custProduct)=>{
@@ -110,7 +107,7 @@ class CustProductPage extends Component {
                         dataList={this.props.custProductList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
-                        
+                        custCurrencyItemList = {this.props.custCurrencyItemList}
                         ></CollapsibleTable>
                     </MainCard>
                 }
