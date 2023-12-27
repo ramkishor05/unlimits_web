@@ -29,20 +29,30 @@ const productsMeta = {
                 "render":(value, row, header, props)=>{
                     console.log("purchasePrice row=",row,  props)
                     let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.purchasePrice.currencyId)
-                    return custCurrency.symbol +""+ value;
+                    return custCurrency ? custCurrency.symbol +""+ value : value;
                 }
             },
             {
                 "key": "retailPrice",
                 "name": "retailPrice.price",
                 "label": "Retail",
-                "type": "amount"
+                "type": "amount",
+                "render":(value, row, header, props)=>{
+                    console.log("retailPrice row=",row,  props)
+                    let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.retailPrice.currencyId)
+                    return custCurrency ? custCurrency.symbol +""+ value : value;
+                }
             },
             {
                 "key": "wholePrice",
                 "name": "wholePrice.price",
                 "label": "Whole",
-                "type": "amount"
+                "type": "amount",
+                "render":(value, row, header, props)=>{
+                    console.log("wholePrice row=",row,  props)
+                    let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.wholePrice.currencyId)
+                    return custCurrency ? custCurrency.symbol +""+ value : value;
+                }
             },
             {
                 "name": "actions",
