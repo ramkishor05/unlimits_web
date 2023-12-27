@@ -8,6 +8,7 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
+import DynamicForm from '../../../component/pages/DynamicForm';
 
 const tableheaders = [
     {
@@ -48,24 +49,50 @@ const tableheaders = [
 
 const modelheaders = [
     {
+        "id":"name",
         name: "name",
         label: "Name",
-        type: 'text'
+        type: 'text',
+        "required" : {
+            value : '',
+            message: "Name is required!"
+        }
     },
     {
         name: "emailAddress",
         label: "Email address",
-        type: 'email'
+        type: 'email',
+        "required" : {
+            value : '',
+            message: "Email address is required!"
+        },
+        format : {
+            regex : '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/',
+            message: "Invalid format!"
+        }
     },
     {
         name: "phoneNumber",
         label: "Phone number",
-        type: 'text'
+        type: 'text',
+        format : {
+            regex : '^[0-9]+$',
+            message: "Title should be number!"
+        }
     },
     {
         name: "mobileNumber",
-        label: "mobileNumber",
-        type: 'text'
+        label: "Mobile Number",
+        type: 'text',
+        "required" : {
+            value : '',
+            message: "Mobile number is required!"
+        },
+        format : {
+            regex : '^[0-9]+$',
+            message: "Title should be number!"
+        }
+        
     },
     {
         name: "permamentAddress",
@@ -75,24 +102,38 @@ const modelheaders = [
     {
         name: "presentAddress",
         label: "Present Address",
-        type: 'text'
+        type: 'text',
+        "required" : {
+            value : '',
+            message: "Address is required!"
+        }
     }
 ];
 class CustBusiness extends Component {
     state={
+        configPage : true,
         saveModel: false,
         deleteModel: false,
+        savePage : false,
         dataObject: {},
         title: "",
         type: ""
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit business", type:"Edit", saveModel: true  });
+        if(this.state.configPage){
+            this.setState({ dataObject: row, title:"Edit business", type:"Edit", savePage: true  });
+        } else{
+            this.setState({ dataObject: row, title:"Edit business", type:"Edit", saveModel: true  });
+        }
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add business", type:"Add", saveModel: true  });
+        if(this.state.configPage){
+            this.setState({ dataObject: {}, title:"Add business", type:"Add", savePage: true  });
+        } else{
+            this.setState({ dataObject: {}, title:"Add business", type:"Add", saveModel: true  });
+        }
     }
 
     _delete = row => {
@@ -112,7 +153,7 @@ class CustBusiness extends Component {
 
     clearAndRefresh = async() => {
         await this.props.getCustBusinessList();
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+        this.setState({ dataObject: {}, saveModel: false,deleteModel:false , savePage: false  });
         console.log("this.props.menuItem=",this.props.menuItem)
         //if(this.props.menuItem.onBoarding){
             this.props.updateOnboarding(this.props.custBusinessList.length!==0);
@@ -127,8 +168,9 @@ class CustBusiness extends Component {
     render() {
         return (
             <>
-                
-                <MainCard title="Bussiness List" 
+                {
+                    !this.state.savePage &&
+                    <MainCard title="Bussiness List" 
                         button ={
                             
                             <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
@@ -144,6 +186,23 @@ class CustBusiness extends Component {
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
+                }
+
+                {
+                this.state.savePage &&
+                <DynamicForm
+                title={this.state.title}
+                openAction={this.state.saveModel}
+                closeAction={this.clearAndRefresh}
+                data={this.state.dataObject} 
+                type={this.state.type}
+                fields= {modelheaders}
+                saveAction = {this.saveObject}
+                {... this.props}
+                >
+                </DynamicForm>
+               }
+                
                 {
                     this.state.saveModel &&
                     <DynamicModel

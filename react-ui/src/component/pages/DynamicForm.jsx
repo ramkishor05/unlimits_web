@@ -25,45 +25,54 @@ class DynamicForm extends React.Component {
   }
 
   setData=(newData)=>{
-    this.setState({data:newData})
-  }
-
-  saveForm=(fields, type, data)=>{
-      for(var fieldIndex in fields){
-        let field= fields[fieldIndex];
-        if(field.required && field.required.state){
-
-        }
-        console.log("field===",field)
-      }
-  }
-
-  isError = (field)=>{
-    return this.state.validationMap[field.id]!=null;
-  }
-
-  errorMessage = (field)=>{
-    console.log("field====",field)
-    return this.state.validationMap[field.id];
+    this.setState({...this.state, data:newData})
   }
 
   checkValidation = (field, value)=>{
-    console.log("checkValidation=",field, value, this.state.validationMap)
-    if(field.required && value===field.value ){
-      this.state.validationMap[field.id]=field.required.message
-      return false;
+    const validationMap=this.state.validationMap;
+    let status=true;
+    if(field.required && (value=='' || undefined==value|| null===value) ){
+      validationMap[field.name]=field.required.message;
+      status= false;
     } else{
-      
-      if(field.format && field.format.regex && !new RegExp(field.format.regex).test(value)){
-        this.state.validationMap[field.id]=field.format.message
-        return false;
+      if(field.format && field.format.regex ){
+        if(!new RegExp(field.format.regex).test(value)){
+          validationMap[field.name]=field.format.message;
+        } else{
+          delete validationMap[field.name];
+          status= false;
+        }
       } else{
-        delete this.state.validationMap[field.id];
-        return true;
+        delete validationMap[field.name];
+        status= true;
       }
+     
     }
-
+    
+    console.log("status,", status, value)
+    console.log("this.state.validationMap=",validationMap)
+    this.setState({...this.state, validationMap:{...validationMap}});
+    return status;
   }
+
+  saveForm=(fields, type, data)=>{
+    for(var fieldIndex in  fields){
+      let field= fields[fieldIndex];
+      this.checkValidation(field,getValue(data,field.name));
+    };
+    if(Object.keys(this.state.validationMap).length === 0){
+      this.props.saveAction(type, data);
+    }
+  }
+
+  isError = (field)=>{
+    return this.state.validationMap[field.name]!=null;
+  }
+
+  errorMessage = (field)=>{
+    return this.state.validationMap[field.name];
+  }
+
 
   renderSwitch(field, data, props) {
     switch(field.type) {
@@ -156,7 +165,6 @@ class DynamicForm extends React.Component {
   render() {
     const { title, type, fields, loader, closeAction , saveAction} = this.props;
     const {data} = this.state;
-    console.log("this.props====",this.props)
     return (
              <MainCard title={title}
                   button ={

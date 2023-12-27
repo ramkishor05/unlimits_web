@@ -11,103 +11,79 @@ import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../image/ImageUploadCard';
 import { connect } from 'react-redux';
+import { getValue, setChecked, setField, setValue } from '../utils/CommanUtil';
 
 class DynamicModel extends React.Component {
 
-   state={
-    data:{}
+  state={
+    data:{},
+    validationMap : {}
   }
 
   constructor(props){
     super(props);
     let {data}=this.props;
-    this.state={ data:data};
-    
+    this.state={ data:data, validationMap : {}};
   }
 
-  getValue=(data, keyStr)=>{
-    if(!keyStr){
-      return '';
-    }
-    let keys=keyStr.split("\.");
-    let val=data;
-    for (let i = 0; i < keys.length; i++){
-      if(!val){
-        return "";
-      }
-      if( typeof val === 'object')
-      val=val[keys[i]];
-    }
-    return val;
+  setData=(newData)=>{
+    this.setState({data:newData})
   }
 
-  findTargetObject=(data, keyStr)=>{
-    if(!keyStr){
-      return '';
-    }
-    let keys=keyStr.split("\.");
-    let val=data;
-    for (let i = 0; i < keys.length-1; i++){
-      if( typeof val === 'object'){
-        val=val[keys[i]];
-        if(!val){
-          val[keys[i]]={};
+  saveForm=(fields, type, data)=>{
+      for(var fieldIndex in fields){
+        let field= fields[fieldIndex];
+        if(field.required && field.required.state){
+
         }
+        console.log("field===",field)
+      }
+  }
+
+  isError = (field)=>{
+    return this.state.validationMap[field.id]!=null;
+  }
+
+  errorMessage = (field)=>{
+    console.log("field====",field)
+    return this.state.validationMap[field.id];
+  }
+
+  checkValidation = (field, value)=>{
+    console.log("checkValidation=",field, value, this.state.validationMap)
+    if(field.required && value===field.value ){
+      this.state.validationMap[field.id]=field.required.message
+      return false;
+    } else{
+      
+      if(field.format && field.format.regex && !new RegExp(field.format.regex).test(value)){
+        this.state.validationMap[field.id]=field.format.message
+        return false;
+      } else{
+        delete this.state.validationMap[field.id];
+        return true;
       }
     }
-    return val;
+
   }
 
-  findTargetKey=(keyStr)=>{
-    if(!keyStr){
-      return '';
-    }
-    let keys=keyStr.split("\.");
-    let key=keyStr;
-    for (let i = 0; i < keys.length; i++){
-      key=keys[i];
-    }
-    return key;
-  }
-  
-  setField= (event, field, data, props)=>{
-    let name=field.name
-    let value = field.find ?  field.find(event.target.value, data, field, props) : event.target.value;
-    this.setValue(value, field.key ?  field.key : field.name,  data )
-  }
-
-  setChecked= (event, name, data)=>{
-    let newdata={...data}
-    newdata[name]=event.target.checked;
-    this.setState({data:newdata})
-  }
-
-  setValue= (value, name, data)=>{
-    let newdata={...data}
-    let findTargetObject= this.findTargetObject(newdata,name);
-    let findTargetKey= this.findTargetKey(name);
-   
-    findTargetObject[findTargetKey]=value;
-    this.setState({data:newdata})
-  }
-
-  renderSwitch(field, data) {
+  renderSwitch(field, data, props) {
     switch(field.type) {
       case 'select':
-        return  <FormControl fullWidth>
+        return  <FormControl>
         <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
         <Select
           variant='standard'
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={this.getValue(data,field.name)}
-          defaultValue={this.getValue(data,field.key)}
+          value={getValue(data,field.name)}
+          defaultValue={getValue(data,field.name)}
           label="{field.label}"
-          onChange={(event)=>this.setField(event, field, data, this.props)}
+          onChange={(event)=>setField(event.target.value, field, data, props, this.setData, this.checkValidation)}
         >
           {
             field.onItems ? 
-            field.onItems(this.getValue(data,field.name),data, field, this.props ).
+            field.onItems(getValue(data,field.name),data, field, props ).
             map(item=> 
             
               <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>
@@ -123,47 +99,54 @@ class DynamicModel extends React.Component {
          return <FormControlLabel
          control={
            <Switch 
-            checked={this.getValue(data,field.name)}
-            onChange={(event)=>this.setChecked(event, field.name, data)}
-            name={field.name} />
+            checked={getValue(data,field.name)}
+            onChange={(event)=>setChecked(event, field.name, data, props , this.setData)}
+            name={field.name} 
+            {...props }
+            />
          }
          label={field.label}
        />
       case 'img':
          return <ImageUploadCard name="pictureURL" 
-         value={this.getValue(data,field.name)} 
-         setUserProfileImge={(value)=> this.setValue(value,field.name, data)}>
+         value={getValue(data,field.name)} 
+         setUserProfileImge={(value)=> setValue(value,field.name, data, props , this.setData)}
+         {...props }
+         >
          </ImageUploadCard>
       case 'qnt':
-        return <QuantityField field={field} data={data}></QuantityField>
+        return <QuantityField field={field} {...props  } setData={this.setData} ></QuantityField>
       case 'amount':
-        return <AmountField field={field} data={data}></AmountField>
+        return <AmountField field={field} {...props} setData={this.setData}  ></AmountField>
       default:
-        return <TextField
-        key={field.id}
-        variant='standard'
-        id={field.id}
-        label={field.label}
-        name={field.name}
-        type={field.type}
-        value={data[field.name]}
-        defaultValue={data[field.name]}
-        onChange={(event)=>this.setField(event, field, data, this.props)}
-        fullWidth>
-        </TextField>;
+        return <FormControl>
+          <TextField
+          helperText={this.errorMessage(field)}
+          error={this.isError(field)}
+          key={field.id}
+          variant='standard'
+          id={field.id}
+          label={field.label}
+          name={field.name}
+          type={field.type}
+          value={getValue(data,field.name)}
+          defaultValue={getValue(data,field.name)}
+          onChange={(event)=>setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)}
+          fullWidth>
+        </TextField></FormControl>
     }
   }
   
 
-  rendorFields = (fields, data)=>{
+  rendorFields = (fields, data, props)=>{
     return (
       <Grid container spacing={2}>
         {
           fields.map(field=>
               (
-                <Grid key={field.name} item xs={6}>
+                <Grid key={field.name} item xs={4}>
                   {
-                    this.renderSwitch(field, data)
+                    this.renderSwitch(field, data, props)
                   }
               </Grid>)
           )

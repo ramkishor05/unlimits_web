@@ -35,11 +35,8 @@
   export const setValue= (value, name, field, data, setData, checkValidation)=>{
     let newdata={...data}
     let targetObject= findTargetObject(newdata,name);
-    console.log("targetObject=",targetObject)
-    let targetKey= findTargetKey(name);
-    console.log("targetKey=",targetKey)
+     let targetKey= findTargetKey(name);
     targetObject[targetKey]=value;
-    console.log("newdata=",newdata)
     checkValidation && checkValidation(field, value);
 
     if(setData ){
@@ -52,10 +49,7 @@
       return '';
     }
     let targetObject= findTargetObject(data,name);
-    console.log("targetObject=",targetObject)
     let targetKey= findTargetKey(name);
-    console.log("targetKey=",targetKey)
-    console.log("targetObject[targetKey]=",targetObject[targetKey])
     return targetObject[targetKey];
   }
 
