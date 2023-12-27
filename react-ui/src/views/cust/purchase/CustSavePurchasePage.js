@@ -303,7 +303,6 @@ const useStyles = makeStyles((theme) => ({
                         <TextField type='number' value={selectedItem.discount} variant='standard' onChange={(event)=> this.setDiscount(selectedItem, event.target.value)}></TextField>
                     </TableCell>
                     <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_qnt'} sx={{  textAlign: 'center'}}>
-                    {selectedItem.qnt} 
                         <ShoppingCartButton  
                             counter={selectedItem.qnt} 
                             updateCounter={(counter)=> this.itemQnt(selectedItem, counter )}>

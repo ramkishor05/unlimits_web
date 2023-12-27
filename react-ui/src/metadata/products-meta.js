@@ -56,7 +56,8 @@ const productsMeta = {
             },
             {
                 "name": "actions",
-                "label": "Actions"
+                "label": "Actions",
+                "align": "center"
             }
         ],
         "childrens":[

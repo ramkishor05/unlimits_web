@@ -80,7 +80,7 @@ const MainLayout = ({ children }) => {
     const userRole = userDetail?.userRole;
     let menuGroups = userRole?.roleMenuGroups;
     let navigation={
-        menuItems : menuGroups
+        menuItems : []
     }
     const classes = useStyles();
     const theme = useTheme();

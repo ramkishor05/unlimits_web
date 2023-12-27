@@ -4,7 +4,7 @@ const businessMetas = {
     table:  [
         {
             name: "name",
-            label: "Bussiness name",
+            label: "Bussiness Name",
             type: 'text'
         },
         {
@@ -19,7 +19,7 @@ const businessMetas = {
         },
         {
             name: "permamentAddress",
-            label: "Bussiness address",
+            label: "Bussiness Address",
             type: 'text'
         },
         {
@@ -31,7 +31,7 @@ const businessMetas = {
         {
             "id":"name",
             name: "name",
-            label: "Bussiness name",
+            label: "Bussiness Name",
             type: 'text',
             grid: 4,
             "required" : {
@@ -41,7 +41,7 @@ const businessMetas = {
         },
         {
             name: "emailAddress",
-            label: "Bussiness email",
+            label: "Bussiness Email",
             type: 'email',
             grid: 4,
             "required" : {
@@ -69,7 +69,7 @@ const businessMetas = {
         },
         {
             name: "permamentAddress",
-            label: "Business address",
+            label: "Business Address",
             grid: 12,
             type: 'textarea',
             "required" : {

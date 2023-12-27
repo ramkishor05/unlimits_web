@@ -189,8 +189,8 @@ class CustPurchasePage extends Component {
             date:row.purchaseDate,
             from: {
                 name: custBusiness.name, 
-                phone: custBusiness.mobileNumber, 
-                address: custBusiness.presentAddress
+                phone: custBusiness.phoneNumber, 
+                address: custBusiness.permamentAddress
             } ,
             to: {
                 name: custSupplier.name, 
@@ -234,7 +234,7 @@ class CustPurchasePage extends Component {
 
     clearAndRefresh = () => {
         this.props.getCustPurchaseList();
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+        this.setState({ dataObject: {}, saveModel: false,deleteModel:false,savePage : false });
     }
     
    async componentDidMount() {

@@ -152,8 +152,14 @@ class CustSalePage extends Component {
         type: ""
     }
     _clearModel=()=>{
-        this.setState({ deleteModel:false, saveModel:false, printModel: false });
+        this.setState({ deleteModel:false, saveModel:false, printModel: false,  savePage : false });
     }
+    
+    clearAndRefresh = () => {
+        this.props.getCustSaleList();
+        this.setState({ dataObject: {}, saveModel: false,deleteModel:false, savePage : false  });
+    }
+    
     _edit = row => {
         this._clearModel();
         if(this.state.configPage){
@@ -183,13 +189,13 @@ class CustSalePage extends Component {
             date:row.saleDate,
             from: {
                 name: custBusiness.name, 
-                phone: custBusiness.mobileNumber, 
-                address: custBusiness.presentAddress
+                phone: custBusiness.phoneNumber, 
+                address: custBusiness.permamentAddress
             } ,
             to: {
                 name: custCustomer.name, 
-                phone: custCustomer.mobileNumber, 
-                address: custCustomer.presentAddress
+                phone: custCustomer.phoneNumber, 
+                address: custCustomer.permamentAddress
             },
             payment: {
                 status: 'Unpaid',
@@ -223,17 +229,12 @@ class CustSalePage extends Component {
 
     };
 
-    clearAndRefresh = () => {
-        this.props.getCustSaleList();
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
-    }
-    
    async componentDidMount() {
       
         this.props.getCustProductList();
         this.props.getCustBusinessList();
         this.props.getCustCustomerList();
-        this.props.getCustSaleList();
+        this.clearAndRefresh();
     }
     
 

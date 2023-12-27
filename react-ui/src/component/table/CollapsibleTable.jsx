@@ -67,29 +67,29 @@ function Row(props) {
     <React.Fragment>
       
     <TableRow key={row.id+'_data_main'} sx={{ '& > *': { borderBottom: 'unset' } }}>
-            <TableCell key={row.id+'_data_main_icon'}>{
-                    <><IconButton
-                        aria-label="expand row"
-                        size="small" 
-                        onClick={() => setOpen(!open)}
-                    >
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton> </> 
-                }
-            </TableCell>
+           
         {
             headers &&  headers.headers.map((header)=>
                 
                     header.name=='actions' 
                     ?
-                    <TableCell key={row.id+'_data_main_'+header.name} align='right'>
-                        <Fab color="primary" aria-label="Edit" onClick={() => props.editAction(row)}>
+                    <TableCell key={row.id+'_data_main_'+header.name} align={header.align? header.align: 'center'}>
+                        {
+                           <Fab color="primary" aria-label="Edit"
+                           
+                              size="small" 
+                              onClick={() => setOpen(!open)}
+                          >
+                              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                          </Fab>
+                      }
+                        <Fab color="primary" size="small"  aria-label="Edit" onClick={() => props.editAction(row)}>
                             <EditIcon/>
                         </Fab>
-                        <Fab color="secondary" aria-label="Delete" onClick={() => props.deleteAction(row)} >
+                        <Fab color="secondary" size="small"  aria-label="Delete" onClick={() => props.deleteAction(row)} >
                             <DeleteIcon />
                         </Fab>
-                        <Fab color="secondary" aria-label="Delete" onClick={() => props.printAction(row)} >
+                        <Fab color="secondary" size="small"  aria-label="Delete" onClick={() => props.printAction(row)} >
                             <PrintOutlinedIcon />
                         </Fab>
                     </TableCell>
@@ -177,10 +177,11 @@ export default function CollapsibleTable(props) {
       <Table aria-label="collapsible table" className={classes.table}>
         <TableHead>
           <TableRow>
-          <TableCell><IconButton></IconButton> </TableCell>
            {
                 headers && headers.headers.map(header=>
-                    <TableCell key={header.name} align={header.align} >{header.label}</TableCell>
+                  header.name=='actions' ?
+                  <TableCell key={header.name} align={header.align? header.align: 'center'} >{header.label}</TableCell>:
+                    <TableCell key={header.name} align={header.align? header.align: 'left'} >{header.label}</TableCell>
                 )
             }
           </TableRow>

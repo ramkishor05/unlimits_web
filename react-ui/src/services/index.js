@@ -16,14 +16,8 @@ axios.interceptors.request.use(async config => {
         config.headers.common.Authorization = account.token;
         config.headers.common.ownerId = account.ownerId;
         config.headers.common.businessId = account.businessId;
-    }/*
-    let userDetail=await JSON.parse(account.userDetail);
-    if (userDetail) {
-        config.headers.common.ownerId = userDetail.ownerId;
-        config.headers.common.userId = userDetail.id;
-        config.headers.common.businessId = account.businessId;
+        config.headers.common.userId = account.userId;
     }
-   */
     return config;
 });
 

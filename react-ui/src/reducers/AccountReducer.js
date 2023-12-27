@@ -2,7 +2,7 @@
 import MenuGroupService from '../services/GlobalMenuGroupService';
 
 import {
-    ACCOUNT_INITIALIZE,LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, SET_OWNER_ACCOUNT, SET_BUSSINESS_ACCOUNT
+    ACCOUNT_INITIALIZE,LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, SET_OWNER_ACCOUNT, SET_BUSSINESS_ACCOUNT, SET_USER_ACCOUNT
 } from '../types';
 
 const collapse=(item)=>{
@@ -28,6 +28,7 @@ export const initialState = {
     isInitialized: false,
     businessId: null,
     ownerId : null,
+    userId: null,
     loadMenuGroupByRole : async (roleId)=>{
         return await MenuGroupService.findByRoleId(roleId);
     },
@@ -167,6 +168,8 @@ const accountReducer = (state = initialState, action) => {
               return { ...state, businessId:action.payload };
         case SET_OWNER_ACCOUNT:
               return { ...state, ownerId:action.payload };
+        case SET_USER_ACCOUNT:
+                return { ...state, userId:action.payload };
         default: {
             return { ...state };
         }

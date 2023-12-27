@@ -4,7 +4,8 @@ import {
     GET_USER_SUCCESS,
     GET_USER_FAIL,
     SET_OWNER_ACCOUNT,
-    GET_USER_MENU_GROUP_LIST_SUCCESS
+    GET_USER_MENU_GROUP_LIST_SUCCESS,
+    SET_USER_ACCOUNT
 } from '../types';
 import AuthService from '../services/AuthService';
 
@@ -60,6 +61,7 @@ export const getUser = (token) => async dispatch => {
         if (user) {
             dispatch({ type: GET_USER_SUCCESS, payload: user });
             dispatch({ type: SET_OWNER_ACCOUNT, payload: user.ownerId });
+            dispatch({ type: SET_USER_ACCOUNT, payload: user.id });
             dispatch({ type: GET_USER_MENU_GROUP_LIST_SUCCESS, payload: user.userRole.roleMenuGroups });
         } else{
             dispatch({ type: GET_USER_FAIL, payload: user });
