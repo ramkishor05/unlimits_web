@@ -6,10 +6,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, TextField } from '@material-ui/core';
-import { makeStyles } from "@material-ui/styles";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 export default function DynamicField(props) {
-  //const classes = makeStyles();
+  const {type}=props
   const [open, setOpen] = React.useState(false);
   let list=props.list? props.list:[];
   const [formValues, setFormValues] = React.useState([...list]);
@@ -18,9 +17,13 @@ export default function DynamicField(props) {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleSave = () => {
     setOpen(false);
     props.onSave(formValues);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   
@@ -48,14 +51,14 @@ export default function DynamicField(props) {
         <>{
             formValues.length===0 ?
                 <Box variant='standard'>
-                    <TextField variant='standard' label="Field" type="text" name="field" value={""} onChange={e => handleChange(0, e)} />
-                    <TextField variant='standard'  label="Value" type="text" name="value" value={""} onChange={e => handleChange(0, e)} />
+                    <TextField variant='standard' required label="Field" type="text" name="field" value={""} onChange={e => handleChange(0, e)} />
+                    <TextField variant='standard'  label="Value" type={type} name="value" value={""} onChange={e => handleChange(0, e)} />
                 </Box>
             :
             formValues && formValues.length>0 && formValues.map((element, index) => (
                 <Box variant='standard'>
-                        <TextField variant='standard' label="Field" type="text" name="field" value={element.field || ""} onChange={e => handleChange(index, e)} />
-                        <TextField variant='standard'  label="Value" type="text" name="value" value={element.value || ""} onChange={e => handleChange(index, e)} />
+                        <TextField variant='standard' required label="Field" type="text" name="field" value={element.field || ""} onChange={e => handleChange(index, e)} />
+                        <TextField variant='standard'  label="Value" type={type} name="value" value={element.value || ""} onChange={e => handleChange(index, e)} />
                         {
                         index ? 
                             <Button type="button"  className="button remove" onClick={(event) => removeFormFields(index)}>Remove</Button> 
@@ -97,7 +100,7 @@ export default function DynamicField(props) {
           <Button autoFocus onClick={handleClose}>
             Cancel
           </Button>
-          <Button onClick={handleClose}>Save</Button>
+          <Button onClick={handleSave}>Save</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -14,13 +14,14 @@ import { ListItem } from '@material-ui/core';
 const filter = createFilterOptions();
 
 export default function CustomerDropDwon(props) {
+  const {customerList, errorMessage, isError, name, label}=props;
 
   const dispatch = useDispatch();
 
   
   const findCustomer=(id)=>{
     if(id){
-       let customer= props.customerList.find((customer) => customer.id === id);
+       let customer= customerList.find((customer) => customer.id === id);
        return !customer? "" : customer;
     } 
      return "";
@@ -111,7 +112,15 @@ export default function CustomerDropDwon(props) {
         handleHomeEndKeys
         renderOption={(props, option) => <ListItem value={option.name} {...props}>{option.name}</ListItem>}
         freeSolo
-        renderInput={(params) => <TextField {...params} label={props.label} variant='standard' />}
+        renderInput={(params) => 
+        <TextField 
+        {...params} 
+        label={label} 
+        name={name} 
+        variant='standard' 
+        helperText={errorMessage(name)}
+        error={isError(name)}
+        />}
       />
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>

@@ -9,7 +9,7 @@ import { Avatar, Box, Button, Card, CardContent, CardHeader, Dialog, DialogActio
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
 import { makeStyles, styled } from '@material-ui/styles';
-import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
+import ItemOptions from '../../../component/dropdwons/ItemOptions';
 import { 
     getCustProductList, getCustCustomerList
  } from '../../../actions';

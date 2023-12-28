@@ -244,12 +244,12 @@ class CustSalePage extends Component {
                 { !this.state.savePage &&
                 <MainCard title="Sale List" 
                         button ={
-                            
-                            <Tooltip title="Add" aria-label="add">
-                                <Button variant='contained' color="error" className={useStyles.absolute} onClick={this._add}>
-                                    <AddIcon />
-                                </Button>
-                            </Tooltip>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            onClick={this._add}
+                            >
+                                Add
+                            </Button>
                         }
                         content={false}
                     >

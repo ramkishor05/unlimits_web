@@ -8,7 +8,7 @@ import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divi
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
 import { makeStyles, styled } from '@material-ui/styles';
-import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
+import ItemOptions from '../../../component/dropdwons/ItemOptions';
 import { 
     getCustProductList, getCustCustomerList
  } from '../../../actions';
@@ -21,6 +21,7 @@ import { Close, LabelImportant } from '@material-ui/icons';
 import PaymentField from '../../../component/fields/PaymentField';
 import PaymentFieldGroup from '../../../component/fields/PaymentFieldGroup';
 import MainCard from '../../../component/cards/MainCard';
+import { getValue } from '../../../component/utils/CommanUtil';
 
   const ToggleSwitch = styled((props) => (
     <Switch fullWidth focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -102,6 +103,43 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const DATE_TIME_FORMAT_UI="YYYY-MM-DD HH:MM";
+
+  const model = [
+    {
+        "id": "saleDate",
+        "key": "saleDate",
+        "name": "saleDate",
+        "label": "saleDate",
+        "type": "text",
+        "required" : {
+            value : '',
+            message: "Date should not be empty."
+        }
+    },
+    {
+        "id": "customer",
+        "key": "customer",
+        "name": "customerId",
+        "label": "customer",
+        "type": "text",
+        "required" : {
+            value : '',
+            message: "Customer should not be empty."
+        }
+    },
+    {
+        "id": "items",
+        "key": "items",
+        "name": "custProductSaleItemList",
+        "label": "items",
+        "type": "text",
+        "required" : {
+            value : '',
+            message: "Items should not be empty."
+        }
+    }
+  ]
+
   class CustSaveSalePage extends Component {
 
     
@@ -116,7 +154,8 @@ const useStyles = makeStyles((theme) => ({
         payment : {
             mode: '',
             amount: null
-        }
+        },
+        validationMap: {}
     }
 
     constructor (props){
@@ -143,9 +182,44 @@ const useStyles = makeStyles((theme) => ({
             custProductSaleItemObj['saleQnt']=custProductSaleItem.saleQnt;
             object.selectedItems.push(custProductSaleItemObj)
         })
-        this.state={ ...object};
+        this.state={...this.state, ...object};
     }
 
+    findField = (id)=>{
+        return model.find(field=>field.id===id);
+    }
+
+    isError = (name)=>{
+        return this.state.validationMap[name]!=null;
+    }
+
+    errorMessage = (name)=>{
+        return this.state.validationMap[name];
+    }
+    
+    checkValidation = (field, value)=>{
+        const validationMap=this.state.validationMap;
+        let status=true;
+        if(field.required && (value=='' || undefined==value|| null===value) ){
+          validationMap[field.name]=field.required.message;
+          status= false;
+        } else{
+          if(field.format && field.format.regex ){
+            if(!new RegExp(field.format.regex).test(value)){
+              validationMap[field.name]=field.format.message;
+            } else{
+              delete validationMap[field.name];
+              status= false;
+            }
+          } else{
+            delete validationMap[field.name];
+            status= true;
+          }
+        }
+        console.log("this.state.validationMap=",this.state.validationMap)
+
+        return status;
+    }
 
     componentDidMount() {
         this.props.getCustProductList()
@@ -154,6 +228,7 @@ const useStyles = makeStyles((theme) => ({
     }
 
     changeSaleDate = (event) => {
+        this.checkValidation(this.findField("saleDate"), event.target.value)
         this.setState({saleDate: event.target.value});
     };
 
@@ -172,14 +247,17 @@ const useStyles = makeStyles((theme) => ({
             itemObject['salePrice']=custProduct.retailPrice;
             itemObject['purchasePrice']=custProduct.purchasePrice;
             newSelectedItems.push(itemObject);
+            this.checkValidation(this.findField("items"), newSelectedItems)
             this.setState({selectedItems: newSelectedItems});
         }
     }
 
     customerAction=(customer)=>{
         if(customer){
+            this.checkValidation(this.findField("customer"), customer.id)
             this.setState({customerId: customer.id});
         } else{
+            this.checkValidation(this.findField("customer"), null)
             this.setState({customerId: null});
         }
     }
@@ -278,7 +356,26 @@ const useStyles = makeStyles((theme) => ({
             }
             custProductSale.custProductSaleItemList.push(custProductSaleItem);
         })
-        this.props.saveAction(type,custProductSale);
+        if(custProductSale.saleDate==='Invalid date'){
+            custProductSale.saleDate="";
+        }
+        const fields=model;
+        for(var fieldIndex in  fields){
+            let field= fields[fieldIndex];
+            if(field.prefix){
+              this.checkValidation(field.prefix,getValue(custProductSale,field.prefix.name));
+            }
+            this.checkValidation(field,getValue(custProductSale,field.name));
+            if(field.postfix){
+              this.checkValidation(field.postfix,getValue(custProductSale,field.postfix.name));
+            }
+        };
+
+        console.log("saleDate=",custProductSale.saleDate)
+
+        if(Object.keys(this.state.validationMap).length === 0){
+            this.props.saveAction(type,custProductSale);
+        }
         
     }
 
@@ -415,13 +512,33 @@ const useStyles = makeStyles((theme) => ({
                             shrink: true,
                             }}
                             onChange={this.changeSaleDate}
+                            helperText={this.errorMessage('saleDate')}
+                            error={this.isError('saleDate')}
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3}>
-                        <CustomerDropDwon label="Sale to" value={this.props.data.customerId} customerList = {this.props.custCustomerList} customerAction={this.customerAction}></CustomerDropDwon>
+                        <CustomerDropDwon 
+                        label="Sale to" 
+                        name="customerId"
+                        value={this.props.data.customerId} 
+                        customerList = {this.props.custCustomerList} 
+                        customerAction={this.customerAction}
+                        errorMessage={this.errorMessage}
+                        isError={this.isError}
+                        checkValidation={this.checkValidation}
+                        >
+                        </CustomerDropDwon>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                        <ItemDropDwon label="Items" items={this.props.custProductList} itemAction={this.itemAction}></ItemDropDwon>
+                        <ItemOptions 
+                        label="Items" 
+                        name="custProductSaleItemList"
+                        items={this.props.custProductList} 
+                        itemAction={this.itemAction}
+                        errorMessage={this.errorMessage}
+                        isError={this.isError}
+                        checkValidation={this.checkValidation}
+                        ></ItemOptions>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
                             <div >

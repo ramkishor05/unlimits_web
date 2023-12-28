@@ -11,10 +11,10 @@ import { Avatar, ListItem, ListItemAvatar, ListItemText } from '@material-ui/cor
 
 const filter = createFilterOptions();
 
-const ItemDropDwon=(props) =>{
+const ItemOptions=(props) =>{
   const [value, setValue] = React.useState(null);
   const [open, toggleOpen] = React.useState(false);
-  const {items}=props;
+  const {items, errorMessage, isError, name, label}=props;
 
   const handleClose = () => {
     setDialogValue({
@@ -63,6 +63,7 @@ const ItemDropDwon=(props) =>{
   return (
     <React.Fragment>
       <Autocomplete
+       
         value={value}
         variant='standard'
         onChange={(event, newValue) => handleSelect(event, newValue)}
@@ -103,7 +104,13 @@ const ItemDropDwon=(props) =>{
         }
         freeSolo
         renderInput={(params) => 
-        <TextField {...params} label="Items" variant='standard' />
+        <TextField {...params} 
+        label={label}
+        name={name}
+        variant='standard'  
+        helperText={errorMessage(name)}
+        error={isError(name)}
+        />
       }
       />
       <Dialog open={open} onClose={handleClose}>
@@ -152,4 +159,4 @@ const ItemDropDwon=(props) =>{
     </React.Fragment>
   );
 }
-export default ItemDropDwon;
+export default ItemOptions;

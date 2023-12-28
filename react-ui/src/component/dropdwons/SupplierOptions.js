@@ -13,14 +13,15 @@ import { ListItem } from '@material-ui/core';
 
 const filter = createFilterOptions();
 
-export default function SupplierDropDwon(props) {
+export default function SupplierOptions(props) {
+  const {supplierList,supplierAction, errorMessage, isError, name, label}=props;
 
   const dispatch = useDispatch();
 
   
   const findSupplier=(id)=>{
     if(id){
-       let supplier= props.supplierList.find((supplier) => supplier.id === id);
+       let supplier= supplierList.find((supplier) => supplier.id === id);
        return !supplier? "" : supplier;
     } 
      return "";
@@ -51,7 +52,7 @@ export default function SupplierDropDwon(props) {
     };
     setValue(supplier);
     dispatch(addCustSupplier(supplier));
-    props.supplierAction(supplier);
+    supplierAction(supplier);
     handleClose();
   };
 
@@ -79,7 +80,7 @@ export default function SupplierDropDwon(props) {
             });
           } else {
             setValue(newValue);
-            props.supplierAction(newValue);
+            supplierAction(newValue);
           }
         }}
         filterOptions={(options, params) => {
@@ -95,7 +96,7 @@ export default function SupplierDropDwon(props) {
           return filtered;
         }}
         id="supplier-list-options"
-        options={props.supplierList}
+        options={supplierList}
         getOptionLabel={(option) => {
           // e.g. value selected with enter, right from the input
           if (typeof option === 'string') {
@@ -111,7 +112,15 @@ export default function SupplierDropDwon(props) {
         handleHomeEndKeys
         renderOption={(props, option) => <ListItem value={option.name} {...props}>{option.name}</ListItem>}
         freeSolo
-        renderInput={(params) => <TextField {...params} label={props.label} variant='standard' />}
+        renderInput={(params) => 
+        <TextField 
+        {...params} 
+        label={label} 
+        name={name} 
+        variant='standard' 
+        helperText={errorMessage(name)}
+        error={isError(name)}
+        />}
       />
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>

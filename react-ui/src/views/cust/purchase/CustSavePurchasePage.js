@@ -5,10 +5,10 @@ import moment from 'moment';
 
 // material-ui
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, List, ListItem, ListItemText,Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography} from '@material-ui/core';
-import SupplierDropDwon from '../../../component/dropdwons/SupplierDropDwon';
+import SupplierOptions from '../../../component/dropdwons/SupplierOptions';
 // project imports
 import { makeStyles, styled } from '@material-ui/styles';
-import ItemDropDwon from '../../../component/dropdwons/ItemDropDwon';
+import ItemOptions from '../../../component/dropdwons/ItemOptions';
 import { 
     getCustProductList, getCustSupplierList
  } from '../../../actions';
@@ -20,6 +20,7 @@ import { GridCloseIcon } from '@mui/x-data-grid';
 import { Close, LabelImportant } from '@material-ui/icons';
 import PaymentFieldGroup from '../../../component/fields/PaymentFieldGroup';
 import MainCard from '../../../component/cards/MainCard';
+import { getValue } from '../../../component/utils/CommanUtil';
 
   const ToggleSwitch = styled((props) => (
     <Switch fullWidth focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -101,6 +102,44 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const DATE_TIME_FORMAT_UI="YYYY-MM-DD HH:MM";
+
+  
+  const model = [
+    {
+        "id": "purchaseDate",
+        "key": "purchaseDate",
+        "name": "purchaseDate",
+        "label": "purchaseDate",
+        "type": "text",
+        "required" : {
+            value : '',
+            message: "Date should not be empty."
+        }
+    },
+    {
+        "id": "supplier",
+        "key": "supplier",
+        "name": "supplierId",
+        "label": "supplier",
+        "type": "text",
+        "required" : {
+            value : '',
+            message: "Supplier should not be empty."
+        }
+    },
+    {
+        "id": "items",
+        "key": "items",
+        "name": "custProductPurchaseItemList",
+        "label": "items",
+        "type": "text",
+        "required" : {
+            value : '',
+            message: "Items should not be empty."
+        }
+    }
+  ]
+
   class CustSavePurchasePage extends Component {
 
     
@@ -115,7 +154,8 @@ const useStyles = makeStyles((theme) => ({
         payment : {
             mode: '',
             amount: null
-        }
+        },
+         validationMap: {}
     }
 
     constructor (props){
@@ -141,16 +181,28 @@ const useStyles = makeStyles((theme) => ({
             custProductPurchaseItemObj['qnt']=custProductPurchaseItem.purchaseQnt;
             object.selectedItems.push(custProductPurchaseItemObj)
         })
-        this.state={ ...object};
+        this.state={...this.state, ...object};
     }
 
+    findField = (id)=>{
+        return model.find(field=>field.id===id);
+    }
 
     componentDidMount() {
         this.props.getCustSupplierList();
         this.props.getCustProductList(); 
     }
 
+    isError = (name)=>{
+        return this.state.validationMap[name]!=null;
+    }
+
+    errorMessage = (name)=>{
+        return this.state.validationMap[name];
+    }
+
     changePurchaseDate = (event) => {
+        this.checkValidation(this.findField("purchaseDate"), event.target.value)
         this.setState({purchaseDate: event.target.value});
     };
 
@@ -168,15 +220,22 @@ const useStyles = makeStyles((theme) => ({
             itemObject['isWholePurchase']=false;
             itemObject['price']=custProduct.purchasePrice;
             newSelectedItems.push(itemObject);
+            this.checkValidation(this.findField("items"), newSelectedItems)
             this.setState({selectedItems: newSelectedItems});
+            
         }
+        
     }
 
     supplierAction=(supplier)=>{
         if(supplier){
+            this.checkValidation(this.findField("supplier"), supplier.id)
             this.setState({supplierId: supplier.id});
+           
         } else{
+            this.checkValidation(this.findField("supplier"), null)
             this.setState({supplierId: null});
+           
         }
     }
 
@@ -240,7 +299,35 @@ const useStyles = makeStyles((theme) => ({
         return subTotal+otherItemTotal-discountTotal;
     }
 
+    checkValidation = (field, value)=>{
+        const validationMap=this.state.validationMap;
+        let status=true;
+        if(field.required && (value=='' || undefined==value || value==0 || null===value || !value || value.length==0) ){
+          validationMap[field.name]=field.required.message;
+          status= false;
+        } else{
+          if(field.format && field.format.regex ){
+            if(!new RegExp(field.format.regex).test(value)){
+              validationMap[field.name]=field.format.message;
+            } else{
+              delete validationMap[field.name];
+              status= false;
+            }
+          } else{
+            delete validationMap[field.name];
+            status= true;
+          }
+         
+        }
+        
+        console.log("status,", status, value)
+        console.log("this.state.validationMap=",validationMap)
+        this.setState({...this.state, validationMap:{...validationMap}});
+        return status;
+    }
+
     addPurchase = (type) =>{
+       
         let custProductPurchase = {
             id:this.state.id,
             idenNo:this.state.idenNo,
@@ -267,7 +354,21 @@ const useStyles = makeStyles((theme) => ({
             }
             custProductPurchase.custProductPurchaseItemList.push(custProductWholePurchase);
         })
-        this.props.saveAction(type,custProductPurchase);
+        const fields=model;
+        for(var fieldIndex in  fields){
+            let field= fields[fieldIndex];
+            if(field.prefix){
+              this.checkValidation(field.prefix,getValue(custProductPurchase,field.prefix.name));
+            }
+            this.checkValidation(field,getValue(custProductPurchase,field.name));
+            if(field.postfix){
+              this.checkValidation(field.postfix,getValue(custProductPurchase,field.postfix.name));
+            }
+        };
+
+        if(Object.keys(this.state.validationMap).length === 0){
+            this.props.saveAction(type,custProductPurchase);
+        }
     }
 
      getSelectedItems=()=>{
@@ -334,7 +435,7 @@ const useStyles = makeStyles((theme) => ({
             </TableRow>
             <TableRow>
             <TableCell colSpan={6} align='right' >
-                    <DynamicField list={this.state.custProductPurchaseAdditionalList} onSave={this.addProductAdditionalList}></DynamicField>
+                    <DynamicField list={this.state.custProductPurchaseAdditionalList} onSave={this.addProductAdditionalList} type="number"></DynamicField>
                      
                      <List>
                      {
@@ -403,13 +504,31 @@ const useStyles = makeStyles((theme) => ({
                             shrink: true,
                             }}
                             onChange={this.changePurchaseDate}
+                           
+                            helperText={this.errorMessage('purchaseDate')}
+                            error={this.isError('purchaseDate')}
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} spacing={2}>
-                        <SupplierDropDwon label="Purchase to" value={this.props.data.supplierId} supplierList = {this.props.custSupplierList} supplierAction={this.supplierAction}></SupplierDropDwon>
+                        <SupplierOptions 
+                        label="Purchase to" 
+                        name="supplierId" 
+                        value={this.props.data.supplierId} 
+                        supplierList = {this.props.custSupplierList} 
+                        supplierAction={this.supplierAction}
+                        errorMessage={this.errorMessage}
+                        isError={this.isError}
+                        ></SupplierOptions>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} spacing={2}>
-                        <ItemDropDwon label="Items" items={this.props.custProductList} itemAction={this.itemAction}></ItemDropDwon>
+                        <ItemOptions 
+                        label="Items" 
+                        name="custProductPurchaseItemList"
+                        items={this.props.custProductList} 
+                        itemAction={this.itemAction}
+                        errorMessage={this.errorMessage}
+                        isError={this.isError}
+                        ></ItemOptions>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
                             <div >
