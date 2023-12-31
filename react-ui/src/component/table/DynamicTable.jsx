@@ -56,7 +56,11 @@ function DynamicTable (props){
                 <TableRow>
                     {
                         headers && headers.map(header=>
-                            <TableCell key={header.name} align={header.align} >{header.label}</TableCell>
+                            header.name=='actions' 
+                            ?
+                            <TableCell component="th" scope="row" key={header.name} align={header.align? header.align: 'center'} >{header.label}</TableCell>
+                            :
+                            <TableCell component="th" scope="row" key={header.name} align={header.align? header.align: 'left'} >{header.label}</TableCell>
                         )
                     }
                 </TableRow>
@@ -68,11 +72,11 @@ function DynamicTable (props){
                             header.name=='actions' 
                             ?
                             header.render ? header.render('', row, i, header, props) :
-                            <TableCell key={header.name+'_'+i} align='right'>
-                                    <Fab color="secondary" aria-label="Edit"  onClick={() => props.editAction(row)}>
+                            <TableCell key={header.name+'_'+i} align={header.align? header.align: 'center'}>
+                                <Fab color="secondary" aria-label="Edit" size="small"   onClick={() => props.editAction(row)}>
                                     <EditIcon/>
                                 </Fab>
-                                <Fab color="secondary" aria-label="Delete"  onClick={() => props.deleteAction(row)} >
+                                <Fab color="secondary" aria-label="Delete"  size="small"  onClick={() => props.deleteAction(row)} >
                                     <DeleteIcon />
                                 </Fab>
                             </TableCell>

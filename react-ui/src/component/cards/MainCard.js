@@ -3,7 +3,7 @@ import React from 'react';
 
 // material-ui
 import { useTheme } from '@material-ui/styles';
-import { Card, CardContent, CardHeader, Divider, Typography } from '@material-ui/core';
+import { Card, CardActionArea, CardActions, CardContent, CardHeader, Divider, Typography } from '@material-ui/core';
 
 // constant
 const headerSX = {
@@ -27,6 +27,7 @@ const MainCard = React.forwardRef(
             shadow,
             sx = {},
             title,
+            actions,
             ...others
         },
         ref
@@ -85,6 +86,12 @@ const MainCard = React.forwardRef(
                     </CardContent>
                 )}
                 {!content && children}
+                
+                {
+                 actions ? 
+                 <CardActions>{actions}</CardActions>: null
+                }
+                
             </Card>
         );
     }
@@ -101,7 +108,8 @@ MainCard.propTypes = {
     secondary: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.object]),
     shadow: PropTypes.string,
     sx: PropTypes.object,
-    title: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.object])
+    title: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.object]),
+    actions: PropTypes.node
 };
 
 export default MainCard;

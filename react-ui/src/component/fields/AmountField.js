@@ -5,13 +5,39 @@ import { getValue, setValue } from '../utils/CommanUtil';
 export default function AmountField(props) {
   const {field, data, errorMessage, isError,setData, checkValidation }=props;
 
+  const init= (field, data)=>{
+    let value= null;
+    if(field.selected){
+      value=field.selected(getValue(data,field.name),data, field, props);
+      setValue(value, field.name, field, data, setData, checkValidation );
+    } else{
+      value=getValue(data,field.name);
+    }
+    console.log("init value =",value)
+    console.log(" va,ue =",getValue(data,field.name))
+    return value;
+  }
+
+  React.useEffect(()=>{
+    if(field.prefix){
+      init(field.prefix, data);
+    }
+    if(field.postfix){
+      init(field.postfix, data);
+    }
+  },[])
+
   const getInputProps = (field, data)=>{
     let inputprops={};
     if(field.prefix){
+
       inputprops['startAdornment'] = <Select
                                 
                                 id={field.id+'_'+field.prefix.id}
-                                defaultValue={getValue(data,field.prefix.name)}
+                                defaultValue={field.prefix.selected ? 
+                                  field.prefix.selected(getValue(data,field.prefix.name),data, field.prefix, props):
+                                  getValue(data,field.prefix.name)
+                                }
                                 value={getValue(data,field.prefix.name)}
                                 onChange={(event)=>setValue(event.target.value, field.prefix.name, field, data, setData, checkValidation )}
                                 IconComponent={() =>null}

@@ -9,6 +9,8 @@ export * from './GlobalUnitActions';
 
 export * from './GlobalCountFreqActions';
 
+export * from './GlobalCountryActions';
+
 export * from './GlobalCurrencyGroupActions';
 
 export * from './GlobalCurrencyItemActions';

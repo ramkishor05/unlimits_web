@@ -6,12 +6,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
+import { Box, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../image/ImageUploadCard';
 import { connect } from 'react-redux';
 import { getValue, setChecked, setField, setValue } from '../utils/CommanUtil';
+import CountryOptions from '../dropdwons/CountryOptions';
 
 class DynamicModel extends React.Component {
 
@@ -27,59 +28,80 @@ class DynamicModel extends React.Component {
   }
 
   setData=(newData)=>{
-    this.setState({data:newData})
-  }
-
-  saveForm=(fields, type, data)=>{
-      for(var fieldIndex in fields){
-        let field= fields[fieldIndex];
-        if(field.required && field.required.state){
-
-        }
-        console.log("field===",field)
-      }
-  }
-
-  isError = (field)=>{
-    return this.state.validationMap[field.id]!=null;
-  }
-
-  errorMessage = (field)=>{
-    console.log("field====",field)
-    return this.state.validationMap[field.id];
+    this.setState({...this.state, data:newData})
   }
 
   checkValidation = (field, value)=>{
-    console.log("checkValidation=",field, value, this.state.validationMap)
-    if(field.required && value===field.value ){
-      this.state.validationMap[field.id]=field.required.message
-      return false;
+    const validationMap=this.state.validationMap;
+    let status=true;
+    if(field.required && (value=='' || undefined==value|| null===value) ){
+      validationMap[field.name]=field.required.message;
+      status= false;
     } else{
-      
-      if(field.format && field.format.regex && !new RegExp(field.format.regex).test(value)){
-        this.state.validationMap[field.id]=field.format.message
-        return false;
+      if(field.format && field.format.regex ){
+        if(!new RegExp(field.format.regex).test(value)){
+          validationMap[field.name]=field.format.message;
+        } else{
+          delete validationMap[field.name];
+          status= false;
+        }
       } else{
-        delete this.state.validationMap[field.id];
-        return true;
+        delete validationMap[field.name];
+        status= true;
       }
+     
     }
-
+    
+    console.log("status, field.name, value ", status, field.name,  value)
+    this.setState({...this.state, validationMap:{...validationMap}});
+    return status;
   }
+
+  saveForm=(fields, type, data)=>{
+    for(var fieldIndex in  fields){
+      let field= fields[fieldIndex];
+      if(field.prefix){
+        this.checkValidation(field.prefix,getValue(data,field.prefix.name));
+      }
+      this.checkValidation(field,getValue(data,field.name));
+      if(field.postfix){
+        this.checkValidation(field.postfix,getValue(data,field.postfix.name));
+      }
+    };
+    if(Object.keys(this.state.validationMap).length === 0){
+      this.props.saveAction(type, data);
+    }else{
+      console.log("this.state.validationMap=",this.state.validationMap)
+    }
+  }
+
+  isError = (field)=>{
+    return this.state.validationMap[field.name]!=null;
+  }
+
+  errorMessage = (field)=>{
+    return this.state.validationMap[field.name];
+  }
+
 
   renderSwitch(field, data, props) {
     switch(field.type) {
+      case 'label':
+        return <Box 
+        >{field.label}</Box>;
       case 'select':
-        return  <FormControl>
-        <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
+        return  <FormControl fullWidth 
+        error={this.isError(field)}>
+        <InputLabel htmlFor={field.name} id={field.name+"-label"}>{field.label}</InputLabel>
         <Select
           variant='standard'
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId={field.name+"-label"}
+          id={field.name}
           value={getValue(data,field.name)}
           defaultValue={getValue(data,field.name)}
           label="{field.label}"
-          onChange={(event)=>setField(event.target.value, field, data, props, this.setData, this.checkValidation)}
+          onChange={(event)=>setValue(event.target.value, field.name, field, data, 
+            this.setData, this.checkValidation)}
         >
           {
             field.onItems ? 
@@ -94,11 +116,17 @@ class DynamicModel extends React.Component {
             )
           }
         </Select>
+        {
+        this.isError(field) && 
+        <FormHelperText >{this.errorMessage(field)}</FormHelperText>
+        }
       </FormControl>;
       case 'switch':
          return <FormControlLabel
          control={
            <Switch 
+            helperText={this.errorMessage(field)}
+            error={this.isError(field)}
             checked={getValue(data,field.name)}
             onChange={(event)=>setChecked(event, field.name, data, props , this.setData)}
             name={field.name} 
@@ -115,24 +143,49 @@ class DynamicModel extends React.Component {
          >
          </ImageUploadCard>
       case 'qnt':
-        return <QuantityField field={field} {...props  } setData={this.setData} ></QuantityField>
+        return <QuantityField 
+        field={field} {...props  } 
+        setData={this.setData} 
+        errorMessage={this.errorMessage}
+        isError={this.isError}
+        checkValidation={this.checkValidation}
+        >
+        </QuantityField>
       case 'amount':
-        return <AmountField field={field} {...props} setData={this.setData}  ></AmountField>
+        return <FormControl  fullWidth><AmountField 
+        field={field} {...props} 
+        setData={this.setData}  
+        errorMessage={this.errorMessage}
+        isError={this.isError}
+        checkValidation={this.checkValidation}
+        ></AmountField></FormControl> 
+      case 'country':
+        <FormControl  fullWidth><CountryOptions 
+        field={field} {...props} 
+        setData={this.setData}  
+        errorMessage={this.errorMessage}
+        isError={this.isError}
+        checkValidation={this.checkValidation}
+        ></CountryOptions></FormControl> 
       default:
-        return <FormControl>
+        return <FormControl  fullWidth>
           <TextField
           helperText={this.errorMessage(field)}
           error={this.isError(field)}
           key={field.id}
-          variant='standard'
+          variant={ 'standard'}
           id={field.id}
-          label={field.label}
+          label={field.required ?  field.label + " ( * )" : field.label+ " ( optional )" }
           name={field.name}
-          type={field.type}
+          type={'textarea'===field.type? 'text':  field.type}
+          multiline={'textarea'===field.type}
+          rows={'textarea'===field.type ? field.rows ? field.rows : 5 : 1}
           value={getValue(data,field.name)}
           defaultValue={getValue(data,field.name)}
-          onChange={(event)=>setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)}
-          fullWidth>
+          onChange={(event)=>
+            setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)}
+           sx={'textarea'===field.type ? {border:1, borderStyle: 'groove'}:{}}
+          >
         </TextField></FormControl>
     }
   }
@@ -144,7 +197,7 @@ class DynamicModel extends React.Component {
         {
           fields.map(field=>
               (
-                <Grid key={field.name} item xs={4}>
+                <Grid key={field.name} item xs={12} xl={field.grid? field.grid: 6} sm={field.grid? field.grid: 6} >
                   {
                     this.renderSwitch(field, data, props)
                   }
@@ -156,28 +209,29 @@ class DynamicModel extends React.Component {
   }
 
   render() {
-    const { title, type, fields } = this.props;
+    const { title, type, fields, loader } = this.props;
+    const { data } = this.state;
     return (
       <div>
         <Dialog
           open={this.props.openAction}
           onClose={this.props.closeAction}
           aria-labelledby="form-dialog-title"
-          maxWidth={'lg'}
         >
           <DialogTitle id="form-dialog-title"><h2>{title}</h2></DialogTitle>
           <DialogContent>
             <DialogContentText>
-                 {this.rendorFields(fields, this.state.data)}
+                 {this.rendorFields(fields, this.state.data, this.props)}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.closeAction} color="primary">
+            <Button variant='outlined' color="error" onClick={this.props.closeAction} >
               Cancel
             </Button>
-            <Button disabled={this.props.loader} onClick={(event)=>this.props.saveAction(type, this.state.data)} color="primary">
-              {type}
-            </Button>
+             <Button variant='outlined' color="primary" disabled={loader} 
+             onClick={(event)=>this.saveForm(fields, type, data)} >
+                {type}
+              </Button>
           </DialogActions>
         </Dialog>
       </div>

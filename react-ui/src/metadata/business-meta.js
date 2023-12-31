@@ -76,6 +76,21 @@ const businessMetas = {
                 value : '',
                 message: "Address is required!"
             }
+        },
+        {
+            "key": "countryId",
+            "name": "countryId",
+            "label": "Country",
+            "type": "select",
+            "onItems":(value, row, header, props)=>{
+                return props.globalCountryList;
+            },
+            itemKey: 'id',
+            itemVal: 'name',
+            "required" : {
+                value : '',
+                message: "Country is required!"
+            }
         }
     ]
 }

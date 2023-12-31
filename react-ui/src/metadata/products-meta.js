@@ -27,9 +27,12 @@ const productsMeta = {
                 "label": "Purchase",
                 "type": "amount",
                 "render":(value, row, header, props)=>{
-                    console.log("purchasePrice row=",row,  props)
-                    let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.purchasePrice.currencyId)
-                    return custCurrency ? custCurrency.symbol +""+ value : value;
+                    if(value){
+                        console.log("purchasePrice row=",row,  props)
+                        let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.purchasePrice.currencyId)
+                        return custCurrency ? custCurrency.symbol +""+ value : value;
+                    }
+                    return value;
                 }
             },
             {
@@ -38,9 +41,12 @@ const productsMeta = {
                 "label": "Retail",
                 "type": "amount",
                 "render":(value, row, header, props)=>{
-                    console.log("retailPrice row=",row,  props)
-                    let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.retailPrice.currencyId)
-                    return custCurrency ? custCurrency.symbol +""+ value : value;
+                    if(value){
+                        console.log("retailPrice row=",row,  props)
+                        let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.retailPrice.currencyId)
+                        return custCurrency ? custCurrency.symbol +""+ value : value;
+                    } 
+                    return value;
                 }
             },
             {
@@ -49,9 +55,12 @@ const productsMeta = {
                 "label": "Whole",
                 "type": "amount",
                 "render":(value, row, header, props)=>{
-                    console.log("wholePrice row=",row,  props)
-                    let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.wholePrice.currencyId)
-                    return custCurrency ? custCurrency.symbol +""+ value : value;
+                    if(value){
+                        console.log("wholePrice row=",row,  props)
+                        let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.wholePrice.currencyId)
+                        return custCurrency ? custCurrency.symbol +""+ value : value;
+                   } 
+                   return value;
                 }
             },
             {
@@ -148,6 +157,19 @@ const productsMeta = {
                 },
                 "onItems": (value, data, field, props )=>{
                     return props.custCurrencyItemList? props.custCurrencyItemList: []
+                },
+                "selected": (value, data, field, props )=>{
+                    let custCurrencyItemList=props.custCurrencyItemList? props.custCurrencyItemList: []
+                    if(props.custBusineess){
+                        let globalCountry=props.globalCountryList.find(globalCountry=>globalCountry.id=props.custBusineess.countryId);
+                        if(globalCountry){
+                           let custCurrency= custCurrencyItemList.find(custCurrency=>custCurrency.name===globalCountry.currency.name);
+                           if(custCurrency){
+                            return custCurrency.id;
+                           }
+                        }
+                    }
+                    return value;
                 }
             }
         },
@@ -155,7 +177,7 @@ const productsMeta = {
             "id": "retailPrice",
             "key": "retailPrice",
             "name": "retailPrice.price",
-            "label": "Retail",
+            "label": "Retail Price",
             "type": "amount",
             "required" : {
                 value : '',
@@ -173,6 +195,19 @@ const productsMeta = {
                 },
                 "onItems": (value, data, field, props )=>{
                     return props.custCurrencyItemList? props.custCurrencyItemList: []
+                },
+                "selected": (value, data, field, props )=>{
+                    let custCurrencyItemList=props.custCurrencyItemList? props.custCurrencyItemList: []
+                    if(props.custBusineess){
+                        let globalCountry=props.globalCountryList.find(globalCountry=>globalCountry.id=props.custBusineess.countryId);
+                        if(globalCountry){
+                           let custCurrency= custCurrencyItemList.find(custCurrency=>custCurrency.name===globalCountry.currency.name);
+                           if(custCurrency){
+                            return custCurrency.id;
+                           }
+                        }
+                    }
+                    return value;
                 }
             }
         },
@@ -180,7 +215,7 @@ const productsMeta = {
             "id": "wholePrice",
             "key": "wholePrice",
             "name": "wholePrice.price",
-            "label": "Whole",
+            "label": "Wholesale Price",
             "type": "amount",
             "prefix" : {
                 "id": "wholePricePreFix",
@@ -190,6 +225,19 @@ const productsMeta = {
                 "label" : "symbol",
                 "onItems": (value, data, field, props )=>{
                     return props.custCurrencyItemList? props.custCurrencyItemList: []
+                },
+                "selected": (value, data, field, props )=>{
+                    let custCurrencyItemList=props.custCurrencyItemList? props.custCurrencyItemList: []
+                    if(props.custBusineess){
+                        let globalCountry=props.globalCountryList.find(globalCountry=>globalCountry.id=props.custBusineess.countryId);
+                        if(globalCountry){
+                           let custCurrency= custCurrencyItemList.find(custCurrency=>custCurrency.name===globalCountry.currency.name);
+                           if(custCurrency){
+                            return custCurrency.id;
+                           }
+                        }
+                    }
+                    return value;
                 }
             }
         }

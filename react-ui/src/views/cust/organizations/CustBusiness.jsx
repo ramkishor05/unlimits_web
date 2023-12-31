@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Button, IconButton, DeleteIcon, Fab } from '@material-ui/core';
-import { AddAlert, AddIcCallOutlined } from '@material-ui/icons';
-
-import { getCustBusinessList, addCustBusiness, editCustBusiness, deleteCustBusiness, getCustVendorList} from '../../../actions';
+import { Button} from '@material-ui/core';
+import { getCustBusinessList, addCustBusiness, editCustBusiness, deleteCustBusiness, getCustVendorList, getGlobalCountryList} from '../../../actions';
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
@@ -63,6 +61,7 @@ class CustBusiness extends Component {
     
    async componentDidMount() {
         this.props.getCustVendorList();
+        this.props.getGlobalCountryList();
         this.clearAndRefresh();
     }
 
@@ -73,11 +72,12 @@ class CustBusiness extends Component {
                     !this.state.savePage &&
                     <MainCard title="Bussiness List" 
                         button ={
-                            
-                            <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
-                                onClick={this._add}>
-                                <AddIcCallOutlined />
-                            </Fab>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            onClick={this._add}
+                            >
+                                Add
+                            </Button>
                         }
                     >
                         <DynamicTable 
@@ -114,6 +114,7 @@ class CustBusiness extends Component {
                     type={this.state.type}
                     fields= {this.props.metadata.model}
                     saveAction = {this.saveObject}
+                    {...this.props}
                     >
                     </DynamicModel>
                 }
@@ -139,8 +140,9 @@ class CustBusiness extends Component {
 const mapStateToProps = state => {
     
     const { loader } =  state.loaderReducer
-    const { custBusinessList, show_business_loader } = state.custBusinessReducer;
-    return { custBusinessList, show_business_loader , loader};
+    const { custBusinessList} = state.custBusinessReducer;
+    const { globalCountryList} = state.globalCountryReducer;
+    return { custBusinessList, globalCountryList};
 };
 
 const styles = {
@@ -150,4 +152,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { getCustVendorList, getCustBusinessList, addCustBusiness , editCustBusiness, deleteCustBusiness})(CustBusiness);
+export default connect(mapStateToProps, { getCustVendorList, getCustBusinessList, addCustBusiness , editCustBusiness, deleteCustBusiness, getGlobalCountryList})(CustBusiness);

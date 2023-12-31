@@ -48,6 +48,7 @@ import CustBusinessReducer from './cust/CustBusinessReducer';
 import CustSupplierReducer from './cust/CustSupplierReducer';
 import CustEmployeeReducer from './cust/CustEmployeeReducer';
 import CustUserReducer from './cust/CustUserReducer';
+import GlobalCountryReducer from './global/GlobalCountryReducer';
 
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
@@ -75,6 +76,7 @@ const reducer = combineReducers({
     globalVendorReducer: GlobalVendorReducer,
     globalCategoryGroupReducer: GlobalCategoryGroupReducer,
     globalCategoryReducer: GlobalCategoryReducer,
+    globalCountryReducer: GlobalCountryReducer,
     globalCurrencyGroupReducer: GlobalCurrencyGroupReducer,
     globalCurrencyItemReducer: GlobalCurrencyItemReducer,
     globalUnitGroupReducer:GlobalUnitGroupReducer,

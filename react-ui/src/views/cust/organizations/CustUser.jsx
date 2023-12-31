@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Fab } from '@material-ui/core';
+import { Button, Fab } from '@material-ui/core';
 
 
 import { getCustUserList, addCustUser, editCustUser, deleteCustUser, getCustVendorList , getCustRoleList} from '../../../actions';
 import MainCard from '../../../component/cards/MainCard';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { AddTaskOutlined } from '@material-ui/icons';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
+import { REGEX_EMAIL_ADDRESS, REGEX_PHONE_NUMBER } from '../../../constants/RegexFormat';
 
 const mainheaders = [
     {
@@ -96,33 +96,62 @@ const modelheaders = [
     },
     {
         name: "username",
-        label: "Userame",
-        type: 'text'
+        label: "Username",
+        type: 'text',
+        "required" : {
+            value : '',
+            message: "Username is required!"
+        }
     },
     {
         name: "password",
         label: "Password",
-        type: 'password'
+        type: 'password',
+        "required" : {
+            value : '',
+            message: "Password is required!"
+        }
     },
     {
         name: "registeredEmail",
         label: "Registed Email",
-        type: 'email'
+        type: 'email',
+        "required" : {
+            value : '',
+            message: "Email is required!"
+        },
+        format : {
+            regex : REGEX_EMAIL_ADDRESS,
+            message: "Invalid email address format!"
+        }
     },
     {
         name: "registeredMobile",
         label: "Registed mobile",
-        type: 'text'
+        type: 'text',
+        "required" : {
+            value : '',
+            message: "Mobile is required!"
+        },
+        format : {
+            regex : REGEX_PHONE_NUMBER,
+            message: "Invalid phone number format!"
+        }
     },
     {
-        name: "User type",
-        label: "type",
+        name: "userType",
+        label: "User Type",
         type: 'select',
         onItems: (value, row, header, props ) =>{
-            return props.custRoleList
+            console.log("props===",props)
+            return props.custRoleList;
         },
-        itemKey: 'id',
-        itemVal: 'roleName'
+        itemKey: 'roleName',
+        itemVal: 'roleName',
+        "required" : {
+            value : '',
+            message: "User type is required!"
+        }
     },
     {
         name: "userRoleId",
@@ -130,10 +159,15 @@ const modelheaders = [
         label: "User Role",
         type: 'select',
         onItems: (value, row, header, props ) =>{
-            return props.custRoleList
+            console.log("props===",props)
+            return props.custRoleList;
         },
         itemKey: 'id',
-        itemVal: 'roleName'
+        itemVal: 'roleName',
+        "required" : {
+            value : '',
+            message: "User role is required!"
+        }
     }
 ];
 
@@ -162,17 +196,16 @@ class CustUser extends Component {
     };
     
      saveObject = async (type, row) => {
-        if(type=='Add')
-            this.props.addCustUser(row, this.clearAndRefresh)
+        if(type=='Add'){
+            await  this.props.addCustUser(row, this.clearAndRefresh);
+        }
         if(type=='Edit'){
             delete row['enableAccess'];
-           
-            this.props.editCustUser(row.id,row, this.clearAndRefresh)
+            await  this.props.editCustUser(row.id,row, this.clearAndRefresh);
         }
-        
-        if(type=='Delete')
-            this.props.deleteCustUser(row.id, this.clearAndRefresh)
-
+        if(type=='Delete'){
+            await this.props.deleteCustUser(row.id, this.clearAndRefresh);
+        }
     };
 
     clearAndRefresh = () => {
@@ -193,11 +226,12 @@ class CustUser extends Component {
                 
                 <MainCard title="User List" 
                         button ={
-                            
-                            <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
-                                onClick={this._add}>
-                                <AddTaskOutlined/>
-                            </Fab>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            onClick={this._add}
+                            >
+                                Add
+                            </Button>
                         }
                     >
                        <CollapsibleTable 
@@ -207,6 +241,7 @@ class CustUser extends Component {
                             deleteAction = {this._delete}
                             editAction = {this._edit}
                             printAction= {this._print}
+                            {... this.props}
                             >
 
                         </CollapsibleTable>
@@ -218,10 +253,10 @@ class CustUser extends Component {
                     openAction={this.state.saveModel}
                     closeAction={()=> this.setState({saveModel: false})}
                     data={this.state.dataObject} 
-                    custRoleList={this.props.custRoleList}
                     type={this.state.type}
                     fields= {modelheaders}
                     saveAction = {this.saveObject}
+                    {... this.props}
                     >
                     </DynamicModel>
                     }
@@ -243,7 +278,9 @@ class CustUser extends Component {
 
 const mapStateToProps = state => {
     const { user, users, userDetail} = state.userReducer;
-    const { custRoleList } = state.custRoleReducer
+    const { custRoleList } = state.custRoleReducer;
+
+    console.log("custRoleList=",custRoleList)
 
     const { custUserList, show_user_loader } = state.custUserReducer;
     return { user, custUserList,users, show_user_loader, userDetail, custRoleList };

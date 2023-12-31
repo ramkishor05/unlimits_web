@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Fab } from '@material-ui/core';
+import { Button, Fab } from '@material-ui/core';
 
 
 import { getCustEmployeeList, addCustEmployee, editCustEmployee, deleteCustEmployee, getCustVendorList } from '../../../actions';
@@ -230,11 +230,12 @@ class CustEmployee extends Component {
                 
                 <MainCard title="Employee List" 
                         button ={
-                            
-                            <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
-                                onClick={this._add}>
-                                <AddTaskOutlined/>
-                            </Fab>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            onClick={this._add}
+                            >
+                                Add
+                            </Button>
                         }
                     >
                        <CollapsibleTable 

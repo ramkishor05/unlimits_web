@@ -241,7 +241,10 @@ const useStyles = makeStyles((theme) => ({
 
      itemQnt=(item, qnt)=>{
         item['qnt']=qnt;
-        const newSelectedItems = [...this.state.selectedItems];
+        let newSelectedItems = [...this.state.selectedItems];
+        if(qnt<=0){
+            newSelectedItems= newSelectedItems.filter((newitem) => newitem.id !== item.id);
+        }
         this.setState({selectedItems: newSelectedItems});
     }
 
@@ -373,105 +376,108 @@ const useStyles = makeStyles((theme) => ({
 
      getSelectedItems=()=>{
         return (
-       <TableContainer className={useStyles.container}>
-        <Table stickyHeader  sx={{border:1, borderStyle: 'groove'}}>
-            <TableHead stickyHeader>
-                <TableRow alignItems="flex-start" key={'selectedItem_header_row'} >
-                    <TableCell key={'selectedItem_header_image'} >
-                    Image
+            this.state.selectedItems && this.state.selectedItems.length>0 &&
+            (
+            <TableContainer className={useStyles.container}>
+                <Table stickyHeader  sx={{border:1, borderStyle: 'groove'}}>
+                    <TableHead stickyHeader>
+                        <TableRow alignItems="flex-start" key={'selectedItem_header_row'} >
+                            <TableCell key={'selectedItem_header_image'} >
+                            Image
+                            </TableCell>
+                            <TableCell key={'selectedItem_header_title'}>Title</TableCell>
+                            <TableCell key={'selectedItem_header_price'}>Price</TableCell>
+                            <TableCell key={'selectedItem_header_discount'} >Discount</TableCell>
+                            <TableCell key={'selectedItem_header_qnt'}>Qnt</TableCell>
+                            <TableCell key={'selectedItem_header_action'}>Action</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody sx={{overflowX : true, maxHeight:50}}>
+                    {
+                    this.state.selectedItems.map(selectedItem=>
+                        <TableRow key={'selectedItem_'+selectedItem.custProduct.id}>
+                            <TableCell key={'selectedItem_'+selectedItem.id+'_image'}>
+                                <Avatar alt="Remy Sharp" src={selectedItem.custProduct.image} />
+                            </TableCell>
+                            <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_title'} >
+                                {selectedItem.custProduct.title}
+                            </TableCell>
+                            <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_price'}>
+                                {selectedItem.price.price}
+                            </TableCell>
+                            <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_discount'}>
+                                <TextField type='number' value={selectedItem.discount} variant='standard' onChange={(event)=> this.setDiscount(selectedItem, event.target.value)}></TextField>
+                            </TableCell>
+                            <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_qnt'} sx={{  textAlign: 'center'}}>
+                                <ShoppingCartButton  
+                                    counter={selectedItem.qnt} 
+                                    updateCounter={(counter)=> this.itemQnt(selectedItem, counter )}>
+                                </ShoppingCartButton>                        
+                            </TableCell>
+                            <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_switch'} sx={{ textAlign: 'right'}}>
+                            Whole Purchase <ToggleSwitch name="Whole Purchase" label="Whole Purchase" value={selectedItem.isWholePurchase} checked={selectedItem.isWholePurchase} onClick={()=>this.toggleWholePurchase(selectedItem)} ></ToggleSwitch>
+                            </TableCell>
+                        </TableRow>
+                    )}
+                    <TableRow key={1000}>
+                    <TableCell colSpan={6} align='right' >
+                        <Grid container spacing={1}>
+                            <Grid item xs={12} xl={12}>
+                                <Typography>  
+                                    
+                                    Sub Total <LabelImportant></LabelImportant> 
+                                    {
+                                        <Button variant='outlined'> {this.getSubTotal()}  </Button>  
+                                    }
+                                    
+                                </Typography>  
+                            </Grid>
+                            <Grid item xs={12} xl={12}>
+                                <TextField label="Discounts" value={this.getDiscounts()} defaultValue={this.getDiscounts()} onChange={this.setDiscounts} variant='standard'></TextField>
+                            </Grid>
+                        </Grid>
                     </TableCell>
-                    <TableCell key={'selectedItem_header_title'}>Title</TableCell>
-                    <TableCell key={'selectedItem_header_price'}>Price</TableCell>
-                    <TableCell key={'selectedItem_header_discount'} >Discount</TableCell>
-                    <TableCell key={'selectedItem_header_qnt'}>Qnt</TableCell>
-                    <TableCell key={'selectedItem_header_action'}>Action</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody sx={{overflowX : true, maxHeight:50}}>
-            {
-            this.state.selectedItems && this.state.selectedItems.map(selectedItem=>
-                <TableRow key={'selectedItem_'+selectedItem.custProduct.id}>
-                    <TableCell key={'selectedItem_'+selectedItem.id+'_image'}>
-                        <Avatar alt="Remy Sharp" src={selectedItem.custProduct.image} />
-                    </TableCell>
-                    <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_title'} >
-                        {selectedItem.custProduct.title}
-                    </TableCell>
-                    <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_price'}>
-                        {selectedItem.price.price}
-                    </TableCell>
-                    <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_discount'}>
-                        <TextField type='number' value={selectedItem.discount} variant='standard' onChange={(event)=> this.setDiscount(selectedItem, event.target.value)}></TextField>
-                    </TableCell>
-                    <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_qnt'} sx={{  textAlign: 'center'}}>
-                        <ShoppingCartButton  
-                            counter={selectedItem.qnt} 
-                            updateCounter={(counter)=> this.itemQnt(selectedItem, counter )}>
-                        </ShoppingCartButton>                        
-                    </TableCell>
-                    <TableCell key={'selectedItem_'+selectedItem.custProduct.id+'_switch'} sx={{ textAlign: 'right'}}>
-                    Whole Purchase <ToggleSwitch name="Whole Purchase" label="Whole Purchase" value={selectedItem.isWholePurchase} checked={selectedItem.isWholePurchase} onClick={()=>this.toggleWholePurchase(selectedItem)} ></ToggleSwitch>
-                    </TableCell>
-                </TableRow>
-            )}
-             <TableRow key={1000}>
-             <TableCell colSpan={6} align='right' >
-                <Grid container spacing={1}>
-                    <Grid item xs={12} xl={12}>
-                        <Typography>  
+                    </TableRow>
+                    <TableRow>
+                    <TableCell colSpan={6} align='right' >
+                            <DynamicField list={this.state.custProductPurchaseAdditionalList} onSave={this.addProductAdditionalList} type="number"></DynamicField>
                             
-                            Sub Total <LabelImportant></LabelImportant> 
+                            <List>
                             {
-                                <Button variant='outlined'> {this.getSubTotal()}  </Button>  
+                            this.state.custProductPurchaseAdditionalList && this.state.custProductPurchaseAdditionalList.map((addAdditionalCharge,i)=>
+                                    <ListItem  key={'addAdditionalCharge'+i}>
+                                        <ListItemText 
+                                        sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.field} : </ListItemText>
+                                        <ListItemText
+                                        sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.value}</ListItemText>
+                                    </ListItem>
+                                )
                             }
-                            
-                        </Typography>  
-                    </Grid>
-                    <Grid item xs={12} xl={12}>
-                        <TextField label="Discounts" value={this.getDiscounts()} defaultValue={this.getDiscounts()} onChange={this.setDiscounts} variant='standard'></TextField>
-                    </Grid>
-                </Grid>
-            </TableCell>
-            </TableRow>
-            <TableRow>
-            <TableCell colSpan={6} align='right' >
-                    <DynamicField list={this.state.custProductPurchaseAdditionalList} onSave={this.addProductAdditionalList} type="number"></DynamicField>
-                     
-                     <List>
-                     {
-                       this.state.custProductPurchaseAdditionalList && this.state.custProductPurchaseAdditionalList.map((addAdditionalCharge,i)=>
-                             <ListItem  key={'addAdditionalCharge'+i}>
-                                 <ListItemText 
-                                 sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.field} : </ListItemText>
-                                 <ListItemText
-                                 sx={{textSizeAdjust: 100, width:100}}>{addAdditionalCharge.value}</ListItemText>
-                             </ListItem>
-                         )
-                     }
-                     </List>
-            </TableCell>
-            </TableRow>
-            <TableRow>
-            <TableCell colSpan={6} align='right' >
-                <PaymentFieldGroup list={this.state.custProductPurchasePaymentList} onSave={this.addProductPaymentList}></PaymentFieldGroup>
-                <List>
-                     {
-                       this.state.custProductPurchasePaymentList && this.state.custProductPurchasePaymentList.map((custProductPayment, i)=>
-                             <ListItem key={'custProductPayment'+i}>
-                                 <ListItemText
-                                 sx={{textSizeAdjust: 100, width:100}}>{custProductPayment.mode} : </ListItemText>
-                                 <ListItemText
-                                 sx={{textSizeAdjust: 100, width:100}}>{custProductPayment.amount?':'+custProductPayment.amount : custProductPayment.amount}</ListItemText>
-                             </ListItem>
-                         )
-                     }
-                     </List>
-            </TableCell>
-            </TableRow>
-            
-            </TableBody>
-        </Table>
-        </TableContainer>
+                            </List>
+                    </TableCell>
+                    </TableRow>
+                    <TableRow>
+                    <TableCell colSpan={6} align='right' >
+                        <PaymentFieldGroup list={this.state.custProductPurchasePaymentList} onSave={this.addProductPaymentList}></PaymentFieldGroup>
+                        <List>
+                            {
+                            this.state.custProductPurchasePaymentList && this.state.custProductPurchasePaymentList.map((custProductPayment, i)=>
+                                    <ListItem key={'custProductPayment'+i}>
+                                        <ListItemText
+                                        sx={{textSizeAdjust: 100, width:100}}>{custProductPayment.mode} : </ListItemText>
+                                        <ListItemText
+                                        sx={{textSizeAdjust: 100, width:100}}>{custProductPayment.amount?':'+custProductPayment.amount : custProductPayment.amount}</ListItemText>
+                                    </ListItem>
+                                )
+                            }
+                            </List>
+                    </TableCell>
+                    </TableRow>
+                    
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            )
         )
     }
 
@@ -484,8 +490,8 @@ const useStyles = makeStyles((theme) => ({
         <MainCard title={title} 
             button ={
             
-            <Tooltip title="Add" aria-label="close">
-                <Button variant='contained' color="error" onClick={close}>
+            <Tooltip title="Close" aria-label="close">
+                <Button variant='outlined' color="error" onClick={close}>
                     <Close/>
                 </Button>
             </Tooltip>
@@ -538,14 +544,20 @@ const useStyles = makeStyles((theme) => ({
                             </div>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2} padding={2}>
-                    <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
-                        <Button variant='text'>Total Purchase : {this.getTotalPurchase()}</Button>
-                    </Grid>
-                    <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
-                        <Button variant='contained' onClick={()=>this.addPurchase(type)}>{type}</Button>
-                    </Grid>
-                </Grid>
+                {
+                    this.state.selectedItems && this.state.selectedItems.length>0 &&
+                    (
+                        <Grid container spacing={2} padding={2}>
+                            <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
+                                <Button variant='text'>Total Purchase : {this.getTotalPurchase()}</Button>
+                            </Grid>
+                            <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
+                                <Button variant='contained' onClick={()=>this.addPurchase(type)}>{type}</Button>
+                            </Grid>
+                        </Grid>
+                    )
+                }
+                
             
          </MainCard>
     );

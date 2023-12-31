@@ -490,9 +490,8 @@ const useStyles = makeStyles((theme) => ({
     return (
         <MainCard title={title} 
             button ={
-            
-            <Tooltip title="Close" aria-label="close">
-                <Button variant='contained' color="error" onClick={close}>
+                <Tooltip title="Close" aria-label="close">
+                <Button variant='outlined' color="error" onClick={close}>
                     <Close/>
                 </Button>
             </Tooltip>

@@ -83,15 +83,26 @@ function Row(props) {
                               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                           </Fab>
                       }
-                        <Fab color="primary" size="small"  aria-label="Edit" onClick={() => props.editAction(row)}>
-                            <EditIcon/>
-                        </Fab>
-                        <Fab color="secondary" size="small"  aria-label="Delete" onClick={() => props.deleteAction(row)} >
+                       {
+                          props.editAction &&
+                            <Fab color="primary" size="small"  aria-label="Edit" onClick={() => props.editAction(row)}>
+                                <EditIcon/>
+                            </Fab>
+                        }
+                        {
+                          props.deleteAction &&
+                          <Fab color="secondary" size="small"  aria-label="Delete" onClick={() => props.deleteAction(row)} >
                             <DeleteIcon />
-                        </Fab>
-                        <Fab color="secondary" size="small"  aria-label="Delete" onClick={() => props.printAction(row)} >
-                            <PrintOutlinedIcon />
-                        </Fab>
+                          </Fab>
+
+                        }
+                        {
+                          props.printAction && 
+                          <Fab color="secondary" size="small"  aria-label="Delete" onClick={() => props.printAction(row)} >
+                              <PrintOutlinedIcon />
+                          </Fab>
+                        }
+                        
                     </TableCell>
                     :
                     <TableCell key={row.id+'_data_main_'+header.name} {...header.props}>

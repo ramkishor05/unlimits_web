@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Fab, TableCell } from '@material-ui/core';
+import { Button, Fab, TableCell } from '@material-ui/core';
 
 
 import { getCustCustomerList, addCustCustomer, editCustCustomer, deleteCustCustomer, getCustVendorList } from '../../../actions';
@@ -51,13 +51,13 @@ const tableheaders = [
         label: "Actions",
         render: (value, row, rowIndex, header, props)=>{
             return <TableCell key={header.name+'_'+rowIndex} align='right'>
-                        <Fab color="secondary" aria-label="Edit"  onClick={() => props.editAction(row)}>
+                        <Fab color="secondary" aria-label="Edit" size='small' onClick={() => props.editAction(row)}>
                         <EditIcon/>
                     </Fab>
-                    <Fab color="secondary" aria-label="Delete"  onClick={() => props.deleteAction(row)} >
+                    <Fab color="secondary" aria-label="Delete" size='small' onClick={() => props.deleteAction(row)} >
                         <DeleteIcon />
                     </Fab>
-                    <Fab color="secondary" aria-label="View"  onClick={() => props.previewAction(row)} >
+                    <Fab color="secondary" aria-label="View" size='small' onClick={() => props.previewAction(row)} >
                         <PreviewIcon />
                     </Fab>
                 </TableCell>
@@ -152,11 +152,12 @@ class CustCustomer extends Component {
                             !this.state.viewModel &&  
                 <MainCard title="Customer List" 
                         button ={
-                            
-                            <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
-                                onClick={this._add}>
-                                <AddTask/>
-                            </Fab>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            onClick={this._add}
+                            >
+                                Add
+                            </Button>
                         }
                     >
                         <DynamicTable 

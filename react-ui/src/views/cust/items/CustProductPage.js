@@ -160,10 +160,16 @@ class CustProductPage extends Component {
 
 
 const mapStateToProps = state => {
+    const { businessId} = state.accountReducer;
     const { custProductList} = state.custProductReducer;
     const { custUnitList} = state.custUnitReducer;
     const { custCurrencyItemList} = state.custCurrencyItemReducer;
-    return { custProductList, custCurrencyItemList, custUnitList};
+    const { globalCountryList} = state.globalCountryReducer;
+    
+    const { custBusinessList} = state.custBusinessReducer;
+    const custBusineess=custBusinessList.find(custBusiness=>custBusiness.id==businessId);
+    console.log("custBusineess=",custBusineess)
+    return { custProductList, custCurrencyItemList, custUnitList, custBusineess, globalCountryList};
 };
 
 

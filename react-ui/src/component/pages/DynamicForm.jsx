@@ -1,14 +1,16 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { Box, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
+import { Box, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, Select, Switch, Tooltip } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../image/ImageUploadCard';
 import { connect } from 'react-redux';
 import MainCard from '../cards/MainCard';
 
-import { getValue, setChecked, setField, setValue } from '../utils/CommanUtil';
+import { getValue, setChecked, setValue } from '../utils/CommanUtil';
+import CountryOptions from '../dropdwons/CountryOptions';
+import { Close } from '@material-ui/icons';
 
 
 class DynamicForm extends React.Component {
@@ -49,8 +51,7 @@ class DynamicForm extends React.Component {
      
     }
     
-    console.log("status,", status, value)
-    console.log("this.state.validationMap=",validationMap)
+    console.log("status, field.name, value ", status, field.name,  value)
     this.setState({...this.state, validationMap:{...validationMap}});
     return status;
   }
@@ -88,16 +89,18 @@ class DynamicForm extends React.Component {
         return <Box 
         >{field.label}</Box>;
       case 'select':
-        return  <FormControl>
-        <InputLabel id="demo-simple-select-label">{field.label}</InputLabel>
+        return  <FormControl fullWidth 
+        error={this.isError(field)}>
+        <InputLabel htmlFor={field.name} id={field.name+"-label"}>{field.label}</InputLabel>
         <Select
           variant='standard'
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId={field.name+"-label"}
+          id={field.name}
           value={getValue(data,field.name)}
           defaultValue={getValue(data,field.name)}
           label="{field.label}"
-          onChange={(event)=>setField(event.target.value, field, data, props, this.setData, this.checkValidation)}
+          onChange={(event)=>setValue(event.target.value, field.name, field, data, 
+            this.setData, this.checkValidation)}
         >
           {
             field.onItems ? 
@@ -112,11 +115,17 @@ class DynamicForm extends React.Component {
             )
           }
         </Select>
+        {
+        this.isError(field) && 
+        <FormHelperText >{this.errorMessage(field)}</FormHelperText>
+        }
       </FormControl>;
       case 'switch':
          return <FormControlLabel
          control={
            <Switch 
+            helperText={this.errorMessage(field)}
+            error={this.isError(field)}
             checked={getValue(data,field.name)}
             onChange={(event)=>setChecked(event, field.name, data, props , this.setData)}
             name={field.name} 
@@ -133,7 +142,14 @@ class DynamicForm extends React.Component {
          >
          </ImageUploadCard>
       case 'qnt':
-        return <QuantityField field={field} {...props  } setData={this.setData} ></QuantityField>
+        return <QuantityField 
+        field={field} {...props  } 
+        setData={this.setData} 
+        errorMessage={this.errorMessage}
+        isError={this.isError}
+        checkValidation={this.checkValidation}
+        >
+        </QuantityField>
       case 'amount':
         return <FormControl  fullWidth><AmountField 
         field={field} {...props} 
@@ -142,6 +158,14 @@ class DynamicForm extends React.Component {
         isError={this.isError}
         checkValidation={this.checkValidation}
         ></AmountField></FormControl> 
+      case 'country':
+        <FormControl  fullWidth><CountryOptions 
+        field={field} {...props} 
+        setData={this.setData}  
+        errorMessage={this.errorMessage}
+        isError={this.isError}
+        checkValidation={this.checkValidation}
+        ></CountryOptions></FormControl> 
       default:
         return <FormControl  fullWidth>
           <TextField
@@ -157,7 +181,8 @@ class DynamicForm extends React.Component {
           rows={'textarea'===field.type ? field.rows ? field.rows : 5 : 1}
           value={getValue(data,field.name)}
           defaultValue={getValue(data,field.name)}
-          onChange={(event)=>setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)}
+          onChange={(event)=>
+            setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)}
            sx={'textarea'===field.type ? {border:1, borderStyle: 'groove'}:{}}
           >
         </TextField></FormControl>
@@ -188,23 +213,26 @@ class DynamicForm extends React.Component {
     return (
              <MainCard title={title}
                   button ={
-                      <Button variant="outlined" 
-                      color="primary" 
-                      onClick={closeAction}
-                      >
-                          Close
-                      </Button>
+                      <Tooltip title="Close" aria-label="close">
+                        <Button variant='outlined' color="error" onClick={closeAction}>
+                            <Close/>
+                        </Button>
+                     </Tooltip>
                   }
                   content={true}
+
+                  actions = {
+                    <Grid container spacing={2}>
+                      <Grid key={'action'} item xs={12} textAlign={'right'}>
+                        <Button variant='outlined' color="primary" disabled={loader} onClick={(event)=>this.saveForm(fields, type, data)} >
+                          {type}
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  }
               >
                 {this.rendorFields(fields, data, this.props)}
-                <Grid container spacing={2}>
-                  <Grid key={'action'} item xs={12} textAlign={'right'}>
-                    <Button variant='outlined' color="primary" disabled={loader} onClick={(event)=>this.saveForm(fields, type, data)} >
-                      {type}
-                    </Button>
-                  </Grid>
-                </Grid>
+                
          </MainCard>
         );
   }
