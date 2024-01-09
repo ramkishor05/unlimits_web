@@ -341,8 +341,10 @@ const useStyles = makeStyles((theme) => ({
             totalQnt: 0,
             custProductPurchaseItemList: [],
             custProductPurchaseAdditionalList:this.state.custProductPurchaseAdditionalList,
-            custProductPurchasePaymentList:this.state.custProductPurchasePaymentList
+            custProductPurchasePaymentList:[]
         }
+    
+
         this.state.selectedItems.forEach((item)=>{
             custProductPurchase.totalQnt+=item.qnt;
             custProductPurchase.totalPrice+=(item.qnt * item.price.price);
@@ -356,6 +358,24 @@ const useStyles = makeStyles((theme) => ({
                 custProductId: item.custProduct.id
             }
             custProductPurchase.custProductPurchaseItemList.push(custProductWholePurchase);
+        })
+
+        this.state.custProductPurchasePaymentList.forEach((custProductPurchasePaymentObj)=>{
+            let custTransaction={
+                transactionAmount: custProductPurchase.totalPrice,
+                transactionStatus: 'Paid',
+                transactionType:  'Debit',
+                transactionMode: 'Cash',
+                transactionReciverId: this.state.supplierId,
+                transactionSenderId: this.props.userDetail.id,
+                transactionMakerId: this.props.userDetail.id,
+            };
+
+            let custProductPurchasePayment= {};
+            custProductPurchasePayment['suuplierId']= this.state.supplierId;
+            custProductPurchasePayment['custTransaction']=custTransaction;
+            custProductPurchasePayment['primaryPayment'] =true
+            custProductPurchase.custProductPurchasePaymentList.push(custProductPurchasePayment);
         })
         const fields=model;
         for(var fieldIndex in  fields){
@@ -581,11 +601,13 @@ const styles = {
 
 
 const mapStateToProps = state => {
+    const { userDetail } = state.userReducer;
+
     const { custProductList } = state.custProductReducer;
 
     const { custSupplierList } = state.custSupplierReducer;
 
-    return { custProductList, custSupplierList };
+    return { custProductList, custSupplierList, userDetail };
 }
 
 export default connect(mapStateToProps, { getCustProductList, getCustSupplierList})(CustSavePurchasePage);
