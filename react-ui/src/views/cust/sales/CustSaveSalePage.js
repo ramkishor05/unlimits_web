@@ -4,7 +4,7 @@ import 'date-fns';
 import moment from 'moment';
 
 // material-ui
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormControlLabel, FormLabel, Grid, IconButton, List, ListItem, ListItemText, Modal, Paper, Radio, RadioGroup, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography} from '@material-ui/core';
+import { Avatar, Box, Button, Card, CardContent, Chip, Divider, FormControl, FormControlLabel, FormLabel, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Radio, RadioGroup, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ToggleButton, Tooltip, Typography} from '@material-ui/core';
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
 import { makeStyles, styled } from '@material-ui/styles';
@@ -22,68 +22,22 @@ import PaymentField from '../../../component/fields/PaymentField';
 import PaymentFieldGroup from '../../../component/fields/PaymentFieldGroup';
 import MainCard from '../../../component/cards/MainCard';
 import { getValue } from '../../../component/utils/CommanUtil';
-
-  const ToggleSwitch = styled((props) => (
-    <Switch fullWidth focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-  ))(({ theme }) => ({
-    width: 42,
-    height: 26,
-    padding: 0,
-    '& .MuiSwitch-switchBase': {
-      padding: 0,
-      margin: 2,
-      transitionDuration: '300ms',
-      '&.Mui-checked': {
-        transform: 'translateX(16px)',
-        color: '#fff',
-        '& + .MuiSwitch-track': {
-          backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
-          opacity: 1,
-          border: 0,
-        },
-        '&.Mui-disabled + .MuiSwitch-track': {
-          opacity: 0.5,
-        },
-      },
-      '&.Mui-focusVisible .MuiSwitch-thumb': {
-        color: '#33cf4d',
-        border: '6px solid #fff',
-      },
-      '&.Mui-disabled .MuiSwitch-thumb': {
-        color:
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[100]
-            : theme.palette.grey[600],
-      },
-      '&.Mui-disabled + .MuiSwitch-track': {
-        opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
-      },
-    },
-    '& .MuiSwitch-thumb': {
-      boxSizing: 'border-box',
-      width: 22,
-      height: 22,
-    },
-    '& .MuiSwitch-track': {
-      borderRadius: 26 / 2,
-      backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
-      opacity: 1,
-      transition: theme.transitions.create(['background-color'], {
-        duration: 500,
+import FolderIcon from '@mui/icons-material/Folder';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ToggleSwitch from '../../../component/buttons/ToggleSwitch';
+import Shoppingcard from '../../../component/cards/ShoppingCard';
+function generate(element) {
+    return [0, 1, 2].map((value) =>
+      React.cloneElement(element, {
+        key: value,
       }),
-    },
+    );
+  }
+  
+  const Demo = styled('div')(({ theme }) => ({
+    backgroundColor: theme.palette.background.paper,
   }));
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
-    },
-  }));
-
-//==============================|| SAMPLE PAGE ||==============================//
 const useStyles = makeStyles((theme) => ({
     container: {
       display: 'flex',
@@ -139,6 +93,57 @@ const useStyles = makeStyles((theme) => ({
         }
     }
   ]
+
+  const CartItem  = ({ product, itemQnt, setDiscount, setPrice }) =>  {
+    return (
+        <Card sx={{border:1}} >
+            <CardContent style={{padding:5}}>
+                <div className="d-flex" style={{width: '100%'}}>
+                    <div className="d-flex flex-row align-items-center" style={{width: '60%'}}>
+                        <div  style={{width: '20%'}}>
+                            <img
+                                src={'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp'}
+                                className="img-fluid rounded-3" alt="" />
+                        </div>
+                        <div  style={{width: '80%', paddingLeft: 5, paddingRight:5}}>
+                            <p className="justify-content">{product.custProduct.title}</p>
+                            <p className="small mb-0">{product.custProduct.description}</p>
+                            <p className="small mb-0">{product.custProduct.category}</p>
+                        </div>
+                    </div>
+                    <div className="d-flex flex-row align-items-center" style={{width: '40%'}}>
+                        <div  style={{width: '25%'}}>
+                            <h5 className="mb-0">
+                             <TextField type='number' 
+                            label="Price"
+                            value={product.salePrice.price}
+                            size='small'
+                            sx={{width:50}}
+                            variant='standard' 
+                            onChange={(event)=> setPrice(product, event.target.value)}></TextField>
+                            </h5>
+                        </div>
+                        <div  style={{width: '25%'}}>
+                            <TextField type='number' 
+                            label="discount"
+                            value={product.discount} 
+                            size='small'
+                            sx={{width:50}}
+                            variant='standard' 
+                            onChange={(event)=> setDiscount(product, event.target.value)}></TextField>
+                       </div>
+                        <div  style={{width: '50%'}}>
+                            <ShoppingCartButton  
+                                counter={product.saleQnt} 
+                                updateCounter={(counter)=> itemQnt(product, counter )}>
+                            </ShoppingCartButton>     
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
 
   class CustSaveSalePage extends Component {
 
@@ -290,7 +295,27 @@ const useStyles = makeStyles((theme) => ({
     setDiscount=(item, amount)=>{
         item['discount']=amount;
         const newSelectedItems = [...this.state.selectedItems];
-        this.setState({selectedItems: newSelectedItems, discounts: this.getDiscounts()});
+        this.setState({selectedItems: newSelectedItems,
+            subTotal: this.getSubTotal(), 
+           discounts: this.getDiscounts(), totalPrice: this.getTotalSale(),
+           payment:{
+               ...this.state.payment,
+               amount:this.getTotalSale()
+           }
+       });
+   }
+
+    setPrice=(item, amount)=>{
+        item['salePrice']['price']=amount;
+        const newSelectedItems = [...this.state.selectedItems];
+        this.setState({selectedItems: newSelectedItems,
+             subTotal: this.getSubTotal(), 
+            discounts: this.getDiscounts(), totalPrice: this.getTotalSale(),
+            payment:{
+                ...this.state.payment,
+                amount:this.getTotalSale()
+            }
+        });
     }
 
     getDiscounts=()=>{
@@ -379,7 +404,7 @@ const useStyles = makeStyles((theme) => ({
         
     }
 
-     getSelectedItems=()=>{
+     getSelectedItemsTable=()=>{
         return (
        <TableContainer className={useStyles.container}>
         <Table stickyHeader  sx={{border:1, borderStyle: 'groove'}}>
@@ -473,7 +498,7 @@ const useStyles = makeStyles((theme) => ({
                              </ListItem>
                          )
                      }
-                     </List>
+                </List>
             </TableCell>
             </TableRow>
             
@@ -483,12 +508,109 @@ const useStyles = makeStyles((theme) => ({
         )
     }
 
+     paymentChange = (payment, e) => {
+        const newpayment={...payment};
+        newpayment[e.target.name] = e.target.value;
+        this.setState({...this.state, payment: newpayment});
+     }
+
+    getSelectedItemsGrid=()=>{
+        return  (
+        
+           <List dense={true}>
+                {
+                this.state.selectedItems && this.state.selectedItems.map(selectedItem=>
+                    
+                  <ListItem key={'selectedItem_'+selectedItem.id+'_delete'}
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                    sx={{border:1}}
+                  >
+                   
+                    <ListItemAvatar 
+                    key={'selectedItem_'+selectedItem.id+'_image'}
+                    sx={{width:'10%'}}
+                    >
+                       {
+                         selectedItem.custProduct.image ? 
+                         <Avatar alt="Logo" src={selectedItem.custProduct.image} />
+                         : <Avatar alt="Logo" ><FolderIcon /></Avatar>
+                       } 
+                    </ListItemAvatar>
+                    <ListItemText
+                    key={'selectedItem_'+selectedItem.custProduct.id+'_title'} 
+                    primary={selectedItem.custProduct.title}
+                    secondary={selectedItem.custProduct.description}
+                     >
+                    </ListItemText>
+                    <ListItemText
+                     key={'selectedItem_'+selectedItem.custProduct.id+'_price'}
+                    >
+                       <TextField type='number' 
+                        label="Price"
+                        value= {selectedItem.salePrice.price}
+                        variant='standard' 
+                        sx={{width:50}}
+                        onChange={(event)=> this.setDiscount(selectedItem, event.target.value)}></TextField>
+                    </ListItemText>
+                    <ListItemText
+                    key={'selectedItem_'+selectedItem.custProduct.id+'_discount'}
+                    >
+                        <TextField type='number' 
+                        label="discount"
+                        value={selectedItem.discount} 
+                        size='small'
+                        sx={{width:50}}
+                        variant='standard' 
+                        onChange={(event)=> this.setDiscount(selectedItem, event.target.value)}></TextField>
+                    </ListItemText>
+                    <ListItemText 
+                    key={'selectedItem_'+selectedItem.custProduct.id+'_qnt'}
+                    sx={{width:'10%'}}>
+                        <ShoppingCartButton  
+                            counter={selectedItem.saleQnt} 
+                            updateCounter={(counter)=> this.itemQnt(selectedItem, counter )}>
+                        </ShoppingCartButton>                        
+                    </ListItemText>
+                    <ListItemText 
+                    key={'selectedItem_'+selectedItem.custProduct.id+'_switch'}
+                    sx={{width:'10%'}}
+                    >
+                    <ToggleSwitch name="Whole Sale" 
+                     onlevel="Wholesale"
+                     offlevel="Retail"
+                     value={selectedItem.isWholeSale} 
+                     checked={selectedItem.isWholeSale} 
+                     onClick={()=>this.toggleWholeSale(selectedItem)} 
+                     >
+                     </ToggleSwitch>
+                    </ListItemText>
+                  </ListItem>
+                )
+               }
+              </List>
+        )
+    }
+
+
     render() {
 
     const { close, title, type} = this.props;
     
     return (
-        <MainCard title={title} 
+       /* <MainCard title={title} 
+        subheader ={ <ItemOptions 
+            label="Search items" 
+            name="custProductSaleItemList"
+            items={this.props.custProductList} 
+            itemAction={this.itemAction}
+            errorMessage={this.errorMessage}
+            isError={this.isError}
+            checkValidation={this.checkValidation}
+            ></ItemOptions>}
             button ={
                 <Tooltip title="Close" aria-label="close">
                 <Button variant='outlined' color="error" onClick={close}>
@@ -529,34 +651,201 @@ const useStyles = makeStyles((theme) => ({
                         </CustomerDropDwon>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                        <ItemOptions 
-                        label="Items" 
-                        name="custProductSaleItemList"
-                        items={this.props.custProductList} 
-                        itemAction={this.itemAction}
+                       
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                            {
+                                this.getSelectedItemsGrid()
+                            }
+                    </Grid>
+                  
+                    <Grid item xs={12} xl={12} spacing={2} sx={{textAlign: 'right'}}>
+                        
+                        <Typography>  
+                            Sub Total <LabelImportant></LabelImportant> 
+                            {
+                                <Chip variant='outlined' sx={{direction: 'rtl' , width:100}} label={this.getSubTotal()}> {}  </Chip >  
+                            }
+                         </Typography> 
+                         <Typography> 
+                            Discounts <LabelImportant></LabelImportant> 
+                            <Chip variant='outlined'  sx={{direction: 'rtl', width:100}} label={this.getDiscounts()}></Chip >
+                        </Typography>  
+                        <Typography> 
+                            Grand Total <LabelImportant></LabelImportant> 
+                            <Chip variant='outlined'  sx={{direction: 'rtl', width:100}} label={this.getTotalSale()}></Chip >
+                        </Typography> 
+                    </Grid>
+                    
+                    <Grid item xs={12} xl={12} spacing={2} sx={{textAlign: 'right'}}>
+                         <div style={{alignItems:'end'}}>
+                         Additional Charges
+                        <DynamicField list={this.state.custProductSaleAdditionalList} onSave={this.addProductAdditionalList}></DynamicField>
+                        <Typography> 
+                        {
+                        this.state.custProductSaleAdditionalList && this.state.custProductSaleAdditionalList.map((addAdditionalCharge,i)=>
+                                <Typography>{addAdditionalCharge.field} : <Chip variant='outlined' label={addAdditionalCharge.value}  sx={{direction: 'rtl', width:100}}></Chip></Typography>  
+                            )
+                        }
+                        </Typography>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} xl={12} sx={{textAlign: 'right'}}>
+                    <PaymentFieldGroup 
+                    amount={this.getTotalSale()} 
+                    list={this.state.custProductSalePaymentList} 
+                    onSave={this.addProductPaymentList}></PaymentFieldGroup>
+                    <List>
+                        {
+                        this.state.custProductSalePaymentList && this.state.custProductSalePaymentList.map((custProductPayment, i)=>
+                                <ListItem key={'custProductPayment'+i}>
+                                    <ListItemText
+                                    sx={{textSizeAdjust: 100, width:100}}>{custProductPayment.mode} : </ListItemText>
+                                    <ListItemText
+                                    sx={{textSizeAdjust: 100, width:100}}>{custProductPayment.amount?':'+custProductPayment.amount : custProductPayment.amount}</ListItemText>
+                                </ListItem>
+                            )
+                        }
+                    </List>
+                </Grid>
+                </Grid>
+                    
+                <Grid container spacing={3} sx={{paddingTop: 2}}>
+                    <Grid item  xs={12} sm={12} md={6}>
+                        <Button variant='outlined'>Total Sale : {this.getTotalSale()}</Button>
+                    </Grid>
+                    <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
+                        <Button variant='outlined' onClick={()=>this.addSale(type)}>{type}</Button>
+                    </Grid>
+                </Grid>
+            </MainCard>*/
+            <MainCard title={title} >
+             <Grid container spacing={3}>
+                    <Grid item xs={12} sm={12} md={3}>
+                        <TextField
+                            id="datetime-local"
+                            label="Sale Date"
+                            variant='standard'
+                            type="datetime-local"
+                            defaultValue={this.state.saleDate}
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
+                            onChange={this.changeSaleDate}
+                            helperText={this.errorMessage('saleDate')}
+                            error={this.isError('saleDate')}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={3}>
+                        <CustomerDropDwon 
+                        label="Sale to" 
+                        name="customerId"
+                        value={this.props.data.customerId} 
+                        customerList = {this.props.custCustomerList} 
+                        customerAction={this.customerAction}
                         errorMessage={this.errorMessage}
                         isError={this.isError}
                         checkValidation={this.checkValidation}
-                        ></ItemOptions>
+                        >
+                        </CustomerDropDwon>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12}>
+                    <Grid item xs={12} sm={12} md={6}>
+            <ItemOptions 
+            label="Search items" 
+            name="custProductSaleItemList"
+            items={this.props.custProductList} 
+            itemAction={this.itemAction}
+            errorMessage={this.errorMessage}
+            isError={this.isError}
+            checkValidation={this.checkValidation}
+            ></ItemOptions>
+            </Grid>
+            </Grid>
+             
+            <Grid container sx={{marginTop:5}}>
+                <Grid item xs={12} sm={12} md={8} sx={{textAlign: 'center'}}>
+                    <div style={{overflowY: 'auto', maxHeight:300, minHeight:300}}>
+                    {
+                        this.state.selectedItems.length>0?
+                        this.state.selectedItems.map(product=>
+                            <CartItem product={product} itemQnt={this.itemQnt} setDiscount={this.setDiscount} setPrice={this.setPrice}></CartItem>
+                        )
+                    :<h3>Add item in cart</h3>
+                    }
+                    </div>
+                </Grid>
+                <Grid item xs={12} sm={12} md={4}>
+                    {
+                        this.state.selectedItems.length>0 &&
+                        <div style={{textAlign:'right', alignContent: 'end', padding:5}}>
                             <div >
-                            {
-                                this.getSelectedItems()
-                            }
+                                Additional Charges
+                                <DynamicField type="number" label="" list={this.state.custProductSaleAdditionalList} onSave={this.addProductAdditionalList}></DynamicField>
+                                { 
+                                    this.state.custProductSaleAdditionalList && this.state.custProductSaleAdditionalList.length>0
+                                    && <Grid container sx={{marginLeft:2, marginTop:2, width:'95%'}}> 
+                                    {
+                                    this.state.custProductSaleAdditionalList.map((addAdditionalCharge,i)=>
+                                    <>
+                                        <Grid xs={12} xl={12} spacing={2} sx={{textAlign: 'right', marginTop:1, marginBottom:1}}>
+                                            {addAdditionalCharge.field}  
+                                            <LabelImportant></LabelImportant>
+                                            <Chip variant='filled' color='secondary' sx={{direction: 'rtl' , width:100}} label={addAdditionalCharge.value} ></Chip>
+                                        </Grid>
+                                        </>
+                                        )
+                                    }
+                                    </Grid>
+                                }
                             </div>
-                    </Grid>
+                            <Divider></Divider>
+                           <Grid item xs={12} xl={12} spacing={2} sx={{textAlign: 'right', marginTop:1, marginBottom:1}}>
+                                <Typography>  
+                                    Sub Total <LabelImportant></LabelImportant> 
+                                    {
+                                        <Chip variant='filled' color='warning' sx={{direction: 'rtl' , width:100}} label={this.state.subTotal}> {}  </Chip >  
+                                    }
+                                </Typography> 
+                                <Typography> 
+                                    Discounts <LabelImportant></LabelImportant> 
+                                    <Chip variant='filled' color='primary'  sx={{direction: 'rtl', width:100}} label={this.state.discounts}></Chip >
+                                </Typography>  
+                                <Typography> 
+                                   Total Amount <LabelImportant></LabelImportant> 
+                                    <Chip variant='filled' color='success' sx={{direction: 'rtl', width:100}} label={this.state.totalPrice}></Chip >
+                                </Typography> 
+                           </Grid>
+                           <Divider></Divider>
+                           <Grid item xs={12} xl={12} spacing={2} sx={{textAlign: 'right', marginTop:1, marginBottom:1}}>
+                           <FormControl>
+                                <FormLabel id="payment-label">Payment</FormLabel>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="payment-label"
+                                    name="mode"
+                                    value={this.state.payment?.mode} onChange={e => this.paymentChange(this.state.payment, e)}
+                                >
+                                    <FormControlLabel value="Unpaid" control={<Radio  />} label="Unpaid" />
+                                    <FormControlLabel value="Cash" control={<Radio />} label="Cash" />
+                                    <FormControlLabel value="Online" control={<Radio />} label="Online" />
+                                </RadioGroup>
+                                {
+                                    <TextField type='number' defaultValue={this.state.payment?.amount} value={this.state.payment?.amount} label="Amount" variant='standard'  name='amount'  onChange={e => this.paymentChange(this.state.payment, e)}></TextField>
+                                }
+                            </FormControl>
+                            </Grid>
+                            <Grid container spacing={3} sx={{paddingTop: 2}}>
+                           
+                            <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={12}>
+                                <Button color='error' variant='outlined' onClick={()=>this.addSale(type)}>Checkout</Button>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    }
+                    
                 </Grid>
-            
-                <Grid container spacing={2} padding={2}>
-                    <Grid item  sx={{textAlign: 'left'}} xs={12} sm={12} md={6}>
-                        <Button variant='text'>Total Sale : {this.getTotalSale()}</Button>
-                    </Grid>
-                    <Grid item  sx={{textAlign: 'right'}} xs={12} sm={12} md={6}>
-                        <Button variant='contained' onClick={()=>this.addSale(type)}>{type}</Button>
-                    </Grid>
                 </Grid>
-            </MainCard>
+             </MainCard>
     );
     };
 }

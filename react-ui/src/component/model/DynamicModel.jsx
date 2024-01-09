@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Box, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
+import { Box, ButtonGroup, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../image/ImageUploadCard';
@@ -212,7 +212,6 @@ class DynamicModel extends React.Component {
     const { title, type, fields, loader } = this.props;
     const { data } = this.state;
     return (
-      <div>
         <Dialog
           open={this.props.openAction}
           onClose={this.props.closeAction}
@@ -224,17 +223,19 @@ class DynamicModel extends React.Component {
                  {this.rendorFields(fields, this.state.data, this.props)}
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            <Button variant='outlined' color="error" onClick={this.props.closeAction} >
-              Cancel
-            </Button>
-             <Button variant='outlined' color="primary" disabled={loader} 
-             onClick={(event)=>this.saveForm(fields, type, data)} >
-                {type}
-              </Button>
+          <DialogActions sx={{padding:'25px'}}>
+              <ButtonGroup>
+                <Button variant='outlined' size='small' color="error"
+                 onClick={this.props.closeAction} >
+                  Cancel
+                </Button>
+                <Button variant='outlined' size='small' color="primary" disabled={loader} 
+                  onClick={(event)=>this.saveForm(fields, type, data)} >
+                  {type}
+                </Button>
+              </ButtonGroup>
           </DialogActions>
         </Dialog>
-      </div>
     );
   }
 }

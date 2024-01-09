@@ -2,20 +2,24 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@material-ui/core';
 export default function PaymentField(props) {
+
+  const [element,setElement]=React.useState(props.element);
   
   const handleChange = (element, e) => {
-    element[e.target.name] = e.target.value;
+    let newElement ={...element}
+    newElement[e.target.name] = e.target.value;
+    setElement(newElement);
   }
 
   return (
       <Box variant='standard'>
           <FormControl>
-              <FormLabel id="demo-row-radio-buttons-group-label">Payment {'#'+this.props.index}</FormLabel>
+              <FormLabel id="demo-row-radio-buttons-group-label">Payment {'#'+props.index}</FormLabel>
               <RadioGroup
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="mode"
-                  value={this.props.element?.mode} onChange={e => handleChange(this.props.element, e)}
+                  value={element?.mode} onChange={e => handleChange(element, e)}
               >
                   <FormControlLabel value="Unpaid" control={<Radio />} label="Unpaid" />
                   <FormControlLabel value="Cash" control={<Radio />} label="Cash" />
@@ -23,14 +27,14 @@ export default function PaymentField(props) {
               </RadioGroup>
           
               {
-                this.props.element?.mode==='Cash' || this.props.element?.mode==='Online'?
-              <TextField type='number' value={this.props.element?.amount} label="Amount" variant='standard' name='amount'  onChange={e => handleChange(this.props.element, e)}></TextField>
+                element?.mode==='Cash' || element?.mode==='Online'?
+              <TextField type='number' value={element?.amount} label="Amount" variant='standard' name='amount'  onChange={e => handleChange(element, e)}></TextField>
               :''
               }
         </FormControl>
         {
-        this.props.index ? 
-            <Button type="button"  className="button remove" onClick={(event) => this.props.removeField(this.props.index)}>Remove</Button> 
+        props.index ? 
+            <Button type="button"  className="button remove" onClick={(event) => props.removeField(props.index)}>Remove</Button> 
         : null
         }
    </Box>

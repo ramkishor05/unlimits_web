@@ -81,6 +81,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
             {
                headerItems.map(headerItem=> getHeaderItem(headerItem))
             }
+
+            
             
         </React.Fragment>
     );

@@ -4,6 +4,8 @@ import { IconBrandChrome, IconHelp, IconSitemap, IconBrandDaysCounter, IconBrand
 import { IconKey, IconReceipt2, IconBug, IconBellRinging, IconPhoneCall, IconUsers,IconAccessible,IconUserPlus, IconBusinessplan, IconActivity,IconBuildingArch, IconBuildingStore, IconAB } from '@tabler/icons';
 import CategoryIcon from '@mui/icons-material/Category';
 import DescriptionIcon from '@mui/icons-material/Description';
+import AccountingIcon from '@mui/icons-material/MenuBook';
+import CashBookIcon from '@mui/icons-material/CollectionsBookmark';
 export const IconMapper = {
     Dashboard: IconDashboard,
     Analytics: IconDeviceAnalytics,
@@ -37,5 +39,7 @@ export const IconMapper = {
     Purchase: IconBuildingStore,
     Sales: IconBuildingArch,
     CurrencyGroup: IconCurrency,
-    Business: IconBusinessplan
+    Business: IconBusinessplan,
+    Accounting: AccountingIcon,
+    CashBook: CashBookIcon
 };

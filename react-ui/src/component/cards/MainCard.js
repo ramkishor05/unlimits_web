@@ -21,6 +21,7 @@ const MainCard = React.forwardRef(
             content = true,
             contentClass,
             button,
+            subheader,
             contentSX,
             darkTitle,
             secondary,
@@ -68,12 +69,15 @@ const MainCard = React.forwardRef(
                             </div>
                         </div>
                         : null
-                } />}
+                } subheader={subheader} />
+                   }
                 {darkTitle && title && (
                     <CardHeader 
                     sx={headerSX} 
                     title={<Typography variant="h3">{title}</Typography>}
-                     action={secondary} />
+                     action={secondary} >
+
+                    </CardHeader>
                 )}
                
                 {/* content & header divider */}

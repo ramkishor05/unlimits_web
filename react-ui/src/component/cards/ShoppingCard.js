@@ -1,73 +1,69 @@
 import { Component } from "react";
 import ShoppingCartButton from "../buttons/ShoppingCartButton";
-import { Button } from "@material-ui/core";
+import { Button, Card, CardContent } from "@material-ui/core";
 import { DeleteOutlineOutlined } from "@material-ui/icons";
 
-const Item  = ({ product }) =>  {
+const Item  = ({ product, itemQnt }) =>  {
     return (
-        <div className="card mb-3">
-            <div className="card-body" >
+        <Card>
+            <CardContent>
                 <div className="d-flex">
                     <div className="d-flex flex-row align-items-center">
-                        <div className="ms-1" style={{width: '80px'}}>
+                        <div className="ms-1" style={{width: '70px'}}>
                             <img
-                                src={product.image}
-                                className="img-fluid rounded-3" alt="Shopping item" />
+                                src={'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp'}
+                                className="img-fluid rounded-3" alt="" />
                         </div>
                         <div className="ms-1" style={{width: '150px'}}>
-                            <p className="justify-content">{product.title}</p>
-                            <p className="small mb-0">{product.category}</p>
+                            <p className="justify-content">{product.custProduct.title}</p>
+                            <p className="small mb-0">{product.custProduct.desc}</p>
+                            <p className="small mb-0">{product.custProduct.category}</p>
                         </div>
                     </div>
                     <div className="d-flex flex-row align-items-center" style={{width: '150px'}}>
                         <div className="ms-1">
-                            <h5 className="mb-0">{product.price}</h5>
+                            <h5 className="mb-0">{product.salePrice.price}</h5>
                         </div>
                         <div className="ms-1" >
-                            <ShoppingCartButton counter={2} /> 
-                            <Button variant="outlined"><DeleteOutlineOutlined/></Button>
+                        <ShoppingCartButton  
+                            counter={product.saleQnt} 
+                            updateCounter={(counter)=> itemQnt(product, counter )}>
+                        </ShoppingCartButton>     
                         </div>
                        
                     </div>
                 </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }
 
 export default class Shoppingcard extends Component{
 
     render() {
-        const {products} = this.props
+        const {products, itemQnt} = this.props
         return(
                 <section className="h-100 " >
-                    <div className="container py-5 h-100">
+                    <div className=" py-5 h-100">
                         <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col">
-                            <div className="card">
-                            <div className="card-body p-4">
+                            <div className="">
+                            <div className=" p-4">
                     
                                 <div className="row">
                     
                                 <div className="col-lg-7">
-                                    <h5 className="mb-3"><a href="#!" className="text-body"><i
-                                        className="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
-                                    <hr/>
-                    
+                                    
                                     <div className="d-flex justify-content-between align-items-center mb-4">
                                     <div>
-                                        <p className="mb-1">Shopping cart</p>
-                                        <p className="mb-0">You have 4 items in your cart</p>
+                                        <p className="mb-0">You have {products.length} items in your cart</p>
                                     </div>
-                                    <div>
-                                        <p className="mb-0"><span className="text-muted">Sort by:</span> <a href="#!"
-                                            className="text-body">price <i className="fas fa-angle-down mt-1"></i></a></p>
-                                    </div>
+                                    
                                     </div>
                                     <div style={{overflowX: 'auto', maxHeight:400}}>
                                     {
                                         products.map(product=>
-                                            <Item product={product}></Item>
+                                            <Item product={product} itemQnt={itemQnt}></Item>
                                         )
                                     }
                                     </div>
@@ -190,48 +186,7 @@ export default class Shoppingcard extends Component{
                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
                                             className="img-fluid rounded-3" style={{width: '45px'}} alt="Avatar"/>
                                         </div>
-                    
-                                        <p className="small mb-2">Card type</p>
-                                        <a href="#!" type="submit" className="text-white"><i
-                                            className="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" className="text-white"><i
-                                            className="fab fa-cc-visa fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" className="text-white"><i
-                                            className="fab fa-cc-amex fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" className="text-white"><i className="fab fa-cc-paypal fa-2x"></i></a>
-                    
-                                        <form className="mt-4">
-                                        <div className="form-outline form-white mb-4">
-                                            <input type="text" id="typeName" className="form-control form-control-lg" siez="17"
-                                            placeholder="Cardholder's Name" />
-                                            <label className="form-label" for="typeName">Cardholder's Name</label>
-                                        </div>
-                    
-                                        <div className="form-outline form-white mb-4">
-                                            <input type="text" id="typeText" className="form-control form-control-lg" siez="17"
-                                            placeholder="1234 5678 9012 3457" minLength="19" maxLength="19" />
-                                            <label className="form-label" for="typeText">Card Number</label>
-                                        </div>
-                    
-                                        <div className="row mb-4">
-                                            <div className="col-md-6">
-                                            <div className="form-outline form-white">
-                                                <input type="text" id="typeExp" className="form-control form-control-lg"
-                                                placeholder="MM/YYYY" size="7"  minLength="7" maxLength="7" />
-                                                <label className="form-label" for="typeExp">Expiration</label>
-                                            </div>
-                                            </div>
-                                            <div className="col-md-6">
-                                            <div className="form-outline form-white">
-                                                <input type="password" id="typeText" className="form-control form-control-lg"
-                                                placeholder="&#9679;&#9679;&#9679;" size="1" minLength="3" maxLength="3" />
-                                                <label className="form-label" for="typeText">Cvv</label>
-                                            </div>
-                                            </div>
-                                        </div>
-                    
-                                        </form>
-                    
+                                       
                                         <hr className="my-4"/>
                     
                                         <div className="d-flex justify-content-between">

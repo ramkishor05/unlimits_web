@@ -12,10 +12,10 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Fab, TableFooter, TablePagination } from '@material-ui/core';
+import { Button, ButtonGroup, Fab, TableFooter, TablePagination } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
+import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
@@ -74,35 +74,35 @@ function Row(props) {
                     header.name=='actions' 
                     ?
                     <TableCell key={row.id+'_data_main_'+header.name} align={header.align? header.align: 'center'}>
+                        <ButtonGroup>
                         {
-                           <Fab color="primary" aria-label="Edit"
-                           
-                              size="small" 
+                           <Button color="primary" aria-label="Collapse"
+                              size="small" variant='outlined'
                               onClick={() => setOpen(!open)}
                           >
                               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                          </Fab>
+                          </Button>
                       }
                        {
                           props.editAction &&
-                            <Fab color="primary" size="small"  aria-label="Edit" onClick={() => props.editAction(row)}>
+                          <Button color="secondary" aria-label="Edit" size="small" variant='outlined'  onClick={() => props.editAction(row)}>
                                 <EditIcon/>
-                            </Fab>
+                          </Button>
                         }
                         {
                           props.deleteAction &&
-                          <Fab color="secondary" size="small"  aria-label="Delete" onClick={() => props.deleteAction(row)} >
+                          <Button  color="error" aria-label="Delete"  size="small" variant='outlined' onClick={() => props.deleteAction(row)} >
                             <DeleteIcon />
-                          </Fab>
+                          </Button>
 
                         }
                         {
                           props.printAction && 
-                          <Fab color="secondary" size="small"  aria-label="Delete" onClick={() => props.printAction(row)} >
-                              <PrintOutlinedIcon />
-                          </Fab>
+                          <Button color="primary"  aria-label="Print"  size="small" variant='outlined'  onClick={() => props.printAction(row)} >
+                              <PrintIcon />
+                          </Button>
                         }
-                        
+                        </ButtonGroup>
                     </TableCell>
                     :
                     <TableCell key={row.id+'_data_main_'+header.name} {...header.props}>

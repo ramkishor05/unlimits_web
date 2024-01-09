@@ -5,9 +5,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Fab} from '@material-ui/core';
+import { Button, ButtonGroup, Fab} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles({
     table: {
@@ -73,12 +74,27 @@ function DynamicTable (props){
                             ?
                             header.render ? header.render('', row, i, header, props) :
                             <TableCell key={header.name+'_'+i} align={header.align? header.align: 'center'}>
-                                <Fab color="secondary" aria-label="Edit" size="small"   onClick={() => props.editAction(row)}>
-                                    <EditIcon/>
-                                </Fab>
-                                <Fab color="secondary" aria-label="Delete"  size="small"  onClick={() => props.deleteAction(row)} >
+                               <ButtonGroup>
+                                {
+                                props.editAction &&
+                                <Button color="secondary" aria-label="Edit" size="small" variant='outlined'  onClick={() => props.editAction(row)}>
+                                        <EditIcon/>
+                                </Button>
+                                }
+                                {
+                                props.deleteAction &&
+                                <Button  color="error" aria-label="Delete"  size="small" variant='outlined' onClick={() => props.deleteAction(row)} >
                                     <DeleteIcon />
-                                </Fab>
+                                </Button>
+
+                                }
+                                {
+                                props.printAction && 
+                                <Button color="primary"  aria-label="Print"  size="small" variant='outlined'  onClick={() => props.printAction(row)} >
+                                    <PrintIcon />
+                                </Button>
+                                }
+                                </ButtonGroup>
                             </TableCell>
                             :
                             <TableCell key={header.name+'_'+i} {...header.props}>{

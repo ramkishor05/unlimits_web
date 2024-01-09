@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Box, TextField } from '@material-ui/core';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 export default function DynamicField(props) {
-  const {type}=props
+  const {type, label}=props
   const [open, setOpen] = React.useState(false);
   let list=props.list? props.list:[];
   const [formValues, setFormValues] = React.useState([...list]);
@@ -73,8 +73,8 @@ export default function DynamicField(props) {
 
   return (
     <div>
-      <Button label='Additional charges' variant="outlined" onClick={handleClickOpen}>
-      <PlaylistAddIcon></PlaylistAddIcon>
+      <Button  variant="outlined" onClick={handleClickOpen}>
+      {label} <PlaylistAddIcon></PlaylistAddIcon>
       </Button>
       <Dialog
         open={open}
@@ -82,7 +82,7 @@ export default function DynamicField(props) {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-        Additional charges
+        {label}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
