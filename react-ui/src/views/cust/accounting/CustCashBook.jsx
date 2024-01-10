@@ -2,51 +2,57 @@ import React, { useEffect, useReducer, useState,Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
-import PropTypes from 'prop-types';
 
 // project imports
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup } from '../../../actions';
+import { getCustCashBookList, addCustCashBook, editCustCashBook, deleteCustCashBook } from '../../../actions';
 
-function createData(name, description, typeId, actions) {
-    return { name, description, typeId, actions};
-}
 const headers = [
     {
-        name: "name",
-        label: "Name",
+        name: "transactionId",
+        label: "Id",
         type: 'text'
     },
     {
-        name: "description",
-        label: "Description",
+        name: "transactionDate",
+        label: "Date",
         type: 'text'
     },
     {
-        name: "typeId",
+        name: "transactionAmount",
+        label: "Amount",
+        type: 'text'
+    },
+    {
+        name: "transactionType",
         label: "Type",
         type: 'text'
     },
     {
-        name: "actions",
-        label: "Actions"
+        name: "transactionStatus",
+        label: "Status",
+        type: 'text'
+    },
+    {
+        name: "transactionMode",
+        label: "Mode",
+        type: 'text'
+    },
+    {
+        name: "transactionSenderId",
+        label: "Sender",
+        type: 'text'
+    },
+    {
+        name: "transactionReciverId",
+        label: "Reciver",
+        type: 'text'
     }
 ]
 
-function actions(){
-    return ['edit', 'update']
-}
-
-
-let dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -66,41 +72,41 @@ class CustCashBook extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit category group", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit cash book", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add category group", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add cash book", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete category group", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete cash book", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         if(type=='Add')
-            this.props.addCustCategoryGroup(row, this.clearAndRefresh)
+            this.props.addCustCashBook(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustCategoryGroup(row, this.clearAndRefresh)
+            this.props.editCustCashBook(row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteCustCategoryGroup(row.id, this.clearAndRefresh)
+            this.props.deleteCustCashBook(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getCustCategoryGroupList();
+        this.props.getCustCashBookList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getCustCategoryGroupList();
+        this.props.getCustCashBookList();
     }
 
  render() {
         return (
                 <>
                 
-                    <MainCard title="Category Group" 
+                    <MainCard title="Cash Book" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
@@ -113,13 +119,14 @@ class CustCashBook extends Component {
                     >
                         <DynamicTable 
                         headers={headers} 
-                        dataList={this.props.custCategoryGroupList}
+                        dataList={this.props.custCashBookList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
-                
-                <DynamicModel
+                {
+                    this.state.saveModel && 
+                    <DynamicModel
                 title={this.state.title}
                 openAction={this.state.saveModel}
                 closeAction={()=> this.setState({saveModel: false})}
@@ -129,6 +136,8 @@ class CustCashBook extends Component {
                 saveAction = {this.saveObject}
                 >
                 </DynamicModel>
+                }
+                
             
                 <ConfirmModel
                 openAction={this.state.deleteModel}
@@ -146,12 +155,13 @@ class CustCashBook extends Component {
 
 
 const mapStateToProps = state => {
-    const { custCategoryGroupList, show_cust_category_group_loader } = state.custCategoryGroupReducer;
-
-    return { custCategoryGroupList, show_cust_category_group_loader };
+    const { custCashBookList } = state.custCashBookReducer;
+    
+    console.log("custCashBookList=",custCashBookList)
+    return { custCashBookList};
 };
 
 
-export default connect(mapStateToProps, { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup })(CustCashBook);
+export default connect(mapStateToProps, { getCustCashBookList, addCustCashBook, editCustCashBook, deleteCustCashBook })(CustCashBook);
 
 
