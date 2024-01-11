@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState,Component } from 'react';
 import { connect } from 'react-redux';
-import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { DateRangeCalendar, LocalizationProvider, MultiInputDateRangeField } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import Button from '@material-ui/core/Button';
@@ -10,8 +10,11 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getCustCashBookList, addCustCashBook, editCustCashBook, deleteCustCashBook } from '../../../actions';
+import { getCustCashBookList, getCustCashBookFiltedList, addCustCashBook, editCustCashBook, deleteCustCashBook } from '../../../actions';
 import { Grid } from '@material-ui/core';
+import dayjs from 'dayjs';
+import { format } from 'date-fns';
+
 
 const headers = [
     {
@@ -72,8 +75,47 @@ class CustCashBook extends Component {
         dataObject: {},
         title: "",
         type: "",
-        transations:[]
+        transations:[],
+        selectionRange: [
+            dayjs(format(new Date(),'yyyy/MM/dd')),
+            dayjs(format(new Date(),'yyyy/MM/dd'))
+        ]
     }
+
+    updateTransations=()=>{
+        let transations=[]
+        this.setState({...this.state, transations:[]})
+        this.props.custCashBookList.forEach(custCashBook=>{
+            transations.push({
+                date:custCashBook.transactionDate,
+                desc: custCashBook.transactionMode,
+                type: custCashBook.transactionType,
+                status: custCashBook.transactionStatus,
+                giveAmount: custCashBook.transactionType=="Debit"? custCashBook.transactionAmount:'',
+                gotAmount:  custCashBook.transactionType=="Credit"? custCashBook.transactionAmount:''
+            })
+        })
+        this.setState({...this.state, transations:transations})
+    }
+
+    constructor(props){
+        super(props)
+        console.log("constructor")
+    }
+
+   async handleSelect(ranges){
+        let start=ranges[0] && ranges[0].$d;
+        let end=ranges[1] && ranges[1].$d;
+        
+        if(start && end){
+            let startFormat= format(start,'yyyy-MM-dd')+" 00:00:00";
+            let endFormat=format(end,'yyyy-MM-dd')+" 23:59:59";
+            console.log(startFormat);
+            console.log(endFormat);
+           await this.props.getCustCashBookFiltedList(startFormat, endFormat);
+           this.updateTransations();
+        }
+      }
     
     _edit = row => {
        this.setState({ dataObject: row, title:"Edit cash book", type:"Edit", saveModel: true  });
@@ -104,16 +146,8 @@ class CustCashBook extends Component {
     
     componentDidMount() {
         this.props.getCustCashBookList();
-        this.props.custCashBookList.forEach(custCashBook=>{
-            this.state.transations.push({
-                date:custCashBook.transactionDate,
-                desc: custCashBook.transactionMode,
-                type: custCashBook.transactionType,
-                status: custCashBook.transactionStatus,
-                giveAmount: custCashBook.transactionType=="Debit"? custCashBook.transactionAmount:'',
-                gotAmount:  custCashBook.transactionType=="Credit"? custCashBook.transactionAmount:''
-            })
-        })
+        console.log("componentDidMount")
+        this.updateTransations();
     }
 
     getDebit=()=>{
@@ -159,57 +193,76 @@ class CustCashBook extends Component {
                     <MainCard title="Cash Book" 
                         button ={
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                              <DateRangePicker localeText={{ start: 'Check-in', end: 'Check-out' }} />
+                              <DateRangePicker 
+                              value={this.state.selectionRange}
+                              localeText={{ start: 'Check-in', end: 'Check-out' }}
+                              onChange={(newValue) => this.handleSelect(newValue)}
+                              />
                           </LocalizationProvider>
                         }
                     >
-                        <Grid container spacing={2}>
-                            <Grid item sx={4} md={4}>  
+                        <Grid container spacing={0} sx={{border:1}}>
+                            <Grid item sx={8} md={8}>  
                             </Grid>
-                            <Grid item sx={2} md={2} 
-                            alignContent={'flex-end'} 
+                            <Grid item sx={4} md={4} >  
+                                <Grid container spacing={0} sx={{border:1}} >
+                                    <Grid item sx={6} md={6}> 
+                                        Your Cash Amount  
+                                    </Grid>
+                                    <Grid item sx={1} md={1}>:</Grid>
+                                    <Grid item sx={5} md={5} alignContent={'flex-end'} 
+                            alignItems={'end'} style={{textAlign:'end'}}> 
+                                    <span className="badge bg-danger">  
+                                    {
+                                        this.getOnhand()
+                                    }
+                                    </span>
+                                    </Grid>
+                                </Grid>
+                                
+                                <Grid container spacing={0} sx={{border:1}}>
+                                    <Grid item sx={6} md={6}> 
+                                        Your Online Amount  
+                                    </Grid>
+                                    <Grid item sx={1} md={1}>:</Grid>
+                                    <Grid item sx={5} md={5} alignContent={'flex-end'} 
                             alignItems={'end'} style={{textAlign:'end'}}>  
-                            <h6 className="mb-0">
-                            Onhand : <span className="badge bg-danger">  
-                            {
-                                this.getOnhand()
-                            }
-                            </span>
-                            </h6>
-                            </Grid>
-                            <Grid item sx={2} md={2} 
-                            alignContent={'flex-end'} 
-                            alignItems={'end'} style={{textAlign:'end'}}>  
-                            <h6 className="mb-0">
-                            Online : <span className="badge bg-danger">  
-                            {
-                                this.getOnline()
-                            }
-                            </span>
-                            </h6>
-                            </Grid>
-                            <Grid item sx={2} md={2} 
-                            alignContent={'flex-end'} 
-                            alignItems={'end'} style={{textAlign:'end'}}>  
-                            <h6 className="mb-0">
-                            Debit : <span className="badge bg-danger">  
-                            {
-                                this.getDebit()
-                            }
-                            </span>
-                            </h6>
-                            </Grid>
-                            <Grid item sx={2} md={2} alignContent={'flex-end'}
-                            style={{textAlign:'end'}}>  
-
-                            <h6 className="mb-0">
-                            Credit : <span className="badge bg-success">
-                            {
-                                this.getCredit()
-                            }
-                            </span></h6>
+                            <span className="badge bg-danger">  
+                                    {
+                                        this.getOnline()
+                                    }
+                                    </span>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={0} sx={{border:1}}>
+                                    <Grid item sx={6} md={6}> 
+                                        Debit 
+                                    </Grid>
+                                    <Grid item sx={1} md={1}>:</Grid>
+                                    <Grid item sx={5} md={5} alignContent={'flex-end'} 
+                            alignItems={'end'} style={{textAlign:'end'}}>  <span className="badge bg-danger">  
+                                    {
+                                        this.getDebit()
+                                    }
+                                    </span>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={0} sx={{border:1}}>
+                                    <Grid item sx={6} md={6}> 
+                                        Credit 
+                                    </Grid>
+                                    <Grid item sx={1} md={1}>:</Grid>
+                                    <Grid item sx={5} md={5} alignContent={'flex-end'} 
+                            alignItems={'end'} style={{textAlign:'end'}}>  <span className="badge bg-success">  
+                                    {
+                                        this.getCredit()
+                                    }
+                                    </span>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
+                            
                         <Grid container spacing={2}>
                             <Grid item sx={12} md={12}>
                                 Transations
@@ -235,7 +288,7 @@ class CustCashBook extends Component {
                                 </thead>
                                 <tbody>
                                 {
-                                    this.state.transations.map(transation=>
+                                   this.state.transations && this.state.transations.map(transation=>
                         
                                     <tr className="fw-normal">
                                     <th>
@@ -302,12 +355,10 @@ class CustCashBook extends Component {
 
 const mapStateToProps = state => {
     const { custCashBookList } = state.custCashBookReducer;
-    
-    console.log("custCashBookList=",custCashBookList)
     return { custCashBookList};
 };
 
 
-export default connect(mapStateToProps, { getCustCashBookList, addCustCashBook, editCustCashBook, deleteCustCashBook })(CustCashBook);
+export default connect(mapStateToProps, { getCustCashBookList, getCustCashBookFiltedList, addCustCashBook, editCustCashBook, deleteCustCashBook })(CustCashBook);
 
 

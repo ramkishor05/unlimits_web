@@ -12,6 +12,11 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
+    getFilted(startFormat, endFormat) {
+        return axios.get(CUST_CASH_BOOK_URL+'/filted', { params: { startDate: startFormat, endDate: endFormat } },{headers: headers})
+                    .then(response => Promise.resolve(response.data))
+                    .catch(error => Promise.reject(error.response.data));
+    },
     find(minimum){
         return axios.get(CUST_CASH_BOOK_URL+'/find', { params: { minimum } },{headers: headers})
                     .then(response => Promise.resolve(response.data))

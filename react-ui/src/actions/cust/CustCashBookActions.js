@@ -29,6 +29,26 @@ export const getCustCashBookList = () => async dispatch => {
     }
 };
 
+// Action creator for getting all items --<
+export const getCustCashBookFiltedList = (startDate, endDate) => async dispatch => {
+
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        const custCashBookList = await CustCashBookService.getFilted(startDate, endDate);
+
+        if (custCashBookList) {
+            dispatch({ type: GET_ALL_CUST_CASH_BOOK_SUCCESS, payload: custCashBookList });
+        }
+        dispatch({ type: REMOVE_LOADER });
+
+    } catch(error) {
+        dispatch({ type: GET_ALL_CUST_CASH_BOOK_FAIL });
+        dispatch({ type: REMOVE_LOADER });
+        console.log(error);
+    }
+};
+
 // Action creator for adding item --<
 export const addCustCashBook = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
 
