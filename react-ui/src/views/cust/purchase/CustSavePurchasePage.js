@@ -365,7 +365,7 @@ const useStyles = makeStyles((theme) => ({
                 transactionAmount: custProductPurchase.totalPrice,
                 transactionStatus: 'Paid',
                 transactionType:  'Debit',
-                transactionMode: 'Cash',
+                transactionMode: 'Online',
                 transactionReciverId: this.state.supplierId,
                 transactionSenderId: this.props.userDetail.id,
                 transactionMakerId: this.props.userDetail.id,

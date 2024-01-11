@@ -165,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
 
     constructor (props){
         super(props)
-        let {data, custProductList}=this.props;
+        let {data}=this.props;
         let object={
             id:data.id,
             idenNo:data.idenNo,
@@ -363,7 +363,7 @@ const useStyles = makeStyles((theme) => ({
             totalQnt: 0,
             custProductSaleItemList: [],
             custProductSaleAdditionalList:this.state.custProductSaleAdditionalList,
-            custProductSalePaymentList:this.state.custProductSalePaymentList
+            custProductSalePaymentList:[]
         }
         this.state.selectedItems.forEach((item)=>{
             custProductSale.totalQnt+=item.saleQnt;
@@ -381,6 +381,40 @@ const useStyles = makeStyles((theme) => ({
             }
             custProductSale.custProductSaleItemList.push(custProductSaleItem);
         })
+
+        this.state.custProductSalePaymentList.forEach((custProductSalePaymentObj)=>{
+            let custTransaction={
+                transactionAmount: custProductSale.totalPrice,
+                transactionStatus: 'Paid',
+                transactionType:  'Credit',
+                transactionMode: 'Online',
+                transactionReciverId: this.props.userDetail.id,
+                transactionSenderId: this.state.customerId,
+                transactionMakerId: this.props.userDetail.id,
+            };
+
+            let custProductSalePayment= {};
+            custProductSalePayment['customerId']= this.state.customerId;
+            custProductSalePayment['custTransaction']=custTransaction;
+            custProductSalePayment['primaryPayment'] =true
+            custProductSale.custProductSalePaymentList.push(custProductSalePayment);
+        });
+
+        let custTransaction={
+            transactionAmount: custProductSale.totalPrice,
+            transactionStatus: 'Paid',
+            transactionType:  'Credit',
+            transactionMode: 'Online',
+            transactionReciverId: this.props.userDetail.id,
+            transactionSenderId: this.state.customerId,
+            transactionMakerId: this.props.userDetail.id,
+        };
+
+        let custProductSalePayment= {};
+        custProductSalePayment['customerId']= this.state.customerId;
+        custProductSalePayment['custTransaction']=custTransaction;
+        custProductSalePayment['primaryPayment'] =true
+        custProductSale.custProductSalePaymentList.push(custProductSalePayment);
         if(custProductSale.saleDate==='Invalid date'){
             custProductSale.saleDate="";
         }
@@ -851,11 +885,15 @@ const useStyles = makeStyles((theme) => ({
 }
 
 const mapStateToProps = state => {
+
+    const { userDetail } = state.userReducer;
+
+
     const { custProductList } = state.custProductReducer;
 
     const { custCustomerList } = state.custCustomerReducer;
 
-    return { custProductList, custCustomerList };
+    return { custProductList, custCustomerList , userDetail};
 }
 
 export default connect(mapStateToProps, { getCustProductList, getCustCustomerList})(CustSaveSalePage);
