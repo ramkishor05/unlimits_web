@@ -41,9 +41,9 @@ const MainRoutes = () => {
                     let CustPage= PageMapper[menuItem.url];
                     let metadata=MataMapper[menuItem.url];
                     if(CustPage)
-                    list.push(<Route key={menuItem.id} exact path={menuItem.url}  render={(props) => <CustPage metadata={metadata} menuItem={menuItem} menuGroup={menuGroup} userDetail={userDetail} token={token} updateOnboarding={(status)=> menuItem.onBoarding && dispatch(updateOnboarding(userDetail, token, status, menuItem.idenNo ))} {...props} ></CustPage> }/>)
+                        list.push(<Route key={menuItem.id} exact path={menuItem.url}  render={(props) => <CustPage metadata={metadata} menuItem={menuItem} menuGroup={menuGroup} userDetail={userDetail} token={token} updateOnboarding={(status)=> menuItem.onBoarding && dispatch(updateOnboarding(userDetail, token, status, menuItem.idenNo ))} {...props} ></CustPage> }/>)
                     else
-                    list.push(<Route key={menuItem.id} exact path={menuItem.url} render={(props) => <ViewPage metadata={metadata} menuItem={menuItem} menuGroup={menuGroup}  userDetail={userDetail} token={token} updateOnboarding={(status)=> menuItem.onBoarding && dispatch(updateOnboarding(userDetail, token, status, menuItem.idenNo ))} {...props}></ViewPage>} />)
+                        list.push(<Route key={menuItem.id} exact path={menuItem.url} render={(props) => <ViewPage metadata={metadata} menuItem={menuItem} menuGroup={menuGroup}  userDetail={userDetail} token={token} updateOnboarding={(status)=> menuItem.onBoarding && dispatch(updateOnboarding(userDetail, token, status, menuItem.idenNo ))} {...props}></ViewPage>} />)
                 }
             }
         }
