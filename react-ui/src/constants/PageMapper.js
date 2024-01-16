@@ -40,7 +40,8 @@ import CustSupplierPage from '../views/cust/parties/CustSupplier';
 import CustBusinessPage from '../views/cust/organizations/CustBusiness';
 import CustEmployeePage from '../views/cust/organizations/CustEmployee';
 import CustUserPage from '../views/cust/organizations/CustUser';
-import CustCashBook from '../views/cust/accounting/CustCashBook';
+import CustCashBook from '../views/cust/accounting/CustTransationBook';
+import CustAccountBook from '../views/cust/accounting/CustAccountBook';
 
 
 export const PageMapper = {
@@ -67,6 +68,7 @@ export const PageMapper = {
     "/business/portal/orders/sales" :CustSalePage,
     "/business/portal/orders/purchase" :CustPurchasePage,
     "/business/portal/accounting/cashbook" :CustCashBook,
+    "/business/portal/accounting/accountbook": CustAccountBook,
     "/business/portal/items/products" :CustProductPage,
     "/business/portal/organizations/business" :CustBusinessPage,
     "/business/portal/organizations/employee" :CustEmployeePage,

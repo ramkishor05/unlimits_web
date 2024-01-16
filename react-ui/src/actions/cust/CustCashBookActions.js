@@ -1,64 +1,64 @@
 import { 
-   GET_ALL_CUST_CASH_BOOK_SUCCESS,
-   GET_ALL_CUST_CASH_BOOK_FAIL,
+   GET_ALL_CUST_TRANSATION_SUCCESS,
+   GET_ALL_CUST_TRANSATION_FAIL,
    SHOW_LOADER,
    REMOVE_LOADER,
-   ADD_CUST_CASH_BOOK_SUCCESS,
-   EDIT_CUST_CASH_BOOK_SUCCESS,
-   RENDER_CUST_CASH_BOOK_TO_EDIT
+   ADD_CUST_TRANSATION_SUCCESS,
+   EDIT_CUST_TRANSATION_SUCCESS,
+   RENDER_CUST_TRANSATION_TO_EDIT
 } from '../../types';
-import CustCashBookService from '../../services/CustCashBookService';
+import CustTransationService from '../../services/CustTransationService';
 
 // Action creator for getting all items --<
-export const getCustCashBookList = () => async dispatch => {
+export const getCustTransationList = () => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const custCashBookList = await CustCashBookService.getAll();
+        const custTransationList = await CustTransationService.getAll();
 
-        if (custCashBookList) {
-            dispatch({ type: GET_ALL_CUST_CASH_BOOK_SUCCESS, payload: custCashBookList });
+        if (custTransationList) {
+            dispatch({ type: GET_ALL_CUST_TRANSATION_SUCCESS, payload: custTransationList });
         }
         dispatch({ type: REMOVE_LOADER });
 
     } catch(error) {
-        dispatch({ type: GET_ALL_CUST_CASH_BOOK_FAIL });
+        dispatch({ type: GET_ALL_CUST_TRANSATION_FAIL });
         dispatch({ type: REMOVE_LOADER });
         console.log(error);
     }
 };
 
 // Action creator for getting all items --<
-export const getCustCashBookFiltedList = (startDate, endDate) => async dispatch => {
+export const getCustTransationFiltedList = (startDate, endDate) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const custCashBookList = await CustCashBookService.getFilted(startDate, endDate);
+        const custTransationList = await CustTransationService.getFilted(startDate, endDate);
 
-        if (custCashBookList) {
-            dispatch({ type: GET_ALL_CUST_CASH_BOOK_SUCCESS, payload: custCashBookList });
+        if (custTransationList) {
+            dispatch({ type: GET_ALL_CUST_TRANSATION_SUCCESS, payload: custTransationList });
         }
         dispatch({ type: REMOVE_LOADER });
 
     } catch(error) {
-        dispatch({ type: GET_ALL_CUST_CASH_BOOK_FAIL });
+        dispatch({ type: GET_ALL_CUST_TRANSATION_FAIL });
         dispatch({ type: REMOVE_LOADER });
         console.log(error);
     }
 };
 
 // Action creator for adding item --<
-export const addCustCashBook = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
+export const addCustTransation = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const custCashBook = await CustCashBookService.add(data);
+        const custTransation = await CustTransationService.add(data);
 
-        if (custCashBook) {
-            dispatch({ type: ADD_CUST_CASH_BOOK_SUCCESS });
+        if (custTransation) {
+            dispatch({ type: ADD_CUST_TRANSATION_SUCCESS });
         }
 
         refreshItemsList && refreshItemsList();
@@ -77,22 +77,22 @@ export const addCustCashBook = (data, refreshItemsList, clear, successNotificati
     }
 };
 
-export const renderCustCashBookToEdit = item => {
+export const renderCustTransationToEdit = item => {
     return {
-        type: RENDER_CUST_CASH_BOOK_TO_EDIT,
+        type: RENDER_CUST_TRANSATION_TO_EDIT,
         payload: item,
     };
 };
 
-export const editCustCashBook = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
+export const editCustTransation = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const custCashBook = await CustCashBookService.update(id, data);
+        const custTransation = await CustTransationService.update(id, data);
 
-        if (custCashBook) {
-            dispatch({ type: EDIT_CUST_CASH_BOOK_SUCCESS });
+        if (custTransation) {
+            dispatch({ type: EDIT_CUST_TRANSATION_SUCCESS });
             
             successNotification && successNotification();
 
@@ -106,15 +106,15 @@ export const editCustCashBook = (id, data, clearAndRefresh, successNotification,
     }
 };
 
-export const updateCustCashBook = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
+export const updateCustTransation = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const custCashBook = await CustCashBookService.update(id, data);
+        const custTransation = await CustTransationService.update(id, data);
 
-        if (custCashBook) {
-            dispatch({ type: EDIT_CUST_CASH_BOOK_SUCCESS });
+        if (custTransation) {
+            dispatch({ type: EDIT_CUST_TRANSATION_SUCCESS });
             
             successNotification && successNotification();
 
@@ -129,11 +129,11 @@ export const updateCustCashBook = (id, data, clearAndRefresh, successNotificatio
 };
 
 // Action creator for deleting football transaction from the system.
-export const deleteCustCashBook = (id, refresh) => async dispatch => {
+export const deleteCustTransation = (id, refresh) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const deleted_cust_category_group = await CustCashBookService.delete(id);
+        const deleted_cust_category_group = await CustTransationService.delete(id);
 
         if (deleted_cust_category_group) {
             refresh && refresh();

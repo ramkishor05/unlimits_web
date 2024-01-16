@@ -22,4 +22,4 @@ export * from './CustSaleActionTypes';
 
 export * from './CustPurchaseActionTypes';
 
-export * from './CustCashBookActionTypes';
+export * from './CustTransationActionTypes';

@@ -49,7 +49,7 @@ import CustSupplierReducer from './cust/CustSupplierReducer';
 import CustEmployeeReducer from './cust/CustEmployeeReducer';
 import CustUserReducer from './cust/CustUserReducer';
 import GlobalCountryReducer from './global/GlobalCountryReducer';
-import CustCashBookReducer from './cust/CustCashBookReducer';
+import CustTransationReducer from './cust/CustTransationReducer';
 
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
@@ -105,7 +105,7 @@ const reducer = combineReducers({
     custSupplierReducer: CustSupplierReducer,
     custEmployeeReducer: CustEmployeeReducer,
     custUserReducer: CustUserReducer,
-    custCashBookReducer: CustCashBookReducer
+    custTransationReducer: CustTransationReducer
 });
 
 export default reducer;
