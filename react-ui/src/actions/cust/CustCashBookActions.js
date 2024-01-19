@@ -30,12 +30,12 @@ export const getCustTransationList = () => async dispatch => {
 };
 
 // Action creator for getting all items --<
-export const getCustTransationFiltedList = (startDate, endDate) => async dispatch => {
+export const getCustTransationFiltedList = (startDate, endDate, serviceType) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const custTransationList = await CustTransationService.getFilted(startDate, endDate);
+        const custTransationList = await CustTransationService.getFilted(startDate, endDate, serviceType);
 
         if (custTransationList) {
             dispatch({ type: GET_ALL_CUST_TRANSATION_SUCCESS, payload: custTransationList });

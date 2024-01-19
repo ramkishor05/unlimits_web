@@ -12,8 +12,8 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },
-    getFilted(startFormat, endFormat) {
-        return axios.get(CUST_TRANSATION_URL+'/filted', { params: { startDate: startFormat, endDate: endFormat } },{headers: headers})
+    getFilted(startFormat, endFormat, serviceType) {
+        return axios.get(CUST_TRANSATION_URL+'/filted', { params: { startDate: startFormat, endDate: endFormat, serviceType: serviceType } },{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error.response.data));
     },

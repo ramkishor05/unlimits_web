@@ -175,9 +175,7 @@ class GlobalUserPage extends Component {
    async componentDidMount() {
         this.props.getGlobalVendorList();
         this.props.getUserRoleList();
-
         this.props.getGlobalUserList();
-       await this.props.getUsers();
     }
 
     render() {

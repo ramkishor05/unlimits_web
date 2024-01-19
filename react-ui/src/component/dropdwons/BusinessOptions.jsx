@@ -40,7 +40,9 @@ const BusinessOptions= (props) =>  {
   },[getCustBusinessList])
 
   return (
-    <Select variant='standard'
+    
+      custBusinessList && custBusinessList.length>0 &&
+      <Select variant='standard'
     value={businessId?businessId : ''}
     onChange={onSeach} sx={{width: '20%', borderStyle:'hidden'}}
   >
@@ -48,6 +50,8 @@ const BusinessOptions= (props) =>  {
         custBusinessList.map((vendorBusiness, index)=><MenuItem key={index} value={vendorBusiness?.id}>{vendorBusiness.name}</MenuItem>)
     }
   </Select>
+    
+    
   );
 }
 

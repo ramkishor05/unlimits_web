@@ -59,6 +59,53 @@ const headers = [
     }
 ];
 
+const model = [
+    {
+        name: "transactionAmount",
+        label: "Amount",
+        type: 'text'
+    },
+    {
+        name: "transactionType",
+        label: "Type",
+        type: 'select',
+        "onItems":(value, row, header, props)=>{
+            let status=['Credit', 'Debit'];
+            return status;
+        },
+        "required" : {
+            value : '',
+            message: "Country is required!"
+        }
+    },
+    {
+        name: "transactionStatus",
+        label: "Status",
+        type: 'select',
+        "onItems":(value, row, header, props)=>{
+            let status=['Paid', 'Unpaid'];
+            return status;
+        },
+        "required" : {
+            value : '',
+            message: "Country is required!"
+        }
+    },
+    {
+        name: "transactionMode",
+        label: "Mode",
+        type: 'select',
+        "onItems":(value, row, header, props)=>{
+            let status=['Cash','Online'];
+            return status;
+        },
+        "required" : {
+            value : '',
+            message: "Country is required!"
+        }
+    }
+];
+
 class CustTransation extends Component {
     state={
         saveModel: false,
@@ -96,19 +143,27 @@ class CustTransation extends Component {
     }
 
    async handleSelect(ranges){
-        let start=ranges[0] && ranges[0].$d;
-        let end=ranges[1] && ranges[1].$d;
-        
+        let selectionRange= [
+            ranges[0],
+            ranges[1]
+        ]
+        this.setState({...this.state, selectionRange: selectionRange});
+        this.dataCall();
+   }
+    
+   dataCall= async() =>{
+        let selectionRange=this.state.selectionRange;
+        let start=selectionRange[0] && selectionRange[0].$d;
+        let end=selectionRange[1] && selectionRange[1].$d;
+        let serviceType='ACCOUNT';
         if(start && end){
-            let startFormat= format(start,'yyyy-MM-dd')+" 00:00:00";
-            let endFormat=format(end,'yyyy-MM-dd')+" 23:59:59";
-            console.log(startFormat);
-            console.log(endFormat);
-           await this.props.getCustTransationFiltedList(startFormat, endFormat);
+           let startFormat= format(start,'yyyy-MM-dd')+" 00:00:00";
+           let endFormat=format(end,'yyyy-MM-dd')+" 23:59:59";
+           await this.props.getCustTransationFiltedList(startFormat, endFormat, serviceType);
            this.updateTransations();
         }
-      }
-    
+   }
+
     _edit = row => {
        this.setState({ dataObject: row, title:"Edit cash book", type:"Edit", saveModel: true  });
     }
@@ -122,6 +177,10 @@ class CustTransation extends Component {
     };
     
      saveObject = (type, row) => {
+        row['transactionReciverId']=this.props.userDetail.id;
+        row['transactionSenderId']=this.props.userDetail.id;
+        row['transactionMakerId']=this.props.userDetail.id;
+        row['transactionService']='ACCOUNT';
         if(type=='Add')
             this.props.addCustTransation(row, this.clearAndRefresh)
         if(type=='Edit')
@@ -132,14 +191,12 @@ class CustTransation extends Component {
     };
 
     clearAndRefresh = () => {
-        this.props.getCustTransationList();
+        this.dataCall();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getCustTransationList();
-        console.log("componentDidMount")
-        this.updateTransations();
+        this.clearAndRefresh();
     }
 
     getDebit=()=>{
@@ -202,12 +259,15 @@ class CustTransation extends Component {
                                     <Grid item sx={4} md={4}> 
                                         
                                         <TextField
+                                         value={this.getCredit()}
                                         label="Opening Balance"
                                         variant={'standard'}
+                                        disabled
                                         ></TextField>
                                     </Grid>
                                     <Grid item sx={4} md={4}> 
                                         <TextField
+                                         value={this.getCredit()}
                                         label="Closing Balance"
                                         variant={'standard'}
                                         disabled
@@ -216,8 +276,10 @@ class CustTransation extends Component {
                                     <Grid item sx={4} md={4}> 
                                         
                                         <TextField
+                                        value={this.getCredit()}
                                         label="Current Balance"
                                         variant={'standard'}
+                                        disabled
                                         ></TextField>
                                     </Grid>
                                     
@@ -319,7 +381,7 @@ class CustTransation extends Component {
                 closeAction={()=> this.setState({saveModel: false})}
                 data={this.state.dataObject} 
                 type={this.state.type}
-                fields= {headers}
+                fields= {model}
                 saveAction = {this.saveObject}
                 >
                 </DynamicModel>
@@ -342,8 +404,10 @@ class CustTransation extends Component {
 
 
 const mapStateToProps = state => {
+    const { userDetail } = state.userReducer;
+    console.log("user=", userDetail)
     const { custTransationList } = state.custTransationReducer;
-    return { custTransationList};
+    return { custTransationList, userDetail};
 };
 
 

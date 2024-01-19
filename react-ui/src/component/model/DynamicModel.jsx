@@ -108,11 +108,11 @@ class DynamicModel extends React.Component {
             field.onItems(getValue(data,field.name),data, field, props ).
             map(item=> 
             
-              <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>
+              <MenuItem key={field.itemKey ? item[field.itemKey]: item} value={field.itemKey ? item[field.itemKey]: item}>{field.itemVal? item[field.itemVal]: item}</MenuItem>
             )
             :
             field.items.map(item=> 
-            <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>
+            <MenuItem key={field.itemKey ? item[field.itemKey]: item} value={field.itemKey ? item[field.itemKey]: item}>{ field.itemVal? item[field.itemVal]: item}</MenuItem>
             )
           }
         </Select>
