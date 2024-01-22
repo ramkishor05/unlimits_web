@@ -28,7 +28,7 @@ export const getUserVendor = (id) => async dispatch => {
       try {
         dispatch({ type: SHOW_LOADER });
         const vendor = await UserVendorService.get(id);
-
+        console.log("vendor=",vendor)
         if (vendor) {
             dispatch({ type: USER_GET_VENDOR_SUCCESS, payload: vendor });
         }

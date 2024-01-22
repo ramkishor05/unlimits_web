@@ -1,5 +1,5 @@
 {
-    "name": "Claim-Testing",
+    "name": "react-berry-admin-template",
     "version": "0.0.4",
     "build": {
         "yarn": "v14.0.0,v16.0.0",

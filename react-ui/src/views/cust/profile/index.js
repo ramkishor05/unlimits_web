@@ -8,7 +8,7 @@ import MainCard from '../../../component/cards/MainCard';
 import CustUserProfile from './CustUserProfile';
 import CustUserAccount from './CustUserAccount';
 import CustOwnerAccount from './CustOwnerAccount';
-import { getUserVendor } from '../../../actions';
+import { getUserVendor , getUserVendorList} from '../../../actions';
 import { connect } from 'react-redux';
 
 //==============================|| SAMPLE PAGE ||==============================//
@@ -19,6 +19,7 @@ class CustUserProfilePage extends Component {
     }
    
     async componentDidMount() {
+        this.props.getUserVendorList();
         await this.props.getUserVendor(this.props.ownerId);
     }
 
@@ -31,10 +32,12 @@ class CustUserProfilePage extends Component {
                 
                 <CustUserAccount userAccount={this.props.userDetail}/>
                 <Divider></Divider>
-                <CustOwnerAccount vendorAccount={this.props.userVendor} userAccount={this.props.userDetail}/>
-            </MainCard>
-        
-            
+                <CustOwnerAccount 
+                vendorAccount={this.props.userVendor} 
+                userAccount={this.props.userDetail}
+                vendorList={this.props.userVendorList}
+                />
+            </MainCard>            
         );
     }
 };
@@ -42,8 +45,9 @@ class CustUserProfilePage extends Component {
 const mapStateToProps = state => {
     const { ownerId} = state.accountReducer;
     const { userDetail} = state.userReducer;
-    const { userVendor} = state.userVendorReducer;
-    return { userDetail, userVendor, ownerId };
+    const { userVendor, userVendorList} = state.userVendorReducer;
+    console.log("userVendor=",userVendor)
+    return { userDetail, userVendor, userVendorList, ownerId };
 };
 
-export default connect(mapStateToProps, { getUserVendor })(CustUserProfilePage);
+export default connect(mapStateToProps, { getUserVendor, getUserVendorList })(CustUserProfilePage);
