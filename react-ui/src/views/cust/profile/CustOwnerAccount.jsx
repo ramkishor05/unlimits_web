@@ -90,8 +90,6 @@ const CustOwnerAccount = ({vendorAccount, userAccount, vendorList}) => {
                 autoComplete="off"
                 >
                 <Card sx={{ border:5 , borderStyle:'revert'}}>
-                    <CardHeader title="Owner Account">
-                    </CardHeader>
                     <CardContent>
                         <Grid container spacing={1}>
                             <Grid item xl={12} xs={12} xm={12}>
@@ -99,7 +97,7 @@ const CustOwnerAccount = ({vendorAccount, userAccount, vendorList}) => {
                                     <Grid item  xl={4} xs={4} xm={4}>
                                         <FormControl fullWidth style={{paddingLeft:0, marginLeft:0}}>
                                             <InputLabel 
-                                            htmlFor={'vendorDetail-parentVendorId'} 
+                                            htmlFor="vendorDetail-parentVendorId"
                                             id={"vendorDetail-parentVendorId-label"}>{"Super owner"}</InputLabel>
                                             <Select
                                                 id="vendorDetail-parentVendorId"

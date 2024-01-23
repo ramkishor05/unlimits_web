@@ -38,8 +38,7 @@ const CustUserAccount = (props) => {
                 autoComplete="off"
                 >
                    <Card sx={{ border:5 , borderStyle:'revert'}}>
-                    <CardHeader title="User Account">
-                  </CardHeader>
+                   
                   <CardContent>
                   <Grid container spacing={1}>
                     <Grid item xl={12} xs={12} xm={12}>
@@ -52,6 +51,7 @@ const CustUserAccount = (props) => {
                                 name='username'
                                 defaultValue={userAccont.username}
                                 variant='standard'
+                                disabled
                                 onChange={(event)=> setUserAccontField(event,'username')}
                             />
                             </FormControl>
@@ -113,6 +113,7 @@ const CustUserAccount = (props) => {
                                 label="Registered type"
                                 defaultValue={userAccont.type}
                                 variant='standard'
+                                disabled
                                 onChange={(event)=> setUserAccontField(event,'type')}
                             />
                             </FormControl>

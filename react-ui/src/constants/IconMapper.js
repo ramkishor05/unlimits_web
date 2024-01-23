@@ -6,6 +6,12 @@ import CategoryIcon from '@mui/icons-material/Category';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AccountingIcon from '@mui/icons-material/MenuBook';
 import CashBookIcon from '@mui/icons-material/CollectionsBookmark';
+import SecurityIcon from '@mui/icons-material/Security';
+import SafetyCheckIcon from '@mui/icons-material/SafetyCheck';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+
 export const IconMapper = {
     Dashboard: IconDashboard,
     Analytics: IconDeviceAnalytics,
@@ -41,5 +47,10 @@ export const IconMapper = {
     CurrencyGroup: IconCurrency,
     Business: IconBusinessplan,
     Accounting: AccountingIcon,
-    CashBook: CashBookIcon
+    CashBook: CashBookIcon,
+    SecurityCenter: SecurityIcon,
+    PrivacyCenter: SafetyCheckIcon,
+    membership: CardMembershipIcon,
+    Account: ManageAccountsIcon,
+    ProfileCenter: AccountBoxIcon
 };

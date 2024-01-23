@@ -53,17 +53,18 @@ const CustUserProfile = (props) => {
                 autoComplete="off"
                 >
                    <Card sx={{ border:5, borderStyle:'revert'}}>
-                    <CardHeader title="User profile">
-                  </CardHeader>
+                   
                   <CardContent>
                   <Grid container spacing={1}>
                     <Grid item xl={3} xs={4} xm={3}>
                         <ImageUploadCard name="pictureURL" value={userProfile?.pictureURL} setUserProfileImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
                     </Grid>
-                    <Grid item xl={6} xs={8} xm={6}>
+                    <Grid item xl={6} xs={2} xm={6}>
+                    </Grid>
+                    <Grid item xl={6} xs={4} xm={6}>
                     <Grid container spacing={3}>
                         
-                        <Grid item  xl={3} xs={6} xm={3}>
+                        <Grid item  xl={3} xs={12} xm={3}>
                             <FormControl fullWidth>
                             <TextField
                                 id="userprofile-fullName"
@@ -90,7 +91,7 @@ const CustUserProfile = (props) => {
                             </FormControl>
                         </Grid>
                         
-                        <Grid item  xl={3} xs={6} xm={3}>
+                        <Grid item  xl={3} xs={12} xm={3}>
                         <FormControl fullWidth>
                             <TextField
                                 id="userprofile-preferredName"

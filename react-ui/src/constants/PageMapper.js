@@ -42,6 +42,10 @@ import CustEmployeePage from '../views/cust/organizations/CustEmployee';
 import CustUserPage from '../views/cust/organizations/CustUser';
 import CustCashBook from '../views/cust/accounting/CustTransationBook';
 import CustAccountBook from '../views/cust/accounting/CustAccountBook';
+import CustOwnerAccountPage from '../views/cust/profile/CustOwnershipPage';
+import CustUserSecurityPage from '../views/cust/profile/CustUserSecurityPage';
+import CustOwnershipPage from '../views/cust/profile/CustOwnershipPage';
+import CustMembershipPage from '../views/cust/profile/CustMembershipPage';
 
 
 export const PageMapper = {
@@ -82,5 +86,8 @@ export const PageMapper = {
     "/business/portal/setups/unit/group" :CustUnitGroup,
     "/business/portal/setups/unit/list" :CustUnitList,
     "/business/portal/setups/count/freq" :CustCountFreq,
-    "/business/portal/user/profile":CustUserProfilePage
+    "/business/portal/user/profile":CustUserProfilePage,
+    "/business/portal/user/ownership":CustOwnershipPage,
+    "/business/portal/user/membership":CustMembershipPage,
+    "/business/portal/user/security":CustUserSecurityPage
 }

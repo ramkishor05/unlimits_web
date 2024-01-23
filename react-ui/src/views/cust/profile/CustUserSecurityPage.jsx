@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 
-// material-ui
-import { Divider} from '@material-ui/core';
-
 // project imports
 import MainCard from '../../../component/cards/MainCard';
-import CustUserProfile from './CustUserProfile';
-import CustUserAccount from './CustUserAccount';
 import CustOwnerAccount from './CustOwnerAccount';
 import { getUserVendor , getUserVendorList} from '../../../actions';
 import { connect } from 'react-redux';
+import CustUserAccount from './CustUserAccount';
 
-//==============================|| SAMPLE PAGE ||==============================//
-
-class CustUserProfilePage extends Component {
+class CustUserSecurityPage extends Component {
    
     state={
     }
@@ -26,10 +20,8 @@ class CustUserProfilePage extends Component {
     render() {
         return (
             this.props.userDetail &&
-            <MainCard title="Profile" content = {false}>
-                <CustUserProfile userAccount={this.props.userDetail} 
-                userProfile={this.props.userDetail.userProfile}/>
-                
+            <MainCard title="Security center" content = {false}>
+                <CustUserAccount userAccount={this.props.userDetail}/>
             </MainCard>            
         );
     }
@@ -43,4 +35,4 @@ const mapStateToProps = state => {
     return { userDetail, userVendor, userVendorList, ownerId };
 };
 
-export default connect(mapStateToProps, { getUserVendor, getUserVendorList })(CustUserProfilePage);
+export default connect(mapStateToProps, { getUserVendor, getUserVendorList })(CustUserSecurityPage);
