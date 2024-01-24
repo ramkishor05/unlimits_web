@@ -24,6 +24,7 @@ const CustUserAccount = (props) => {
     }
 
     const editUserAccont=()=>{
+        userAccont['userRoleId']=userAccont.userRole.id;
         dispatch(updateUser(userAccont.id, userAccont));
     }
 
@@ -64,6 +65,7 @@ const CustUserAccount = (props) => {
                                 name='password'
                                 type='password'
                                 defaultValue={userAccont.password}
+                                value={userAccont.password}
                                 variant='standard'
                                 onChange={(event)=> setUserAccontField(event,'password')}
                             />
@@ -74,10 +76,11 @@ const CustUserAccount = (props) => {
                             <TextField
                                 id="userAccont-mobile"
                                 label="Registered Mobile"
-                                name='mobile'
-                                defaultValue={userAccont.mobile}
+                                name='registeredMobile'
+                                defaultValue={userAccont.registeredMobile}
+                                value={userAccont.registeredMobile}
                                 variant='standard'
-                                onChange={(event)=> setUserAccontField(event,'mobile')}
+                                onChange={(event)=> setUserAccontField(event,'registeredMobile')}
                             />
                             </FormControl>
                         </Grid>
@@ -85,11 +88,12 @@ const CustUserAccount = (props) => {
                         <FormControl fullWidth>
                             <TextField
                                 id="userAccont-email"
-                                name='email'
+                                name='registeredEmail'
                                 label="Registered email"
-                                defaultValue={userAccont.email}
+                                defaultValue={userAccont.registeredEmail}
+                                value={userAccont.registeredEmail}
                                 variant='standard'
-                                onChange={(event)=> setUserAccontField(event,'email')}
+                                onChange={(event)=> setUserAccontField(event,'registeredEmail')}
                             />
                             </FormControl>
                         </Grid>

@@ -46,6 +46,7 @@ import CustOwnerAccountPage from '../views/cust/profile/CustOwnershipPage';
 import CustUserSecurityPage from '../views/cust/profile/CustUserSecurityPage';
 import CustOwnershipPage from '../views/cust/profile/CustOwnershipPage';
 import CustMembershipPage from '../views/cust/profile/CustMembershipPage';
+import CustUserPrivacyPage from '../views/cust/profile/CustUserPrivacyPage';
 
 
 export const PageMapper = {
@@ -89,5 +90,6 @@ export const PageMapper = {
     "/business/portal/user/profile":CustUserProfilePage,
     "/business/portal/user/ownership":CustOwnershipPage,
     "/business/portal/user/membership":CustMembershipPage,
-    "/business/portal/user/security":CustUserSecurityPage
+    "/business/portal/user/security":CustUserSecurityPage,
+    "/business/portal/user/privacy":CustUserPrivacyPage
 }
