@@ -21,7 +21,7 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
 
         const token = await AuthService.generateToken({ username, password });
         if (token) {
-           dispatch({ type: LOGIN_SUCCESS, payload: token });
+            dispatch({ type: LOGIN_SUCCESS, payload: token });
             if (_clearCredentials) {
                 _clearCredentials();
             }
@@ -52,7 +52,7 @@ export const logout = () => {
 export const getUser = (token) => async dispatch => {
     try {
         if(!token){
-            dispatch({ type: LOGOUT_SUCCESS, payload: null });
+           // dispatch({ type: LOGOUT_SUCCESS, payload: null });
             return ;
         }
         dispatch({ type: SHOW_LOADER });

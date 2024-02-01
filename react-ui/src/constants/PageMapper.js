@@ -47,6 +47,7 @@ import CustUserSecurityPage from '../views/cust/profile/CustUserSecurityPage';
 import CustOwnershipPage from '../views/cust/profile/CustOwnershipPage';
 import CustMembershipPage from '../views/cust/profile/CustMembershipPage';
 import CustUserPrivacyPage from '../views/cust/profile/CustUserPrivacyPage';
+import CustOrderPage from '../views/cust/orders/CustOrderPage';
 
 
 export const PageMapper = {
@@ -70,6 +71,7 @@ export const PageMapper = {
     "/global/portal/organizations/employee":GlobalEmployeePage,
 
     "/business/portal/dashboard/default" :CustDashboard,
+    "/business/portal/orders/ordering" :CustOrderPage,
     "/business/portal/orders/sales" :CustSalePage,
     "/business/portal/orders/purchase" :CustPurchasePage,
     "/business/portal/accounting/cashbook" :CustCashBook,

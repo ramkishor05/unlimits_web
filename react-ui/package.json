@@ -18,6 +18,7 @@
         "@mui/x-date-pickers-pro": "^6.18.1",
         "@react-pdf/renderer": "^3.1.14",
         "@rjsf/core": "^5.13.2",
+        "@rjsf/validator-ajv8": "^5.16.1",
         "@tabler/icons": "^1.39.1",
         "@testing-library/jest-dom": "^5.11.10",
         "@testing-library/react": "^11.2.6",

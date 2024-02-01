@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import configData from '../../../../config';
-import { getUser, login } from '../../../../actions';
+import {login } from '../../../../actions';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -25,17 +24,14 @@ import {
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import axios from 'axios';
 
 // project imports
 import useScriptRef from '../../../../hooks/useScriptRef';
 import AnimateButton from '../../../../component/extended/AnimateButton';
-import { ACCOUNT_INITIALIZE } from './../../../../store/actions';
 
 // assets
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import config from '../../../../config';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
 const RestLogin = (props, { ...others }) => {
     const classes = useStyles();
     const dispatcher = useDispatch();
-    const userReducer = useSelector((state) => state.userReducer);
     const scriptedRef = useScriptRef();
     const [checked, setChecked] = React.useState(true);
 
@@ -114,6 +109,9 @@ const RestLogin = (props, { ...others }) => {
                         if (scriptedRef.current) {
                             setStatus({ success: true });
                             setSubmitting(false);
+                        } else{
+                            setSubmitting(false);
+                            setErrors({ submit: 'Invalid login' });
                         }
                     } catch (err) {
                         console.error(err);

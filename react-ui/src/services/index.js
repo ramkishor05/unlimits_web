@@ -17,6 +17,7 @@ axios.interceptors.request.use(async config => {
         config.headers.common.ownerId = account.ownerId;
         config.headers.common.businessId = account.businessId;
         config.headers.common.userId = account.userId;
+        config.headers.common['ngrok-skip-browser-warning']="OK";
     }
     return config;
 });

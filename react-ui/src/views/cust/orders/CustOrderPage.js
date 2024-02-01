@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Fab, Tooltip } from '@material-ui/core';
 
 
 import { 
@@ -8,16 +7,9 @@ import {
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
- import AddIcon from '@material-ui/icons/Add';
-import ConfirmModel from '../../../component/model/ConfirmModel';
-import CollapsibleTable from '../../../component/table/CollapsibleTable';
 import { makeStyles } from '@material-ui/styles';
 import PrintBill from './PrintBill';
-import CustSaveSaleModel from './CustSaveSaleModel';
-import CustSaveSalePage from './CustSaveSalePage';
-import ProductList from '../../../component/products/ProductList';
 import ProductGrids from '../../../component/products/ProductGrids';
-import QuickBuyProductCard from '../../../component/products/QuickBuyProductCard';
 
 
 const mainheaders = [
@@ -143,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
   
   
 
-class CustSalePage extends Component {
+class CustOrderPage extends Component {
     state={
         configPage : true,
         savePage : false,
@@ -245,58 +237,9 @@ class CustSalePage extends Component {
         return (
             <>
                 { !this.state.savePage &&
-                <MainCard title="Sale List" 
-                        button ={
-                            <Button variant="outlined" 
-                            color="primary" 
-                            onClick={this._add}
-                            >
-                                Add
-                            </Button>
-                        }
-                        content={false}
-                    >
-                        <QuickBuyProductCard></QuickBuyProductCard>
+                
                         <ProductGrids items={this.props.custProductList}></ProductGrids>
-                        <ProductList></ProductList>
-                       {/* <CollapsibleTable 
-                            headers={headers} 
-                            dataList={this.props.custSaleList}
-                            custCustomerList= {this.props.custCustomerList}
-                            deleteAction = {this._delete}
-                            editAction = {this._edit}
-                            printAction= {this._print}
-                            >
-
-                    </CollapsibleTable>*/}
-                    </MainCard>
-                }
-                {
-                    this.state.savePage && <CustSaveSalePage
-                    title={this.state.title}
-                    open={this.state.savePage}
-                    close={this._clearModel}
-                    data={this.state.dataObject} 
-                    type={this.state.type}
-                    fields= {modelheaders}
-                    custProductList={this.props.custProductList}
-                    saveAction = {this.saveObject}
-                >
-                </CustSaveSalePage>
-                }
-
-{
-                    this.state.saveModel && <CustSaveSaleModel
-                    title={this.state.title}
-                    open={this.state.saveModel}
-                    close={this._clearModel}
-                    data={this.state.dataObject} 
-                    type={this.state.type}
-                    fields= {modelheaders}
-                    custProductList={this.props.custProductList}
-                    saveAction = {this.saveObject}
-                >
-                </CustSaveSaleModel>
+                     
                 }
                 
                 {
@@ -314,15 +257,6 @@ class CustSalePage extends Component {
                 </PrintBill>
                 }
             
-                <ConfirmModel
-                    openAction={this.state.deleteModel}
-                    closeAction={this._clearModel}
-                    data={this.state.dataObject} 
-                    type={this.state.type}
-                    message= 'Do you want to delete'
-                    saveAction = {this.saveObject}
-                    >
-                </ConfirmModel>
             </>
         );
     }
@@ -344,4 +278,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList})(CustSalePage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList})(CustOrderPage);

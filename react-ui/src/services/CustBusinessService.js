@@ -12,12 +12,12 @@ export default {
     getAll() {
         return axios.get(BUSINESS_URL,{headers: headers})
                     .then(response => Promise.resolve(response.data))
-                    .catch(error => Promise.reject(error.response.data));
+                    .catch(error => Promise.reject(error));
     },
     find(minimum){
         return axios.get('items/find', { params: { minimum } })
                     .then(response => Promise.resolve(response.data))
-                    .catch(error => Promise.reject(error.response.data));
+                    .catch(error => Promise.reject(error));
     },
     add(item) {
         if(item['vendorId']){
@@ -25,17 +25,17 @@ export default {
         }
         return axios.post(BUSINESS_URL, item,{headers: headers})
                     .then(response => Promise.resolve(response.data))
-                    .catch(error => Promise.reject(error.response.data));
+                    .catch(error => Promise.reject(error));
     },
     update(id, item) {
         item['id']=id;
         return axios.put(BUSINESS_URL, item,{headers: headers})
                     .then(response => Promise.resolve(response.data))
-                    .catch(error => Promise.reject(error.response.data));
+                    .catch(error => Promise.reject(error));
     },
     delete(id) {
         return axios.delete(BUSINESS_URL+`/${id}`)
                     .then(response => Promise.resolve(response.data))
-                    .catch(error => Promise.reject(error.response.data));
+                    .catch(error => Promise.reject(error));
     }
 };

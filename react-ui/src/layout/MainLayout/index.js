@@ -19,6 +19,7 @@ import { SET_MENU } from './../../store/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -76,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
 //-----------------------|| MAIN LAYOUT ||-----------------------//
 
 const MainLayout = ({ children }) => {
+    const { height, width } = useWindowDimensions();
     const {userDetail}= useSelector((state) => state.userReducer);
     const userRole = userDetail?.userRole;
     let menuGroups = userRole?.roleMenuGroups;
@@ -129,7 +131,7 @@ const MainLayout = ({ children }) => {
                 {/* <Main open={leftDrawerOpened}> */}
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                <div>{children}</div>
+                <div style={{overflowY: 'scroll', overflowX: 'hidden', height : height-130}}>{children}</div>
                 {/* </Main> */}
             </main>
             <Customization />
