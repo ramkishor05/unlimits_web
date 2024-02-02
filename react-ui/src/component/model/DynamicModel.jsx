@@ -97,8 +97,8 @@ class DynamicModel extends React.Component {
           variant='standard'
           labelId={field.name+"-label"}
           id={field.name}
-          value={getValue(data,field.name)}
-          defaultValue={getValue(data,field.name)}
+          value={getValue(data,field.key? field.key: field.name )}
+          defaultValue={getValue(data,field.key? field.key: field.name)}
           label="{field.label}"
           onChange={(event)=>setValue(event.target.value, field.name, field, data, 
             this.setData, this.checkValidation)}
@@ -138,8 +138,11 @@ class DynamicModel extends React.Component {
       case 'img':
          return <ImageUploadCard name="pictureURL" 
          value={getValue(data,field.name)} 
-         setUserProfileImge={(value)=> setValue(value,field.name, data, props , this.setData)}
-         {...props }
+         setUserProfileImge={(value)=> 
+            field.onchange ? 
+            field.onchange(value, data, field, props) :
+            setValue(value,field.name,field, data, this.setData, this.checkValidation)
+         }
          >
          </ImageUploadCard>
       case 'qnt':
@@ -198,9 +201,11 @@ class DynamicModel extends React.Component {
           fields.map(field=>
               (
                 <Grid key={field.name} item xs={12} xl={field.grid? field.grid: 6} sm={field.grid? field.grid: 6} >
+                  <Box width={field.width} height={field.height}>
                   {
                     this.renderSwitch(field, data, props)
                   }
+                  </Box>
               </Grid>)
           )
             }

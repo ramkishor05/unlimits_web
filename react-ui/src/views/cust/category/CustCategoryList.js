@@ -13,10 +13,48 @@ import { getCustCategoryList, addCustCategory, editCustCategory, deleteCustCateg
 from '../../../actions';
 import { connect } from 'react-redux';
 
-function createData(name, description, typeId, actions) {
-    return { name, description, typeId, actions};
-}
 const headers = [
+    {
+        name: "custImageDetailId",
+        key: "custImageDetailId",
+        label: "Long",
+        type:'img',
+        grid: 12,
+        width: 100,
+        height: 100,
+        onchange : (value, data, field, props)=>{
+            console.log("value=", value)
+        }
+    },
+    {
+        name: "name",
+        label: "Name",
+        type: 'text'
+    },
+    {
+        name: "description",
+        label: "Description",
+        type: 'text'
+    },
+    {
+        name: "typeId",
+        label: "Type",
+        type: 'text'
+    },
+    {
+        name: "custCategoryGroupId",
+        key: "custCategoryGroup.id",
+        label: "Group",
+        type: "select",
+        onItems : (value, data, field, props)=>{
+            return props.custCategoryGroupList? props.custCategoryGroupList: [];
+        },
+        itemKey: 'id',
+        itemVal: 'name'
+    }
+]
+
+const table = [
     {
         name: "name",
         label: "Name",
@@ -38,17 +76,6 @@ const headers = [
     }
 ]
 
-function actions(){
-    return ['edit', 'update']
-}
-
-
-const dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -110,23 +137,27 @@ class CustCategoryList extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={headers} 
+                        headers={table} 
                         dataList={this.props.custCategoryList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
-                
-                <DynamicModel
-                title={this.state.title}
-                openAction={this.state.saveModel}
-                closeAction={()=> this.setState({saveModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                fields= {headers}
-                saveAction = {this.saveObject}
-                >
-                </DynamicModel>
+                {
+                    this.state.saveModel && 
+                    <DynamicModel
+                    title={this.state.title}
+                    openAction={this.state.saveModel}
+                    closeAction={()=> this.setState({saveModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {headers}
+                    saveAction = {this.saveObject}
+                    custCategoryGroupList= {this.props.custCategoryGroupList}
+                    >
+                    </DynamicModel>
+                }
+               
             
                 <ConfirmModel
                 openAction={this.state.deleteModel}
@@ -145,8 +176,9 @@ class CustCategoryList extends Component {
 
 
 const mapStateToProps = state => {
+    const { custCategoryGroupList, show_cust_category_group_loader } = state.custCategoryGroupReducer;
     const { custCategoryList, show_cust_category_loader } = state.custCategoryReducer;
-    return { custCategoryList, show_cust_category_loader };
+    return { custCategoryList, show_cust_category_loader, custCategoryGroupList, show_cust_category_group_loader };
 };
 
 

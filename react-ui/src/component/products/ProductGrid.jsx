@@ -19,7 +19,7 @@ const ProductGrid= (props)=>{
                 </div>
 
                 <div className="d-flex justify-content-between mb-3">
-                <h5 className="mb-0">HP Notebook</h5>
+                <h5 className="mb-0">{item.name}</h5>
                 <h5 className="text-dark mb-0">{item.retailPrice.price}</h5>
                 </div>
 
