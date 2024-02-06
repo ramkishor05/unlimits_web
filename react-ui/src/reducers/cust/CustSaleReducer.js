@@ -18,6 +18,7 @@ const INITIAL_STATE = {
         custProductRetailSaleList: [],
         custProductWholeSaleList: []
     },
+    custCartList: []
 };
 
 export default (state = INITIAL_STATE, action) => {
