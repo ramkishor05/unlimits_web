@@ -114,7 +114,7 @@ const RestLogin = (props, { ...others }) => {
                             setErrors({ submit: 'Invalid login' });
                         }
                     } catch (err) {
-                        console.error(err);
+                        console.error("error=", err);
                         if (scriptedRef.current) {
                             setStatus({ success: false });
                             setErrors({ submit: err.message });

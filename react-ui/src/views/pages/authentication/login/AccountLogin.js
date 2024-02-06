@@ -111,7 +111,7 @@ const AccountLogin = (props, { ...others }) => {
                             setSubmitting(false);
                         }
                     } catch (err) {
-                        console.error(err);
+                        console.error("err",err);
                         if (scriptedRef.current) {
                             setStatus({ success: false });
                             setErrors({ submit: err.message });
