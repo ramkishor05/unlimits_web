@@ -10,9 +10,9 @@ import AddShoppingCart from '@mui/icons-material/AddShoppingCart';
 export default function MediaCard(props) {
     const {item, addToCart, buyNow}= props;
   return (
-    <Card sx={{ maxWidth: 345 }} className="card">
+    <Card className="card">
       <CardMedia
-        sx={{ height: 140 }}
+        sx={{ height: 200}}
         image={
             item.logoUrl
         }

@@ -6,14 +6,14 @@ const ProductGrids= (props)=>{
     return (
         <section>
            <div className="row">
-                    {
-                        items.map(item=>
-                            <div className="col-md-4 col-sm-3 col-lg-4 mb-3 mb-lg-0 py-1">
-                                <MediaCard item={item} {...props}/>
-                            </div>
-                        )
-                    }
-                </div>
+                {
+                    items.map(item=>
+                        <div className="col-md-4 col-sm-3 col-lg-3 mb-1 mb-lg-0 py-1">
+                            <MediaCard item={item} {...props}/>
+                        </div>
+                    )
+                }
+            </div>
           </section>
         )
     }
