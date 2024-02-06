@@ -10,7 +10,23 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import PrintBill from './PrintBill';
 import ProductGrids from '../../../component/products/ProductGrids';
+import { Card, CardContent, CardHeader, Divider, Grid, Paper } from '@material-ui/core';
+import SearchBox from '../../../component/box/SearchBox';
+import Shoppingcard from '../../../component/cards/ShoppingCard';
+import SubCard from '../../../component/cards/SubCard';
 
+import { styled } from '@mui/material/styles';
+import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
+import QuantityField from '../../../component/fields/QuantityField';
+
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
 
 const mainheaders = [
     {
@@ -232,14 +248,70 @@ class CustOrderPage extends Component {
         this.clearAndRefresh();
     }
     
+    searchProducts=(searchTxt)=>{
+        console.log("searchProducts=",searchTxt)
+    }
 
     render() {
         return (
             <>
                 { !this.state.savePage &&
-                
-                        <ProductGrids items={this.props.custProductList}></ProductGrids>
-                     
+                       <> 
+                       <Grid container>
+                            <Grid item sm="12">
+                             
+                                <Grid container>
+                                    <Grid item sm={8} lg={8} md={8}>
+                                    <SearchBox
+                                        placeholder="Search product "
+                                        action = {this.searchProducts}
+                                        ></SearchBox>
+                                    </Grid>
+                                    </Grid>
+                                    <Grid item sm={4} lg={4} md={4}>
+                                    
+                                </Grid>
+                            </Grid>
+                            <Divider></Divider>
+                            <Grid item sm="12">
+                                <Grid container>
+                                    <Grid item sm={8} lg={8} >
+                                       <SubCard title="Cart" >
+                                        <ProductGrids items={this.props.custProductList}></ProductGrids>
+                                        </SubCard>
+                                    </Grid>
+                                    <Grid item sm={4} lg={4} >
+                                        <SubCard title="Cart" >
+                                        
+                                            {
+                                                this.props.custProductList.map(custProduct=>
+                                                    <Grid container spacing={2}>                        
+                                                    <Grid item xs={12} lg={7} md={7}>
+                                                    <img
+                                                        width={30}
+                                                        height={20}
+                                                        src={custProduct.logoUrl}
+                                                    />
+                                                        {custProduct.title}
+                                                    </Grid>
+                                                    <Grid item xs={12} lg={5} md={5} sx={{padding:2}}>
+                                                    <ShoppingCartButton  
+                                                        counter={1} 
+                                                        updateCounter={(counter)=> this.itemQnt(custProduct, counter )}>
+                                                    </ShoppingCartButton>  
+                                                    </Grid>
+                                                    </Grid>
+                                               )
+                                            }
+                                           
+
+                                            </SubCard>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                       </Grid>
+                       
+                        </>
                 }
                 
                 {

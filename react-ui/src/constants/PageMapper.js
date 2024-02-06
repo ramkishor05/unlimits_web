@@ -25,7 +25,7 @@ import GlobalEmployeePage from "../views/global/organizations/GlobalEmployeePage
 // project imports
 import CustDashboard from  '../views/cust/dashboard';
 import CustCategoryGroup from '../views/cust/category/CustCategoryGroup';
-import CustCategoryList from '../views/cust/category/CustCategoryList';
+import CustCategoryItem from '../views/cust/category/CustCategoryItem';
 import CustCountFreq from '../views/cust/count_freq/CustCountFreq';
 import CustUnitList from '../views/cust/unit/CustUnitList';
 import CustUnitGroup from '../views/cust/unit/CustUnitGroup';
@@ -83,7 +83,7 @@ export const PageMapper = {
     "/business/portal/parties/customer" :CustCustomerPage,
     "/business/portal/parties/supplier" :CustSupplierPage,
     "/business/portal/setups/category/group" :CustCategoryGroup,
-    "/business/portal/setups/category/list" :CustCategoryList,
+    "/business/portal/setups/category/list" :CustCategoryItem,
     "/business/portal/setups/currency/group" :CustCurrencyGroup,
     "/business/portal/setups/currency/list" :CustCurrencyList,
     "/business/portal/setups/unit/group" :CustUnitGroup,

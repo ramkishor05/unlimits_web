@@ -1,3 +1,5 @@
+import { Button } from "@material-ui/core";
+
 const ProductGrid= (props)=>{
     const {item, addToCart, buyNow}= props;
     return (
@@ -10,36 +12,26 @@ const ProductGrid= (props)=>{
                 <p className="text-white mb-0 small">x4</p>
                 </div>
             </div>
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/4.webp"
+            <img src={item.logoUrl} width={100} height={100}
                 className="card-img-top" alt="Laptop" />
             <div className="card-body">
                 <div className="d-flex justify-content-between">
-                <p className="small"><a href="#!" className="text-muted">Laptops</a></p>
-                <p className="small text-danger"><s>{item.retailPrice.price}</s></p>
+                    <p className="small"><a href="#!" className="text-muted">Laptops</a></p>
+                    <p className="small text-danger"><s>{item.retailPrice.price}</s></p>
                 </div>
 
                 <div className="d-flex justify-content-between mb-3">
-                <h5 className="mb-0">{item.name}</h5>
-                <h5 className="text-dark mb-0">{item.retailPrice.price}</h5>
+                    <h5 className="mb-0 justify-content-between" style={{maxInlineSize: '60%'}}>{item.name}</h5>
+                    <h5 className="text-dark mb-0">{item.retailPrice.price}</h5>
                 </div>
 
                 <div className="d-flex justify-content-between mb-2">
                     <p className="text-muted mb-0">Available: <span className="fw-bold">6</span></p>
-                    <div className="ms-auto text-warning">
-                        <i className="fa fa-star"></i>
-                        <i className="fa fa-star"></i>
-                        <i className="fa fa-star"></i>
-                        <i className="fa fa-star"></i>
-                        <i className="fa fa-star"></i>
-                    </div>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
-                        <button className="btn btn-outline-primary btn-sm mt-2" type="button">
+                        <Button className="btn btn-outline-primary" type="button">
                             Add to cart
-                        </button>
-                        <button className="btn btn-outline-primary btn-sm mt-2" type="button">
-                            Buy Now
-                        </button>
+                        </Button>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ let APP_HOST_SERVER = null;
 if (process.env.APP_HOST_SERVER) {
   APP_HOST_SERVER = process.env.APP_HOST_SERVER;
 } else {
-  APP_HOST_SERVER = "https://9c56-121-243-75-227.ngrok-free.app";
+  APP_HOST_SERVER = "http://192.168.29.222:8080";
 }
 
 const config = {
@@ -14,7 +14,9 @@ const config = {
     APP_HOST_SERVER: APP_HOST_SERVER,
     ITEM_SERVER_HOST: APP_HOST_SERVER+'/item',
     AUTH_SERVER_HOST: APP_HOST_SERVER+'/auth',
-    CRM_SERVER_HOST: APP_HOST_SERVER+'/crm'
+    CRM_SERVER_HOST: APP_HOST_SERVER+'/crm',
+    ORDERING_SERVER_HOST: APP_HOST_SERVER+'/ordering',
+    PAYMENT_SERVER_HOST: APP_HOST_SERVER+'/payment'
 };
 
 export default config;

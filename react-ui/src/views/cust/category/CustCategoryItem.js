@@ -9,22 +9,19 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getCustCategoryList, addCustCategory, editCustCategory, deleteCustCategory } 
+import { getCustCategoryList, addCustCategory, editCustCategory, deleteCustCategory, getCustCategoryGroupList } 
 from '../../../actions';
 import { connect } from 'react-redux';
 
 const headers = [
     {
-        name: "custImageDetailId",
-        key: "custImageDetailId",
-        label: "Long",
+        name: "logoUrl",
+        key: "logoUrl",
+        label: "Logo",
         type:'img',
         grid: 12,
         width: 100,
-        height: 100,
-        onchange : (value, data, field, props)=>{
-            console.log("value=", value)
-        }
+        height: 100
     },
     {
         name: "name",
@@ -43,7 +40,7 @@ const headers = [
     },
     {
         name: "custCategoryGroupId",
-        key: "custCategoryGroup.id",
+        key: "custCategoryGroupId",
         label: "Group",
         type: "select",
         onItems : (value, data, field, props)=>{
@@ -55,6 +52,15 @@ const headers = [
 ]
 
 const table = [
+    {
+        name: "logoUrl",
+        key: "logoUrl",
+        label: "Logo",
+        type:'img',
+        grid: 12,
+        width: 50,
+        height: 50
+    },
     {
         name: "name",
         label: "Name",
@@ -84,7 +90,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class CustCategoryList extends Component {
+class CustCategoryItem extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -109,7 +115,7 @@ class CustCategoryList extends Component {
         if(type=='Add')
             this.props.addCustCategory(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editCustCategory(row, this.clearAndRefresh)
+            this.props.editCustCategory(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteCustCategory(row.id, this.clearAndRefresh)
 
@@ -122,6 +128,7 @@ class CustCategoryList extends Component {
     
     componentDidMount() {
         this.props.getCustCategoryList();
+        this.props.getCustCategoryGroupList();
     }
     render() {
         return (
@@ -138,7 +145,7 @@ class CustCategoryList extends Component {
                     >
                         <DynamicTable 
                         headers={table} 
-                        dataList={this.props.custCategoryList}
+                        dataList={this.props.custCategoryItemList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
@@ -177,11 +184,11 @@ class CustCategoryList extends Component {
 
 const mapStateToProps = state => {
     const { custCategoryGroupList, show_cust_category_group_loader } = state.custCategoryGroupReducer;
-    const { custCategoryList, show_cust_category_loader } = state.custCategoryReducer;
-    return { custCategoryList, show_cust_category_loader, custCategoryGroupList, show_cust_category_group_loader };
+    const { custCategoryItemList, show_cust_category_loader } = state.custCategoryItemReducer;
+    return { custCategoryItemList, show_cust_category_loader, custCategoryGroupList, show_cust_category_group_loader };
 };
 
 
-export default connect(mapStateToProps, { getCustCategoryList, addCustCategory, editCustCategory, deleteCustCategory })(CustCategoryList);
+export default connect(mapStateToProps, { getCustCategoryList, addCustCategory, editCustCategory, deleteCustCategory, getCustCategoryGroupList })(CustCategoryItem);
 
 

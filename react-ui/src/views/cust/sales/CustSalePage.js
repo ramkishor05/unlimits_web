@@ -256,10 +256,8 @@ class CustSalePage extends Component {
                         }
                         content={false}
                     >
-                        <QuickBuyProductCard></QuickBuyProductCard>
-                        <ProductGrids items={this.props.custProductList}></ProductGrids>
-                        <ProductList></ProductList>
-                       {/* <CollapsibleTable 
+                       
+                       {<CollapsibleTable 
                             headers={headers} 
                             dataList={this.props.custSaleList}
                             custCustomerList= {this.props.custCustomerList}
@@ -268,7 +266,7 @@ class CustSalePage extends Component {
                             printAction= {this._print}
                             >
 
-                    </CollapsibleTable>*/}
+                    </CollapsibleTable>}
                     </MainCard>
                 }
                 {

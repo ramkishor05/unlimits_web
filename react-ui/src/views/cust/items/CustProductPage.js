@@ -8,7 +8,7 @@ import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import { 
     getCustProductList, addCustProduct, editCustProduct, deleteCustProduct,
-    getCustUnitList, getCustCurrencyItemList
+    getCustUnitList, getCustCurrencyItemList, getCustCategoryList
  } from '../../../actions';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
 import CustProductStockService from '../../../services/CustProductStockService';
@@ -81,6 +81,7 @@ class CustProductPage extends Component {
     }
     
     async componentDidMount() {
+        this.props.getCustCategoryList();
         this.props.getCustUnitList();
         await this.props.getCustCurrencyItemList();
         this.clearAndRefresh();
@@ -107,7 +108,7 @@ class CustProductPage extends Component {
                         dataList={this.props.custProductList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
-                        custCurrencyItemList = {this.props.custCurrencyItemList}
+                        {... this.props}
                         ></CollapsibleTable>
                     </MainCard>
                 }
@@ -164,15 +165,14 @@ const mapStateToProps = state => {
     const { custProductList} = state.custProductReducer;
     const { custUnitList} = state.custUnitReducer;
     const { custCurrencyItemList} = state.custCurrencyItemReducer;
+    const { custCategoryItemList } = state.custCategoryItemReducer;
     const { globalCountryList} = state.globalCountryReducer;
-    
     const { custBusinessList} = state.custBusinessReducer;
     const custBusineess=custBusinessList.find(custBusiness=>custBusiness.id==businessId);
-    console.log("custBusineess=",custBusineess)
-    return { custProductList, custCurrencyItemList, custUnitList, custBusineess, globalCountryList};
+    return { custProductList, custCurrencyItemList, custUnitList, custBusineess, globalCountryList, custCategoryItemList};
 };
 
 
-export default connect(mapStateToProps, { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct, getCustUnitList, getCustCurrencyItemList })(CustProductPage);
+export default connect(mapStateToProps, { getCustProductList, addCustProduct, editCustProduct, deleteCustProduct, getCustUnitList, getCustCurrencyItemList, getCustCategoryList })(CustProductPage);
 
 

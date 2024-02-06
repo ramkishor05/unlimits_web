@@ -4,6 +4,15 @@ const productsMeta = {
         "type": "",
         "headers": [
             {
+                name: "logoUrl",
+                key: "logoUrl",
+                label: "Logo",
+                type:'img',
+                grid: 2,
+                width: 50,
+                height: 50
+            },
+            {
                 "key": "title",
                 "name": "title",
                 "label": "Title",
@@ -22,13 +31,25 @@ const productsMeta = {
                 "type": "text"
             },
             {
-                "key": "title",
+                "key": "custCategoryId",
+                "name": "custCategoryId",
+                "label": "Category",
+                "type": "text",
+                "render":(value, row, header, props)=>{
+                    if(value){
+                        let custCategory=props.custCategoryItemList.find(custCategoryItem=>custCategoryItem.id==value)
+                        return custCategory ? custCategory.name : value;
+                    }
+                    return value;
+                }
+            },
+            {
+                "key": "purchasePrice.price",
                 "name": "purchasePrice.price",
                 "label": "Purchase",
                 "type": "amount",
                 "render":(value, row, header, props)=>{
                     if(value){
-                        console.log("purchasePrice row=",row,  props)
                         let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.purchasePrice.currencyId)
                         return custCurrency ? custCurrency.symbol +""+ value : value;
                     }
@@ -111,6 +132,15 @@ const productsMeta = {
     },
     "model" :[
         {
+            name: "logoUrl",
+            key: "logoUrl",
+            label: "Logo",
+            type:'img',
+            grid: 2,
+            width: 100,
+            height: 100
+        },
+        {
             "id": "title",
             "key": "title",
             "name": "title",
@@ -126,7 +156,11 @@ const productsMeta = {
             "key": "name",
             "name": "name",
             "label": "Name",
-            "type": "text"
+            "type": "text",
+            "required" : {
+                value : '',
+                message: "Title is required!"
+            }
         },
         {
             "id": "description",
@@ -134,6 +168,28 @@ const productsMeta = {
             "name": "description",
             "label": "Description",
             "type": "text"
+        },
+        {
+            "id": "custCategoryId",
+            "name": "custCategoryId",
+            "label" : "Category",
+            "type": "select",
+            "required" : {
+                value : '',
+                message: "Category is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                return props.custCategoryItemList? props.custCategoryItemList: []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name",
         },
         {
             "id": "purchasePrice",

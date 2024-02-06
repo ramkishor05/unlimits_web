@@ -107,11 +107,18 @@ class DynamicForm extends React.Component {
             field.onItems(getValue(data,field.name),data, field, props ).
             map(item=> 
             
-              <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>
+              <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{
+                field.onDisplay? field.onDisplay(item):
+                item[field.itemVal]
+                
+                }</MenuItem>
             )
             :
             field.items.map(item=> 
-            <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{item[field.itemVal]}</MenuItem>
+            <MenuItem key={item[field.itemKey]} value={item[field.itemKey]}>{
+              field.onDisplay? field.onDisplay(item):
+                item[field.itemVal]
+              }</MenuItem>
             )
           }
         </Select>
@@ -135,12 +142,15 @@ class DynamicForm extends React.Component {
          label={field.label}
        />
       case 'img':
-         return <ImageUploadCard name="pictureURL" 
-         value={getValue(data,field.name)} 
-         setUserProfileImge={(value)=> setValue(value,field.name, data, props , this.setData)}
-         {...props }
-         >
-         </ImageUploadCard>
+        return <ImageUploadCard name="pictureURL" 
+        value={getValue(data,field.name)} 
+        setUserProfileImge={(value)=> 
+           field.onchange ? 
+           field.onchange(value, data, field, props) :
+           setValue(value,field.name,field, data, this.setData, this.checkValidation)
+        }
+        >
+        </ImageUploadCard>
       case 'qnt':
         return <QuantityField 
         field={field} {...props  } 

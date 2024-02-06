@@ -42,13 +42,25 @@ const getValue=(data, keyStr)=>{
     return val;
   }
 
+  const renderCell= (data, field)=>{
+    switch(field.type) {
+    case 'img':
+        return  <img
+                width={field.width}
+                height={field.height}
+                src={getValue(data,field.name)}
+            />
+    default:
+       return getValue(data,field.name);
+    }
+}
+
   const getChildrenLoad = (row,children, props) =>{
     let childrenRow = children.onLoad(row[children.name],row, props);
-    console.log("childrenRow=",childrenRow, children.headers)
     return childrenRow ?  children.headers.map((header)=>
             <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'_'+childrenRow.id+'_'+header.name}>{
               header.render ? header.render(getValue(childrenRow,header.name), childrenRow,header, props ):
-              getValue(childrenRow,header.name)
+              renderCell(childrenRow, header)
             }</TableCell>
       ) :
               <TableCell key={row.id+'_data_child_collapse_row_body_cel_'+children.name+'_norows'} 
@@ -108,7 +120,7 @@ function Row(props) {
                     <TableCell key={row.id+'_data_main_'+header.name} {...header.props}>
                         {
                          header.render ? header.render(getValue(row,header.name),row, header, props ):
-                         getValue(row,header.name)
+                         renderCell(row, header)
                         } 
                             
                     </TableCell>

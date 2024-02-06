@@ -173,6 +173,7 @@ const useStyles = makeStyles((theme) => ({
             discounts : data.discounts? data.discounts:0
         }
         data.custProductPurchaseItemList && data.custProductPurchaseItemList.forEach(custProductPurchaseItem=>{
+            custProductPurchaseItem['custProduct']=this.findProduct(custProductPurchaseItem.custProductId);
             let custProductPurchaseItemObj={...custProductPurchaseItem};
             custProductPurchaseItemObj['id']=custProductPurchaseItem.id;
             custProductPurchaseItemObj['type']=custProductPurchaseItem.type;
@@ -182,6 +183,10 @@ const useStyles = makeStyles((theme) => ({
             object.selectedItems.push(custProductPurchaseItemObj)
         })
         this.state={...this.state, ...object};
+    }
+
+    findProduct = (id)=>{
+        return this.props.custProductList.find(custProduct=>custProduct.id===id);
     }
 
     findField = (id)=>{

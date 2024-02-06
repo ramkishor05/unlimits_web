@@ -34,7 +34,7 @@ import GlobalSupplierReducer from './global/GlobalSupplierReducer';
 import CustRoleReducer from './cust/CustRoleReducer';
 import CustDashboardReducer from './cust/CustDashboardReducer';
 import CustCategoryGroupReducer from './cust/CustCategoryGroupReducer';
-import CustCategoryReducer from './cust/CustCategoryReducer';
+import CustCategoryItemReducer from './cust/CustCategoryItemReducer';
 import CustUnitGroupReducer from './cust/CustUnitGroupReducer';
 import CustUnitReducer from './cust/CustUnitReducer';
 import CustCountFreqReducer from './cust/CustCountFreqReducer';
@@ -92,7 +92,7 @@ const reducer = combineReducers({
     custDashboardReducer: CustDashboardReducer,
     custProductReducer: CustProductReducer,
     custCategoryGroupReducer: CustCategoryGroupReducer,
-    custCategoryReducer: CustCategoryReducer,
+    custCategoryItemReducer: CustCategoryItemReducer,
     custUnitGroupReducer:CustUnitGroupReducer,
     custUnitReducer: CustUnitReducer,
     custCountFreqReducer: CustCountFreqReducer,

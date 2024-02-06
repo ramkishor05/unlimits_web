@@ -1,3 +1,4 @@
+import MediaCard from "../../views/cust/orders/Product";
 import ProductGrid from "./ProductGrid";
 
 const ProductGrids= (props)=>{
@@ -7,12 +8,11 @@ const ProductGrids= (props)=>{
            <div className="row">
                     {
                         items.map(item=>
-                        <div className="col-md-4 col-sm-4 col-lg-4 mb-4 mb-lg-0 py-1">
-                            <ProductGrid item={item} {...props}></ProductGrid>
-                        </div>
+                            <div className="col-md-4 col-sm-3 col-lg-4 mb-3 mb-lg-0 py-1">
+                                <MediaCard item={item} {...props}/>
+                            </div>
                         )
                     }
-                
                 </div>
           </section>
         )

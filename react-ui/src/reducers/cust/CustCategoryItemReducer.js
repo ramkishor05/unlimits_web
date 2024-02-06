@@ -10,10 +10,10 @@ import {
 } from '../../types';
 
 const INITIAL_STATE = {
-    custCategoryList: [],
-    custCategoryList_today: [],
-    custCategoryList_yesterday: [],
-    custCategoryList_long: [],
+    custCategoryItemList: [],
+    custCategoryItemList_today: [],
+    custCategoryItemList_yesterday: [],
+    custCategoryItemList_long: [],
     custCategory_to_edit: {
         name: '',
         desc: '',
@@ -25,19 +25,19 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_ALL_CUST_CATEGERY_SUCCESS:
-            return { ...state, custCategoryList: action.payload };
+            return { ...state, custCategoryItemList: action.payload };
 
         case GET_ALL_CUST_CATEGERY_FAIL:
             return { ...state };
 
         case GET_CUST_CATEGERY_TODAY_SUCCESS:
-            return { ...state, custCategoryList_today: action.payload };
+            return { ...state, custCategoryItemList_today: action.payload };
 
         case GET_CUST_CATEGERY_YESTERDAY_SUCCESS:
-            return { ...state, custCategoryList_yesterday: action.payload };
+            return { ...state, custCategoryItemList_yesterday: action.payload };
 
         case GET_CUST_CATEGERY_LONG_SUCCESS:
-            return { ...state, custCategoryList_long: action.payload };
+            return { ...state, custCategoryItemList_long: action.payload };
 
         case ADD_CUST_CATEGERY_SUCCESS:
             return { ...state, openAddGlobalCategoryModal: false };

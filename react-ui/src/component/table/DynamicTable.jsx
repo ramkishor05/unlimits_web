@@ -48,6 +48,20 @@ function DynamicTable (props){
         return val;
       }
 
+    const renderCell= (data, field)=>{
+        switch(field.type) {
+        case 'img':
+            return  <img
+                    width={field.width}
+                    height={field.height}
+                    className={classes.img}
+                    src={getValue(data,field.name)}
+                />
+        default:
+           return getValue(data,field.name);
+        }
+    }
+
     const {headers, dataList} = props;
     return (
         <TableContainer component={Paper}>
@@ -59,9 +73,16 @@ function DynamicTable (props){
                         headers && headers.map(header=>
                             header.name=='actions' 
                             ?
-                            <TableCell component="th" scope="row" key={header.name} align={header.align? header.align: 'center'} >{header.label}</TableCell>
+                            <TableCell component="th" scope="row" 
+                            key={header.name} 
+                            align={header.align? header.align: 'center'} 
+                            style={{width: header.width}}
+                            >{header.label}</TableCell>
                             :
-                            <TableCell component="th" scope="row" key={header.name} align={header.align? header.align: 'left'} >{header.label}</TableCell>
+                            <TableCell component="th" scope="row" 
+                            key={header.name} align={header.align? header.align: 'left'} 
+                            style={{width: header.width}}
+                            >{header.label}</TableCell>
                         )
                     }
                 </TableRow>
@@ -98,8 +119,10 @@ function DynamicTable (props){
                             </TableCell>
                             :
                             <TableCell key={header.name+'_'+i} {...header.props}>{
-                                getValue(row,header.name)
-                                }</TableCell>
+                                renderCell(row,header)
+                                
+                                
+                             }</TableCell>
                             )
                         }
                     </TableRow>
