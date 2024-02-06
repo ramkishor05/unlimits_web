@@ -131,7 +131,7 @@ const MainLayout = ({ children }) => {
                 {/* <Main open={leftDrawerOpened}> */}
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                <div style={{overflowY: 'scroll', overflowX: 'hidden', height : height-130}}>{children}</div>
+                <div style={{overflowY: 'scroll', overflowX: 'hidden', height : height-120}}>{children}</div>
                 {/* </Main> */}
             </main>
             <Customization />
