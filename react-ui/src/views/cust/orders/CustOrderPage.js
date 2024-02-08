@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 
 import { 
-    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList,getCustBusinessList
+    addCustSale, editCustSale, deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList,getCustBusinessList,
+    addToCart
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
@@ -153,6 +154,8 @@ const useStyles = makeStyles((theme) => ({
   
 
 class CustOrderPage extends Component {
+
+     
     state={
         configPage : true,
         savePage : false,
@@ -163,6 +166,11 @@ class CustOrderPage extends Component {
         title: "",
         type: ""
     }
+
+    constructor(props) {
+        super(props);
+    }
+
     _clearModel=()=>{
         this.setState({ deleteModel:false, saveModel:false, printModel: false,  savePage : false });
     }
@@ -241,6 +249,20 @@ class CustOrderPage extends Component {
 
     };
 
+    addToCart = (custProduct)=>{
+        if(custProduct){
+            let itemObject = {};
+            itemObject['custProduct']=custProduct;
+            itemObject['saleQnt']=1;
+            itemObject['discount']=0;
+            itemObject['isWholeSale']=false;
+            itemObject['salePrice']=custProduct.retailPrice;
+            itemObject['purchasePrice']=custProduct.purchasePrice;
+            console.log("addToCart = ", custProduct)
+            this.props.addToCart(itemObject);
+        }
+    }
+
    async componentDidMount() {
       
         this.props.getCustProductList();
@@ -269,14 +291,17 @@ class CustOrderPage extends Component {
                                     </Grid>
                                     </Grid>
                                     <Grid item sm={4} lg={4} md={4}>
-                                        <CustOrderCart></CustOrderCart>
+                                        <CustOrderCart {...this.props}></CustOrderCart>
                                     </Grid>
                             </Grid>
                             
                             <Grid item sm="12">
                                 <Grid container>
                                     <Grid item sm={12} lg={12} >
-                                        <ProductGrids items={this.props.custProductList}></ProductGrids>
+                                        <ProductGrids 
+                                        items={this.props.custProductList}
+                                        addToCart={this.addToCart}
+                                        ></ProductGrids>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -306,7 +331,7 @@ class CustOrderPage extends Component {
 
 const mapStateToProps = state => {
     const { user } = state.userReducer;
-    const { custSaleList} = state.custSaleReducer;
+    const { custSaleList, custCartList} = state.custSaleReducer;
     const { custCustomerList} = state.custCustomerReducer;
     const { custProductList} = state.custProductReducer;
     const { custBusinessList} = state.custBusinessReducer;
@@ -320,4 +345,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList})(CustOrderPage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, addToCart})(CustOrderPage);

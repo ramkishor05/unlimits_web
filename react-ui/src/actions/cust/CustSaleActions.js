@@ -3,7 +3,8 @@ import {
     GET_SALES_TODAY_SUCCESS, GET_SALES_YESTERDAY_SUCCESS, GET_SALES_LONG_SUCCESS,
     SALE_TO_EDIT,
     SHOW_LOADER,
-    REMOVE_LOADER
+    REMOVE_LOADER,
+    ADD_TO_CART
 } from '../../types';
 import CustSaleService from '../../services/CustSaleService';
 
@@ -118,6 +119,14 @@ export const addCustSale = (data, refreshSales, clear, successNotification, erro
 export const renderSaleToEdit = payload => {
     return {
         type: SALE_TO_EDIT,
+        payload,
+    };
+};
+
+// Action creator for rendering a specific sale to edit.
+export const addToCart = payload => {
+    return {
+        type: ADD_TO_CART,
         payload,
     };
 };

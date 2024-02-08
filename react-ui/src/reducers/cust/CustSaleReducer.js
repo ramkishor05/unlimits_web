@@ -1,7 +1,8 @@
 import {
     GET_ALL_SALES_SUCCESS,
     GET_SALES_TODAY_SUCCESS, GET_SALES_YESTERDAY_SUCCESS, GET_SALES_LONG_SUCCESS,
-    SALE_TO_EDIT, 
+    SALE_TO_EDIT,
+    ADD_TO_CART, 
 } from '../../types';
 
 const INITIAL_STATE = {
@@ -37,6 +38,11 @@ export default (state = INITIAL_STATE, action) => {
 
         case SALE_TO_EDIT:
             return { ...state, sale_to_edit: action.payload };
+
+        case ADD_TO_CART:
+                const custCartList= state.custCartList.filter(custCart=>custCart.custProduct.id!=action.payload.custProduct.id);
+                custCartList.push(action.payload);
+                return { ...state, custCartList: custCartList};
 
         default:
             return state;

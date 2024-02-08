@@ -31,7 +31,7 @@ export default function MediaCard(props) {
       </CardContent>
       <CardActions>
         <Button size="small">{item.retailPrice.price}</Button>
-        <Button variant='outlined' size="small"><AddShoppingCart></AddShoppingCart></Button>
+        <Button variant='outlined' size="small" onClick={()=> addToCart(item)}><AddShoppingCart></AddShoppingCart></Button>
       </CardActions>
     </Card>
   );

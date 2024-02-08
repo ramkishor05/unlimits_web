@@ -102,10 +102,10 @@ const Customization = () => {
                     variant="string"
                     color="secondary"
                     sx={{
-                        top: 80,
-                        m: 2,
+                        bottom: 80,
+                        m: 1,
                         position: 'fixed',
-                        right: 10,
+                        right: 0,
                         zIndex: (theme) => theme.zIndex.speedDial,
                         boxShadow: theme.shadows[8]
                     }}

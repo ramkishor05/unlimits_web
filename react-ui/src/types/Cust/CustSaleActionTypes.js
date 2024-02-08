@@ -8,6 +8,9 @@ export const GET_SALES_LONG_SUCCESS = 'get_sales_long_success';
 
 export const SALE_TO_EDIT = 'sale_to_edit';
 
+export const ADD_TO_CART = 'ADD_TO_CART';
+
+
 
 
 
