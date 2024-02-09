@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 
 import { 
     addCustSale, editCustSale, deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList,getCustBusinessList,
-    addItemToCart, addChargeToCart
+    addItemToCart, addChargeToCart, addPaymentToCart
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
@@ -345,4 +345,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, addItemToCart, addChargeToCart})(CustOrderPage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, addItemToCart, addChargeToCart, addPaymentToCart})(CustOrderPage);

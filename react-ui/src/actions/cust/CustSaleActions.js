@@ -6,7 +6,8 @@ import {
     REMOVE_LOADER,
     ADD_TO_CART,
     ADD_CHARGE_TO_CART,
-    ADD_ITEM_TO_CART
+    ADD_ITEM_TO_CART,
+    ADD_PAYMENT_TO_CART
 } from '../../types';
 import CustSaleService from '../../services/CustSaleService';
 
@@ -139,6 +140,14 @@ export const addChargeToCart = payload => {
         payload,
     };
 };
+
+export const addPaymentToCart = payload => {
+    return {
+        type: ADD_PAYMENT_TO_CART,
+        payload,
+    };
+};
+
 
 
 // Action creator for editing sales in the system.

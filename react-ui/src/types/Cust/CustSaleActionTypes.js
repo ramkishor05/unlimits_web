@@ -12,7 +12,7 @@ export const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 
 export const ADD_CHARGE_TO_CART = 'ADD_CHARGE_TO_CART';
 
-
+export const ADD_PAYMENT_TO_CART = 'ADD_PAYMENT_TO_CART';
 
 
 

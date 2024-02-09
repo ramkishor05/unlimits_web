@@ -6,13 +6,11 @@ import { useTheme } from '@material-ui/styles';
 import {
     Badge,
     Button,
+    ButtonGroup,
     Drawer,
     Fab,
     Grid,
     IconButton,
-    List,
-    ListItem,
-    ListItemText,
     Tooltip,
     Typography
 } from '@material-ui/core';
@@ -27,27 +25,36 @@ import ShoppingCartCheckout from '@mui/icons-material/ShoppingCartCheckout';
 
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
 import DynamicField from '../../../component/fields/DynamicField';
-import PaymentFieldGroup from '../../../component/fields/PaymentFieldGroup';
 import PaymentField from '../../../component/fields/PaymentField';
 
 //-----------------------|| CustOrderCart ||-----------------------//
 
-const CustOrderCart = ({addItemToCart, addChargeToCart}) => {
+const CustOrderCart = ({addItemToCart, addChargeToCart, addPaymentToCart}) => {
 
     const theme = useTheme();
     const dispatch = useDispatch();
    
     const custSaleReducer = useSelector((state) => state.custSaleReducer);
+
     const {custCart} =custSaleReducer;
+
     // drawer on/off
-    const [step, setStep] = React.useState(1);
     const [open, setOpen] = React.useState(false);
+
+    const [step, setStep] = React.useState(1);
+    
+    const stepLevel= {
+        1: "Check Out",
+        2: "Additional",
+        3: "Payment",
+        4: "Place Order"
+    }
+
     const handleToggle = () => {
         setOpen(!open);
     };
 
     const itemQnt=(cartItem, saleQnt)=>{
-        console.log("cartItem=", cartItem)
         cartItem['saleQnt']=saleQnt;
         addItemToCart(cartItem);
     }
@@ -56,8 +63,8 @@ const CustOrderCart = ({addItemToCart, addChargeToCart}) => {
         addChargeToCart(formValues);
     }
 
-    const addProductPaymentList=()=>{
-
+    const setPayment=(payment)=>{
+        addPaymentToCart(payment);
     }
 
     const getSubTotal=()=>{
@@ -68,7 +75,7 @@ const CustOrderCart = ({addItemToCart, addChargeToCart}) => {
 
     const getTotalSale = () =>{
         let subTotal=  getSubTotal();
-        let otherItemTotal= custCart.custProductSaleAdditionalList && custCart.custProductSaleAdditionalList.reduce((previousValue, currentValue) => {
+        let otherItemTotal= custCart.additionalCharges && custCart.additionalCharges.reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.value);
         }, 0);
         let discountTotal= custCart.selectedItems && custCart.selectedItems.reduce((previousValue, currentValue) => {
@@ -108,13 +115,13 @@ const CustOrderCart = ({addItemToCart, addChargeToCart}) => {
             </SubCard>;
             case 2:
                 return <SubCard content={true} title="Additional Charges" secondary={ 
-                    <DynamicField list={custCart.custProductSaleAdditionalList} 
+                    <DynamicField list={custCart.additionalCharges} 
                     type={'number'}
                     onSave={addProductAdditionalList}></DynamicField>
                     }>                               
                     <Grid container >      
                         {
-                        custCart.custProductSaleAdditionalList && custCart.custProductSaleAdditionalList.map((addAdditionalCharge,i)=>
+                        custCart.additionalCharges && custCart.additionalCharges.map((addAdditionalCharge,i)=>
                         <>
                         <Grid item xs={12} lg={5} md={5} >{addAdditionalCharge.field} </Grid>
                         <Grid item xs={12} lg={2} md={2} >:</Grid>
@@ -126,10 +133,16 @@ const CustOrderCart = ({addItemToCart, addChargeToCart}) => {
                  </SubCard>
             case 3:
                 return <SubCard content={true} >                               
-                     <PaymentField element={custCart.payment} onSave={addProductPaymentList} index='1'></PaymentField>
+                     <PaymentField element={custCart.payment} setElement={setPayment} index='1'></PaymentField>
                  </SubCard>
 
         }
+    }
+
+    const processOrder= ()=>{
+        
+        if(step<4)
+        setStep(step+1);
     }
  
     useEffect(() => {
@@ -206,11 +219,20 @@ const CustOrderCart = ({addItemToCart, addChargeToCart}) => {
                                 </Grid>
                             </SubCard>
                             <Grid container spacing={1}>
-                                <Grid item xs={10} lg={10} md={10}>
+                                <Grid item xs={12} lg={12} md={12}>
+                                 <ButtonGroup fullWidth>
+                                    {step!==1 &&
+                                    <Button sx variant='outlined' color='primary' fullWidth
+                                        
+                                    onClick={()=> setStep(step-1)}
+                                    >{stepLevel[step-1]}</Button>
+                                    }  
+                                    
                                     <Button sx variant='outlined' color='error' fullWidth
                                     
-                                     onClick={()=> setStep(step+1)}
-                                    >Checkout</Button>
+                                     onClick={()=> processOrder()}
+                                    >{stepLevel[step]}</Button>
+                                    </ButtonGroup>
                                 </Grid>
                             </Grid>
                             

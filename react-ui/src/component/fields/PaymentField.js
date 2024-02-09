@@ -9,6 +9,7 @@ export default function PaymentField(props) {
     let newElement ={...element}
     newElement[e.target.name] = e.target.value;
     setElement(newElement);
+    props.setElement(newElement);
   }
 
   return (

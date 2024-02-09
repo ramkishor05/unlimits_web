@@ -4,7 +4,8 @@ import {
     SALE_TO_EDIT,
     ADD_TO_CART,
     ADD_CHARGE_TO_CART,
-    ADD_ITEM_TO_CART, 
+    ADD_ITEM_TO_CART,
+    ADD_PAYMENT_TO_CART, 
 } from '../../types';
 
 const INITIAL_STATE = {
@@ -23,7 +24,8 @@ const INITIAL_STATE = {
     },
     custCart: {
         selectedItems:[],
-        custProductSaleAdditionalList:[]
+        additionalCharges:[],
+        payment: {}
     }
 };
 
@@ -54,7 +56,13 @@ export default (state = INITIAL_STATE, action) => {
         case ADD_CHARGE_TO_CART:
             return { ...state, custCart :  {
                 ... state.custCart,
-                custProductSaleAdditionalList: action.payload
+                additionalCharges: action.payload
+            }};
+    
+        case ADD_PAYMENT_TO_CART:
+            return { ...state, custCart :  {
+                ... state.custCart,
+                payment: action.payload
             }};
         default:
             return state;
