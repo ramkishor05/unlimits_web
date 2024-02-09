@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 
 import { 
     addCustSale, editCustSale, deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList,getCustBusinessList,
-    addToCart
+    addItemToCart, addChargeToCart
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
@@ -259,7 +259,7 @@ class CustOrderPage extends Component {
             itemObject['salePrice']=custProduct.retailPrice;
             itemObject['purchasePrice']=custProduct.purchasePrice;
             console.log("addToCart = ", custProduct)
-            this.props.addToCart(itemObject);
+            this.props.addItemToCart(itemObject);
         }
     }
 
@@ -331,7 +331,7 @@ class CustOrderPage extends Component {
 
 const mapStateToProps = state => {
     const { user } = state.userReducer;
-    const { custSaleList, custCartList} = state.custSaleReducer;
+    const { custSaleList} = state.custSaleReducer;
     const { custCustomerList} = state.custCustomerReducer;
     const { custProductList} = state.custProductReducer;
     const { custBusinessList} = state.custBusinessReducer;
@@ -345,4 +345,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, addToCart})(CustOrderPage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, addItemToCart, addChargeToCart})(CustOrderPage);

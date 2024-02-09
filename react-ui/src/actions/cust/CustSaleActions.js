@@ -4,7 +4,9 @@ import {
     SALE_TO_EDIT,
     SHOW_LOADER,
     REMOVE_LOADER,
-    ADD_TO_CART
+    ADD_TO_CART,
+    ADD_CHARGE_TO_CART,
+    ADD_ITEM_TO_CART
 } from '../../types';
 import CustSaleService from '../../services/CustSaleService';
 
@@ -124,12 +126,20 @@ export const renderSaleToEdit = payload => {
 };
 
 // Action creator for rendering a specific sale to edit.
-export const addToCart = payload => {
+export const addItemToCart = payload => {
     return {
-        type: ADD_TO_CART,
+        type: ADD_ITEM_TO_CART,
         payload,
     };
 };
+
+export const addChargeToCart = payload => {
+    return {
+        type: ADD_CHARGE_TO_CART,
+        payload,
+    };
+};
+
 
 // Action creator for editing sales in the system.
 export const editCustSale = (id, data, refreshSales, clear, successNotification, errorNotification) => async dispatch => {
