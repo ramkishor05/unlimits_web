@@ -12,7 +12,7 @@ export default function MediaCard(props) {
   return (
     <Card className="card">
       <CardMedia
-        sx={{ height: 200}}
+        sx={{ height: 150}}
         image={
             item.logoUrl
         }
