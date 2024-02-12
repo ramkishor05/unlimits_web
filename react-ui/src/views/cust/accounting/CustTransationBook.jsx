@@ -84,7 +84,9 @@ class CustTransation extends Component {
         let transations=[]
         this.setState({...this.state, transations:[]})
         this.props.custTransationList.forEach(custTransation=>{
+            custTransation.transactionAmount=custTransation.transactionAmount==null ? 0: custTransation.transactionAmount;
             transations.push({
+                id:custTransation.transactionId,
                 date:custTransation.transactionDate,
                 desc: custTransation.transactionMode,
                 type: custTransation.transactionType,
@@ -108,8 +110,6 @@ class CustTransation extends Component {
         if(start && end){
             let startFormat= format(start,'yyyy-MM-dd')+" 00:00:00";
             let endFormat=format(end,'yyyy-MM-dd')+" 23:59:59";
-            console.log(startFormat);
-            console.log(endFormat);
            await this.props.getCustTransationFiltedList(startFormat, endFormat);
            this.updateTransations();
         }
@@ -150,6 +150,8 @@ class CustTransation extends Component {
 
     getDebit=()=>{
         let transactionAmountTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionType=='Debit').reduce((previousValue, currentValue) => {
+           
+            currentValue.transactionAmount=currentValue.transactionAmount==null ? 0: currentValue.transactionAmount;
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
         return transactionAmountTotal;
@@ -157,6 +159,8 @@ class CustTransation extends Component {
 
      getCredit=()=>{
         let transactionAmountTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionType=='Credit').reduce((previousValue, currentValue) => {
+            currentValue.transactionAmount=currentValue.transactionAmount==null ? 0: currentValue.transactionAmount;
+
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
         return transactionAmountTotal;
@@ -164,6 +168,8 @@ class CustTransation extends Component {
 
      getOnhand=()=>{
         let cashCreditTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionMode=='Cash' && custTransation.transactionType=='Credit').reduce((previousValue, currentValue) => {
+            currentValue.transactionAmount=currentValue.transactionAmount==null ? 0: currentValue.transactionAmount;
+
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
 
@@ -274,6 +280,7 @@ class CustTransation extends Component {
                                 <table className="table mb-0" style={{border:1, borderStyle:'dashed'}}>
                                 <thead>
                                     <tr>
+                                    <th scope="col">Id</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Mode</th>
                                     <th scope="col">Type</th>
@@ -291,6 +298,9 @@ class CustTransation extends Component {
                                    this.state.transations && this.state.transations.map(transation=>
                         
                                     <tr className="fw-normal">
+                                        <th>
+                                         <span className="ms-2">{transation.id}</span>
+                                    </th>
                                     <th>
                                          <span className="ms-2">{transation.date}</span>
                                     </th>

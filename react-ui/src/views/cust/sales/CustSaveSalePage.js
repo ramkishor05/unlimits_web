@@ -4,10 +4,10 @@ import 'date-fns';
 import moment from 'moment';
 
 // material-ui
-import { Avatar, Box, Button, Card, CardContent, Chip, Divider, FormControl, FormControlLabel, FormLabel, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Radio, RadioGroup, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ToggleButton, Tooltip, Typography} from '@material-ui/core';
+import { Avatar, Button, Card, CardContent, Chip, Divider, FormControl, FormControlLabel, FormLabel, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Radio, RadioGroup, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ToggleButton, Tooltip, Typography} from '@material-ui/core';
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 // project imports
-import { makeStyles, styled } from '@material-ui/styles';
+import { makeStyles} from '@material-ui/styles';
 import ItemOptions from '../../../component/dropdwons/ItemOptions';
 import { 
     getCustProductList, getCustCustomerList
@@ -16,27 +16,15 @@ import {
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
 import DynamicField from '../../../component/fields/DynamicField';
 import { connect } from 'react-redux';
-import { GridCloseIcon } from '@mui/x-data-grid';
-import { Close, LabelImportant } from '@material-ui/icons';
-import PaymentField from '../../../component/fields/PaymentField';
+import { LabelImportant } from '@material-ui/icons';
 import PaymentFieldGroup from '../../../component/fields/PaymentFieldGroup';
 import MainCard from '../../../component/cards/MainCard';
 import { getValue } from '../../../component/utils/CommanUtil';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ToggleSwitch from '../../../component/buttons/ToggleSwitch';
-import Shoppingcard from '../../../component/cards/ShoppingCard';
-function generate(element) {
-    return [0, 1, 2].map((value) =>
-      React.cloneElement(element, {
-        key: value,
-      }),
-    );
-  }
-  
-  const Demo = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
-  }));
+import CustSalePaymentService from '../../../services/CustSalePaymentService';
+import CustTransationService from '../../../services/CustTransationService';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -161,6 +149,10 @@ const useStyles = makeStyles((theme) => ({
             amount: null
         },
         validationMap: {}
+    }
+
+    componentDidMount(){
+
     }
 
     constructor (props){
@@ -547,11 +539,24 @@ const useStyles = makeStyles((theme) => ({
         )
     }
 
-     paymentChange = (payment, e) => {
+    paymentChange = (payment, e) => {
         const newpayment={...payment};
         newpayment[e.target.name] = e.target.value;
         this.setState({...this.state, payment: newpayment});
-     }
+        
+        const transaction={};
+        transaction['transactionAmount']=newpayment.amount;
+        transaction['transactionType']='Credit';
+        transaction['transactionMode']=newpayment.mode;
+        transaction['transactionDate']=moment().format('YYYY-MM-DD');
+        transaction['transactionStatus']=newpayment.mode=='Unpaid' ? 'Unpaid': 'Paid';
+        transaction['transactionReciverId']=this.props.userDetail.id;
+        transaction['transactionSenderId']=this.state.customerId;
+        transaction['transactionMakerId']=this.props.userDetail.id;
+        transaction['transactionService']='SALE';
+        console.log("transaction=",transaction)
+        CustTransationService.add(transaction);
+    }
 
     getSelectedItemsGrid=()=>{
         return  (
@@ -892,7 +897,6 @@ const useStyles = makeStyles((theme) => ({
 const mapStateToProps = state => {
 
     const { userDetail } = state.userReducer;
-
 
     const { custProductList } = state.custProductReducer;
 

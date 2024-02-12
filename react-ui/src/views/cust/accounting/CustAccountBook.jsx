@@ -123,7 +123,7 @@ class CustTransation extends Component {
     updateTransations=()=>{
         let transations=[]
         this.setState({...this.state, transations:[]})
-        this.props.custTransationList.forEach(custTransation=>{
+        this.props.custTransationFiltedList.forEach(custTransation=>{
             transations.push({
                 id:custTransation.transactionDate,
                 date:custTransation.transactionDate,
@@ -200,36 +200,36 @@ class CustTransation extends Component {
     }
 
     getDebit=()=>{
-        let transactionAmountTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionType=='Debit').reduce((previousValue, currentValue) => {
+        let transactionAmountTotal= this.props.custTransationFiltedList &&  this.props.custTransationFiltedList.filter(custTransation=>custTransation.transactionType=='Debit').reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
         return transactionAmountTotal;
      }
 
      getCredit=()=>{
-        let transactionAmountTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionType=='Credit').reduce((previousValue, currentValue) => {
+        let transactionAmountTotal= this.props.custTransationFiltedList &&  this.props.custTransationFiltedList.filter(custTransation=>custTransation.transactionType=='Credit').reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
         return transactionAmountTotal;
      }
 
      getOnhand=()=>{
-        let cashCreditTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionMode=='Cash' && custTransation.transactionType=='Credit').reduce((previousValue, currentValue) => {
+        let cashCreditTotal= this.props.custTransationFiltedList &&  this.props.custTransationFiltedList.filter(custTransation=>custTransation.transactionMode=='Cash' && custTransation.transactionType=='Credit').reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
 
-        let cashDebitTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionMode=='Cash' && custTransation.transactionType=='Debit').reduce((previousValue, currentValue) => {
+        let cashDebitTotal= this.props.custTransationFiltedList &&  this.props.custTransationFiltedList.filter(custTransation=>custTransation.transactionMode=='Cash' && custTransation.transactionType=='Debit').reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
         return cashCreditTotal-cashDebitTotal;
      }
 
      getOnline=()=>{
-        let onlineCreditTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionMode=='Online' && custTransation.transactionType=='Credit').reduce((previousValue, currentValue) => {
+        let onlineCreditTotal= this.props.custTransationFiltedList &&  this.props.custTransationFiltedList.filter(custTransation=>custTransation.transactionMode=='Online' && custTransation.transactionType=='Credit').reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
 
-        let onlineDebitTotal= this.props.custTransationList &&  this.props.custTransationList.filter(custTransation=>custTransation.transactionMode=='Online'&& custTransation.transactionType=='Debit').reduce((previousValue, currentValue) => {
+        let onlineDebitTotal= this.props.custTransationFiltedList &&  this.props.custTransationFiltedList.filter(custTransation=>custTransation.transactionMode=='Online'&& custTransation.transactionType=='Debit').reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.transactionAmount);
         }, 0)
         return onlineCreditTotal-onlineDebitTotal;
@@ -365,7 +365,7 @@ class CustTransation extends Component {
 
                         <DynamicTable 
                         headers={headers} 
-                        dataList={this.props.custTransationList}
+                        dataList={this.props.custTransationFiltedList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
@@ -405,9 +405,8 @@ class CustTransation extends Component {
 
 const mapStateToProps = state => {
     const { userDetail } = state.userReducer;
-    console.log("user=", userDetail)
-    const { custTransationList } = state.custTransationReducer;
-    return { custTransationList, userDetail};
+    const { custTransationFiltedList } = state.custTransationReducer;
+    return { custTransationFiltedList, userDetail};
 };
 
 

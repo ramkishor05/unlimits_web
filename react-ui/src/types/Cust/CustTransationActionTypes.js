@@ -1,3 +1,6 @@
+export const GET_FILTED_CUST_TRANSATION_SUCCESS = 'get_filter_cust_transation_success';
+export const GET_FILTED_CUST_TRANSATION_FAIL = 'get_filter_cust_transation_fail';
+
 export const GET_ALL_CUST_TRANSATION_SUCCESS = 'get_all_cust_transation_success';
 export const GET_ALL_CUST_TRANSATION_FAIL = 'get_all_cust_transation_fail';
 

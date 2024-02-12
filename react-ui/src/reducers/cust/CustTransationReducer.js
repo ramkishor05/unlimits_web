@@ -6,7 +6,9 @@ import {
    GET_CUST_TRANSATION_LONG_SUCCESS,
    ADD_CUST_TRANSATION_SUCCESS,
    ADD_CUST_TRANSATION_FAIL,
-   RENDER_CUST_TRANSATION_TO_EDIT
+   RENDER_CUST_TRANSATION_TO_EDIT,
+   GET_FILTED_CUST_TRANSATION_SUCCESS,
+   GET_FILTED_CUST_TRANSATION_FAIL
 } from '../../types';
 
 const INITIAL_STATE = {
@@ -20,6 +22,7 @@ const INITIAL_STATE = {
         desc: '',
         typeId: ''
     },
+    custTransationFiltedList: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -28,6 +31,12 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, custTransationList: action.payload };
 
         case GET_ALL_CUST_TRANSATION_FAIL:
+            return { ...state };
+
+        case GET_FILTED_CUST_TRANSATION_SUCCESS:
+            return { ...state, custTransationFiltedList: action.payload };
+
+        case GET_FILTED_CUST_TRANSATION_FAIL:
             return { ...state };
 
         case GET_CUST_TRANSATION_TODAY_SUCCESS:

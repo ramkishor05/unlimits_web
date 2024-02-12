@@ -5,7 +5,9 @@ import {
    REMOVE_LOADER,
    ADD_CUST_TRANSATION_SUCCESS,
    EDIT_CUST_TRANSATION_SUCCESS,
-   RENDER_CUST_TRANSATION_TO_EDIT
+   RENDER_CUST_TRANSATION_TO_EDIT,
+   GET_FILTED_CUST_TRANSATION_SUCCESS,
+   GET_FILTED_CUST_TRANSATION_FAIL
 } from '../../types';
 import CustTransationService from '../../services/CustTransationService';
 
@@ -38,12 +40,12 @@ export const getCustTransationFiltedList = (startDate, endDate, serviceType) => 
         const custTransationList = await CustTransationService.getFilted(startDate, endDate, serviceType);
 
         if (custTransationList) {
-            dispatch({ type: GET_ALL_CUST_TRANSATION_SUCCESS, payload: custTransationList });
+            dispatch({ type: GET_FILTED_CUST_TRANSATION_SUCCESS, payload: custTransationList });
         }
         dispatch({ type: REMOVE_LOADER });
 
     } catch(error) {
-        dispatch({ type: GET_ALL_CUST_TRANSATION_FAIL });
+        dispatch({ type: GET_FILTED_CUST_TRANSATION_FAIL });
         dispatch({ type: REMOVE_LOADER });
         console.log(error);
     }
