@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
@@ -33,7 +33,8 @@ import CustTransationService from '../../../services/CustTransationService';
 //-----------------------|| CustOrderCart ||-----------------------//
 
 const CustOrderCart = (props) => {
-    const  {addItemToCart, addChargeToCart, addPaymentToCart}=props;
+
+    const  {editCart, addItemToCart}=props;
     const theme = useTheme();
     const dispatch = useDispatch();
    
@@ -55,6 +56,26 @@ const CustOrderCart = (props) => {
         4: "Place Order"
     }
 
+    useLayoutEffect(() => {
+        custCart['discounts']='';
+        custCart['totalPrice']='';
+        custCart['totalQnt']= '';
+        custCart['customerId']= '';
+        custCart['userId']='';
+        custCart['saleDate']=moment().format('YYYY-MM-DD');
+        custCart['custProductSaleItemList']= [...custCart.custProductSaleItemList];
+        custCart['custProductSaleAdditionalList']= [...custCart.custProductSaleAdditionalList];
+        custCart['custProductSalePaymentList']=[...custCart.custProductSalePaymentList]
+        console.log("custCart=",custCart)
+      }, []);
+
+      useEffect(() => {
+        custCart['saleDate']=moment().format('YYYY-MM-DD');
+        custCart['custProductSaleItemList']= [...custCart.custProductSaleItemList];
+        custCart['custProductSaleAdditionalList']= [...custCart.custProductSaleAdditionalList];
+        console.log("custCart=",custCart)
+      }, []);
+
     const handleToggle = () => {
         setOpen(!open);
     };
@@ -65,11 +86,13 @@ const CustOrderCart = (props) => {
     }
 
     const addProductAdditionalList= (formValues)=>{
-        addChargeToCart(formValues);
+        custCart['custProductSaleAdditionalList']= [...formValues];
+        editCart(custCart);
     }
 
     const setPayment=(payment)=>{
-        addPaymentToCart(payment);
+        custCart['custProductSalePaymentList']= [payment];
+        editCart(custCart);
     }
 
     const customerAction=(customer)=>{
@@ -93,17 +116,17 @@ const CustOrderCart = (props) => {
 
 
     const getSubTotal=()=>{
-        return custCart.selectedItems && custCart.selectedItems.reduce((previousValue, currentValue) => {
+        return custCart.custProductSaleItemList && custCart.custProductSaleItemList.reduce((previousValue, currentValue) => {
             return previousValue + currentValue.saleQnt * currentValue.salePrice.price;
         }, 0)
     }
 
     const getTotalSale = () =>{
         let subTotal=  getSubTotal();
-        let otherItemTotal= custCart.additionalCharges && custCart.additionalCharges.reduce((previousValue, currentValue) => {
+        let otherItemTotal= custCart.custProductSaleAdditionalList && custCart.custProductSaleAdditionalList.reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.value);
         }, 0);
-        let discountTotal= custCart.selectedItems && custCart.selectedItems.reduce((previousValue, currentValue) => {
+        let discountTotal= custCart.custProductSaleItemList && custCart.custProductSaleItemList.reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.discount);
         }, 0);
         return subTotal+otherItemTotal-discountTotal;
@@ -114,7 +137,7 @@ const CustOrderCart = (props) => {
             case 1:
                 return <SubCard title="Cart Items">
                 {
-                    custCart.selectedItems && custCart.selectedItems.map(selectedItem=>
+                    custCart.custProductSaleItemList && custCart.custProductSaleItemList.map(selectedItem=>
                         <Grid container spacing={2}>                        
                         <Grid item xs={12} lg={2} md={2}>
                             <img
@@ -140,13 +163,13 @@ const CustOrderCart = (props) => {
                 </SubCard>;
             case 2:
                 return <SubCard content={true} title="Additional Charges" secondary={ 
-                    <DynamicField list={custCart.additionalCharges} 
+                    <DynamicField list={custCart.custProductSaleAdditionalList} 
                     type={'number'}
                     onSave={addProductAdditionalList}></DynamicField>
                     }>                               
                     <Grid container >      
                         {
-                        custCart.additionalCharges && custCart.additionalCharges.map((addAdditionalCharge,i)=>
+                        custCart.custProductSaleAdditionalList && custCart.custProductSaleAdditionalList.map((addAdditionalCharge,i)=>
                         <>
                             <Grid item xs={12} lg={5} md={5} >{addAdditionalCharge.field} </Grid>
                             <Grid item xs={12} lg={2} md={2} >:</Grid>
@@ -231,7 +254,7 @@ const CustOrderCart = (props) => {
                 >
                     
                         <IconButton color="warning" size="large"  >
-                            <Badge  badgeContent={custCart?.selectedItems?.length} color="primary">
+                            <Badge  badgeContent={custCart?.custProductSaleItemList?.length} color="primary">
                                  <ShoppingCartCheckout > </ShoppingCartCheckout>
                             </Badge>
                         </IconButton>

@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 
 import { 
     addCustSale, editCustSale, deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList,getCustBusinessList,
-    addItemToCart, addChargeToCart, addPaymentToCart
+    addItemToCart, addChargeToCart, editCart
  } from '../../../actions';
 
  import MainCard from '../../../component/cards/MainCard';
@@ -258,7 +258,6 @@ class CustOrderPage extends Component {
             itemObject['isWholeSale']=false;
             itemObject['salePrice']=custProduct.retailPrice;
             itemObject['purchasePrice']=custProduct.purchasePrice;
-            console.log("addToCart = ", custProduct)
             this.props.addItemToCart(itemObject);
         }
     }
@@ -345,4 +344,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, addItemToCart, addChargeToCart, addPaymentToCart})(CustOrderPage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, addItemToCart,  editCart})(CustOrderPage);

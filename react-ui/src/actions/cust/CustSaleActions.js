@@ -7,7 +7,8 @@ import {
     ADD_TO_CART,
     ADD_CHARGE_TO_CART,
     ADD_ITEM_TO_CART,
-    ADD_PAYMENT_TO_CART
+    ADD_PAYMENT_TO_CART,
+    CART_TO_EDIT
 } from '../../types';
 import CustSaleService from '../../services/CustSaleService';
 
@@ -141,9 +142,9 @@ export const addChargeToCart = payload => {
     };
 };
 
-export const addPaymentToCart = payload => {
+export const editCart = payload => {
     return {
-        type: ADD_PAYMENT_TO_CART,
+        type: CART_TO_EDIT,
         payload,
     };
 };
