@@ -26,15 +26,20 @@ import ShoppingCartCheckout from '@mui/icons-material/ShoppingCartCheckout';
 import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
 import DynamicField from '../../../component/fields/DynamicField';
 import PaymentField from '../../../component/fields/PaymentField';
+import moment from 'moment';
+import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
+import CustTransationService from '../../../services/CustTransationService';
 
 //-----------------------|| CustOrderCart ||-----------------------//
 
-const CustOrderCart = ({addItemToCart, addChargeToCart, addPaymentToCart}) => {
-
+const CustOrderCart = (props) => {
+    const  {addItemToCart, addChargeToCart, addPaymentToCart}=props;
     const theme = useTheme();
     const dispatch = useDispatch();
    
     const custSaleReducer = useSelector((state) => state.custSaleReducer);
+
+    const validationMap={};
 
     const {custCart} =custSaleReducer;
 
@@ -67,6 +72,26 @@ const CustOrderCart = ({addItemToCart, addChargeToCart, addPaymentToCart}) => {
         addPaymentToCart(payment);
     }
 
+    const customerAction=(customer)=>{
+        if(customer){
+            //this.checkValidation(this.findField("customer"), customer.id)
+            custCart['customerId']= customer.id;
+        } else{
+            //this.checkValidation(this.findField("customer"), null)
+            this.setState({customerId: null});
+        }
+    }
+
+    const isError = (name)=>{
+        return validationMap[name]!=null;
+    }
+
+    const errorMessage = (name)=>{
+        return validationMap[name];
+    }
+    
+
+
     const getSubTotal=()=>{
         return custCart.selectedItems && custCart.selectedItems.reduce((previousValue, currentValue) => {
             return previousValue + currentValue.saleQnt * currentValue.salePrice.price;
@@ -87,32 +112,32 @@ const CustOrderCart = ({addItemToCart, addChargeToCart, addPaymentToCart}) => {
     const rendorOrder= ()=>{
         switch(step){
             case 1:
-            return <SubCard title="Cart Items">
-            {
-            custCart.selectedItems && custCart.selectedItems.map(selectedItem=>
-                    <Grid container spacing={2}>                        
-                    <Grid item xs={12} lg={2} md={2}>
-                        <img
-                            width={40}
-                            height={40}
-                            src={selectedItem.custProduct.logoUrl}
-                        />
-                        
-                    </Grid>
-                    <Grid item xs={12} lg={5} md={5}>
-                        <Typography>{selectedItem.custProduct.title}</Typography>
-                        <Typography>{selectedItem.salePrice.price}</Typography>
-                    </Grid>
-                    <Grid item xs={12} lg={5} md={5} sx={{padding:2}}>
-                    <ShoppingCartButton  
-                        counter={1} 
-                        updateCounter={(counter)=> itemQnt(selectedItem, counter )}>
-                    </ShoppingCartButton>  
-                    </Grid>
-                    </Grid>
-                )
-            }
-            </SubCard>;
+                return <SubCard title="Cart Items">
+                {
+                    custCart.selectedItems && custCart.selectedItems.map(selectedItem=>
+                        <Grid container spacing={2}>                        
+                        <Grid item xs={12} lg={2} md={2}>
+                            <img
+                                width={40}
+                                height={40}
+                                src={selectedItem.custProduct.logoUrl}
+                            />
+                            
+                        </Grid>
+                        <Grid item xs={12} lg={5} md={5}>
+                            <Typography>{selectedItem.custProduct.title}</Typography>
+                            <Typography>{selectedItem.salePrice.price}</Typography>
+                        </Grid>
+                        <Grid item xs={12} lg={5} md={5} sx={{padding:2}}>
+                        <ShoppingCartButton  
+                            counter={1} 
+                            updateCounter={(counter)=> itemQnt(selectedItem, counter )}>
+                        </ShoppingCartButton>  
+                        </Grid>
+                        </Grid>
+                    )
+                }
+                </SubCard>;
             case 2:
                 return <SubCard content={true} title="Additional Charges" secondary={ 
                     <DynamicField list={custCart.additionalCharges} 
@@ -123,26 +148,60 @@ const CustOrderCart = ({addItemToCart, addChargeToCart, addPaymentToCart}) => {
                         {
                         custCart.additionalCharges && custCart.additionalCharges.map((addAdditionalCharge,i)=>
                         <>
-                        <Grid item xs={12} lg={5} md={5} >{addAdditionalCharge.field} </Grid>
-                        <Grid item xs={12} lg={2} md={2} >:</Grid>
-                        <Grid item xs={12} lg={5} md={5} sx={{ textAlign: 'right'}} >{addAdditionalCharge.value}</Grid>
+                            <Grid item xs={12} lg={5} md={5} >{addAdditionalCharge.field} </Grid>
+                            <Grid item xs={12} lg={2} md={2} >:</Grid>
+                            <Grid item xs={12} lg={5} md={5} sx={{ textAlign: 'right'}} >{addAdditionalCharge.value}</Grid>
                         </>
                         )
                         }
                     </Grid>
                  </SubCard>
             case 3:
-                return <SubCard content={true} >                               
+                return <>
+                <SubCard content={true} >
+
+                <CustomerDropDwon 
+                    label="Sale to" 
+                    name="customerId"
+                    value={custCart.customerId} 
+                    customerList = {props.custCustomerList} 
+                    customerAction={customerAction}
+                    errorMessage={errorMessage}
+                    isError={isError}
+                    //checkValidation={this.checkValidation}
+                    >
+                    </CustomerDropDwon>    
+                </SubCard>
+                
+                <SubCard content={true} >        
+                                       
                      <PaymentField element={custCart.payment} setElement={setPayment} index='1'></PaymentField>
                  </SubCard>
+                 </>
 
         }
     }
 
     const processOrder= ()=>{
         
-        if(step<4)
-        setStep(step+1);
+        if(step<4){
+            switch(step){
+                case 3:
+                    const transaction={};
+                    transaction['transactionAmount']=custCart.payment.amount;
+                    transaction['transactionType']='Credit';
+                    transaction['transactionMode']=custCart.payment.mode;
+                    transaction['transactionDate']=moment().format('YYYY-MM-DD');
+                    transaction['transactionStatus']=custCart.payment.mode=='Unpaid' ? 'Unpaid': 'Paid';
+                    transaction['transactionReciverId']=props.userDetail.id;
+                    transaction['transactionSenderId']=custCart.customerId;
+                    transaction['transactionMakerId']=props.userDetail.id;
+                    transaction['transactionService']='SALE';
+                    console.log("transaction=",transaction)
+                    CustTransationService.add(transaction);
+            }
+            setStep(step+1);
+        }
     }
  
     useEffect(() => {

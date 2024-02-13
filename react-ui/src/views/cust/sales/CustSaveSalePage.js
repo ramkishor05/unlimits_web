@@ -545,11 +545,11 @@ const useStyles = makeStyles((theme) => ({
         this.setState({...this.state, payment: newpayment});
         
         const transaction={};
-        transaction['transactionAmount']=newpayment.amount;
+        transaction['transactionAmount']=this.state.payment.amount;
         transaction['transactionType']='Credit';
-        transaction['transactionMode']=newpayment.mode;
+        transaction['transactionMode']=this.state.payment.mode;
         transaction['transactionDate']=moment().format('YYYY-MM-DD');
-        transaction['transactionStatus']=newpayment.mode=='Unpaid' ? 'Unpaid': 'Paid';
+        transaction['transactionStatus']=this.state.payment.mode=='Unpaid' ? 'Unpaid': 'Paid';
         transaction['transactionReciverId']=this.props.userDetail.id;
         transaction['transactionSenderId']=this.state.customerId;
         transaction['transactionMakerId']=this.props.userDetail.id;
