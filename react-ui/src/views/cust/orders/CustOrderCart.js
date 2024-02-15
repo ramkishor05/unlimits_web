@@ -29,12 +29,13 @@ import PaymentField from '../../../component/fields/PaymentField';
 import moment from 'moment';
 import CustomerDropDwon from '../../../component/dropdwons/CustomerDropDwon';
 import CustTransationService from '../../../services/CustTransationService';
+import { getCustCartByUser } from '../../../actions';
 
 //-----------------------|| CustOrderCart ||-----------------------//
 
 const CustOrderCart = (props) => {
 
-    const  {editCart, addItemToCart}=props;
+    const  {editCart, addItemToCart, custProductList}=props;
     const theme = useTheme();
     const dispatch = useDispatch();
    
@@ -48,6 +49,11 @@ const CustOrderCart = (props) => {
     const [open, setOpen] = React.useState(false);
 
     const [step, setStep] = React.useState(1);
+
+    const findProduct=(id)=>{
+        console.log("custProductList=", custProductList)
+        return custProductList.find(custProduct=>custProduct.id==id)
+    }
     
     const stepLevel= {
         1: "Check Out",
@@ -57,24 +63,26 @@ const CustOrderCart = (props) => {
     }
 
     useLayoutEffect(() => {
+
         custCart['discounts']='';
         custCart['totalPrice']='';
         custCart['totalQnt']= '';
         custCart['customerId']= '';
         custCart['userId']='';
         custCart['saleDate']=moment().format('YYYY-MM-DD');
-        custCart['custProductSaleItemList']= [...custCart.custProductSaleItemList];
-        custCart['custProductSaleAdditionalList']= [...custCart.custProductSaleAdditionalList];
-        custCart['custProductSalePaymentList']=[...custCart.custProductSalePaymentList]
+        custCart['custCartSaleItemList']= [...custCart.custCartSaleItemList];
+        custCart['custCartSaleAdditionalList']= [...custCart.custCartSaleAdditionalList];
+        custCart['payment']=custCart.payment
         console.log("custCart=",custCart)
       }, []);
 
       useEffect(() => {
+        dispatch(getCustCartByUser(props.userDetail.id));
         custCart['saleDate']=moment().format('YYYY-MM-DD');
-        custCart['custProductSaleItemList']= [...custCart.custProductSaleItemList];
-        custCart['custProductSaleAdditionalList']= [...custCart.custProductSaleAdditionalList];
+        custCart['custCartSaleItemList']= [...custCart.custCartSaleItemList];
+        custCart['custCartSaleAdditionalList']= [...custCart.custCartSaleAdditionalList];
         console.log("custCart=",custCart)
-      }, []);
+      }, [getCustCartByUser]);
 
     const handleToggle = () => {
         setOpen(!open);
@@ -85,13 +93,13 @@ const CustOrderCart = (props) => {
         addItemToCart(cartItem);
     }
 
-    const addProductAdditionalList= (formValues)=>{
-        custCart['custProductSaleAdditionalList']= [...formValues];
+    const addCartAdditionalList= (formValues)=>{
+        custCart['custCartSaleAdditionalList']= [...formValues];
         editCart(custCart);
     }
 
     const setPayment=(payment)=>{
-        custCart['custProductSalePaymentList']= [payment];
+        custCart['custCartSalePaymentList']= [payment];
         editCart(custCart);
     }
 
@@ -116,20 +124,29 @@ const CustOrderCart = (props) => {
 
 
     const getSubTotal=()=>{
-        return custCart.custProductSaleItemList && custCart.custProductSaleItemList.reduce((previousValue, currentValue) => {
+        return custCart.custCartSaleItemList && custCart.custCartSaleItemList.reduce((previousValue, currentValue) => {
             return previousValue + currentValue.saleQnt * currentValue.salePrice.price;
         }, 0)
     }
 
     const getTotalSale = () =>{
         let subTotal=  getSubTotal();
-        let otherItemTotal= custCart.custProductSaleAdditionalList && custCart.custProductSaleAdditionalList.reduce((previousValue, currentValue) => {
+        let otherItemTotal= custCart.custCartSaleAdditionalList && custCart.custCartSaleAdditionalList.reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.value);
         }, 0);
-        let discountTotal= custCart.custProductSaleItemList && custCart.custProductSaleItemList.reduce((previousValue, currentValue) => {
+        let discountTotal= custCart.custCartSaleItemList && custCart.custCartSaleItemList.reduce((previousValue, currentValue) => {
             return previousValue + Number.parseFloat(currentValue.discount);
         }, 0);
         return subTotal+otherItemTotal-discountTotal;
+    }
+
+    const items= ()=>{
+        console.log("custCart=",custCart)
+        const items= [...custCart.custCartSaleItemList];
+        return items.map(item=>{
+            item['custProduct']=findProduct(item.custProductId);
+            return item;
+        })
     }
 
     const rendorOrder= ()=>{
@@ -137,7 +154,7 @@ const CustOrderCart = (props) => {
             case 1:
                 return <SubCard title="Cart Items">
                 {
-                    custCart.custProductSaleItemList && custCart.custProductSaleItemList.map(selectedItem=>
+                    items().map(selectedItem=>
                         <Grid container spacing={2}>                        
                         <Grid item xs={12} lg={2} md={2}>
                             <img
@@ -153,7 +170,7 @@ const CustOrderCart = (props) => {
                         </Grid>
                         <Grid item xs={12} lg={5} md={5} sx={{padding:2}}>
                         <ShoppingCartButton  
-                            counter={1} 
+                            counter={selectedItem.saleQnt} 
                             updateCounter={(counter)=> itemQnt(selectedItem, counter )}>
                         </ShoppingCartButton>  
                         </Grid>
@@ -163,13 +180,13 @@ const CustOrderCart = (props) => {
                 </SubCard>;
             case 2:
                 return <SubCard content={true} title="Additional Charges" secondary={ 
-                    <DynamicField list={custCart.custProductSaleAdditionalList} 
+                    <DynamicField list={custCart.custCartSaleAdditionalList} 
                     type={'number'}
-                    onSave={addProductAdditionalList}></DynamicField>
+                    onSave={addCartAdditionalList}></DynamicField>
                     }>                               
                     <Grid container >      
                         {
-                        custCart.custProductSaleAdditionalList && custCart.custProductSaleAdditionalList.map((addAdditionalCharge,i)=>
+                        custCart.custCartSaleAdditionalList && custCart.custCartSaleAdditionalList.map((addAdditionalCharge,i)=>
                         <>
                             <Grid item xs={12} lg={5} md={5} >{addAdditionalCharge.field} </Grid>
                             <Grid item xs={12} lg={2} md={2} >:</Grid>
@@ -254,7 +271,7 @@ const CustOrderCart = (props) => {
                 >
                     
                         <IconButton color="warning" size="large"  >
-                            <Badge  badgeContent={custCart?.custProductSaleItemList?.length} color="primary">
+                            <Badge  badgeContent={custCart?.custCartSaleItemList?.length} color="primary">
                                  <ShoppingCartCheckout > </ShoppingCartCheckout>
                             </Badge>
                         </IconButton>

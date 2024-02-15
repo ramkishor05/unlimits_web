@@ -6,7 +6,8 @@ import {
     ADD_CHARGE_TO_CART,
     ADD_ITEM_TO_CART,
     ADD_PAYMENT_TO_CART,
-    CART_TO_EDIT, 
+    CART_TO_EDIT,
+    SALE_CART_DETAIL, 
 } from '../../types';
 
 const INITIAL_STATE = {
@@ -30,9 +31,9 @@ const INITIAL_STATE = {
         totalQnt: '',
         customerId: '',
         userId:'',
-        custProductSaleItemList:[],
-        custProductSaleAdditionalList:[],
-        custProductSalePaymentList: []
+        custCartSaleItemList:[],
+        custCartSaleAdditionalList:[],
+        payment: {}
     }
 };
 
@@ -53,15 +54,16 @@ export default (state = INITIAL_STATE, action) => {
         case SALE_TO_EDIT:
             return { ...state, sale_to_edit: action.payload };
 
+        case SALE_CART_DETAIL:
         case CART_TO_EDIT:
             return { ...state, custCart: action.payload };
 
         case ADD_ITEM_TO_CART:
-                const custProductSaleItemList= state.custCart.custProductSaleItemList.filter(selectedItem=>selectedItem.custProduct.id!=action.payload.custProduct.id);
-                custProductSaleItemList.push(action.payload);
+                const custCartSaleItemList= state.custCart.custCartSaleItemList.filter(selectedItem=>selectedItem.custProduct.id!=action.payload.custProduct.id);
+                custCartSaleItemList.push(action.payload);
                 return { ...state, custCart :  {
                     ... state.custCart,
-                    custProductSaleItemList: custProductSaleItemList
+                    custCartSaleItemList: custCartSaleItemList
                 }};
         default:
             return state;

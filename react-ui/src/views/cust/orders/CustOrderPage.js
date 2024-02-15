@@ -1,34 +1,18 @@
 import React, { Component } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect} from 'react-redux';
 
 
 import { 
     addCustSale, editCustSale, deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList,getCustBusinessList,
-    addItemToCart, addChargeToCart, editCart
+    editCart
  } from '../../../actions';
-
- import MainCard from '../../../component/cards/MainCard';
-import { makeStyles } from '@material-ui/styles';
 import PrintBill from './PrintBill';
 import ProductGrids from '../../../component/products/ProductGrids';
-import { Card, CardContent, CardHeader, Divider, Grid, Paper } from '@material-ui/core';
+import { Grid} from '@material-ui/core';
 import SearchBox from '../../../component/box/SearchBox';
-import Shoppingcard from '../../../component/cards/ShoppingCard';
-import SubCard from '../../../component/cards/SubCard';
 
-import { styled } from '@mui/material/styles';
-import ShoppingCartButton from '../../../component/buttons/ShoppingCartButton';
-import QuantityField from '../../../component/fields/QuantityField';
 import CustOrderCart from './CustOrderCart';
 
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
 
 const mainheaders = [
     {
@@ -140,19 +124,6 @@ const modelheaders = [
     }
 ];
 
-const useStyles = makeStyles((theme) => ({
-    fab: {
-      margin: theme.spacing(2),
-    },
-    absolute: {
-      position: 'absolute',
-      bottom: theme.spacing(2),
-      right: theme.spacing(3),
-    },
-  }));
-  
-  
-
 class CustOrderPage extends Component {
 
      
@@ -252,21 +223,36 @@ class CustOrderPage extends Component {
     addToCart = (custProduct)=>{
         if(custProduct){
             let itemObject = {};
-            itemObject['custProduct']=custProduct;
+            itemObject['custProductId']=custProduct.id;
             itemObject['saleQnt']=1;
             itemObject['discount']=0;
             itemObject['isWholeSale']=false;
             itemObject['salePrice']=custProduct.retailPrice;
             itemObject['purchasePrice']=custProduct.purchasePrice;
-            this.props.addItemToCart(itemObject);
+            const newCart={...this.props.custCart};
+            const custCartSaleItem=newCart.custCartSaleItemList.find(selectedItem=>selectedItem.custProductId==itemObject.custProductId);
+
+            if(custCartSaleItem){
+                custCartSaleItem.saleQnt=itemObject.saleQnt+custCartSaleItem.saleQnt;
+                itemObject= custCartSaleItem;
+            }
+            const custCartSaleItemList= newCart.custCartSaleItemList.filter(selectedItem=>selectedItem.custProductId!=itemObject.custProductId);
+            
+            custCartSaleItemList.push(itemObject);
+
+            newCart.custCartSaleItemList=[...custCartSaleItemList];
+            
+            this.props.editCart(newCart);
         }
     }
 
    async componentDidMount() {
       
-        this.props.getCustProductList();
+       
         this.props.getCustBusinessList();
         this.props.getCustCustomerList();
+
+        await this.props.getCustProductList();
         this.clearAndRefresh();
     }
     
@@ -330,18 +316,11 @@ class CustOrderPage extends Component {
 
 const mapStateToProps = state => {
     const { user } = state.userReducer;
-    const { custSaleList} = state.custSaleReducer;
+    const { custSaleList, custCart} = state.custSaleReducer;
     const { custCustomerList} = state.custCustomerReducer;
     const { custProductList} = state.custProductReducer;
     const { custBusinessList} = state.custBusinessReducer;
-    return { user, custSaleList, custCustomerList, custProductList, custBusinessList};
+    return { user, custSaleList, custCustomerList, custProductList, custBusinessList, custCart};
 };
 
-const styles = {
-    addCustomerButton: {
-        color: 'white',
-        backgroundColor: 'purple'
-    },
-};
-
-export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, addItemToCart,  editCart})(CustOrderPage);
+export default connect(mapStateToProps, { addCustSale, editCustSale,deleteCustSale, getCustSaleList, getCustCustomerList, getCustProductList, getCustBusinessList, editCart})(CustOrderPage);
