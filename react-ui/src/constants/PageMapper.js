@@ -48,6 +48,8 @@ import CustOwnershipPage from '../views/cust/profile/CustOwnershipPage';
 import CustMembershipPage from '../views/cust/profile/CustMembershipPage';
 import CustUserPrivacyPage from '../views/cust/profile/CustUserPrivacyPage';
 import CustOrderPage from '../views/cust/orders/CustOrderPage';
+import GlobalTagGroup from '../views/global/tags/GlobalTagGroup';
+import GlobalTagList from '../views/global/tags/GlobalTagList';
 
 
 export const PageMapper = {
@@ -58,6 +60,8 @@ export const PageMapper = {
     "/global/menus/role/items": GlobalRoleMenuItemsPage,
     "/global/setups/category/group": GlobalCategoryGroup,
     "/global/setups/category/list": GlobalCategoryList,
+    "/global/setups/tag/group": GlobalTagGroup,
+    "/global/setups/tag/list": GlobalTagList,
     "/global/setups/unit/group": GlobalUnitGroup,
     "/global/setups/unit/list": GlobalUnitList,
     "/global/setups/currency/group": GlobalCurrencyGroup,

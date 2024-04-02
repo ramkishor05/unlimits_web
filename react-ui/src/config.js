@@ -2,7 +2,7 @@ let APP_HOST_SERVER = null;
 if (process.env.APP_HOST_SERVER) {
   APP_HOST_SERVER = process.env.APP_HOST_SERVER;
 } else {
-  APP_HOST_SERVER = "http://localhost:8080";
+  APP_HOST_SERVER = "http://192.168.29.222:8080";
 }
 
 const config = {
@@ -12,7 +12,7 @@ const config = {
     fontFamily: `'Roboto', sans-serif`,
     borderRadius: 12,
     APP_HOST_SERVER: APP_HOST_SERVER,
-    ITEM_SERVER_HOST: APP_HOST_SERVER+'/item',
+    ITEM_SERVER_HOST: APP_HOST_SERVER+'/content',
     AUTH_SERVER_HOST: APP_HOST_SERVER+'/auth',
     CRM_SERVER_HOST: APP_HOST_SERVER+'/crm',
     ORDERING_SERVER_HOST: APP_HOST_SERVER+'/ordering',

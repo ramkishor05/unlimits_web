@@ -1,32 +1,32 @@
 import {axios} from './index';
 import config from '../config';
 
-const GLOBAL_CATEGERY_GROUP_URL=`${config.ITEM_SERVER_HOST}/api/global/category/group`
+const GLOBAL_CATEGORY_URL=`${config.ITEM_SERVER_HOST}/api/global/tag/item`;
 
 export default {
     getAll() {
-        return axios.get(GLOBAL_CATEGERY_GROUP_URL)
+        return axios.get(GLOBAL_CATEGORY_URL)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
     find(minimum){
-        return axios.get(GLOBAL_CATEGERY_GROUP_URL+'/find', { params: { minimum } })
+        return axios.get(GLOBAL_CATEGORY_URL+'/find', { params: { minimum } })
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
     add(item) {
-        return axios.post(GLOBAL_CATEGERY_GROUP_URL, item)
+        return axios.post(GLOBAL_CATEGORY_URL, item)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
     update(id, item) {
         item['id']=id;
-        return axios.put(GLOBAL_CATEGERY_GROUP_URL, item)
+        return axios.put(GLOBAL_CATEGORY_URL, item)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
     delete(id) {
-        return axios.delete(GLOBAL_CATEGERY_GROUP_URL+`/${id}`)
+        return axios.delete(GLOBAL_CATEGORY_URL+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     }

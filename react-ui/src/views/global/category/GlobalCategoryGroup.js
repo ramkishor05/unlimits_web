@@ -46,7 +46,7 @@ const styles = theme => ({
     },
   });
 
-class CustCategoryGroup extends Component {
+class GlobalCategoryGroup extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -109,18 +109,19 @@ class CustCategoryGroup extends Component {
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
-                
-                <DynamicModel
-                title={this.state.title}
-                openAction={this.state.saveModel}
-                closeAction={()=> this.setState({saveModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                fields= {headers}
-                saveAction = {this.saveObject}
-                >
-                </DynamicModel>
-            
+                    {
+                    this.state.saveModel &&   
+                                <DynamicModel
+                                title={this.state.title}
+                                openAction={this.state.saveModel}
+                                closeAction={()=> this.setState({saveModel: false})}
+                                data={this.state.dataObject} 
+                                type={this.state.type}
+                                fields= {headers}
+                                saveAction = {this.saveObject}
+                                >
+                                </DynamicModel>
+                }
                 <ConfirmModel
                 openAction={this.state.deleteModel}
                 closeAction={()=> this.setState({deleteModel: false})}
@@ -142,6 +143,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalCategoryGroupList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup })(CustCategoryGroup);
+export default connect(mapStateToProps, { getGlobalCategoryGroupList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup })(GlobalCategoryGroup);
 
 

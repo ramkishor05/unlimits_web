@@ -1,18 +1,14 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { Fab } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
 
-
+// project imports
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-
-import { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory } 
-from '../../../actions';
-import { connect } from 'react-redux';
-
+import { getGlobalTagGroupList, addGlobalTagGroup, editGlobalTagGroup, deleteGlobalTagGroup } from '../../../actions';
 
 const headers = [
     {
@@ -48,8 +44,9 @@ const styles = theme => ({
     input: {
       display: 'none',
     },
-});
-class GlobalCategoryItem extends Component {
+  });
+
+class GlobalTagGroup extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -59,69 +56,74 @@ class GlobalCategoryItem extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit category list", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit Tag", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add category list", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Tag", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete category list", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete Tag", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         
         if(type=='Add')
-            this.props.addGlobalCategory(row, this.clearAndRefresh)
+            this.props.addGlobalTagGroup(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editGlobalCategory(row, this.clearAndRefresh)
+            this.props.editGlobalTagGroup(row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteGlobalCategory(row.id, this.clearAndRefresh)
+            this.props.deleteGlobalTagGroup(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalCategoryList();
+        this.props.getGlobalTagGroupList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getGlobalCategoryList();
+        this.props.getGlobalTagGroupList();
     }
-    render() {
+
+ render() {
         return (
-            <>
+                <>
                 
-                <MainCard title="Category List" 
+                    <MainCard title="Tags" 
                         button ={
-                            
-                            <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
-                                onClick={this._add}>
-                                <AddIcon />
-                            </Fab>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            className={styles.button}
+                            onClick={this._add}
+                            >
+                                Add
+                            </Button>
                         }
                     >
                         <DynamicTable 
                         headers={headers} 
-                        dataList={this.props.globalCategoryList}
+                        dataList={this.props.globalTagGroupList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
                     </MainCard>
-                    {
+                {
                     this.state.saveModel &&
-                            <DynamicModel
-                            title={this.state.title}
-                            openAction={this.state.saveModel}
-                            closeAction={()=> this.setState({saveModel: false})}
-                            data={this.state.dataObject} 
-                            type={this.state.type}
-                            fields= {headers}
-                            saveAction = {this.saveObject}
-                            >
-                            </DynamicModel>
+                    <DynamicModel
+                    title={this.state.title}
+                    openAction={this.state.saveModel}
+                    closeAction={()=> this.setState({saveModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    fields= {headers}
+                    saveAction = {this.saveObject}
+                    >
+                    </DynamicModel>
                 }
+                
+            
                 <ConfirmModel
                 openAction={this.state.deleteModel}
                 closeAction={()=> this.setState({deleteModel: false})}
@@ -137,14 +139,12 @@ class GlobalCategoryItem extends Component {
 }
 
 
-
 const mapStateToProps = state => {
-    const { globalCategoryList, show_global_category_loader } = state.globalCategoryReducer;
-
-    return { globalCategoryList, show_global_category_loader };
+    const { globalTagGroupList, show_global_category_group_loader } = state.globalTagGroupReducer;
+    return { globalTagGroupList, show_global_category_group_loader };
 };
 
 
-export default connect(mapStateToProps, { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory })(GlobalCategoryItem);
+export default connect(mapStateToProps, { getGlobalTagGroupList, addGlobalTagGroup, editGlobalTagGroup, deleteGlobalTagGroup })(GlobalTagGroup);
 
 

@@ -15,6 +15,8 @@ import UserMenuGroupReducer from './UserMenuGroupReducer';
 
 import GlobalCategoryGroupReducer from './global/GlobalCategoryGroupReducer';
 import GlobalCategoryReducer from './global/GlobalCategoryReducer';
+import GlobalTagGroupReducer from './global/GlobalTagGroupReducer';
+import GlobalTagItemReducer from './global/GlobalTagItemReducer';
 import GlobalUnitGroupReducer from './global/GlobalUnitGroupReducer';
 import GlobalUnitReducer from './global/GlobalUnitReducer';
 import GlobalCountFreqReducer from './global/GlobalCountFreqReducer';
@@ -77,6 +79,8 @@ const reducer = combineReducers({
     globalVendorReducer: GlobalVendorReducer,
     globalCategoryGroupReducer: GlobalCategoryGroupReducer,
     globalCategoryReducer: GlobalCategoryReducer,
+    globalTagGroupReducer: GlobalTagGroupReducer,
+    globalTagItemReducer: GlobalTagItemReducer,
     globalCountryReducer: GlobalCountryReducer,
     globalCurrencyGroupReducer: GlobalCurrencyGroupReducer,
     globalCurrencyItemReducer: GlobalCurrencyItemReducer,

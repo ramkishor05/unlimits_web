@@ -2,6 +2,8 @@ export * from './GlobalCategoryGroupTypes';
 
 export * from './GlobalCategorySubTypes';
 
+export * from './GlobalTagGroupTypes';
+
 export * from './GlobalUnitGroupActionTypes';
 
 export * from './GlobalUnitActionTypes';

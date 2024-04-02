@@ -1,12 +1,16 @@
 import config from '../config';
 import {axios} from './index';
 
-var endpoint = config.AUTH_SERVER_HOST+`/api/authentication`;
+var endpoint = config.AUTH_SERVER_HOST+`/api/auth`;
+
+let headers={
+    authority:"ADMIN"
+}
 
 export default {
     
     generateToken(user) {
-        return axios.post(endpoint+'/token/generate', user)
+        return axios.post(endpoint+'/login', user ,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },

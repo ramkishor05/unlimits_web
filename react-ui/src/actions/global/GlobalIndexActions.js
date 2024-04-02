@@ -3,6 +3,10 @@ export * from './GlobalCategoryGroupActions';
 
 export * from './GlobalCategoryActions';
 
+export * from './GlobalTagGroupActions';
+
+export * from './GlobalTagItemActions';
+
 export * from './GlobalUnitGroupActions';
 
 export * from './GlobalUnitActions';
