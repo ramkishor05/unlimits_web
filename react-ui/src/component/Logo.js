@@ -294,7 +294,7 @@ const Logo = (props) => {
                     fontFamily: 'Roboto,sans-serif, unset',
                     fontSize: 18,
                     color: 'blueviolet'}}>
-        Point Of Sale
+        Unlimits
       </Typography>
       </>
     );

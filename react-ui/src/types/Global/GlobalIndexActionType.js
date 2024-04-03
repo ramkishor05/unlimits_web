@@ -4,6 +4,8 @@ export * from './GlobalCategorySubTypes';
 
 export * from './GlobalTagGroupTypes';
 
+export * from './GlobalTagItemTypes';
+
 export * from './GlobalUnitGroupActionTypes';
 
 export * from './GlobalUnitActionTypes';

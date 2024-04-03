@@ -1,7 +1,7 @@
 import config from '../config';
 import {axios} from './index';
 
-const VENDOR_USER_URL=config.AUTH_SERVER_HOST+"/api/cust/user";
+const VENDOR_USER_URL=config.AUTH_SERVER_HOST+"/api/user/detail";
 
 const headers = {
     'Content-Type': 'application/json'
