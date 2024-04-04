@@ -63,7 +63,6 @@ const productsMeta = {
                 "type": "amount",
                 "render":(value, row, header, props)=>{
                     if(value){
-                        console.log("retailPrice row=",row,  props)
                         let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.retailPrice.currencyId)
                         return custCurrency ? custCurrency.symbol +""+ value : value;
                     } 
@@ -77,7 +76,6 @@ const productsMeta = {
                 "type": "amount",
                 "render":(value, row, header, props)=>{
                     if(value){
-                        console.log("wholePrice row=",row,  props)
                         let custCurrency=props.custCurrencyItemList.find(custCurrencyItem=>custCurrencyItem.id==row.wholePrice.currencyId)
                         return custCurrency ? custCurrency.symbol +""+ value : value;
                    } 

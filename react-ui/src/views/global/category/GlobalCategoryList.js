@@ -36,10 +36,6 @@ const headers = [
     }
 ]
 
-function actions(){
-    return ['edit', 'update']
-}
-
 //==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
@@ -111,16 +107,16 @@ class GlobalCategoryItem extends Component {
                     </MainCard>
                     {
                     this.state.saveModel &&
-                            <DynamicModel
-                            title={this.state.title}
-                            openAction={this.state.saveModel}
-                            closeAction={()=> this.setState({saveModel: false})}
-                            data={this.state.dataObject} 
-                            type={this.state.type}
-                            fields= {headers}
-                            saveAction = {this.saveObject}
-                            >
-                            </DynamicModel>
+                        <DynamicModel
+                        title={this.state.title}
+                        openAction={this.state.saveModel}
+                        closeAction={()=> this.setState({saveModel: false})}
+                        data={this.state.dataObject} 
+                        type={this.state.type}
+                        fields= {headers}
+                        saveAction = {this.saveObject}
+                        >
+                        </DynamicModel>
                 }
                 <ConfirmModel
                 openAction={this.state.deleteModel}

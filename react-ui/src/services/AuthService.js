@@ -4,12 +4,17 @@ import {axios} from './index';
 var endpoint = config.AUTH_SERVER_HOST+`/api/auth`;
 
 let headers={
-    authority:"ADMIN"
+    'authority':"ADMIN",
+    "Content-Type": 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers':'Content-Type',
+    'Accept':'*'
 }
 
 export default {
     
     generateToken(user) {
+        console.log("user=",user)
         return axios.post(endpoint+'/login', user ,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
