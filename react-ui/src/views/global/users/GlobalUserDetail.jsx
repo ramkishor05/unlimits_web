@@ -3,6 +3,7 @@ import React, { Component} from 'react';
 import { Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
+import Button from '@material-ui/core/Button';
 
 import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
@@ -90,11 +91,13 @@ class GlobalUser extends Component {
                 
                 <MainCard title="User List" 
                         button ={
-                            
-                            <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
-                                onClick={this._add}>
-                                <AddIcon />
-                            </Fab>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            className={styles.button}
+                            onClick={this._add}
+                            >
+                                Add
+                            </Button>
                         }
                     >
                         <DynamicTable 
