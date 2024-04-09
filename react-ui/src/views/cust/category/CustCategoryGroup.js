@@ -11,9 +11,6 @@ import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import { getCustCategoryGroupList, addCustCategoryGroup, editCustCategoryGroup, deleteCustCategoryGroup } from '../../../actions';
 
-function createData(name, description, typeId, actions) {
-    return { name, description, typeId, actions};
-}
 const headers = [
     {
         name: "name",
@@ -36,17 +33,6 @@ const headers = [
     }
 ]
 
-function actions(){
-    return ['edit', 'update']
-}
-
-
-let dataList = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Home', actions),
-    createData('Ice cream sandwich', 'Ice cream sandwich', 'Home', actions),
-    createData('Eclair', 'Eclair', 'Home', actions),
-];
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,

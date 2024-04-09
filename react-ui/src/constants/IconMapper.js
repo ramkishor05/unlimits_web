@@ -11,6 +11,13 @@ import SafetyCheckIcon from '@mui/icons-material/SafetyCheck';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ContentBoxIcon from '@mui/icons-material/ContentPaste';
+import OrganizationsBoxIcon from '@mui/icons-material/CorporateFare';
+import TagGroupIcon from '@mui/icons-material/LocalOffer';
+import TagItemIcon from '@mui/icons-material/Loyalty';
+import ImageIcon from '@mui/icons-material/ImageSearch';
+import MyMindsetVideosIcon from '@mui/icons-material/PlayCircleOutline';
+import PromptTagIcon from '@mui/icons-material/BookmarkAdded';
 
 export const IconMapper = {
     Dashboard: IconDashboard,
@@ -52,5 +59,15 @@ export const IconMapper = {
     PrivacyCenter: SafetyCheckIcon,
     membership: CardMembershipIcon,
     Account: ManageAccountsIcon,
-    ProfileCenter: AccountBoxIcon
+    ProfileCenter: AccountBoxIcon,
+    Content: ContentBoxIcon,
+    Organizations: OrganizationsBoxIcon,
+    MainTag: TagGroupIcon,
+    SubTags: TagItemIcon,
+    MainCategories: CategoryIcon,
+    SubCategories: CategoryIcon,
+    Images: ImageIcon,
+    MyMindsetVideos: MyMindsetVideosIcon,
+    UserList:IconUsers,
+    PromptTag: PromptTagIcon
 };

@@ -9,34 +9,107 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory } 
+import { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory, getGlobalCategoryGroupList } 
 from '../../../actions';
 import { connect } from 'react-redux';
 
+const globalCategoryListMeta = {
+    "table": {
+        headers : [
+            {
+                name: "name",
+                label: "Name",
+                type: 'text',
+                "required" : {
+                    value : '',
+                    message: "Name is required!"
+                }
+            },
+            {
+                name: "description",
+                label: "Description",
+                type: 'text'
+            },
+            {
+                name: "typeId",
+                label: "Type",
+                type: 'text',
+                "required" : {
+                    value : '',
+                    message: "Type id is required!"
+                }
+            },
+            {
+                name: "groupId",
+                "key": "groupId",
+                label: "Group Id",
+                type: 'text',
+                "required" : {
+                    value : '',
+                    message: "Group id is required!"
+                },
+                "render":(value, row, header, props)=>{
+                    if(value){
+                        let findglobalCategoryGroup=props.globalCategoryGroupList.find(globalCategoryGroup=>globalCategoryGroup.id==value)
+                        return findglobalCategoryGroup ? findglobalCategoryGroup.name : value;
+                    }
+                    return value;
+                }
+            },
+            {
+                name: "actions",
+                label: "Actions"
+            }
+        ]
+    },
+    model : [
+        {
+            name: "name",
+            label: "Name",
+            type: 'text',
+            "required" : {
+                value : '',
+                message: "Name is required!"
+            }
+        },
+        {
+            name: "description",
+            label: "Description",
+            type: 'text'
+        },
+        {
+            name: "typeId",
+            label: "Type",
+            type: 'text',
+            "required" : {
+                value : '',
+                message: "Type id is required!"
+            }
+        },
+        {
+            name: "groupId",
+            label: "Group Id",
+            type: 'select',
+            "required" : {
+                value : '',
+                message: "Group id is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                return props.globalCategoryGroupList? props.globalCategoryGroupList: []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name"
+        }
+    ]
+}
 
-const headers = [
-    {
-        name: "name",
-        label: "Name",
-        type: 'text'
-    },
-    {
-        name: "description",
-        label: "Description",
-        type: 'text'
-    },
-    {
-        name: "typeId",
-        label: "Type",
-        type: 'text'
-    },
-    {
-        name: "actions",
-        label: "Actions"
-    }
-]
-
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -71,19 +144,20 @@ class GlobalCategoryItem extends Component {
         if(type=='Add')
             this.props.addGlobalCategory(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editGlobalCategory(row, this.clearAndRefresh)
+            this.props.editGlobalCategory(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalCategory(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
+        this.props.getGlobalCategoryGroupList();
         this.props.getGlobalCategoryList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getGlobalCategoryList();
+        this.clearAndRefresh();
     }
     render() {
         return (
@@ -99,10 +173,11 @@ class GlobalCategoryItem extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={headers} 
+                        headers={globalCategoryListMeta.table.headers} 
                         dataList={this.props.globalCategoryList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
+                        {...this.props}
                         ></DynamicTable>
                     </MainCard>
                     {
@@ -113,8 +188,9 @@ class GlobalCategoryItem extends Component {
                         closeAction={()=> this.setState({saveModel: false})}
                         data={this.state.dataObject} 
                         type={this.state.type}
-                        fields= {headers}
+                        fields= {globalCategoryListMeta.model}
                         saveAction = {this.saveObject}
+                        {...this.props}
                         >
                         </DynamicModel>
                 }
@@ -135,12 +211,12 @@ class GlobalCategoryItem extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalCategoryList, show_global_category_loader } = state.globalCategoryReducer;
-
-    return { globalCategoryList, show_global_category_loader };
+    const { globalCategoryList} = state.globalCategoryReducer;
+    const { globalCategoryGroupList} = state.globalCategoryGroupReducer;
+    return { globalCategoryList, globalCategoryGroupList };
 };
 
 
-export default connect(mapStateToProps, { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory })(GlobalCategoryItem);
+export default connect(mapStateToProps, { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory, getGlobalCategoryGroupList })(GlobalCategoryItem);
 
 

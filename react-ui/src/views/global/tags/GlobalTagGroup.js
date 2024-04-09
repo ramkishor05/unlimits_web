@@ -140,8 +140,8 @@ class GlobalTagGroup extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalTagGroupList, show_global_category_group_loader } = state.globalTagGroupReducer;
-    return { globalTagGroupList, show_global_category_group_loader };
+    const { globalTagGroupList} = state.globalTagGroupReducer;
+    return { globalTagGroupList};
 };
 
 

@@ -119,6 +119,8 @@ function DynamicTable (props){
                             </TableCell>
                             :
                             <TableCell key={header.name+'_'+i} {...header.props}>{
+                                header.render ?
+                                 header.render(getValue(row,header.name), row, header, props) :
                                 renderCell(row,header)
                                 
                                 

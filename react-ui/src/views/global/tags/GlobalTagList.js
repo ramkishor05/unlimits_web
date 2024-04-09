@@ -14,33 +14,102 @@ from '../../../actions';
 import { connect } from 'react-redux';
 
 
-const headers = [
-    {
-        name: "name",
-        label: "Name",
-        type: 'text'
+const globalTagListMeta = {
+    "table": {
+        headers : [
+            {
+                name: "name",
+                label: "Name",
+                type: 'text',
+                "required" : {
+                    value : '',
+                    message: "Name is required!"
+                }
+            },
+            {
+                name: "description",
+                label: "Description",
+                type: 'text'
+            },
+            {
+                name: "typeId",
+                label: "Type",
+                type: 'text',
+                "required" : {
+                    value : '',
+                    message: "Type id is required!"
+                }
+            },
+            {
+                name: "groupId",
+                label: "Group Id",
+                type: 'text',
+                "required" : {
+                    value : '',
+                    message: "Group id is required!"
+                },
+                "render":(value, row, header, props)=>{
+                    if(value){
+                        let globalTagGroup=props.globalTagGroupList.find(globalTagGroup=>globalTagGroup.id==value)
+                        return globalTagGroup ? globalTagGroup.name : value;
+                    }
+                    return value;
+                }
+            },
+            {
+                name: "actions",
+                label: "Actions"
+            }
+        ]
     },
-    {
-        name: "description",
-        label: "Description",
-        type: 'text'
-    },
-    {
-        name: "typeId",
-        label: "Type",
-        type: 'text'
-    },
-    {
-        name: "actions",
-        label: "Actions"
-    }
-]
-
-function actions(){
-    return ['edit', 'update']
+    model : [
+        {
+            name: "name",
+            label: "Name",
+            type: 'text',
+            "required" : {
+                value : '',
+                message: "Name is required!"
+            }
+        },
+        {
+            name: "description",
+            label: "Description",
+            type: 'text'
+        },
+        {
+            name: "typeId",
+            label: "Type",
+            type: 'text',
+            "required" : {
+                value : '',
+                message: "Type id is required!"
+            }
+        },
+        {
+            name: "groupId",
+            label: "Group Id",
+            type: 'select',
+            "required" : {
+                value : '',
+                message: "Group id is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                return props.globalTagGroupList? props.globalTagGroupList: []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name"
+        }
+    ]
 }
 
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -103,10 +172,11 @@ class GlobalTagItem extends Component {
                         }
                     >
                         <DynamicTable 
-                        headers={headers} 
+                        headers={globalTagListMeta.table.headers} 
                         dataList={this.props.globalTagItemList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
+                        {...this.props}
                         ></DynamicTable>
                     </MainCard>
                     {
@@ -117,8 +187,9 @@ class GlobalTagItem extends Component {
                             closeAction={()=> this.setState({saveModel: false})}
                             data={this.state.dataObject} 
                             type={this.state.type}
-                            fields= {headers}
+                            fields= {globalTagListMeta.model}
                             saveAction = {this.saveObject}
+                            {...this.props}
                             >
                             </DynamicModel>
                 }
@@ -139,9 +210,11 @@ class GlobalTagItem extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalTagItemList, show_global_category_loader } = state.globalTagItemReducer;
+    const { globalTagGroupList} = state.globalTagGroupReducer;
 
-    return { globalTagItemList, show_global_category_loader };
+    const { globalTagItemList } = state.globalTagItemReducer;
+
+    return { globalTagItemList, globalTagGroupList };
 };
 
 

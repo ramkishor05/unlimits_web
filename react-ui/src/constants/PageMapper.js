@@ -67,7 +67,7 @@ export const PageMapper = {
     "/global/portal/content/currency/group": GlobalCurrencyGroup,
     "/global/portal/content/currency/list": GlobalCurrencyList,
     "/global/portal/content/count/freq": GlobalCountFreq,
-    "/global/portal/userprofile/detial": GlobalUserProfilePage,
+    "/global/portal/user/profile": GlobalUserProfilePage,
     "/global/portal/parties/vendors" : GlobalVendorPage,
     "/global/portal/parties/suppliers" : GlobalSupplierPage,
     "/global/portal/parties/customers" : GlobalCustomerPage,
