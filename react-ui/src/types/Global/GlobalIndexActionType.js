@@ -6,6 +6,12 @@ export * from './GlobalTagGroupTypes';
 
 export * from './GlobalTagItemTypes';
 
+export * from './GlobalPromptTagTypes';
+
+export * from './GlobalImageLibraryTypes';
+
+export * from './GlobalMindSetLibraryTypes';
+
 export * from './GlobalUnitGroupActionTypes';
 
 export * from './GlobalUnitActionTypes';

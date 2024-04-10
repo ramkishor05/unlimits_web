@@ -50,6 +50,9 @@ import CustUserPrivacyPage from '../views/cust/profile/CustUserPrivacyPage';
 import CustOrderPage from '../views/cust/orders/CustOrderPage';
 import GlobalTagGroup from '../views/global/tags/GlobalTagGroup';
 import GlobalTagList from '../views/global/tags/GlobalTagList';
+import GlobalPromptTag from '../views/global/prompt_tag/GlobalPromptTag';
+import GlobalImageLibrary from '../views/global/images/GlobalImageLibrary';
+import GlobalMindSetLibrary from '../views/global/mindsets/GlobalMindSetLibrary';
 
 
 export const PageMapper = {
@@ -62,6 +65,9 @@ export const PageMapper = {
     "/global/portal/content/sub/categories": GlobalCategoryList,
     "/global/portal/content/main/tags": GlobalTagGroup,
     "/global/portal/content/sub/tags": GlobalTagList,
+    "/global/portal/content/prompt/list": GlobalPromptTag,
+    "/global/portal/content/image/list": GlobalImageLibrary,
+    "/global/portal/content/midset/videos": GlobalMindSetLibrary,
     "/global/portal/content/unit/group": GlobalUnitGroup,
     "/global/portal/content/unit/list": GlobalUnitList,
     "/global/portal/content/currency/group": GlobalCurrencyGroup,
