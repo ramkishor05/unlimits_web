@@ -21,11 +21,11 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
 
         const token = await AuthService.generateToken({ username, password });
         if (token) {
-            dispatch({ type: LOGIN_SUCCESS, payload: token });
+            dispatch({ type: LOGIN_SUCCESS, payload: token.data.token });
             if (_clearCredentials) {
                 _clearCredentials();
             }
-            dispatch(getUser(token));
+            dispatch(getUser(token.data.token));
         }
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {

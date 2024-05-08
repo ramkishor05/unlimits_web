@@ -8,12 +8,15 @@ let headers={
     "Content-Type": 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers':'Content-Type',
-    'Accept':'*'
+    'Access-Control-Allow-Credentials': true,
+    'Accept':'*',
+    "no-cors": ''
 }
 
 export default {
     
     generateToken(user) {
+        user['authority']='ADMIN';
         console.log("user=",user)
         return axios.post(endpoint+'/login', user ,{headers: headers})
                     .then(response => Promise.resolve(response.data))
