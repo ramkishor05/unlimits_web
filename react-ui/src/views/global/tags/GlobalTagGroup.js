@@ -72,7 +72,7 @@ class GlobalTagGroup extends Component {
         if(type=='Add')
             this.props.addGlobalTagGroup(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editGlobalTagGroup(row, this.clearAndRefresh)
+            this.props.editGlobalTagGroup(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalTagGroup(row.id, this.clearAndRefresh)
 

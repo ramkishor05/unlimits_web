@@ -143,7 +143,7 @@ class GlobalPromptTag extends Component {
         if(type=='Add')
             this.props.addGlobalPromptTag(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editGlobalPromptTag(row, this.clearAndRefresh)
+            this.props.editGlobalPromptTag(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalPromptTag(row.id, this.clearAndRefresh)
 

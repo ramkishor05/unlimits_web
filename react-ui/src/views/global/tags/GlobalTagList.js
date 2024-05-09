@@ -145,7 +145,7 @@ class GlobalTagItem extends Component {
         if(type=='Add')
             this.props.addGlobalTagItem(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editGlobalTagItem(row, this.clearAndRefresh)
+            this.props.editGlobalTagItem(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalTagItem(row.id, this.clearAndRefresh)
 

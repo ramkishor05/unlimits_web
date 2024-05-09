@@ -72,7 +72,7 @@ class GlobalCategoryGroup extends Component {
         if(type=='Add')
             this.props.addGlobalCategoryGroup(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editGlobalCategoryGroup(row, this.clearAndRefresh)
+            this.props.editGlobalCategoryGroup(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalCategoryGroup(row.id, this.clearAndRefresh)
 
