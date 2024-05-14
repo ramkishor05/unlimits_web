@@ -19,14 +19,22 @@ import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
-    table: {
-      minWidth: '90%',
-      "& .MuiTableCell-root": {
-        border: "1px solid rgba(224, 224, 224, 1)"
-      }
+  table: {
+    minWidth: '100%',
+    height:'100%',
+    margin: 0,
+    padding:0,
+    "& .MuiTable-root": {
+      border: "0px solid rgba(224, 224, 224, 1)"
+    },
+    "& .MuiTableRow-root": {
+      border: "1px solid rgba(224, 224, 224, 1)"
+    },
+    "& .MuiTableCell-root": {
+      border: "0px solid rgba(224, 224, 224, 1)"
     }
-  });
-
+  }
+});
 
 const getValue=(data, keyStr)=>{
     let keys=keyStr.split("\.");

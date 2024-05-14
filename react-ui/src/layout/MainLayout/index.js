@@ -132,7 +132,7 @@ const MainLayout = ({ children }) => {
                 {/* <Main open={leftDrawerOpened}> */}
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                <PerfectScrollbar component="div" className={classes.ScrollHeight} style={{height : height-108, paddingRight:10}}>
+                <PerfectScrollbar component="div" className={classes.ScrollHeight} style={{height : height-100, paddingRight:10, top:15}}>
                 {children}
                 </PerfectScrollbar>
                 {/* </Main> */}

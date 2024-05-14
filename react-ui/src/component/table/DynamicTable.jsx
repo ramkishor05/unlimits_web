@@ -12,24 +12,18 @@ import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles({
     table: {
-      minWidth: '90%',
+      width: '100%',
       height:'100%',
       margin: 0,
       padding:0,
-      "& .MuiTableCell-root": {
+      "& .MuiTableRow-root": {
         border: "1px solid rgba(224, 224, 224, 1)"
+      },
+      "& .MuiTableCell-root": {
+        border: "0px solid rgba(224, 224, 224, 1)"
       }
     }
   });
-
-const styles = {
-    updateButton: {
-        color: 'purple'
-    },
-    deleteButton: {
-        color: 'red'
-    }
-};
 
 function DynamicTable (props){
     const classes = useStyles();
