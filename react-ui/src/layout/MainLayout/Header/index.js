@@ -7,15 +7,10 @@ import { Avatar, Box, ButtonBase } from '@material-ui/core';
 
 // project imports
 import LogoSection from '../LogoSection';
-import SearchSection from './SearchSection';
-import ProfileSection from './ProfileSection';
-import NotificationSection from './NotificationSection';
-import { getUser } from '../../../actions/UserActions';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
 import { useSelector } from 'react-redux';
-import BusinessOptions from '../../../component/dropdwons/BusinessOptions';
 import { ItemMapper } from '../../../constants/ItemMapper';
 
 // style constant

@@ -174,6 +174,7 @@ class GlobalCategoryItem extends Component {
                                 Add
                             </Button>
                         }
+                        content = {false}
                     >
                         <DynamicTable 
                         headers={globalCategoryListMeta.table.headers} 

@@ -46,6 +46,11 @@ $grey600: #757575;
 $grey700: #616161;
 $grey900: #212121;
 
+// app
+$bluelight: #fcfbfc;
+$textlight: #3f4254;
+$divlight: #EBEDF3;
+
 //-----------------------|| JAVASCRIPT ||-----------------------//
 
 :export {
@@ -96,4 +101,9 @@ $grey900: #212121;
     grey600: $grey600;
     grey700: $grey700;
     grey900: $grey900;
+
+    // app
+    bluelight: $bluelight;
+    textlight: $textlight;
+    divlight: $divlight;
 }

@@ -85,7 +85,7 @@ function Row(props) {
                 
                     header.name=='actions' 
                     ?
-                    <TableCell key={row.id+'_data_main_'+header.name} align={header.align? header.align: 'center'}>
+                    <TableCell key={row.id+'_data_main_'+header.name} align={header.align? header.align: 'center'} style={{fontWeight: 600}}>
                         <ButtonGroup>
                         {
                            <Button color="primary" aria-label="Collapse"
@@ -203,8 +203,8 @@ export default function CollapsibleTable(props) {
            {
                 headers && headers.headers.map(header=>
                   header.name=='actions' ?
-                  <TableCell key={header.name} align={header.align? header.align: 'center'} >{header.label}</TableCell>:
-                    <TableCell key={header.name} align={header.align? header.align: 'left'} >{header.label}</TableCell>
+                  <TableCell key={header.name} align={header.align? header.align: 'center'} style={{fontWeight: 600}} >{header.label}</TableCell>:
+                  <TableCell key={header.name} align={header.align? header.align: 'left'} style={{fontWeight: 600}} >{header.label}</TableCell>
                 )
             }
           </TableRow>

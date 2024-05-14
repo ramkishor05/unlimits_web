@@ -171,6 +171,7 @@ class GlobalPromptTag extends Component {
                                 Add
                             </Button>
                         }
+                        content = {false}
                     >
                         <DynamicTable 
                         headers={globalTagListMeta.table.headers} 

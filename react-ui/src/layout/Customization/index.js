@@ -65,9 +65,11 @@ const Customization = () => {
         case `'Poppins', sans-serif`:
             initialFont = 'Poppins';
             break;
-        case `'Roboto', sans-serif`:
+        case 'Roboto':
+            initialFont = `'Roboto', sans-serif`;
+            break;
         default:
-            initialFont = 'Roboto';
+            initialFont = `'Poppins', sans-serif`;
             break;
     }
 
@@ -83,8 +85,10 @@ const Customization = () => {
                 newFont = `'Poppins', sans-serif`;
                 break;
             case 'Roboto':
-            default:
                 newFont = `'Roboto', sans-serif`;
+                break;
+            default:
+                newFont = `'Poppins', sans-serif`;
                 break;
         }
         dispatch({ type: SET_FONT_FAMILY, fontFamily: newFont });
@@ -141,18 +145,18 @@ const Customization = () => {
                                         name="row-radio-buttons-group"
                                     >
                                         <FormControlLabel
-                                            value="Roboto"
+                                            value="Poppins"
                                             control={<Radio />}
-                                            label="Roboto"
+                                            label="Poppins"
                                             sx={{
                                                 '& .MuiSvgIcon-root': { fontSize: 28 },
                                                 '& .MuiFormControlLabel-label': { color: 'grey.900' }
                                             }}
                                         />
                                         <FormControlLabel
-                                            value="Poppins"
+                                            value="Roboto"
                                             control={<Radio />}
-                                            label="Poppins"
+                                            label="Roboto"
                                             sx={{
                                                 '& .MuiSvgIcon-root': { fontSize: 28 },
                                                 '& .MuiFormControlLabel-label': { color: 'grey.900' }

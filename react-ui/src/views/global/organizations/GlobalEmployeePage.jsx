@@ -232,6 +232,7 @@ class GlobalEmployeePage extends Component {
                                 <AddTaskOutlined/>
                             </Fab>
                         }
+                        content = {false}
                     >
                        <CollapsibleTable 
                             headers={headers} 

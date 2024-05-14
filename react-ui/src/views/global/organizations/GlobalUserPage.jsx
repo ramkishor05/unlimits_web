@@ -22,22 +22,22 @@ const mainheaders = [
     },
     {
         name: "username",
-        label: "Name",
+        label: "Username",
         type: 'text'
     },
     {
         name: "registeredEmail",
-        label: "Registed Email",
+        label: "Registered Email",
         type: 'email'
     },
     {
         name: "registeredMobile",
-        label: "Registed mobile",
+        label: "Registered Mobile",
         type: 'text'
     },
     {
         name: "type",
-        label: "User type",
+        label: "User Type",
         type: 'text'
     },
     {
@@ -190,6 +190,7 @@ class GlobalUserPage extends Component {
                                 <AddTaskOutlined/>
                             </Fab>
                         }
+                        content = {false}
                     >
                        <CollapsibleTable 
                             headers={headers} 

@@ -173,6 +173,7 @@ class GlobalTagItem extends Component {
                                 Add
                             </Button>
                         }
+                        content = {false}
                     >
                         <DynamicTable 
                         headers={globalTagListMeta.table.headers} 

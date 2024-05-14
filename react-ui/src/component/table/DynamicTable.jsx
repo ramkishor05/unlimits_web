@@ -50,6 +50,7 @@ function DynamicTable (props){
 
     const renderCell= (data, field)=>{
         switch(field.type) {
+            
         case 'img':
             return  <img
                     width={field.width}
@@ -76,12 +77,12 @@ function DynamicTable (props){
                             <TableCell component="th" scope="row" 
                             key={header.name} 
                             align={header.align? header.align: 'center'} 
-                            style={{width: header.width}}
+                            style={{width: header.width, fontWeight: 600}}
                             >{header.label}</TableCell>
                             :
                             <TableCell component="th" scope="row" 
                             key={header.name} align={header.align? header.align: 'left'} 
-                            style={{width: header.width}}
+                            style={{width: header.width, fontWeight: 600}}
                             >{header.label}</TableCell>
                         )
                     }
@@ -94,7 +95,7 @@ function DynamicTable (props){
                             header.name=='actions' 
                             ?
                             header.render ? header.render('', row, i, header, props) :
-                            <TableCell key={header.name+'_'+i} align={header.align? header.align: 'center'}>
+                            <TableCell key={header.name+'_'+i} align={header.align? header.align: 'center'} style={{fontWeight: 400}}>
                                <ButtonGroup>
                                 {
                                 props.editAction &&
@@ -118,7 +119,7 @@ function DynamicTable (props){
                                 </ButtonGroup>
                             </TableCell>
                             :
-                            <TableCell key={header.name+'_'+i} {...header.props}>{
+                            <TableCell key={header.name+'_'+i} {...header.props} style={{fontWeight: 400}}>{
                                 header.render ?
                                  header.render(getValue(row,header.name), row, header, props) :
                                 renderCell(row,header)

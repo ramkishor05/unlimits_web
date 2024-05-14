@@ -11,21 +11,24 @@ import { Typography } from '@material-ui/core';
  * import logo from './../../assets/images/logo.svg';
  *
  */
-
+import logo from '../assets/images/logo.png';
 //-----------------------|| LOGO SVG ||-----------------------//
 
 const Logo = (props) => {
     const theme = useTheme();
 
     return (
-        /**
+      <>
+      <img src={logo} alt="Unlimits" width={200} height={70} />
+        {
+          
+          /**
          * if you want to use image instead of svg uncomment following, and comment out <svg> element.
          *
-         * <img src={logo} alt="Berry" width="100" />
+         * 
          *
          */
-        <>
-        <svg
+           /** <svg
         width="40px"
         height="40px"
         viewBox="0 0 64 64"
@@ -287,6 +290,7 @@ const Logo = (props) => {
           />
         </g>
       </svg>
+    
       <Typography sx={{    
                     margin: '15px',
                     fontWeight: 900,
@@ -296,6 +300,9 @@ const Logo = (props) => {
                     color: 'blueviolet'}}>
         Unlimits
       </Typography>
+      </>*/
+      
+      }
       </>
     );
 };

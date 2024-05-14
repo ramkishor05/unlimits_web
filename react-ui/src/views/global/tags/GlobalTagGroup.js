@@ -101,6 +101,7 @@ class GlobalTagGroup extends Component {
                                 Add
                             </Button>
                         }
+                        content = {false}
                     >
                         <DynamicTable 
                         headers={headers} 

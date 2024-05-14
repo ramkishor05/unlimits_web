@@ -101,6 +101,7 @@ class GlobalCategoryGroup extends Component {
                                 Add
                             </Button>
                         }
+                        content = {false}
                     >
                         <DynamicTable 
                         headers={headers} 

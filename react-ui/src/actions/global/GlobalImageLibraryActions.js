@@ -110,9 +110,9 @@ export const deleteGlobalImageLibrary = (id, refresh) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const deleted_global_category = await GlobalImageLibraryService.delete(id);
+        const data = await GlobalImageLibraryService.delete(id);
 
-        if (deleted_global_category) {
+        if (refresh) {
             refresh && refresh();
         }
         dispatch({ type: REMOVE_LOADER });

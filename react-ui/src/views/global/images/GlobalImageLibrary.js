@@ -17,6 +17,17 @@ const globalTagListMeta = {
     "table": {
         headers : [
             {
+                name: "content",
+                label: "Content",
+                width: 50,
+                height: 50,
+                type: 'img',
+                "required" : {
+                    value : '',
+                    message: "Content is required!"
+                }
+            },
+            {
                 name: "name",
                 label: "Name",
                 type: 'text',
@@ -62,6 +73,17 @@ const globalTagListMeta = {
         ]
     },
     model : [
+        {
+            name: "content",
+            label: "Content",
+            width: 150,
+            height: 150,
+            type: 'img',
+            "required" : {
+                value : '',
+                message: "Content is required!"
+            }
+        },
         {
             name: "name",
             label: "Name",
@@ -143,7 +165,7 @@ class GlobalImageLibrary extends Component {
         if(type=='Add')
             this.props.addGlobalImageLibrary(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editGlobalImageLibrary(row, this.clearAndRefresh)
+            this.props.editGlobalImageLibrary(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalImageLibrary(row.id, this.clearAndRefresh)
 
@@ -171,6 +193,7 @@ class GlobalImageLibrary extends Component {
                                 Add
                             </Button>
                         }
+                        content = {false}
                     >
                         <DynamicTable 
                         headers={globalTagListMeta.table.headers} 
