@@ -5,11 +5,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Button, ButtonGroup, Fab} from '@material-ui/core';
+import { Button, ButtonGroup, Fab, Grid, Pagination, TableFooter, TablePagination} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
+import React from 'react';
 const useStyles = makeStyles({
     table: {
       width: '100%',
@@ -21,6 +22,10 @@ const useStyles = makeStyles({
       },
       "& .MuiTableCell-root": {
         border: "0px solid rgba(224, 224, 224, 1)"
+      },
+      "& .MuiTableFooter-root":{
+        textAlign: 'right',
+        align:'right'
       }
     }
   });
@@ -57,11 +62,23 @@ function DynamicTable (props){
         }
     }
 
+  const [page, setPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event,newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
     const {headers, dataList} = props;
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table" className={classes.table}>
-                <caption>{props.title}</caption>
+                
                 <TableHead>
                 <TableRow>
                     {
@@ -131,6 +148,13 @@ function DynamicTable (props){
                 </TableRow>
                 }
                 </TableBody>
+                <TableFooter>
+                   <TableRow colSpan={headers.length}>
+                    <TableCell> <Pagination count={10} variant="outlined" shape="rounded" /></TableCell>
+
+                   </TableRow>
+                       
+                </TableFooter>
             </Table>
         </TableContainer>
     )
