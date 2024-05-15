@@ -17,7 +17,6 @@ export default {
     
     generateToken(user) {
         user['authority']='ADMIN';
-        console.log("user=",user)
         return axios.post(endpoint+'/login', user ,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));

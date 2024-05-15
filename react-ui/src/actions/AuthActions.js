@@ -19,16 +19,20 @@ export const login = ({ username, password }, _clearCredentials) => async dispat
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const token = await AuthService.generateToken({ username, password });
-        if (token) {
-            dispatch({ type: LOGIN_SUCCESS, payload: token.data.token });
+        AuthService.generateToken({ username, password }).then(reponse=>{
+            dispatch({ type: LOGIN_SUCCESS, payload: reponse.data.token });
             if (_clearCredentials) {
                 _clearCredentials();
             }
-            dispatch(getUser(token.data.token));
-        }
+            dispatch(getUser(reponse.data.token));
+        }).catch(error=>{
+            console.log("error=",error);
+            let msg=error.error? error.error.message: "";
+            dispatch({ type: LOGIN_FAIL, payload: msg });
+        })
         dispatch({ type: REMOVE_LOADER });
     } catch (error) {
+       
         let msg=error.error? error.error.message: "";
         dispatch({ type: LOGIN_FAIL, payload: msg });
         dispatch({ type: REMOVE_LOADER });

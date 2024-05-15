@@ -2,7 +2,7 @@ let APP_HOST_SERVER = null;
 if (process.env.APP_HOST_SERVER) {
   APP_HOST_SERVER = process.env.APP_HOST_SERVER;
 } else {
-  APP_HOST_SERVER = "http://localhost:8080";
+  APP_HOST_SERVER = "http://51.79.159.7:8080";
 }
 
 const config = {
