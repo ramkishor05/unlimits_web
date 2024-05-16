@@ -1,12 +1,12 @@
 import {axios} from './index';
 import config from '../config';
 
-const GLOBAL_CATEGORY_URL=`${config.ITEM_SERVER_HOST}/api/global/Media/item`;
+const GLOBAL_CATEGORY_URL=`${config.ITEM_SERVER_HOST}/api/global/media/item`;
 
 export default {
     getAll() {
         return axios.get(GLOBAL_CATEGORY_URL)
-                    .then(response => Promise.resolve(response.data))
+                    .then(response => Promise.resolve(response.data.data))
                     .catch(error => Promise.reject(error));
     },
     find(minimum){

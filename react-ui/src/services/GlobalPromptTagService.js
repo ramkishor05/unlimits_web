@@ -6,7 +6,7 @@ const GLOBAL_CATEGORY_URL=`${config.ITEM_SERVER_HOST}/api/global/prompt`;
 export default {
     getAll() {
         return axios.get(GLOBAL_CATEGORY_URL)
-                    .then(response => Promise.resolve(response.data))
+                    .then(response => Promise.resolve(response.data.data))
                     .catch(error => Promise.reject(error));
     },
     find(minimum){
