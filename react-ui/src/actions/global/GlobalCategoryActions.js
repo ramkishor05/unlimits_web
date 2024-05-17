@@ -26,6 +26,22 @@ export const getGlobalCategoryList = () => async dispatch => {
     }
 };
 
+export const getGlobalCategoryPageList = (pageNumber, pageCount) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        const globalCategoryList = await GlobalCategoryService.getPageList(pageNumber, pageCount);
+        if (globalCategoryList) {
+            dispatch({ type: GET_ALL_GLOBAL_CATEGERY_SUCCESS, payload: globalCategoryList });
+        }
+        dispatch({ type: REMOVE_LOADER });
+    } catch(error) {
+        dispatch({ type: GET_ALL_GLOBAL_CATEGERY_FAIL });
+        dispatch({ type: REMOVE_LOADER });
+        //console.log(error);
+    }
+};
+
 // Action creator for adding item --<
 export const addGlobalCategory = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
 

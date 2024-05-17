@@ -25,6 +25,24 @@ export const getGlobalUserList = () => async dispatch => {
     }
 };
 
+export const getGlobalUserPageList = (pageNumber, pageCount) => async dispatch => {
+
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        const vendorUsers = await GlobalUserService.getPageList(pageNumber, pageCount);
+
+        if (vendorUsers) {
+            dispatch({ type: GET_ALL_VENDOR_USER_LIST_SUCCESS, payload: vendorUsers });
+        }
+        dispatch({ type: REMOVE_LOADER });
+
+    } catch(error) {
+        dispatch({ type: REMOVE_LOADER });
+        console.log(error);
+    }
+};
+
 // Action creator for adding vendorUser --<
 export const addGlobalUser = (data, clear, successNotification, errorNotification) => async dispatch => {
 

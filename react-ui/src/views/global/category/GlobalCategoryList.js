@@ -10,7 +10,7 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory, getGlobalCategoryGroupList } 
+import { getGlobalCategoryPageList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory, getGlobalCategoryGroupList } 
 from '../../../actions';
 import { connect } from 'react-redux';
 
@@ -153,7 +153,7 @@ class GlobalCategoryItem extends Component {
 
     clearAndRefresh = () => {
         this.props.getGlobalCategoryGroupList();
-        this.props.getGlobalCategoryList();
+        this.props.getGlobalCategoryPageList(0, 5);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
@@ -177,6 +177,7 @@ class GlobalCategoryItem extends Component {
                         content = {false}
                     >
                         <DynamicTable 
+                        pageAction={this.props.getGlobalCategoryPageList}
                         headers={globalCategoryListMeta.table.headers} 
                         dataList={this.props.globalCategoryList}
                         deleteAction = {this._delete}
@@ -221,6 +222,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalCategoryList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory, getGlobalCategoryGroupList })(GlobalCategoryItem);
+export default connect(mapStateToProps, { getGlobalCategoryPageList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory, getGlobalCategoryGroupList })(GlobalCategoryItem);
 
 

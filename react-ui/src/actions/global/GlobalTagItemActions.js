@@ -26,6 +26,24 @@ export const getGlobalTagItemList = () => async dispatch => {
     }
 };
 
+
+
+export const getGlobalTagItemPageList = (pageNumber, pageCount) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        const globalTagItemList = await GlobalTagItemService.getPageList(pageNumber, pageCount);
+        if (globalTagItemList) {
+            dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_SUCCESS, payload: globalTagItemList });
+        }
+        dispatch({ type: REMOVE_LOADER });
+    } catch(error) {
+        dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_FAIL });
+        dispatch({ type: REMOVE_LOADER });
+        //console.log(error);
+    }
+};
+
 // Action creator for adding item --<
 export const addGlobalTagItem = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
 

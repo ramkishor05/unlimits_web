@@ -26,6 +26,22 @@ export const getGlobalPromptTagList = () => async dispatch => {
     }
 };
 
+export const getGlobalPromptTagPageList = (pageNumber, pageCount) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        const globalPromptTagList = await GlobalPromptTagService.getPageList(pageNumber, pageCount);
+        if (globalPromptTagList) {
+            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptTagList });
+        }
+        dispatch({ type: REMOVE_LOADER });
+    } catch(error) {
+        dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_FAIL });
+        dispatch({ type: REMOVE_LOADER });
+        //console.log(error);
+    }
+};
+
 // Action creator for adding item --<
 export const addGlobalPromptTag = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
 
