@@ -26,6 +26,26 @@ export const getGlobalCategoryList = () => async dispatch => {
     }
 };
 
+
+// Action creator for getting all items --<
+export const getGlobalCategoryPageList = (pageNumber,pageCount) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        const globalCategoryGroupList = await GlobalCategoryService.getPageList(pageNumber,pageCount);
+        if (globalCategoryGroupList) {
+            dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_SUCCESS, payload: globalCategoryGroupList });
+        }
+        dispatch({ type: REMOVE_LOADER });
+
+    } catch(error) {
+        dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_FAIL });
+        console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
+    }
+};
+
 // Action creator for adding item --<
 export const addGlobalCategory = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
 
