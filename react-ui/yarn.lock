@@ -10598,6 +10598,11 @@ react-app-polyfill@^3.0.0:
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
 
+react-color-palette@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.npmjs.org/react-color-palette/-/react-color-palette-7.1.1.tgz"
+  integrity sha512-fBmTRWmTCrH08yZwU+5647pUKABRM6h4TS/43Q/mt/TLH1hyTfWopCc6wm2L9IoynPcOT7SaOm3Xmdz+goFEDw==
+
 react-dev-utils@^12.0.1:
   version "12.0.1"
   resolved "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-12.0.1.tgz"

@@ -28,6 +28,27 @@ export const getGlobalCategoryGroupList = () => async dispatch => {
     }
 };
 
+// Action creator for getting all items --<
+export const getGlobalCategoryGroupPageList = (pageNumber,pageCount) => async dispatch => {
+    try {
+        dispatch({ type: SHOW_LOADER });
+
+        const globalCategoryGroupList = await GlobalCategoryGroupService.getPageList(pageNumber,pageCount);
+        if (globalCategoryGroupList) {
+            dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_SUCCESS, payload: globalCategoryGroupList });
+        }
+        dispatch({ type: REMOVE_LOADER });
+
+    } catch(error) {
+        dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_FAIL });
+        console.log(error);
+        dispatch({ type: REMOVE_LOADER });
+
+    }
+};
+
+
+
 // Action creator for adding item --<
 export const addGlobalCategoryGroup = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
 

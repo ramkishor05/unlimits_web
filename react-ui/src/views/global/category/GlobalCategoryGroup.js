@@ -8,35 +8,8 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getGlobalCategoryGroupList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup } from '../../../actions';
+import { getGlobalCategoryGroupList,getGlobalCategoryGroupPageList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup } from '../../../actions';
 
-const headers = [
-    {
-        name: "name",
-        label: "Name",
-        type: 'text'
-    },
-    {
-        name: "description",
-        label: "Description",
-        type: 'text'
-    },
-    {
-        name: "typeId",
-        label: "Type",
-        type: 'text'
-    },
-    {
-        name: "actions",
-        label: "Actions"
-    }
-]
-
-function actions(){
-    return ['edit', 'update']
-}
-
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -56,15 +29,15 @@ class GlobalCategoryGroup extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit category group", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit main category", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add category group", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add main category", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete category group", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete main category", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -85,9 +58,11 @@ class GlobalCategoryGroup extends Component {
     
     componentDidMount() {
         this.props.getGlobalCategoryGroupList();
+        
     }
 
  render() {
+    console.log("this.props.metadata=",this.props.metadata)
         return (
                 <>
                 
@@ -104,7 +79,8 @@ class GlobalCategoryGroup extends Component {
                         content = {false}
                     >
                         <DynamicTable 
-                        headers={headers} 
+                        pageAction={this.props.getGlobalCategoryGroupPageList}
+                        headers={this.props.metadata.table.headers} 
                         dataList={this.props.globalCategoryGroupList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
@@ -112,16 +88,16 @@ class GlobalCategoryGroup extends Component {
                     </MainCard>
                     {
                     this.state.saveModel &&   
-                                <DynamicModel
-                                title={this.state.title}
-                                openAction={this.state.saveModel}
-                                closeAction={()=> this.setState({saveModel: false})}
-                                data={this.state.dataObject} 
-                                type={this.state.type}
-                                fields= {headers}
-                                saveAction = {this.saveObject}
-                                >
-                                </DynamicModel>
+                        <DynamicModel
+                        title={this.state.title}
+                        openAction={this.state.saveModel}
+                        closeAction={()=> this.setState({saveModel: false})}
+                        data={this.state.dataObject} 
+                        type={this.state.type}
+                        fields= {this.props.metadata.model}
+                        saveAction = {this.saveObject}
+                        >
+                        </DynamicModel>
                 }
                 <ConfirmModel
                 openAction={this.state.deleteModel}
@@ -144,6 +120,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalCategoryGroupList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup })(GlobalCategoryGroup);
+export default connect(mapStateToProps, { getGlobalCategoryGroupList, getGlobalCategoryGroupPageList,addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup })(GlobalCategoryGroup);
 
 

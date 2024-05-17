@@ -29,5 +29,10 @@ export default {
         return axios.delete(GLOBAL_CATEGORY_URL+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
+    },
+    getPageList(pageNumber,pageCount) {
+        return axios.get(GLOBAL_CATEGORY_URL+"/page/list"+`/${pageNumber}/count/${pageCount}`)
+                    .then(response => Promise.resolve(response.data.data))
+                    .catch(error => Promise.reject(error));
     }
 };

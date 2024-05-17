@@ -33,5 +33,10 @@ export default {
         return axios.delete(VENDOR_USER_URL+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
+    },
+    getPageList(pageNumber,pageCount) {
+        return axios.get(VENDOR_USER_URL+"/page/list"+`/${pageNumber}/count/${pageCount}`)
+                    .then(response => Promise.resolve(response.data.data))
+                    .catch(error => Promise.reject(error));
     }
 };

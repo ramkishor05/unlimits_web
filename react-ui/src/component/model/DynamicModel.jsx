@@ -13,6 +13,8 @@ import ImageUploadCard from '../image/ImageUploadCard';
 import { connect } from 'react-redux';
 import { getValue, setChecked, setField, setValue } from '../utils/CommanUtil';
 import CountryOptions from '../dropdwons/CountryOptions';
+import { ColorPicker } from 'react-color-palette';
+import ColorField from '../fields/ColorField';
 
 class DynamicModel extends React.Component {
 
@@ -163,13 +165,16 @@ class DynamicModel extends React.Component {
         checkValidation={this.checkValidation}
         ></AmountField></FormControl> 
       case 'country':
-        <FormControl  fullWidth><CountryOptions 
+        return <FormControl  fullWidth><CountryOptions 
         field={field} {...props} 
         setData={this.setData}  
         errorMessage={this.errorMessage}
         isError={this.isError}
         checkValidation={this.checkValidation}
         ></CountryOptions></FormControl> 
+      case 'color':
+          <ColorField
+          field={field} {...props}  ></ColorField>
       default:
         return <FormControl  fullWidth>
           <TextField
