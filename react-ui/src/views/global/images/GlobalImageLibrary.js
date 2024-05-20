@@ -8,9 +8,10 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalImageLibraryList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary } 
+import { getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary } 
 from '../../../actions';
 import { connect } from 'react-redux';
+import config from '../../../config';
 
 
 const globalTagListMeta = {
@@ -19,8 +20,8 @@ const globalTagListMeta = {
             {
                 name: "content",
                 label: "Content",
-                width: 50,
-                height: 50,
+                width: 30,
+                height: 30,
                 type: 'img',
                 "required" : {
                     value : '',
@@ -42,28 +43,12 @@ const globalTagListMeta = {
                 type: 'text'
             },
             {
-                name: "typeId",
+                name: "type",
                 label: "Type",
                 type: 'text',
                 "required" : {
                     value : '',
-                    message: "Type id is required!"
-                }
-            },
-            {
-                name: "groupId",
-                label: "Group Id",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Group id is required!"
-                },
-                "render":(value, row, header, props)=>{
-                    if(value){
-                        let globalImageLibrary=props.globalImageLibraryList.find(globalImageLibrary=>globalImageLibrary.id==value)
-                        return globalImageLibrary ? globalImageLibrary.name : value;
-                    }
-                    return value;
+                    message: "Type is required!"
                 }
             },
             {
@@ -76,8 +61,9 @@ const globalTagListMeta = {
         {
             name: "content",
             label: "Content",
-            width: 150,
-            height: 150,
+            width: 200,
+            height: 200,
+            grid: 12,
             type: 'img',
             "required" : {
                 value : '',
@@ -99,34 +85,13 @@ const globalTagListMeta = {
             type: 'text'
         },
         {
-            name: "typeId",
+            name: "type",
             label: "Type",
             type: 'text',
             "required" : {
                 value : '',
                 message: "Type id is required!"
             }
-        },
-        {
-            name: "groupId",
-            label: "Group Id",
-            type: 'select',
-            "required" : {
-                value : '',
-                message: "Group id is required!"
-            },
-            "onItems": (value, data, field, props )=>{
-                return props.globalImageLibraryList? props.globalImageLibraryList: []
-            },
-            "onDisplay" : (data)=>{
-                return <h7><img
-                        width={30}
-                        height={20}
-                        src={data.logoUrl}
-                    /> {data.name}</h7> 
-            },
-            "itemKey": "id",
-            "itemVal": "name"
         }
     ]
 }
@@ -172,12 +137,12 @@ class GlobalImageLibrary extends Component {
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalImageLibraryList();
+        this.props.getGlobalImageLibraryPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getGlobalImageLibraryList();
+        this.clearAndRefresh();
     }
     render() {
         return (
@@ -196,6 +161,8 @@ class GlobalImageLibrary extends Component {
                         content = {false}
                     >
                         <DynamicTable 
+                        pageSize= {config.pageSize}
+                        pageAction={this.props.getGlobalImageLibraryPageList}
                         headers={globalTagListMeta.table.headers} 
                         dataList={this.props.globalImageLibraryList}
                         deleteAction = {this._delete}
@@ -240,6 +207,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalImageLibraryList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary })(GlobalImageLibrary);
+export default connect(mapStateToProps, { getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary })(GlobalImageLibrary);
 
 

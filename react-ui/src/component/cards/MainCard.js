@@ -4,10 +4,12 @@ import React from 'react';
 // material-ui
 import { useTheme } from '@material-ui/styles';
 import { Card, CardActionArea, CardActions, CardContent, CardHeader, Divider, Typography } from '@material-ui/core';
+import { Margin, Padding } from '@material-ui/icons';
 
 // constant
 const headerSX = {
-    '& .MuiCardHeader-action': { mr: 0 }
+    '& .MuiCardHeader-action': { padding:0, margin:0 },
+    '& .MuiCardHeader-root': { padding:0, margin:0 }
 };
 
 //-----------------------|| CUSTOM MAIN CARD ||-----------------------//
@@ -36,7 +38,7 @@ const MainCard = React.forwardRef(
         const theme = useTheme();
 
         return (
-            <Card
+            <Card 
                 ref={ref}
                 {...others}
                 sx={{
@@ -50,6 +52,7 @@ const MainCard = React.forwardRef(
             >
                 {/* card header and action */}
                 {!darkTitle && title && <CardHeader sx={headerSX} title={title} 
+                style={{padding:8 }}
                 action={
                     button
                         ? <div style={{

@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             marginLeft: '10px',
             width: `calc(100% - ${drawerWidth}px)`,
-            padding: '5px',
+            padding: '1px',
             marginRight: '10px'
         }
     },
@@ -79,9 +79,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MainLayout = ({ children }) => {
     const { height, width } = useWindowDimensions();
-    const {userDetail}= useSelector((state) => state.userReducer);
-    const userRole = userDetail?.userRole;
-    let menuGroups = userRole?.roleMenuGroups;
     let navigation={
         menuItems : []
     }
@@ -112,7 +109,7 @@ const MainLayout = ({ children }) => {
                 elevation={0}
                 className={leftDrawerOpened ? classes.appBarWidth : classes.appBar}
             >
-                <Toolbar>
+                <Toolbar style={{padding:8}}>
                     <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
                 </Toolbar>
             </AppBar>
@@ -132,7 +129,7 @@ const MainLayout = ({ children }) => {
                 {/* <Main open={leftDrawerOpened}> */}
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                <PerfectScrollbar component="div" className={classes.ScrollHeight} style={{height : height-100, paddingRight:10, top:15}}>
+                <PerfectScrollbar component="div" className={classes.ScrollHeight} style={{height : height-110, paddingRight:10, top:0}}>
                 {children}
                 </PerfectScrollbar>
                 {/* </Main> */}

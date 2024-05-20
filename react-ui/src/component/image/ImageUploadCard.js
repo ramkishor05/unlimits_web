@@ -6,6 +6,7 @@ import defaultImg from '../../assets/images/users/user-round.svg'
 //Tabs
 import { withStyles } from "@material-ui/styles";
 import { UploadFileOutlined } from "@material-ui/icons";
+import GlobalResourceService from "../../services/GlobalResourceService";
 
 const styles = (theme) => ({
   root: {
@@ -50,9 +51,12 @@ class ImageUploadCard extends React.Component {
     reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
+      var url= GlobalResourceService.add("/images/"+file.name, reader.result);
+      console.log("url=", url);
       this.setState({
         selectedFile: [reader.result]
       },this.props.setUserProfileImge(reader.result));
+      
     }.bind(this);
      // Would see a path?
 

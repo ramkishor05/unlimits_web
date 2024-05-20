@@ -1,11 +1,11 @@
 import { 
-   GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS,
-   GET_ALL_GLOBAL_PROMPT_TAG_FAIL,
+   GET_ALL_GLOBAL_MINDSET_LIBRARY_SUCCESS,
+   GET_ALL_GLOBAL_MINDSET_LIBRARY_FAIL,
    SHOW_LOADER,
    REMOVE_LOADER,
-   ADD_GLOBAL_PROMPT_TAG_SUCCESS,
-   EDIT_GLOBAL_PROMPT_TAG_SUCCESS,
-   RENDER_GLOBAL_PROMPT_TAG_TO_EDIT
+   ADD_GLOBAL_MINDSET_LIBRARY_SUCCESS,
+   EDIT_GLOBAL_MINDSET_LIBRARY_SUCCESS,
+   RENDER_GLOBAL_MINDSET_LIBRARY_TO_EDIT
 } from '../../types';
 import GlobalMindSetLibraryService from '../../services/GlobalMindSetLibraryService';
 
@@ -16,11 +16,11 @@ export const getGlobalMindSetLibraryList = () => async dispatch => {
 
         const globalPromptTagList = await GlobalMindSetLibraryService.getAll();
         if (globalPromptTagList) {
-            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptTagList });
+            dispatch({ type: GET_ALL_GLOBAL_MINDSET_LIBRARY_SUCCESS, payload: globalPromptTagList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_MINDSET_LIBRARY_FAIL });
         dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }
@@ -32,11 +32,11 @@ export const getGlobalMindSetLibraryPageList = (pageNumber, pageCount) => async 
 
         const globalPromptTagList = await GlobalMindSetLibraryService.getPageList(pageNumber, pageCount);
         if (globalPromptTagList) {
-            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptTagList });
+            dispatch({ type: GET_ALL_GLOBAL_MINDSET_LIBRARY_SUCCESS, payload: globalPromptTagList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_MINDSET_LIBRARY_FAIL });
         dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }
@@ -51,7 +51,7 @@ export const addGlobalMindSetLibrary = (data, refreshItemsList, clear, successNo
         const globalPromptTag = await GlobalMindSetLibraryService.add(data);
 
         if (globalPromptTag) {
-            dispatch({ type: ADD_GLOBAL_PROMPT_TAG_SUCCESS });
+            dispatch({ type: ADD_GLOBAL_MINDSET_LIBRARY_SUCCESS });
         }
 
         refreshItemsList && refreshItemsList();
@@ -72,7 +72,7 @@ export const addGlobalMindSetLibrary = (data, refreshItemsList, clear, successNo
 
 export const renderGlobalMindSetLibraryToEdit = item => {
     return {
-        type: RENDER_GLOBAL_PROMPT_TAG_TO_EDIT,
+        type: RENDER_GLOBAL_MINDSET_LIBRARY_TO_EDIT,
         payload: item,
     };
 };
@@ -85,7 +85,7 @@ export const editGlobalMindSetLibrary = (id, data, clearAndRefresh, successNotif
         const globalPromptTag = await GlobalMindSetLibraryService.update(id, data);
 
         if (globalPromptTag) {
-            dispatch({ type: EDIT_GLOBAL_PROMPT_TAG_SUCCESS });
+            dispatch({ type: EDIT_GLOBAL_MINDSET_LIBRARY_SUCCESS });
             
             successNotification && successNotification();
 
@@ -107,7 +107,7 @@ export const updateGlobalMindSetLibrary = (id, data, clearAndRefresh, successNot
         const globalPromptTag = await GlobalMindSetLibraryService.update(id, data);
 
         if (globalPromptTag) {
-            dispatch({ type: EDIT_GLOBAL_PROMPT_TAG_SUCCESS });
+            dispatch({ type: EDIT_GLOBAL_MINDSET_LIBRARY_SUCCESS });
             
             successNotification && successNotification();
 

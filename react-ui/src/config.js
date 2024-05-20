@@ -11,6 +11,7 @@ const config = {
     basename: '',
     fontFamily: `'Roboto', sans-serif`,
     borderRadius: 12,
+    pageSize: 7,
     APP_HOST_SERVER: APP_HOST_SERVER,
     ITEM_SERVER_HOST: APP_HOST_SERVER+'/content',
     AUTH_SERVER_HOST: APP_HOST_SERVER+'/auth',

@@ -17,22 +17,29 @@ const useStyles = makeStyles({
       height:'100%',
       margin: 0,
       padding:0,
+      border: "0px",
+      "& .MuiPaper-root": {
+        padding:0,
+        margin:0,
+        borderRadius: 0 
+      },
       "& .MuiTableRow-root": {
-        border: "1px solid rgba(224, 224, 224, 1)",
+        borderBottom: '1px solid #ddd',
         padding:0,
         margin:0
       },
       "& .MuiTableCell-root": {
         border: "0px solid rgba(224, 224, 224, 1)",
-        padding: 4
+        padding: 8
       },
       "& .MuiTableFooter-root":{
         textAlign: 'right',
         align:'right',
-        padding: 4
+
+        padding: 8
       },
       "& .MuiTableHeader-root":{
-        padding: 4
+        padding: 8 
       }
 
     }
@@ -41,6 +48,12 @@ const useStyles = makeStyles({
 function DynamicTable (props){
     const classes = useStyles();
 
+    const [pageCount, setPageCount] = React.useState(props.pageSize? props.pageSize:5);
+    const [pageNumber, setPageNumber] = React.useState(0);
+    const handlePageNumber = (event, pageNumber) => {
+      setPageNumber(pageNumber);
+      props.pageAction &&  props.pageAction(pageNumber-1,pageCount);
+    };
     const getValue=(data, keyStr)=>{
         let keys=keyStr.split("\.");
         let val=data;
@@ -65,22 +78,12 @@ function DynamicTable (props){
                     className={classes.img}
                     src={getValue(data,field.name)}
                 />
+        case 'color':
+            return <Button style={{backgroundColor: getValue(data,field.name), height:'80%'}} ></Button>
         default:
            return getValue(data,field.name);
         }
     }
-
-  const [page, setPage] = React.useState(2);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (event,newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
     const {headers, dataList} = props;
     return (
@@ -156,15 +159,19 @@ function DynamicTable (props){
                 </TableRow>
                 }
                 </TableBody>
-                <TableFooter>
-                   <TableRow colSpan={headers.length}>
-                    <TableCell> 
-                        
-                        <Pagination count={10}  variant="outlined" shape="rounded" /></TableCell>
-
-                   </TableRow>
-                       
+                {
+                  props.pageAction && 
+                  <TableFooter style={{border : 0}} >
+                    <TableRow style={{border : 0}} >
+                      <TableCell colSpan={headers.length} sx={{border : 0, textAlign: 'right'}}  align='right' > 
+                      <div style={{border : 2, textAlign: 'right'}}>
+                      <Pagination count={pageCount} page={pageNumber} 
+                        variant="outlined" shape="rounded" onChange={handlePageNumber}/>
+                        </div>
+                      </TableCell>
+                    </TableRow>
                 </TableFooter>
+                }
             </Table>
         </TableContainer>
     )

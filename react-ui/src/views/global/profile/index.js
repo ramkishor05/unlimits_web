@@ -30,8 +30,6 @@ class GlobalUserProfilePage extends Component {
                 <Divider></Divider>
                 
                 <GlobalUserAccount userAccount={this.props.userDetail}/>
-                <Divider></Divider>
-                <GlobalOwnerAccount vendorAccount={this.props.vendor} userAccount={this.props.userDetail}/>
             </MainCard>
         
             

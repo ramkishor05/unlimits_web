@@ -4,8 +4,8 @@ import ProfileSection from "../layout/MainLayout/Header/ProfileSection";
 import SearchSection from "../layout/MainLayout/Header/SearchSection";
 
 export const ItemMapper = {
-    "SearchBox" :SearchSection,
-    "BusinessOptions": BusinessOptions,
-    "NotificationSection": NotificationSection,
+    "SearchBox1" :SearchSection,
+    "BusinessOptions1": BusinessOptions,
+    "NotificationSection1": NotificationSection,
     "ProfileSection": ProfileSection
 }

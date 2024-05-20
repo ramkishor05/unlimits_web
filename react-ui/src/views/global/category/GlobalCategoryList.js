@@ -13,103 +13,7 @@ import ConfirmModel from '../../../component/model/ConfirmModel';
 import { getGlobalCategoryPageList, addGlobalCategory, editGlobalCategory, deleteGlobalCategory, getGlobalCategoryGroupList } 
 from '../../../actions';
 import { connect } from 'react-redux';
-
-const globalCategoryListMeta = {
-    "table": {
-        headers : [
-            {
-                name: "name",
-                label: "Name",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Name is required!"
-                }
-            },
-            {
-                name: "description",
-                label: "Description",
-                type: 'text'
-            },
-            {
-                name: "typeId",
-                label: "Type",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Type id is required!"
-                }
-            },
-            {
-                name: "groupId",
-                "key": "groupId",
-                label: "Group Id",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Group id is required!"
-                },
-                "render":(value, row, header, props)=>{
-                    if(value){
-                        let findglobalCategoryGroup=props.globalCategoryGroupList.find(globalCategoryGroup=>globalCategoryGroup.id==value)
-                        return findglobalCategoryGroup ? findglobalCategoryGroup.name : value;
-                    }
-                    return value;
-                }
-            },
-            {
-                name: "actions",
-                label: "Actions"
-            }
-        ]
-    },
-    model : [
-        {
-            name: "name",
-            label: "Name",
-            type: 'text',
-            "required" : {
-                value : '',
-                message: "Name is required!"
-            }
-        },
-        {
-            name: "description",
-            label: "Description",
-            type: 'text'
-        },
-        {
-            name: "typeId",
-            label: "Type",
-            type: 'text',
-            "required" : {
-                value : '',
-                message: "Type id is required!"
-            }
-        },
-        {
-            name: "groupId",
-            label: "Group Id",
-            type: 'select',
-            "required" : {
-                value : '',
-                message: "Group id is required!"
-            },
-            "onItems": (value, data, field, props )=>{
-                return props.globalCategoryGroupList? props.globalCategoryGroupList: []
-            },
-            "onDisplay" : (data)=>{
-                return <h7><img
-                        width={30}
-                        height={20}
-                        src={data.logoUrl}
-                    /> {data.name}</h7> 
-            },
-            "itemKey": "id",
-            "itemVal": "name"
-        }
-    ]
-}
+import config from '../../../config';
 
 const styles = theme => ({
     button: {
@@ -153,7 +57,7 @@ class GlobalCategoryItem extends Component {
 
     clearAndRefresh = () => {
         this.props.getGlobalCategoryGroupList();
-        this.props.getGlobalCategoryPageList(0, 5);
+        this.props.getGlobalCategoryPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
@@ -177,8 +81,9 @@ class GlobalCategoryItem extends Component {
                         content = {false}
                     >
                         <DynamicTable 
+                        pageSize={config.pageSize}
                         pageAction={this.props.getGlobalCategoryPageList}
-                        headers={globalCategoryListMeta.table.headers} 
+                        headers={this.props.metadata.table.headers} 
                         dataList={this.props.globalCategoryList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
@@ -193,7 +98,7 @@ class GlobalCategoryItem extends Component {
                         closeAction={()=> this.setState({saveModel: false})}
                         data={this.state.dataObject} 
                         type={this.state.type}
-                        fields= {globalCategoryListMeta.model}
+                        fields= {this.props.metadata.model}
                         saveAction = {this.saveObject}
                         {...this.props}
                         >

@@ -88,8 +88,8 @@ export function themeTypography(theme) {
             minHeight: 'calc(100vh - 88px)',
             flexGrow: 1,
             padding: '10px',
-            marginTop: '88px',
-            marginRight: '20px',
+            marginTop: '70px',
+            marginRight: '10px',
             borderRadius: theme.customization.borderRadius + 'px'
         },
         menuCaption: {

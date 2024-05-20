@@ -8,35 +8,9 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getGlobalTagGroupList, addGlobalTagGroup, editGlobalTagGroup, deleteGlobalTagGroup } from '../../../actions';
+import { getGlobalCategoryList, getGlobalTagGroupPageList, addGlobalTagGroup, editGlobalTagGroup, deleteGlobalTagGroup } from '../../../actions';
+import config from '../../../config';
 
-const headers = [
-    {
-        name: "name",
-        label: "Name",
-        type: 'text'
-    },
-    {
-        name: "description",
-        label: "Description",
-        type: 'text'
-    },
-    {
-        name: "typeId",
-        label: "Type",
-        type: 'text'
-    },
-    {
-        name: "actions",
-        label: "Actions"
-    }
-]
-
-function actions(){
-    return ['edit', 'update']
-}
-
-//==============================|| SAMPLE PAGE ||==============================//
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -56,15 +30,15 @@ class GlobalTagGroup extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit Tag", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit main tag", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Tag", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add main tag", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete Tag", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete main tag", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -79,19 +53,20 @@ class GlobalTagGroup extends Component {
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalTagGroupList();
+        this.props.getGlobalTagGroupPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getGlobalTagGroupList();
+        this.props.getGlobalCategoryList();
+        this.clearAndRefresh();
     }
 
  render() {
         return (
                 <>
                 
-                    <MainCard title="Tags" 
+                    <MainCard title="Main Tags" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
@@ -104,8 +79,11 @@ class GlobalTagGroup extends Component {
                         content = {false}
                     >
                         <DynamicTable 
-                        headers={headers} 
+                        pageSize= {config.pageSize}
+                        pageAction={this.props.getGlobalTagGroupPageList}
+                        headers={this.props.metadata.table.headers} 
                         dataList={this.props.globalTagGroupList}
+                        {...this.props}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
@@ -118,8 +96,9 @@ class GlobalTagGroup extends Component {
                     closeAction={()=> this.setState({saveModel: false})}
                     data={this.state.dataObject} 
                     type={this.state.type}
-                    fields= {headers}
+                    fields= {this.props.metadata.model}
                     saveAction = {this.saveObject}
+                    {...this.props}
                     >
                     </DynamicModel>
                 }
@@ -141,11 +120,13 @@ class GlobalTagGroup extends Component {
 
 
 const mapStateToProps = state => {
+    const { globalCategoryList} = state.globalCategoryReducer;
+
     const { globalTagGroupList} = state.globalTagGroupReducer;
-    return { globalTagGroupList};
+    return { globalTagGroupList, globalCategoryList};
 };
 
 
-export default connect(mapStateToProps, { getGlobalTagGroupList, addGlobalTagGroup, editGlobalTagGroup, deleteGlobalTagGroup })(GlobalTagGroup);
+export default connect(mapStateToProps, {getGlobalCategoryList, getGlobalTagGroupPageList, addGlobalTagGroup, editGlobalTagGroup, deleteGlobalTagGroup })(GlobalTagGroup);
 
 

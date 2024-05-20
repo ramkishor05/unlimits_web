@@ -240,7 +240,7 @@ const ProfileSection = () => {
                                                 <Typography variant="subtitle2">{userDetail?.userRole?.roleName}</Typography>
                                             </Grid>
                                         </Grid>
-                                        <OutlinedInput
+                                        {/*<OutlinedInput
                                             className={classes.searchControl}
                                             id="input-search-profile"
                                             value={value}
@@ -255,10 +255,10 @@ const ProfileSection = () => {
                                             inputProps={{
                                                 'aria-label': 'weight'
                                             }}
-                                        />
+                                        />*/}
                                         <Divider />
                                         <PerfectScrollbar className={classes.ScrollHeight}>
-                                            {/*<UpgradePlanCard />*/}
+                                            {/*<UpgradePlanCard />
                                             <Divider />
                                             <Card className={classes.card}>
                                                 <CardContent>
@@ -305,7 +305,9 @@ const ProfileSection = () => {
                                                     </Grid>
                                                 </CardContent>
                                             </Card>
+                                            */}
                                             <Divider />
+                                            
                                             <List component="nav" className={classes.navContainer}>
                                                 <ListItemButton
                                                     className={classes.listItem}

@@ -8,12 +8,13 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalMindSetLibraryList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary } 
+import { getGlobalMindSetLibraryPageList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary } 
 from '../../../actions';
 import { connect } from 'react-redux';
+import config from '../../../config';
 
 
-const globalTagListMeta = {
+const globalMindSetMeta = {
     "table": {
         headers : [
             {
@@ -31,28 +32,12 @@ const globalTagListMeta = {
                 type: 'text'
             },
             {
-                name: "typeId",
-                label: "Type",
+                name: "content",
+                label: "URL",
                 type: 'text',
                 "required" : {
                     value : '',
-                    message: "Type id is required!"
-                }
-            },
-            {
-                name: "groupId",
-                label: "Group Id",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Group id is required!"
-                },
-                "render":(value, row, header, props)=>{
-                    if(value){
-                        let globalMindSetLibrary=props.globalMindSetLibraryList.find(globalMindSetLibrary=>globalMindSetLibrary.id==value)
-                        return globalMindSetLibrary ? globalMindSetLibrary.name : value;
-                    }
-                    return value;
+                    message: "URL is required!"
                 }
             },
             {
@@ -77,34 +62,14 @@ const globalTagListMeta = {
             type: 'text'
         },
         {
-            name: "typeId",
-            label: "Type",
+            name: "content",
+            label: "URL",
             type: 'text',
+            grid:12,
             "required" : {
                 value : '',
-                message: "Type id is required!"
+                message: "URL is required!"
             }
-        },
-        {
-            name: "groupId",
-            label: "Group Id",
-            type: 'select',
-            "required" : {
-                value : '',
-                message: "Group id is required!"
-            },
-            "onItems": (value, data, field, props )=>{
-                return props.globalMindSetLibraryList? props.globalMindSetLibraryList: []
-            },
-            "onDisplay" : (data)=>{
-                return <h7><img
-                        width={30}
-                        height={20}
-                        src={data.logoUrl}
-                    /> {data.name}</h7> 
-            },
-            "itemKey": "id",
-            "itemVal": "name"
         }
     ]
 }
@@ -150,12 +115,12 @@ class GlobalMindSetLibrary extends Component {
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalMindSetLibraryList();
+        this.props.getGlobalMindSetLibraryPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getGlobalMindSetLibraryList();
+        this.clearAndRefresh();
     }
     render() {
         return (
@@ -174,7 +139,9 @@ class GlobalMindSetLibrary extends Component {
                         content = {false}
                     >
                         <DynamicTable 
-                        headers={globalTagListMeta.table.headers} 
+                        pageSize= {config.pageSize}
+                        pageAction={this.props.getGlobalMindSetLibraryPageList}
+                        headers={globalMindSetMeta.table.headers} 
                         dataList={this.props.globalMindSetLibraryList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
@@ -189,7 +156,7 @@ class GlobalMindSetLibrary extends Component {
                             closeAction={()=> this.setState({saveModel: false})}
                             data={this.state.dataObject} 
                             type={this.state.type}
-                            fields= {globalTagListMeta.model}
+                            fields= {globalMindSetMeta.model}
                             saveAction = {this.saveObject}
                             {...this.props}
                             >
@@ -218,6 +185,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalMindSetLibraryList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary })(GlobalMindSetLibrary);
+export default connect(mapStateToProps, { getGlobalMindSetLibraryPageList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary })(GlobalMindSetLibrary);
 
 

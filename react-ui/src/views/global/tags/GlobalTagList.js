@@ -10,106 +10,10 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalTagItemList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem } 
+import { getGlobalTagItemPageList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem } 
 from '../../../actions';
 import { connect } from 'react-redux';
-
-
-const globalTagListMeta = {
-    "table": {
-        headers : [
-            {
-                name: "name",
-                label: "Name",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Name is required!"
-                }
-            },
-            {
-                name: "description",
-                label: "Description",
-                type: 'text'
-            },
-            {
-                name: "typeId",
-                label: "Type",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Type id is required!"
-                }
-            },
-            {
-                name: "groupId",
-                label: "Group Id",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Group id is required!"
-                },
-                "render":(value, row, header, props)=>{
-                    if(value){
-                        let globalTagGroup=props.globalTagGroupList.find(globalTagGroup=>globalTagGroup.id==value)
-                        return globalTagGroup ? globalTagGroup.name : value;
-                    }
-                    return value;
-                }
-            },
-            {
-                name: "actions",
-                label: "Actions"
-            }
-        ]
-    },
-    model : [
-        {
-            name: "name",
-            label: "Name",
-            type: 'text',
-            "required" : {
-                value : '',
-                message: "Name is required!"
-            }
-        },
-        {
-            name: "description",
-            label: "Description",
-            type: 'text'
-        },
-        {
-            name: "typeId",
-            label: "Type",
-            type: 'text',
-            "required" : {
-                value : '',
-                message: "Type id is required!"
-            }
-        },
-        {
-            name: "groupId",
-            label: "Group Id",
-            type: 'select',
-            "required" : {
-                value : '',
-                message: "Group id is required!"
-            },
-            "onItems": (value, data, field, props )=>{
-                return props.globalTagGroupList? props.globalTagGroupList: []
-            },
-            "onDisplay" : (data)=>{
-                return <h7><img
-                        width={30}
-                        height={20}
-                        src={data.logoUrl}
-                    /> {data.name}</h7> 
-            },
-            "itemKey": "id",
-            "itemVal": "name"
-        }
-    ]
-}
+import config from '../../../config';
 
 const styles = theme => ({
     button: {
@@ -129,15 +33,15 @@ class GlobalTagItem extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit Sub Tag", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit sub tag", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Sub Tag", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Sub tag", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete Sub Tag", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete sub tag", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -152,12 +56,12 @@ class GlobalTagItem extends Component {
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalTagItemList();
+        this.props.getGlobalTagItemPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getGlobalTagItemList();
+        this.clearAndRefresh();
     }
     render() {
         return (
@@ -176,7 +80,9 @@ class GlobalTagItem extends Component {
                         content = {false}
                     >
                         <DynamicTable 
-                        headers={globalTagListMeta.table.headers} 
+                        pageSize= {config.pageSize}
+                        pageAction={this.props.getGlobalTagItemPageList}
+                        headers={this.props.metadata.table.headers} 
                         dataList={this.props.globalTagItemList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
@@ -191,7 +97,7 @@ class GlobalTagItem extends Component {
                             closeAction={()=> this.setState({saveModel: false})}
                             data={this.state.dataObject} 
                             type={this.state.type}
-                            fields= {globalTagListMeta.model}
+                            fields= {this.props.metadata.model}
                             saveAction = {this.saveObject}
                             {...this.props}
                             >
@@ -222,6 +128,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalTagItemList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem })(GlobalTagItem);
+export default connect(mapStateToProps, { getGlobalTagItemPageList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem })(GlobalTagItem);
 
 

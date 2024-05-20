@@ -183,7 +183,7 @@ const EarningCard = ({ isLoading , custDashboard}) => {
                             
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
-                            <Typography className={classes.subHeading}>Total Earning</Typography>
+                            <Typography className={classes.subHeading}>Total Visions / Unlimits</Typography>
                         </Grid>
                     </Grid>
                 </MainCard>

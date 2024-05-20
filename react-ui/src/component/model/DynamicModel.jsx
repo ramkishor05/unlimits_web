@@ -53,8 +53,6 @@ class DynamicModel extends React.Component {
       }
      
     }
-    
-    console.log("status, field.name, value ", status, field.name,  value)
     this.setState({...this.state, validationMap:{...validationMap}});
     return status;
   }
@@ -87,6 +85,8 @@ class DynamicModel extends React.Component {
 
 
   renderSwitch(field, data, props) {
+    
+    console.log("field==",field)
     switch(field.type) {
       case 'label':
         return <Box 
@@ -107,7 +107,7 @@ class DynamicModel extends React.Component {
         >
           {
             field.onItems ? 
-            field.onItems(getValue(data,field.name),data, field, props ).
+            field.onItems (getValue(data,field.name),data, field, props ).
             map(item=> 
             
               <MenuItem key={field.itemKey ? item[field.itemKey]: item} value={field.itemKey ? item[field.itemKey]: item}>{field.itemVal? item[field.itemVal]: item}</MenuItem>

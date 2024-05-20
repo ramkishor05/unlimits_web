@@ -19,7 +19,7 @@ const Logo = (props) => {
 
     return (
       <>
-      <img src={logo} alt="Unlimits" width={200} height={70} />
+      <img src={logo} alt="Unlimits" width={180} height={50} />
         {
           
           /**

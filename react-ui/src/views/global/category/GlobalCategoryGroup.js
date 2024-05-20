@@ -8,7 +8,8 @@ import MainCard from '../../../component/cards/MainCard';
 import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { getGlobalCategoryGroupList,getGlobalCategoryGroupPageList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup } from '../../../actions';
+import { getGlobalCategoryGroupPageList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup } from '../../../actions';
+import config from '../../../config';
 
 const styles = theme => ({
     button: {
@@ -52,21 +53,19 @@ class GlobalCategoryGroup extends Component {
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalCategoryGroupList();
+        this.props.getGlobalCategoryGroupPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getGlobalCategoryGroupList();
-        
+        this.clearAndRefresh();
     }
 
  render() {
-    console.log("this.props.metadata=",this.props.metadata)
         return (
                 <>
                 
-                    <MainCard title="Category Group" 
+                    <MainCard title="Main categories" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
@@ -79,6 +78,7 @@ class GlobalCategoryGroup extends Component {
                         content = {false}
                     >
                         <DynamicTable 
+                        pageSize= {config.pageSize}
                         pageAction={this.props.getGlobalCategoryGroupPageList}
                         headers={this.props.metadata.table.headers} 
                         dataList={this.props.globalCategoryGroupList}
@@ -120,6 +120,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalCategoryGroupList, getGlobalCategoryGroupPageList,addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup })(GlobalCategoryGroup);
+export default connect(mapStateToProps, { getGlobalCategoryGroupPageList,addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup })(GlobalCategoryGroup);
 
 

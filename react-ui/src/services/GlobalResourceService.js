@@ -1,44 +1,38 @@
-import config from '../config';
 import {axios} from './index';
+import config from '../config';
 
-var endpoint = config.AUTH_SERVER_HOST+`/api/user/role`;
+const GLOBAL_RESOURCE_URL=`${config.ITEM_SERVER_HOST}`;
 
-const headers = {
-    'Content-Type': 'application/json'
-};
 export default {
-   
     getAll() {
-        return axios.get(endpoint)
+        return axios.get(GLOBAL_RESOURCE_URL)
                     .then(response => Promise.resolve(response.data.data))
                     .catch(error => Promise.reject(error));
     },
-    getAllByType(type) {
-        return axios.get(endpoint+`/${type}`)
+    find(minimum){
+        return axios.get(GLOBAL_RESOURCE_URL+'/find', { params: { minimum } })
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
-
-    update(id, data) {
-        return axios.put(endpoint+`/${id}`, data)
+    add(endpoint,item) {
+        return axios.post(GLOBAL_RESOURCE_URL+endpoint, item)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
-
-    add(user) {
-        return axios.post(endpoint, user)
+    update(id, item) {
+        item['id']=id;
+        return axios.put(GLOBAL_RESOURCE_URL, item)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
     delete(id) {
-        return axios.delete(endpoint+`/${id}`)
+        return axios.delete(GLOBAL_RESOURCE_URL+`/${id}`)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
-
-    get(id) {
-        return axios.delete(endpoint+`/${id}`)
-                    .then(response => Promise.resolve(response.data))
+    getPageList(pageNumber,pageCount) {
+        return axios.get(GLOBAL_RESOURCE_URL+"/page/list"+`/${pageNumber}/count/${pageCount}`)
+                    .then(response => Promise.resolve(response.data.data))
                     .catch(error => Promise.reject(error));
-    }    
+    }
 };

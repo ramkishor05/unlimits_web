@@ -9,9 +9,7 @@ import UnauthRoutes from './UnauthRoutes';
 
 
 // project imports
-import config from './../config';
 import { useDispatch, useSelector } from 'react-redux';
-import UIColor from '../views/utilities/Color';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { getUser } from '../actions';
 

@@ -31,20 +31,20 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
         borderRight: 'none',
         [theme.breakpoints.up('md')]: {
-            top: '88px'
+            top: '70px'
         }
     },
     ScrollHeight: {
-        height: 'calc(100vh - 88px)',
-        paddingLeft: '16px',
-        paddingRight: '16px',
+        height: 'calc(100vh - 70px)',
+        paddingLeft: '10px',
+        paddingRight: '10px',
         [theme.breakpoints.down('sm')]: {
             height: 'calc(100vh - 56px)'
         }
     },
     boxContainer: {
         display: 'flex',
-        padding: '16px',
+        padding: '5px',
         marginLeft: 'auto',
         marginRight: 'auto'
     }

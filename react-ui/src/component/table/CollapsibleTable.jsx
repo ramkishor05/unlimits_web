@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Button, ButtonGroup, Fab, TableFooter, TablePagination } from '@material-ui/core';
+import { Button, ButtonGroup, Fab, Pagination, TableFooter, TablePagination } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PrintIcon from '@mui/icons-material/PrintOutlined';
@@ -24,14 +24,28 @@ const useStyles = makeStyles({
     height:'100%',
     margin: 0,
     padding:0,
-    "& .MuiTable-root": {
-      border: "0px solid rgba(224, 224, 224, 1)"
+    "& .MuiPaper-root": {
+      padding:0,
+      margin:0,
+      borderRadius: 0 
     },
     "& .MuiTableRow-root": {
-      border: "1px solid rgba(224, 224, 224, 1)"
+      borderBottom: '1px solid #ddd',
+      padding:0,
+      margin:0
     },
     "& .MuiTableCell-root": {
-      border: "0px solid rgba(224, 224, 224, 1)"
+      border: "0px solid rgba(224, 224, 224, 1)",
+      padding: 8
+    },
+    "& .MuiTableFooter-root":{
+      textAlign: 'right',
+      align:'right',
+
+      padding: 8
+    },
+    "& .MuiTableHeader-root":{
+      padding: 8 
     }
   }
 });
@@ -203,6 +217,12 @@ export default function CollapsibleTable(props) {
   const classes = useStyles();
   const {dataList, headers}=props;
 
+  const [pageCount, setPageCount] = React.useState(props.pageSize? props.pageSize:5);
+  const [pageNumber, setPageNumber] = React.useState(0);
+  const handlePageNumber = (event, pageNumber) => {
+    setPageNumber(pageNumber);
+    props.pageAction &&  props.pageAction(pageNumber-1,pageCount);
+  };
   return (
     <TableContainer component={Paper} >
       <Table aria-label="collapsible table" className={classes.table}>
@@ -230,10 +250,26 @@ export default function CollapsibleTable(props) {
             </TableRow>
           }
         </TableBody>
-        <TableFooter>
-          <TablePagination  rowsPerPage={10} page={1} count={1} onPageChange={()=>{}} rowsPerPageOptions={[10, 50]}  />
-
-        </TableFooter>
+        {
+            props.pageAction && 
+            <TableFooter style={{border : 0}} >
+              <TableRow style={{border : 0}} >
+                <TableCell colSpan={headers.headers.length+1} sx={{border : 0, textAlign: 'right'}}  align='right' > 
+                <div style={{border : 2, textAlign: 'right'}}>
+                <Pagination 
+                  count={pageCount}
+                  page={pageNumber} 
+                  size="small" 
+                  siblingCount={0} 
+                  boundaryCount={2} 
+                  variant="outlined" 
+                  shape="rounded" 
+                  onChange={handlePageNumber}/>
+                  </div>
+                </TableCell>
+              </TableRow>
+          </TableFooter>
+          }
       </Table>
     </TableContainer>
   );

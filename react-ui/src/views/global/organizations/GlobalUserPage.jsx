@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Fab } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 
-import { getGlobalUserList, addGlobalUser, editGlobalUser, deleteGlobalUser, getGlobalVendorList , getUserRoleList} from '../../../actions';
+import { getGlobalUserPageList, addGlobalUser, editGlobalUser, deleteGlobalUser, getGlobalVendorList , getUserRoleList} from '../../../actions';
 import { getUsers } from '../../../actions';
 import MainCard from '../../../component/cards/MainCard';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
-import { AddTaskOutlined } from '@material-ui/icons';
 import CollapsibleTable from '../../../component/table/CollapsibleTable';
+import config from '../../../config';
 
 const mainheaders = [
     {
         name: "userProfile.pictureURL",
         label: "Profile Img",
         type: 'img',
+        width: 30,
+        height:30,
         render: (value, row, header, props ) =>{
-            return <img style={{textAlign :'center'}} src={value} width={50} height={50}></img>
+            return <img style={{textAlign :'center'}} src={value} width={30} height={30}></img>
         }
     },
     {
@@ -91,37 +93,52 @@ const modelheaders = [
         name: "userProfile.pictureURL",
         label: "Profile Img",
         type: 'img',
+        width: 200,
+        height:200,
+        grid:12,
         render: (value, row, header, props ) =>{
             return <img style={{textAlign :'center'}} src={value} width={50} height={50}></img>
         }
     },
     {
         name: "username",
-        label: "Name",
-        type: 'text'
+        label: "Username",
+        type: 'text',
+        "required" : {
+            value : '',
+            message: "Username is required!"
+        }
     },
     {
         name: "registeredEmail",
-        label: "Registed Email",
+        label: "Registered Email",
         type: 'email'
     },
     {
         name: "registeredMobile",
-        label: "Registed mobile",
+        label: "Registered mobile",
         type: 'text'
     },
     {
         name: "type",
-        label: "User type",
-        type: 'text'
+        label: "User Type",
+        type: 'text',
+        "required" : {
+            value : '',
+            message: "User type is required!"
+        }
     },
     {
         name: "userRoleId",
         key: "userRoleId",
         label: "User Role",
         type: 'select',
+        "required" : {
+            value : '',
+            message: "User role is required!"
+        },
         onItems: (value, row, header, props ) =>{
-            return props.userRoleList
+            return props.userRoleList? props.userRoleList: [];
         },
         itemKey: 'id',
         itemVal: 'roleName'
@@ -168,14 +185,14 @@ class GlobalUserPage extends Component {
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalUserList();
+        this.props.getGlobalUserPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false });
     }
     
    async componentDidMount() {
-        this.props.getGlobalVendorList();
+        //this.props.getGlobalVendorList();
         this.props.getUserRoleList();
-        this.props.getGlobalUserList();
+        this.clearAndRefresh();
     }
 
     render() {
@@ -184,15 +201,19 @@ class GlobalUserPage extends Component {
                 
                 <MainCard title="User List" 
                         button ={
-                            
-                            <Fab size="medium" color="primary" aria-label="Add" className={styles.button}
-                                onClick={this._add}>
-                                <AddTaskOutlined/>
-                            </Fab>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            className={styles.button}
+                            onClick={this._add}
+                            >
+                                Add
+                            </Button>
                         }
                         content = {false}
                     >
                        <CollapsibleTable 
+                            pageSize= {config.pageSize}
+                            pageAction={this.props.getGlobalUserPageList}
                             headers={headers} 
                             dataList={this.props.globalUserList}
                             userList= {this.props.users}
@@ -239,7 +260,6 @@ const mapStateToProps = state => {
     const { userRoleList } = state.userRoleReducer
 
     const { globalUserList, show_user_loader } = state.globalUserReducer;
-    console.log("userRoleList=",userRoleList)
     return { user, globalUserList,users, show_user_loader, userDetail, userRoleList };
 };
 
@@ -250,4 +270,4 @@ const styles = {
     },
 };
 
-export default connect(mapStateToProps, { getGlobalUserList, addGlobalUser,editGlobalUser, deleteGlobalUser, getGlobalVendorList , getUsers , getUserRoleList})(GlobalUserPage);
+export default connect(mapStateToProps, { getGlobalUserPageList, addGlobalUser,editGlobalUser, deleteGlobalUser, getGlobalVendorList , getUsers , getUserRoleList})(GlobalUserPage);

@@ -1,4 +1,4 @@
-const globalCategoryGroupMeta = {
+const globalMainCategoryMeta = {
     "id": "",
     "table": {
         "type": "",
@@ -8,9 +8,9 @@ const globalCategoryGroupMeta = {
                 key: "logoUrl",
                 label: "Logo",
                 type:'img',
-                grid: 2,
-                width: 50,
-                height: 50
+                grid: 12,
+                width: 30,
+                height: 30
             },
             {
                 "id": "name",
@@ -59,9 +59,9 @@ const globalCategoryGroupMeta = {
             key: "logoUrl",
             label: "Logo",
             type:'img',
-            grid: 2,
-            width: 100,
-            height: 100
+            grid: 12,
+            width: 200,
+            height: 200
         },
         {
             "id": "name",
@@ -71,7 +71,7 @@ const globalCategoryGroupMeta = {
             "type": "text",
             "required" : {
                 value : '',
-                message: "Title is required!"
+                message: "Name is required!"
             }
         },
         {
@@ -95,4 +95,4 @@ const globalCategoryGroupMeta = {
     ]
 }
 
-export default globalCategoryGroupMeta;
+export default globalMainCategoryMeta;
