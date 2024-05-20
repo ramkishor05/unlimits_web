@@ -6,10 +6,14 @@ import {
    GET_GLOBAL_MINDSET_LIBRARY_LONG_SUCCESS,
    ADD_GLOBAL_MINDSET_LIBRARY_SUCCESS,
    ADD_GLOBAL_MINDSET_LIBRARY_FAIL,
-   RENDER_GLOBAL_MINDSET_LIBRARY_TO_EDIT
+   RENDER_GLOBAL_MINDSET_LIBRARY_TO_EDIT,
+   GET_ALL_GLOBAL_MINDSET_LIBRARY_PAGE_SUCCESS
 } from '../../types';
 
 const INITIAL_STATE = {
+    globalMindSetLibraryPageData: {
+
+    },
     globalMindSetLibraryList: [],
     globalMindSetLibraryList_today: [],
     globalMindSetLibraryList_yesterday: [],
@@ -24,6 +28,9 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case GET_ALL_GLOBAL_MINDSET_LIBRARY_PAGE_SUCCESS:
+            return { ...state, globalMindSetLibraryPageData: action.payload };
+
         case GET_ALL_GLOBAL_MINDSET_LIBRARY_SUCCESS:
             return { ...state, globalMindSetLibraryList: action.payload };
 

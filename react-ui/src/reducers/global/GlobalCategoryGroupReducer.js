@@ -6,10 +6,12 @@ import {
    GET_GLOBAL_CATEGERY_GROUP_LONG_SUCCESS,
    ADD_GLOBAL_CATEGERY_GROUP_SUCCESS,
    ADD_GLOBAL_CATEGERY_GROUP_FAIL,
-   RENDER_GLOBAL_CATEGERY_GROUP_TO_EDIT
+   RENDER_GLOBAL_CATEGERY_GROUP_TO_EDIT,
+   GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS
 } from '../../types';
 
 const INITIAL_STATE = {
+    globalCategoryGrouppPageData: {},
     globalCategoryGroupList: [],
     globalCategoryGroupList_today: [],
     globalCategoryGroupList_yesterday: [],
@@ -24,6 +26,10 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+
+        case GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS:
+            return { ...state, globalCategoryGrouppPageData: action.payload };
+        
         case GET_ALL_GLOBAL_CATEGERY_GROUP_SUCCESS:
             return { ...state, globalCategoryGroupList: action.payload };
 

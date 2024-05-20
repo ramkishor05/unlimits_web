@@ -5,7 +5,9 @@ import {
    REMOVE_LOADER,
    ADD_GLOBAL_TAG_ITEM_SUCCESS,
    EDIT_GLOBAL_TAG_ITEM_SUCCESS,
-   RENDER_GLOBAL_TAG_ITEM_TO_EDIT
+   RENDER_GLOBAL_TAG_ITEM_TO_EDIT,
+   GET_ALL_GLOBAL_TAG_ITEM_PAGE_SUCCESS,
+   GET_ALL_GLOBAL_TAG_ITEM_PAGE_FAIL
 } from '../../types';
 import GlobalTagItemService from '../../services/GlobalTagItemService';
 
@@ -34,11 +36,11 @@ export const getGlobalTagItemPageList = (pageNumber, pageCount) => async dispatc
 
         const globalTagItemList = await GlobalTagItemService.getPageList(pageNumber, pageCount);
         if (globalTagItemList) {
-            dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_SUCCESS, payload: globalTagItemList });
+            dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_PAGE_SUCCESS, payload: globalTagItemList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_PAGE_FAIL });
         dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }

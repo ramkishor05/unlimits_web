@@ -7,6 +7,7 @@ import defaultImg from '../../assets/images/users/user-round.svg'
 import { withStyles } from "@material-ui/styles";
 import { UploadFileOutlined } from "@material-ui/icons";
 import GlobalResourceService from "../../services/GlobalResourceService";
+import config from "../../config";
 
 const styles = (theme) => ({
   root: {
@@ -51,11 +52,13 @@ class ImageUploadCard extends React.Component {
     reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-      var url= GlobalResourceService.add("/images/"+file.name, reader.result);
-      console.log("url=", url);
-      this.setState({
-        selectedFile: [reader.result]
-      },this.props.setUserProfileImge(reader.result));
+      GlobalResourceService.add("/images/"+file.name, reader.result).then(url=>{
+        console.log("url=", url);
+        this.setState({
+          selectedFile: url
+        },this.props.setUserProfileImge(url));
+        
+      });
       
     }.bind(this);
      // Would see a path?
@@ -75,7 +78,7 @@ class ImageUploadCard extends React.Component {
         <img
           width="100%"
           className={classes.img}
-          src={this.state.selectedFile}
+          src={config.resourseUrl(this.state.selectedFile)}
           onMouseOver={()=> this.setState({btn: true})}
         />
      

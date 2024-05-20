@@ -140,9 +140,11 @@ class GlobalMindSetLibrary extends Component {
                     >
                         <DynamicTable 
                         pageSize= {config.pageSize}
+                        pageCount= {this.props.globalMindSetLibraryPageData.pageCount}
+                        totalPages= {this.props.globalMindSetLibraryPageData.totalPages}
                         pageAction={this.props.getGlobalMindSetLibraryPageList}
                         headers={globalMindSetMeta.table.headers} 
-                        dataList={this.props.globalMindSetLibraryList}
+                        dataList={this.props.globalMindSetLibraryPageData.elements}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         {...this.props}
@@ -179,9 +181,9 @@ class GlobalMindSetLibrary extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalMindSetLibraryList } = state.globalMindSetLibraryReducer;
+    const { globalMindSetLibraryList, globalMindSetLibraryPageData } = state.globalMindSetLibraryReducer;
 
-    return { globalMindSetLibraryList };
+    return { globalMindSetLibraryList, globalMindSetLibraryPageData };
 };
 
 

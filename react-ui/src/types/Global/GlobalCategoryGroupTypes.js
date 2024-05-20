@@ -1,3 +1,6 @@
+export const GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS = 'GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS';
+export const GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_FAIL = 'GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_FAIL';
+
 export const GET_ALL_GLOBAL_CATEGERY_GROUP_SUCCESS = 'get_all_global_category_group_success';
 export const GET_ALL_GLOBAL_CATEGERY_GROUP_FAIL = 'get_all_global_category_group_fail';
 

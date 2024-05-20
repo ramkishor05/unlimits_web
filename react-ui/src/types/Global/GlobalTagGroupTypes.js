@@ -1,3 +1,7 @@
+
+export const GET_ALL_GLOBAL_TAG_GROUP_PAGE_SUCCESS = 'GET_ALL_GLOBAL_TAG_GROUP_PAGE_SUCCESS';
+export const GET_ALL_GLOBAL_TAG_GROUP_PAGE_FAIL = 'GET_ALL_GLOBAL_TAG_GROUP_PAGE_FAIL';
+
 export const GET_ALL_GLOBAL_TAG_GROUP_SUCCESS = 'get_all_global_tag_group_success';
 export const GET_ALL_GLOBAL_TAG_GROUP_FAIL = 'get_all_global_tag_group_fail';
 

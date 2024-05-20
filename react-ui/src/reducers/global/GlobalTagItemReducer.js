@@ -6,10 +6,12 @@ import {
    GET_GLOBAL_TAG_ITEM_LONG_SUCCESS,
    ADD_GLOBAL_TAG_ITEM_SUCCESS,
    ADD_GLOBAL_TAG_ITEM_FAIL,
-   RENDER_GLOBAL_TAG_ITEM_TO_EDIT
+   RENDER_GLOBAL_TAG_ITEM_TO_EDIT,
+   GET_ALL_GLOBAL_TAG_ITEM_PAGE_SUCCESS
 } from '../../types';
 
 const INITIAL_STATE = {
+    globalTagItemPageData: {},
     globalTagItemList: [],
     globalTagItemList_today: [],
     globalTagItemList_yesterday: [],
@@ -24,6 +26,9 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case GET_ALL_GLOBAL_TAG_ITEM_PAGE_SUCCESS:
+            return { ...state, globalTagItemPageData: action.payload };
+
         case GET_ALL_GLOBAL_TAG_ITEM_SUCCESS:
             return { ...state, globalTagItemList: action.payload };
 

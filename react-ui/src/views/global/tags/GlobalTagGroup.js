@@ -80,9 +80,11 @@ class GlobalTagGroup extends Component {
                     >
                         <DynamicTable 
                         pageSize= {config.pageSize}
+                        pageCount= {this.props.globalTagGroupPageData.pageCount}
+                        totalPages= {this.props.globalTagGroupPageData.totalPages}
                         pageAction={this.props.getGlobalTagGroupPageList}
                         headers={this.props.metadata.table.headers} 
-                        dataList={this.props.globalTagGroupList}
+                        dataList={this.props.globalTagGroupPageData.elements}
                         {...this.props}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
@@ -122,8 +124,8 @@ class GlobalTagGroup extends Component {
 const mapStateToProps = state => {
     const { globalCategoryList} = state.globalCategoryReducer;
 
-    const { globalTagGroupList} = state.globalTagGroupReducer;
-    return { globalTagGroupList, globalCategoryList};
+    const { globalTagGroupList, globalTagGroupPageData} = state.globalTagGroupReducer;
+    return { globalTagGroupList, globalTagGroupPageData, globalCategoryList};
 };
 
 

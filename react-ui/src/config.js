@@ -17,7 +17,10 @@ const config = {
     AUTH_SERVER_HOST: APP_HOST_SERVER+'/auth',
     CRM_SERVER_HOST: APP_HOST_SERVER+'/crm',
     ORDERING_SERVER_HOST: APP_HOST_SERVER+'/ordering',
-    PAYMENT_SERVER_HOST: APP_HOST_SERVER+'/payment'
+    PAYMENT_SERVER_HOST: APP_HOST_SERVER+'/payment',
+    resourseUrl: (clientUrl)=>{
+      return APP_HOST_SERVER+'/content'+clientUrl;
+    }
 };
 
 export default config;

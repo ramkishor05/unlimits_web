@@ -161,13 +161,15 @@ class GlobalImageLibrary extends Component {
                         content = {false}
                     >
                         <DynamicTable 
-                        pageSize= {config.pageSize}
-                        pageAction={this.props.getGlobalImageLibraryPageList}
-                        headers={globalTagListMeta.table.headers} 
-                        dataList={this.props.globalImageLibraryList}
-                        deleteAction = {this._delete}
-                        editAction = {this._edit}
-                        {...this.props}
+                            pageSize= {config.pageSize}
+                            pageCount= {this.props.globalImageLibraryPageData.pageCount}
+                            totalPages= {this.props.globalImageLibraryPageData.totalPages}
+                            pageAction={this.props.getGlobalImageLibraryPageList}
+                            headers={globalTagListMeta.table.headers} 
+                            dataList={this.props.globalImageLibraryPageData.elements}
+                            deleteAction = {this._delete}
+                            editAction = {this._edit}
+                            {...this.props}
                         ></DynamicTable>
                     </MainCard>
                     {
@@ -201,9 +203,9 @@ class GlobalImageLibrary extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalImageLibraryList } = state.globalImageLibraryReducer;
+    const { globalImageLibraryList, globalImageLibraryPageData } = state.globalImageLibraryReducer;
 
-    return { globalImageLibraryList };
+    return { globalImageLibraryList, globalImageLibraryPageData };
 };
 
 

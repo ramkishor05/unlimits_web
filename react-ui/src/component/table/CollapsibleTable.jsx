@@ -17,6 +17,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
+import config from '../../config';
 
 const useStyles = makeStyles({
   table: {
@@ -70,7 +71,7 @@ const getValue=(data, keyStr)=>{
         return  <img
                 width={field.width}
                 height={field.height}
-                src={getValue(data,field.name)}
+                src={config.resourseUrl(getValue(data,field.name))}
             />
     default:
        return getValue(data,field.name);

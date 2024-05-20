@@ -11,6 +11,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
+import config from '../../config';
 const useStyles = makeStyles({
     table: {
       width: '100%',
@@ -47,12 +48,13 @@ const useStyles = makeStyles({
 
 function DynamicTable (props){
     const classes = useStyles();
-
-    const [pageCount, setPageCount] = React.useState(props.pageSize? props.pageSize:5);
+    
+    const [totalPages, setTotalPages] = React.useState(props.totalPages);
+    const [pageSize, setPageSize] = React.useState(props.pageSize);
     const [pageNumber, setPageNumber] = React.useState(0);
     const handlePageNumber = (event, pageNumber) => {
       setPageNumber(pageNumber);
-      props.pageAction &&  props.pageAction(pageNumber-1,pageCount);
+      props.pageAction &&  props.pageAction(pageNumber-1,props.pageSize);
     };
     const getValue=(data, keyStr)=>{
         let keys=keyStr.split("\.");
@@ -76,7 +78,7 @@ function DynamicTable (props){
                     width={field.width}
                     height={field.height}
                     className={classes.img}
-                    src={getValue(data,field.name)}
+                    src={config.resourseUrl(getValue(data,field.name))}
                 />
         case 'color':
             return <Button style={{backgroundColor: getValue(data,field.name), height:'80%'}} ></Button>
@@ -165,7 +167,7 @@ function DynamicTable (props){
                     <TableRow style={{border : 0}} >
                       <TableCell colSpan={headers.length} sx={{border : 0, textAlign: 'right'}}  align='right' > 
                       <div style={{border : 2, textAlign: 'right'}}>
-                      <Pagination count={pageCount} page={pageNumber} 
+                      <Pagination count={totalPages} page={pageNumber}  boundaryCount={1}
                         variant="outlined" shape="rounded" onChange={handlePageNumber}/>
                         </div>
                       </TableCell>

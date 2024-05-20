@@ -5,7 +5,9 @@ import {
    REMOVE_LOADER,
    ADD_GLOBAL_CATEGERY_GROUP_SUCCESS,
    EDIT_GLOBAL_CATEGERY_GROUP_SUCCESS,
-   RENDER_GLOBAL_CATEGERY_GROUP_TO_EDIT
+   RENDER_GLOBAL_CATEGERY_GROUP_TO_EDIT,
+   GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS,
+   GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_FAIL
 } from '../../types';
 import GlobalCategoryGroupService from '../../services/GlobalCategoryGroupService';
 
@@ -35,12 +37,12 @@ export const getGlobalCategoryGroupPageList = (pageNumber,pageCount) => async di
 
         const globalCategoryGroupList = await GlobalCategoryGroupService.getPageList(pageNumber,pageCount);
         if (globalCategoryGroupList) {
-            dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_SUCCESS, payload: globalCategoryGroupList });
+            dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS, payload: globalCategoryGroupList });
         }
         dispatch({ type: REMOVE_LOADER });
 
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_FAIL });
         console.log(error);
         dispatch({ type: REMOVE_LOADER });
 

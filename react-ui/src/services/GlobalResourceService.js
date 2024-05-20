@@ -2,7 +2,9 @@ import {axios} from './index';
 import config from '../config';
 
 const GLOBAL_RESOURCE_URL=`${config.ITEM_SERVER_HOST}`;
-
+const headers = {
+    'Content-Type': 'text/plain'
+};
 export default {
     getAll() {
         return axios.get(GLOBAL_RESOURCE_URL)
@@ -10,18 +12,18 @@ export default {
                     .catch(error => Promise.reject(error));
     },
     find(minimum){
-        return axios.get(GLOBAL_RESOURCE_URL+'/find', { params: { minimum } })
+        return axios.get(GLOBAL_RESOURCE_URL+'/find', { params: { minimum } },{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
     add(endpoint,item) {
-        return axios.post(GLOBAL_RESOURCE_URL+endpoint, item)
+        return axios.post(GLOBAL_RESOURCE_URL+endpoint, item,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
     update(id, item) {
         item['id']=id;
-        return axios.put(GLOBAL_RESOURCE_URL, item)
+        return axios.put(GLOBAL_RESOURCE_URL, item,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },

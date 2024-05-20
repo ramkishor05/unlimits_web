@@ -6,10 +6,14 @@ import {
    GET_GLOBAL_IMAGE_LIBRARY_LONG_SUCCESS,
    ADD_GLOBAL_IMAGE_LIBRARY_SUCCESS,
    ADD_GLOBAL_IMAGE_LIBRARY_FAIL,
-   RENDER_GLOBAL_IMAGE_LIBRARY_TO_EDIT
+   RENDER_GLOBAL_IMAGE_LIBRARY_TO_EDIT,
+   GET_ALL_GLOBAL_IMAGE_LIBRARY_PAGE_SUCCESS
 } from '../../types';
 
 const INITIAL_STATE = {
+    globalImageLibraryPageData: {
+
+    },
     globalImageLibraryList: [],
     globalImageLibraryList_today: [],
     globalImageLibraryList_yesterday: [],
@@ -24,6 +28,9 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case GET_ALL_GLOBAL_IMAGE_LIBRARY_PAGE_SUCCESS:
+            return { ...state, globalImageLibraryPageData: action.payload };
+
         case GET_ALL_GLOBAL_IMAGE_LIBRARY_SUCCESS:
             return { ...state, globalImageLibraryList: action.payload };
 

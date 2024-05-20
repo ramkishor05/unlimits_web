@@ -5,7 +5,9 @@ import {
    REMOVE_LOADER,
    ADD_GLOBAL_MINDSET_LIBRARY_SUCCESS,
    EDIT_GLOBAL_MINDSET_LIBRARY_SUCCESS,
-   RENDER_GLOBAL_MINDSET_LIBRARY_TO_EDIT
+   RENDER_GLOBAL_MINDSET_LIBRARY_TO_EDIT,
+   GET_ALL_GLOBAL_MINDSET_LIBRARY_PAGE_SUCCESS,
+   GET_ALL_GLOBAL_MINDSET_LIBRARY_PAGE_FAIL
 } from '../../types';
 import GlobalMindSetLibraryService from '../../services/GlobalMindSetLibraryService';
 
@@ -32,11 +34,11 @@ export const getGlobalMindSetLibraryPageList = (pageNumber, pageCount) => async 
 
         const globalPromptTagList = await GlobalMindSetLibraryService.getPageList(pageNumber, pageCount);
         if (globalPromptTagList) {
-            dispatch({ type: GET_ALL_GLOBAL_MINDSET_LIBRARY_SUCCESS, payload: globalPromptTagList });
+            dispatch({ type: GET_ALL_GLOBAL_MINDSET_LIBRARY_PAGE_SUCCESS, payload: globalPromptTagList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_MINDSET_LIBRARY_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_MINDSET_LIBRARY_PAGE_FAIL });
         dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }

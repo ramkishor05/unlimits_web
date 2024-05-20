@@ -5,7 +5,9 @@ import {
    REMOVE_LOADER,
    ADD_GLOBAL_TAG_GROUP_SUCCESS,
    EDIT_GLOBAL_TAG_GROUP_SUCCESS,
-   RENDER_GLOBAL_TAG_GROUP_TO_EDIT
+   RENDER_GLOBAL_TAG_GROUP_TO_EDIT,
+   GET_ALL_GLOBAL_TAG_GROUP_PAGE_SUCCESS,
+   GET_ALL_GLOBAL_TAG_GROUP_PAGE_FAIL
 } from '../../types';
 import GlobalTagGroupService from '../../services/GlobalTagGroupService';
 
@@ -34,12 +36,12 @@ export const getGlobalTagGroupPageList = (pageNumber, pageCount) => async dispat
 
         const globalTagGroupList = await GlobalTagGroupService.getPageList(pageNumber, pageCount);
         if (globalTagGroupList) {
-            dispatch({ type: GET_ALL_GLOBAL_TAG_GROUP_SUCCESS, payload: globalTagGroupList });
+            dispatch({ type: GET_ALL_GLOBAL_TAG_GROUP_PAGE_SUCCESS, payload: globalTagGroupList });
         }
         dispatch({ type: REMOVE_LOADER });
 
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_TAG_GROUP_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_TAG_GROUP_PAGE_FAIL });
         console.log(error);
         dispatch({ type: REMOVE_LOADER });
 

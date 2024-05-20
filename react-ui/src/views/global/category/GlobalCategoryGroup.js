@@ -61,7 +61,7 @@ class GlobalCategoryGroup extends Component {
         this.clearAndRefresh();
     }
 
- render() {
+    render() {
         return (
                 <>
                 
@@ -79,9 +79,11 @@ class GlobalCategoryGroup extends Component {
                     >
                         <DynamicTable 
                         pageSize= {config.pageSize}
+                        pageCount= {this.props.globalCategoryGrouppPageData.pageCount}
+                        totalPages= {this.props.globalCategoryGrouppPageData.totalPages}
                         pageAction={this.props.getGlobalCategoryGroupPageList}
                         headers={this.props.metadata.table.headers} 
-                        dataList={this.props.globalCategoryGroupList}
+                        dataList={this.props.globalCategoryGrouppPageData.elements}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         ></DynamicTable>
@@ -98,16 +100,16 @@ class GlobalCategoryGroup extends Component {
                         saveAction = {this.saveObject}
                         >
                         </DynamicModel>
-                }
-                <ConfirmModel
-                openAction={this.state.deleteModel}
-                closeAction={()=> this.setState({deleteModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                message= 'Do you want to delete'
-                saveAction = {this.saveObject}
-                >
-                </ConfirmModel>
+                    }
+                    <ConfirmModel
+                    openAction={this.state.deleteModel}
+                    closeAction={()=> this.setState({deleteModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    message= 'Do you want to delete'
+                    saveAction = {this.saveObject}
+                    >
+                    </ConfirmModel>
             </>
         );
     };
@@ -115,8 +117,8 @@ class GlobalCategoryGroup extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalCategoryGroupList, show_global_category_group_loader } = state.globalCategoryGroupReducer;
-    return { globalCategoryGroupList, show_global_category_group_loader };
+    const { globalCategoryGroupList, globalCategoryGrouppPageData, show_global_category_group_loader } = state.globalCategoryGroupReducer;
+    return { globalCategoryGroupList, globalCategoryGrouppPageData, show_global_category_group_loader };
 };
 
 

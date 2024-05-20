@@ -32,7 +32,7 @@ export default {
                     .catch(error => Promise.reject(error));
     },
     getPageList(pageNumber,pageCount) {
-        return axios.get(GLOBAL_CATEGERY_GROUP_URL+"/page/list"+`/${pageNumber}/count/${pageCount}`)
+        return axios.get(GLOBAL_CATEGERY_GROUP_URL+"/page/data"+`/${pageNumber}/count/${pageCount}`)
                     .then(response => Promise.resolve(response.data.data))
                     .catch(error => Promise.reject(error));
     }

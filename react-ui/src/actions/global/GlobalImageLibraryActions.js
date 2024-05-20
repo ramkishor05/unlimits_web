@@ -5,7 +5,9 @@ import {
    REMOVE_LOADER,
    ADD_GLOBAL_IMAGE_LIBRARY_SUCCESS,
    EDIT_GLOBAL_IMAGE_LIBRARY_SUCCESS,
-   RENDER_GLOBAL_IMAGE_LIBRARY_TO_EDIT
+   RENDER_GLOBAL_IMAGE_LIBRARY_TO_EDIT,
+   GET_ALL_GLOBAL_IMAGE_LIBRARY_PAGE_SUCCESS,
+   GET_ALL_GLOBAL_IMAGE_LIBRARY_PAGE_FAIL
 } from '../../types';
 import GlobalImageLibraryService from '../../services/GlobalImageLibraryService';
 
@@ -33,11 +35,11 @@ export const getGlobalImageLibraryPageList = (pageNumber,pageCount) => async dis
 
         const globalPromptTagList = await GlobalImageLibraryService.getPageList(pageNumber,pageCount);
         if (globalPromptTagList) {
-            dispatch({ type: GET_ALL_GLOBAL_IMAGE_LIBRARY_SUCCESS, payload: globalPromptTagList });
+            dispatch({ type: GET_ALL_GLOBAL_IMAGE_LIBRARY_PAGE_SUCCESS, payload: globalPromptTagList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_IMAGE_LIBRARY_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_IMAGE_LIBRARY_PAGE_FAIL });
         dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }

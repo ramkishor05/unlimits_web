@@ -81,10 +81,12 @@ class GlobalCategoryItem extends Component {
                         content = {false}
                     >
                         <DynamicTable 
-                        pageSize={config.pageSize}
+                        pageSize= {config.pageSize}
+                        pageCount= {this.props.globalCategoryItemPageData.pageCount}
+                        totalPages={this.props.globalCategoryItemPageData.totalPages}
                         pageAction={this.props.getGlobalCategoryPageList}
                         headers={this.props.metadata.table.headers} 
-                        dataList={this.props.globalCategoryList}
+                        dataList={this.props.globalCategoryItemPageData.elements}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         {...this.props}
@@ -121,9 +123,9 @@ class GlobalCategoryItem extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalCategoryList} = state.globalCategoryReducer;
+    const { globalCategoryList, globalCategoryItemPageData} = state.globalCategoryReducer;
     const { globalCategoryGroupList} = state.globalCategoryGroupReducer;
-    return { globalCategoryList, globalCategoryGroupList };
+    return { globalCategoryItemPageData, globalCategoryList, globalCategoryGroupList };
 };
 
 
