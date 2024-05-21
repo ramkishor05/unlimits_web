@@ -18,7 +18,7 @@ const globalTagListMeta = {
     "table": {
         headers : [
             {
-                name: "content",
+                name: "logoUrl",
                 label: "Content",
                 width: 30,
                 height: 30,
