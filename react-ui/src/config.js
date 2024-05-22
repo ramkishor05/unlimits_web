@@ -19,7 +19,7 @@ const config = {
     ORDERING_SERVER_HOST: APP_HOST_SERVER+'/ordering',
     PAYMENT_SERVER_HOST: APP_HOST_SERVER+'/payment',
     resourseUrl: (clientUrl)=>{
-      return APP_HOST_SERVER+'/content'+clientUrl;
+      return config.ITEM_SERVER_HOST+clientUrl;
     }
 };
 

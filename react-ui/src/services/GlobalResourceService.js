@@ -1,7 +1,7 @@
 import {axios} from './index';
 import config from '../config';
 
-const GLOBAL_RESOURCE_URL=`${config.ITEM_SERVER_HOST}`;
+const GLOBAL_RESOURCE_URL=`${config.ITEM_SERVER_HOST}`+'/resource';
 const headers = {
     'Content-Type': 'text/plain'
 };
@@ -17,7 +17,7 @@ export default {
                     .catch(error => Promise.reject(error));
     },
     add(endpoint,item) {
-        return axios.post(GLOBAL_RESOURCE_URL+endpoint, item,{headers: headers})
+        return axios.post(GLOBAL_RESOURCE_URL+"/"+endpoint, item,{headers: headers})
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },

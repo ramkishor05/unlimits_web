@@ -52,7 +52,7 @@ class ImageUploadCard extends React.Component {
     reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-      GlobalResourceService.add("/images/"+file.name, reader.result).then(url=>{
+      GlobalResourceService.add(this.props.container+"/"+file.name, reader.result).then(url=>{
         console.log("url=", url);
         this.setState({
           selectedFile: url
@@ -110,7 +110,7 @@ class ImageUploadCard extends React.Component {
         <img
           width="100%"
           className={classes.img}
-          src={this.state.selectedFile}
+          src={config.resourseUrl(this.state.selectedFile)}
           onMouseOver={()=> this.setState({btn: true})}
         />
      

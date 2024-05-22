@@ -10,7 +10,8 @@ const globalMainCategoryMeta = {
                 type:'img',
                 grid: 12,
                 width: 30,
-                height: 30
+                height: 30,
+                container: 'category_logo'
             },
             {
                 "id": "name",
@@ -61,7 +62,8 @@ const globalMainCategoryMeta = {
             type:'img',
             grid: 12,
             width: 200,
-            height: 200
+            height: 200,
+            container: 'category_logo'
         },
         {
             "id": "name",

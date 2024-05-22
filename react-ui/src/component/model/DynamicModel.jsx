@@ -138,7 +138,8 @@ class DynamicModel extends React.Component {
          label={field.label}
        />
       case 'img':
-         return <ImageUploadCard name="pictureURL" 
+         return <ImageUploadCard name={field.name}
+         container={field.container}
          value={getValue(data,field.name)} 
          setUserProfileImge={(value)=> 
             field.onchange ? 
