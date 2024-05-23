@@ -146,6 +146,7 @@ class DynamicModel extends React.Component {
             field.onchange(value, data, field, props) :
             setValue(value,field.name,field, data, this.setData, this.checkValidation)
          }
+         {...field}
          >
          </ImageUploadCard>
       case 'qnt':

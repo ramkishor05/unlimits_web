@@ -12,6 +12,7 @@ import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import config from '../../config';
+import defaultImg from '../../assets/images/product/no-image.svg'
 const useStyles = makeStyles({
     table: {
       width: '100%',
@@ -74,11 +75,13 @@ function DynamicTable (props){
         switch(field.type) {
             
         case 'img':
+            let logo= getValue(data,field.name);
+            let resourseUrl= logo && logo!==""? config.resourseUrl(logo) :defaultImg;
             return  <img
                     width={field.width}
                     height={field.height}
                     className={classes.img}
-                    src={config.resourseUrl(getValue(data,field.name))}
+                    src={resourseUrl}
                 />
         case 'color':
             return <Button style={{backgroundColor: getValue(data,field.name), height:'80%'}} ></Button>

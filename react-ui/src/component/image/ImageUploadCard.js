@@ -1,7 +1,7 @@
 // imports the React Javascript Library
 import React from "react";
 
-import defaultImg from '../../assets/images/users/user-round.svg'
+import defaultImg from '../../assets/images/product/no-image.svg'
 
 //Tabs
 import { withStyles } from "@material-ui/styles";
@@ -42,7 +42,7 @@ class ImageUploadCard extends React.Component {
     mainState: "initial", // initial
     imageUploaded: 0,
     bytes: '',
-    selectedFile: this.props.value ? this.props.value: defaultImg,
+    selectedFile: this.props.value && this.props.value!=="" ? this.props.value: defaultImg,
     btn: false
   };
 
@@ -72,11 +72,12 @@ class ImageUploadCard extends React.Component {
   };
 
   renderInitialState() {
-    const { classes, theme } = this.props;
+    const { classes, height } = this.props;
     return (
      <>
         <img
           width="100%"
+          maxHeight={height}
           className={classes.img}
           src={config.resourseUrl(this.state.selectedFile)}
           onMouseOver={()=> this.setState({btn: true})}
@@ -103,12 +104,13 @@ class ImageUploadCard extends React.Component {
   }
 
   renderUploadedState() {
-    const { classes, theme } = this.props;
+    const { classes, height } = this.props;
 
     return (
       <>
         <img
           width="100%"
+          maxHeight={height}
           className={classes.img}
           src={config.resourseUrl(this.state.selectedFile)}
           onMouseOver={()=> this.setState({btn: true})}
@@ -123,7 +125,6 @@ class ImageUploadCard extends React.Component {
             accept="image/*"
             className={classes.input}
             id="button-file"
-            multiple
             type="file"
             onChange={this.handleUploadClick}
           />

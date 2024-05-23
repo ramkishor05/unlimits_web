@@ -1,5 +1,6 @@
 const globalMainTagMeta = {
     "table": {
+        name: 'Main tags',
         headers : [
             {
                 name: "logoUrl",
@@ -8,7 +9,8 @@ const globalMainTagMeta = {
                 type:'img',
                 grid: 2,
                 width: 30,
-                height: 30
+                height: 30,
+                container: 'main_tag_logo'
             },
             {
                 name: "name",
@@ -63,7 +65,8 @@ const globalMainTagMeta = {
             type:'img',
             grid: 12,
             width: 200,
-            height: 200
+            height: 200,
+            container: 'main_tag_logo'
         },
         {
             name: "name",

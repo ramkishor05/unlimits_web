@@ -66,7 +66,7 @@ class GlobalTagGroup extends Component {
         return (
                 <>
                 
-                    <MainCard title="Main Tags" 
+                    <MainCard title={this.props.metadata.table.name} 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 

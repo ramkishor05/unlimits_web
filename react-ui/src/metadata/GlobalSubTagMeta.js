@@ -1,5 +1,7 @@
 const globalSubTagMeta = {
+
     "table": {
+        name: 'Sub tags',
         headers : [
             {
                 name: "logoUrl",
@@ -8,7 +10,8 @@ const globalSubTagMeta = {
                 type:'img',
                 grid: 2,
                 width: 30,
-                height: 30
+                height: 30,
+                container: 'sub_tag_logo'
             },
             {
                 name: "name",
@@ -63,7 +66,8 @@ const globalSubTagMeta = {
             type:'img',
             grid: 12,
             width: 200,
-            height: 200
+            height: 200,
+            container: 'sub_tag_logo'
         },
         {
             name: "name",

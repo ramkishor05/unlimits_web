@@ -67,7 +67,7 @@ class GlobalTagItem extends Component {
         return (
             <>
                 
-                <MainCard title="Sub Tags" 
+                <MainCard title={this.props.metadata.table.name} 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 

@@ -1,7 +1,7 @@
 const globalMainCategoryMeta = {
     "id": "",
     "table": {
-        "type": "",
+         name: 'Main categories',
         "headers": [
             {
                 name: "logoUrl",

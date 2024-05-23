@@ -1,5 +1,6 @@
 const globalSubCategoryMeta = {
     table: {
+        name: 'Sub categories',
         headers : [
             {
                 name: "logoUrl",
@@ -8,7 +9,8 @@ const globalSubCategoryMeta = {
                 type:'img',
                 grid: 2,
                 width: 30,
-                height: 30
+                height: 30,
+                container: 'sub_category_logo'
             },
             {
                 name: "name",
@@ -66,7 +68,8 @@ const globalSubCategoryMeta = {
             type:'img',
             grid: 12,
             width: 200,
-            height: 200
+            height: 200,
+            container: 'sub_category_logo'
         },
         {
             name: "name",

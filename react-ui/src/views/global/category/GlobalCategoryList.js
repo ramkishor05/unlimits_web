@@ -68,7 +68,7 @@ class GlobalCategoryItem extends Component {
         return (
             <>
                 
-                <MainCard title="Category List" 
+                <MainCard title={this.props.metadata.table.name} 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
