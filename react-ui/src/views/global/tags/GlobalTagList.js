@@ -1,7 +1,5 @@
 import React, { Component} from 'react';
 
-import { Fab } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 
 
@@ -10,7 +8,7 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalTagItemPageList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem } 
+import { getGlobalTagItemPageList, getGlobalTagGroupList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem } 
 from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
@@ -57,6 +55,7 @@ class GlobalTagItem extends Component {
 
     clearAndRefresh = () => {
         this.props.getGlobalTagItemPageList(0, config.pageSize);
+        this.props.getGlobalTagGroupList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
@@ -130,6 +129,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalTagItemPageList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem })(GlobalTagItem);
+export default connect(mapStateToProps, { getGlobalTagItemPageList, getGlobalTagGroupList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem })(GlobalTagItem);
 
 

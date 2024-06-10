@@ -7,16 +7,16 @@ import {
    EDIT_GLOBAL_PROMPT_TAG_SUCCESS,
    RENDER_GLOBAL_PROMPT_TAG_TO_EDIT
 } from '../../types';
-import GlobalPromptTagService from '../../services/GlobalPromptTagService';
+import GlobalPromptService from '../../services/GlobalPromptService';
 
 // Action creator for getting all items --<
-export const getGlobalPromptTagList = () => async dispatch => {
+export const getGlobalPromptList = () => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalPromptTagList = await GlobalPromptTagService.getAll();
-        if (globalPromptTagList) {
-            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptTagList });
+        const globalPromptList = await GlobalPromptService.getAll();
+        if (globalPromptList) {
+            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
@@ -26,13 +26,13 @@ export const getGlobalPromptTagList = () => async dispatch => {
     }
 };
 
-export const getGlobalPromptTagPageList = (pageNumber, pageCount) => async dispatch => {
+export const getGlobalPromptPageList = (pageNumber, pageCount) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalPromptTagList = await GlobalPromptTagService.getPageList(pageNumber, pageCount);
-        if (globalPromptTagList) {
-            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptTagList });
+        const globalPromptList = await GlobalPromptService.getPageList(pageNumber, pageCount);
+        if (globalPromptList) {
+            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
@@ -43,14 +43,14 @@ export const getGlobalPromptTagPageList = (pageNumber, pageCount) => async dispa
 };
 
 // Action creator for adding item --<
-export const addGlobalPromptTag = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
+export const addGlobalPrompt = (data, refreshItemsList, clear, successNotification, errorNotification) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalPromptTag = await GlobalPromptTagService.add(data);
+        const globalPrompt = await GlobalPromptService.add(data);
 
-        if (globalPromptTag) {
+        if (globalPrompt) {
             dispatch({ type: ADD_GLOBAL_PROMPT_TAG_SUCCESS });
         }
 
@@ -70,21 +70,21 @@ export const addGlobalPromptTag = (data, refreshItemsList, clear, successNotific
     }
 };
 
-export const renderGlobalPromptTagToEdit = item => {
+export const renderGlobalPromptToEdit = item => {
     return {
         type: RENDER_GLOBAL_PROMPT_TAG_TO_EDIT,
         payload: item,
     };
 };
 
-export const editGlobalPromptTag = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
+export const editGlobalPrompt = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalPromptTag = await GlobalPromptTagService.update(id, data);
+        const globalPrompt = await GlobalPromptService.update(id, data);
 
-        if (globalPromptTag) {
+        if (globalPrompt) {
             dispatch({ type: EDIT_GLOBAL_PROMPT_TAG_SUCCESS });
             
             successNotification && successNotification();
@@ -99,14 +99,14 @@ export const editGlobalPromptTag = (id, data, clearAndRefresh, successNotificati
     }
 };
 
-export const updateGlobalPromptTag = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
+export const updateGlobalPrompt = (id, data, clearAndRefresh, successNotification, errorNotification) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalPromptTag = await GlobalPromptTagService.update(id, data);
+        const globalPrompt = await GlobalPromptService.update(id, data);
 
-        if (globalPromptTag) {
+        if (globalPrompt) {
             dispatch({ type: EDIT_GLOBAL_PROMPT_TAG_SUCCESS });
             
             successNotification && successNotification();
@@ -122,11 +122,11 @@ export const updateGlobalPromptTag = (id, data, clearAndRefresh, successNotifica
 };
 
 // Action creator for deleting football transaction from the system.
-export const deleteGlobalPromptTag = (id, refresh) => async dispatch => {
+export const deleteGlobalPrompt = (id, refresh) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const deleted_global_category = await GlobalPromptTagService.delete(id);
+        const deleted_global_category = await GlobalPromptService.delete(id);
 
         if (deleted_global_category) {
             refresh && refresh();

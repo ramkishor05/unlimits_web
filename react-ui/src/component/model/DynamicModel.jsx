@@ -86,7 +86,6 @@ class DynamicModel extends React.Component {
 
   renderSwitch(field, data, props) {
     
-    console.log("field==",field)
     switch(field.type) {
       case 'label':
         return <Box 

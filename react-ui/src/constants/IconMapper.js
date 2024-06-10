@@ -17,7 +17,7 @@ import TagGroupIcon from '@mui/icons-material/LocalOffer';
 import TagItemIcon from '@mui/icons-material/Loyalty';
 import ImageIcon from '@mui/icons-material/ImageSearch';
 import MyMindsetVideosIcon from '@mui/icons-material/PlayCircleOutline';
-import PromptTagIcon from '@mui/icons-material/BookmarkAdded';
+import PromptIcon from '@mui/icons-material/BookmarkAdded';
 
 export const IconMapper = {
     Dashboard: IconDashboard,
@@ -69,5 +69,5 @@ export const IconMapper = {
     Images: ImageIcon,
     MyMindsetVideos: MyMindsetVideosIcon,
     UserList:IconUsers,
-    PromptTag: PromptTagIcon
+    PromptTag: PromptIcon
 };

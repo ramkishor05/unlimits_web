@@ -10,43 +10,43 @@ import {
 } from '../../types';
 
 const INITIAL_STATE = {
-    globalPromptTagList: [],
-    globalPromptTagList_today: [],
-    globalPromptTagList_yesterday: [],
-    globalPromptTagList_long: [],
-    globalPromptTag_to_edit: {
+    globalPromptList: [],
+    globalPromptList_today: [],
+    globalPromptList_yesterday: [],
+    globalPromptList_long: [],
+    globalPrompt_to_edit: {
         name: '',
         desc: '',
         typeId:'',
-        glbPromptTagGroupId: 0
+        glbPromptGroupId: 0
     },
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS:
-            return { ...state, globalPromptTagList: action.payload };
+            return { ...state, globalPromptList: action.payload };
 
         case GET_ALL_GLOBAL_PROMPT_TAG_FAIL:
             return { ...state };
 
         case GET_GLOBAL_PROMPT_TAG_TODAY_SUCCESS:
-            return { ...state, globalPromptTagList_today: action.payload };
+            return { ...state, globalPromptList_today: action.payload };
 
         case GET_GLOBAL_PROMPT_TAG_YESTERDAY_SUCCESS:
-            return { ...state, globalPromptTagList_yesterday: action.payload };
+            return { ...state, globalPromptList_yesterday: action.payload };
 
         case GET_GLOBAL_PROMPT_TAG_LONG_SUCCESS:
-            return { ...state, globalPromptTagList_long: action.payload };
+            return { ...state, globalPromptList_long: action.payload };
 
         case ADD_GLOBAL_PROMPT_TAG_SUCCESS:
-            return { ...state, openAddGlobalPromptTagModal: false };
+            return { ...state, openAddGlobalPromptModal: false };
 
         case ADD_GLOBAL_PROMPT_TAG_FAIL:
             return { ...state };
 
         case RENDER_GLOBAL_PROMPT_TAG_TO_EDIT:
-            return { ...state, globalPromptTag_to_edit: action.payload };
+            return { ...state, globalPrompt_to_edit: action.payload };
     
         default:
             return state;

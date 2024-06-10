@@ -18,10 +18,9 @@ const styles = (theme) => ({
   },
   img: {
     width: '100%',
-    height: '100%',
     margin: "0",
     maxWidth: "100%",
-    maxHeight: "100%"
+    position: 'relative'
   },
   btn : {
     position: "absolute",
@@ -42,7 +41,7 @@ class ImageUploadCard extends React.Component {
     mainState: "initial", // initial
     imageUploaded: 0,
     bytes: '',
-    selectedFile: this.props.value && this.props.value!=="" ? this.props.value: defaultImg,
+    selectedFile: this.props.value,
     btn: false
   };
 
@@ -53,7 +52,7 @@ class ImageUploadCard extends React.Component {
 
     reader.onloadend = function (e) {
       GlobalResourceService.add(this.props.container+"/"+file.name, reader.result).then(url=>{
-        console.log("url=", url);
+       
         this.setState({
           selectedFile: url
         },this.props.setUserProfileImge(url));
@@ -71,15 +70,23 @@ class ImageUploadCard extends React.Component {
     
   };
 
+  srcUrl=(selectedFile)=>{
+    if(selectedFile && selectedFile!=="" && defaultImg!==selectedFile){
+      return config.resourseUrl(selectedFile);
+    }
+    return defaultImg;
+  }
+
   renderInitialState() {
     const { classes, height } = this.props;
     return (
      <>
         <img
           width="100%"
-          maxHeight={height}
+          height={height}
+          style={{position: 'relative'}}
           className={classes.img}
-          src={config.resourseUrl(this.state.selectedFile)}
+          src={this.srcUrl(this.state.selectedFile)}
           onMouseOver={()=> this.setState({btn: true})}
         />
      
@@ -111,8 +118,9 @@ class ImageUploadCard extends React.Component {
         <img
           width="100%"
           maxHeight={height}
+          style={{position: 'relative'}}
           className={classes.img}
-          src={config.resourseUrl(this.state.selectedFile)}
+          src={this.srcUrl(this.state.selectedFile)}
           onMouseOver={()=> this.setState({btn: true})}
         />
      
@@ -137,7 +145,6 @@ class ImageUploadCard extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-
     return (
       <div className={classes.root}>
           {(this.state.mainState == "initial" && this.renderInitialState()) ||

@@ -7,7 +7,7 @@ export * from './GlobalTagGroupActions';
 
 export * from './GlobalTagItemActions';
 
-export * from './GlobalPromptTagActions';
+export * from './GlobalPromptActions';
 
 export * from './GlobalImageLibraryActions';
 

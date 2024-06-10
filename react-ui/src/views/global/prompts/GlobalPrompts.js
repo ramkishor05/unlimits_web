@@ -8,7 +8,7 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalPromptTagList, addGlobalPromptTag, editGlobalPromptTag, deleteGlobalPromptTag } 
+import { getGlobalPromptList, addGlobalPrompt, editGlobalPrompt, deleteGlobalPrompt } 
 from '../../../actions';
 import { connect } from 'react-redux';
 
@@ -28,31 +28,17 @@ const globalTagListMeta = {
             {
                 name: "description",
                 label: "Description",
-                type: 'text'
+                type: 'text',
+                row: 10,
+                col:10
             },
             {
-                name: "typeId",
+                name: "type",
                 label: "Type",
                 type: 'text',
                 "required" : {
                     value : '',
-                    message: "Type id is required!"
-                }
-            },
-            {
-                name: "groupId",
-                label: "Group Id",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Group id is required!"
-                },
-                "render":(value, row, header, props)=>{
-                    if(value){
-                        let globalTagGroup=props.globalTagGroupList.find(globalTagGroup=>globalTagGroup.id==value)
-                        return globalTagGroup ? globalTagGroup.name : value;
-                    }
-                    return value;
+                    message: "Type is required!"
                 }
             },
             {
@@ -72,39 +58,20 @@ const globalTagListMeta = {
             }
         },
         {
-            name: "description",
-            label: "Description",
-            type: 'text'
-        },
-        {
-            name: "typeId",
+            name: "type",
             label: "Type",
             type: 'text',
             "required" : {
                 value : '',
-                message: "Type id is required!"
+                message: "Type is required!"
             }
         },
         {
-            name: "groupId",
-            label: "Group Id",
-            type: 'select',
-            "required" : {
-                value : '',
-                message: "Group id is required!"
-            },
-            "onItems": (value, data, field, props )=>{
-                return props.globalTagGroupList? props.globalTagGroupList: []
-            },
-            "onDisplay" : (data)=>{
-                return <h7><img
-                        width={30}
-                        height={20}
-                        src={data.logoUrl}
-                    /> {data.name}</h7> 
-            },
-            "itemKey": "id",
-            "itemVal": "name"
+            name: "description",
+            label: "Description",
+            type: 'textarea',
+            rows: 10,
+            grid: 12
         }
     ]
 }
@@ -117,7 +84,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class GlobalPromptTag extends Component {
+class GlobalPrompts extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -127,41 +94,41 @@ class GlobalPromptTag extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit Prompt Tag", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit Prompt", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Prompt Tag", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Prompt", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete Prompt Tag", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete Prompt", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         
         if(type=='Add')
-            this.props.addGlobalPromptTag(row, this.clearAndRefresh)
+            this.props.addGlobalPrompt(row, this.clearAndRefresh)
         if(type=='Edit')
-            this.props.editGlobalPromptTag(row.id,row, this.clearAndRefresh)
+            this.props.editGlobalPrompt(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteGlobalPromptTag(row.id, this.clearAndRefresh)
+            this.props.deleteGlobalPrompt(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalPromptTagList();
+        this.props.getGlobalPromptList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
-        this.props.getGlobalPromptTagList();
+        this.props.getGlobalPromptList();
     }
     render() {
         return (
             <>
                 
-                <MainCard title="Tag prompt" 
+                <MainCard title="Prompts" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
@@ -175,7 +142,7 @@ class GlobalPromptTag extends Component {
                     >
                         <DynamicTable 
                         headers={globalTagListMeta.table.headers} 
-                        dataList={this.props.globalPromptTagList}
+                        dataList={this.props.globalPromptList}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         {...this.props}
@@ -214,12 +181,12 @@ class GlobalPromptTag extends Component {
 const mapStateToProps = state => {
     const { globalTagGroupList} = state.globalTagGroupReducer;
 
-    const { globalPromptTagList } = state.globalPromptTagReducer;
+    const { globalPromptList } = state.globalPromptReducer;
 
-    return { globalPromptTagList, globalTagGroupList };
+    return { globalPromptList, globalTagGroupList };
 };
 
 
-export default connect(mapStateToProps, { getGlobalPromptTagList, addGlobalPromptTag, editGlobalPromptTag, deleteGlobalPromptTag })(GlobalPromptTag);
+export default connect(mapStateToProps, { getGlobalPromptList, addGlobalPrompt, editGlobalPrompt, deleteGlobalPrompt })(GlobalPrompts);
 
 

@@ -17,7 +17,7 @@ import GlobalCategoryGroupReducer from './global/GlobalCategoryGroupReducer';
 import GlobalCategoryReducer from './global/GlobalCategoryReducer';
 import GlobalTagGroupReducer from './global/GlobalTagGroupReducer';
 import GlobalTagItemReducer from './global/GlobalTagItemReducer';
-import GlobalPromptTagReducer from './global/GlobalPromptTagReducer';
+import GlobalPromptReducer from './global/GlobalPromptReducer';
 import GlobalUnitGroupReducer from './global/GlobalUnitGroupReducer';
 import GlobalUnitReducer from './global/GlobalUnitReducer';
 import GlobalCountFreqReducer from './global/GlobalCountFreqReducer';
@@ -84,7 +84,7 @@ const reducer = combineReducers({
     globalCategoryReducer: GlobalCategoryReducer,
     globalTagGroupReducer: GlobalTagGroupReducer,
     globalTagItemReducer: GlobalTagItemReducer,
-    globalPromptTagReducer: GlobalPromptTagReducer,
+    globalPromptReducer: GlobalPromptReducer,
     globalMindSetLibraryReducer: GlobalMindSetLibraryReducer,
     globalImageLibraryReducer: GlobalImageLibraryReducer,
     globalCountryReducer: GlobalCountryReducer,
