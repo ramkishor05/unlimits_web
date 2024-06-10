@@ -52,6 +52,23 @@ const globalTagListMeta = {
                 }
             },
             {
+                name: "groupId",
+                "key": "groupId",
+                label: "Sub Category",
+                type: 'text',
+                "required" : {
+                    value : '',
+                    message: "Sub category is required!"
+                },
+                "render":(value, row, header, props)=>{
+                    if(value){
+                        let findglobalCategoryItem=props.globalCategoryItemList.find(globalCategoryItem=>globalCategoryItem.id==value)
+                        return findglobalCategoryItem ? findglobalCategoryItem.name : value;
+                    }
+                    return value;
+                }
+            },
+            {
                 name: "actions",
                 label: "Actions"
             }
@@ -59,15 +76,15 @@ const globalTagListMeta = {
     },
     model : [
         {
-            name: "content",
-            label: "Content",
+            name: "url",
+            label: "url",
             width: 200,
             height: 200,
             grid: 12,
             type: 'img',
             "required" : {
                 value : '',
-                message: "Content is required!"
+                message: "url is required!"
             }
         },
         {
@@ -92,6 +109,27 @@ const globalTagListMeta = {
                 value : '',
                 message: "Type id is required!"
             }
+        },
+        {
+            name: "groupId",
+            label: "Sub Category",
+            type: 'select',
+            "required" : {
+                value : '',
+                message: "Sub Category is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                return props.globalCategoryItemList? props.globalCategoryItemList: []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name"
         }
     ]
 }
@@ -203,9 +241,11 @@ class GlobalImageLibrary extends Component {
 
 
 const mapStateToProps = state => {
+    const { globalCategoryList} = state.globalCategoryReducer;
+
     const { globalImageLibraryList, globalImageLibraryPageData } = state.globalImageLibraryReducer;
 
-    return { globalImageLibraryList, globalImageLibraryPageData };
+    return { globalImageLibraryList, globalImageLibraryPageData , globalCategoryItemList: globalCategoryList};
 };
 
 
