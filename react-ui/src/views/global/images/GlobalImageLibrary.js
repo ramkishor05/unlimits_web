@@ -18,14 +18,14 @@ const globalTagListMeta = {
     "table": {
         headers : [
             {
-                name: "logoUrl",
-                label: "Content",
+                name: "url",
+                label: "File",
                 width: 30,
                 height: 30,
                 type: 'img',
                 "required" : {
                     value : '',
-                    message: "Content is required!"
+                    message: "File is required!"
                 }
             },
             {
