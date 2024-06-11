@@ -163,7 +163,7 @@ const FirebaseRegister = ({ ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
+                    email: 'info@unlimits.com',
                     password: '123456',
                     submit: null
                 }}
@@ -348,7 +348,7 @@ const FirebaseRegister = ({ ...others }) => {
                                     size="large"
                                     type="submit"
                                     variant="contained"
-                                    color="secondary"
+                                    color="primary"
                                 >
                                     Sign up
                                 </Button>

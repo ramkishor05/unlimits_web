@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2019 - present [CodedThemes](https://codedthemes.com/) / [AppSeed](http://appseed.us/)
+Copyright (c) 2019 - present [CodedThemes](https://unlimits.com/) / [AppSeed](http://appseed.us/)
 
 <br />
 

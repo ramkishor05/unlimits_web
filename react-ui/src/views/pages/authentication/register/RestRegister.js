@@ -521,7 +521,7 @@ const RestRegister = ({ ...others }) => {
                         size="large"
                         type="submit"
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                     >
                         Sign UP
                     </Button>

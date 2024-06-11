@@ -8,7 +8,7 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary } 
+import { getGlobalCategoryList, getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary } 
 from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
@@ -174,7 +174,8 @@ class GlobalImageLibrary extends Component {
 
     };
 
-    clearAndRefresh = () => {
+    clearAndRefresh = async() => {
+        await this.props.getGlobalCategoryList()
         this.props.getGlobalImageLibraryPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
@@ -249,6 +250,6 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary })(GlobalImageLibrary);
+export default connect(mapStateToProps, {getGlobalCategoryList, getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary })(GlobalImageLibrary);
 
 

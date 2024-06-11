@@ -261,7 +261,7 @@ const FirebaseLogin = (props, { ...others }) => {
                                 variant="subtitle1"
                                 component={Link}
                                 to={props.login ? '/pages/forgot-password/forgot-password' + props.login : '#'}
-                                color="secondary"
+                                color="primary"
                                 sx={{ textDecoration: 'none' }}
                             >
                                 Forgot Password?

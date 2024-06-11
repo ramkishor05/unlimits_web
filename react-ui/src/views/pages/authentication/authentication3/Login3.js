@@ -28,7 +28,7 @@ const Login = () => {
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
-                                    <Grid item sx={{ mb: 3 }}>
+                                    <Grid item>
                                         <RouterLink to="#">
                                             <Logo />
                                         </RouterLink>
@@ -42,13 +42,7 @@ const Login = () => {
                                         >
                                             <Grid item>
                                                 <Stack alignItems="center" justifyContent="center" spacing={1}>
-                                                    <Typography
-                                                        color={theme.palette.secondary.main}
-                                                        gutterBottom
-                                                        variant={matchDownSM ? 'h3' : 'h2'}
-                                                    >
-                                                        Hi, Welcome Back
-                                                    </Typography>
+                                                    
                                                     <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : ''}>
                                                         Enter your credentials to continue
                                                     </Typography>

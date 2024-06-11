@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 
 
 import { getGlobalUserPageList, addGlobalUser, editGlobalUser, deleteGlobalUser, getGlobalVendorList , getUserRoleList} from '../../../actions';
@@ -13,24 +13,20 @@ import config from '../../../config';
 
 const mainheaders = [
     {
-        name: "userProfile.pictureURL",
-        label: "Profile Img",
-        type: 'img',
-        width: 30,
-        height:30,
-        render: (value, row, header, props ) =>{
-            return <img style={{textAlign :'center'}} src={value} width={30} height={30}></img>
-        }
-    },
-    {
         name: "username",
         label: "Username",
-        type: 'text'
-    },
-    {
-        name: "registeredEmail",
-        label: "Registered Email",
-        type: 'email'
+        type: 'text',
+        render: (value, row, header, props ) =>{
+            return <Grid container>
+                    <Grid item>
+                      <img style={{textAlign :'center'}} src={value} width={60} height={60}></img>
+                    </Grid> 
+                    <Grid item>
+                        <h5>{row.username}</h5>
+                        <h6>{row.registeredEmail}</h6>
+                    </Grid>
+                </Grid> 
+        }
     },
     {
         name: "registeredMobile",

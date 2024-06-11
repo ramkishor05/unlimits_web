@@ -18,8 +18,8 @@ const Logo = (props) => {
     const theme = useTheme();
 
     return (
-      <>
-      <img src={logo} alt="Unlimits" width={180} height={50} />
+      <div>
+      <img src={logo} alt="Unlimits" width="150" height="50" />
         {
           
           /**
@@ -303,7 +303,7 @@ const Logo = (props) => {
       </>*/
       
       }
-      </>
+      </div>
     );
 };
 
