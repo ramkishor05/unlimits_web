@@ -1,16 +1,17 @@
-const globalMainTagMeta = {
+
+const  globalImageLibraryMeta = {
     "table": {
-        name: 'Main tags',
         headers : [
             {
-                name: "logoUrl",
-                key: "logoUrl",
-                label: "Logo",
-                type:'img',
-                grid: 2,
+                name: "url",
+                label: "File",
                 width: 30,
                 height: 30,
-                container: 'main_tag_logo'
+                type: 'img',
+                "required" : {
+                    value : '',
+                    message: "File is required!"
+                }
             },
             {
                 name: "name",
@@ -22,21 +23,17 @@ const globalMainTagMeta = {
                 }
             },
             {
-                name: "description",
-                label: "Description",
-                type: 'text'
-            },
-            {
-                name: "color",
-                label: "Color",
-                type: 'color',
+                name: "type",
+                label: "Type",
+                type: 'text',
                 "required" : {
                     value : '',
-                    message: "Color is required!"
+                    message: "Type is required!"
                 }
             },
             {
-                name: "subCategoryId",
+                name: "groupId",
+                "key": "groupId",
                 label: "Sub Category",
                 type: 'text',
                 "required" : {
@@ -45,28 +42,32 @@ const globalMainTagMeta = {
                 },
                 "render":(value, row, header, props)=>{
                     if(value){
-                        let globalSubCategory=props.globalCategoryList.find(globalSubCategory=>globalSubCategory.id==value)
-                        return globalSubCategory ? globalSubCategory.name : value;
+                        let findglobalCategoryItem=props.globalCategoryItemList.find(globalCategoryItem=>globalCategoryItem.id==value)
+                        return findglobalCategoryItem ? findglobalCategoryItem.name : value;
                     }
                     return value;
                 }
             },
             {
                 name: "actions",
-                label: "Actions"
+                label: "Actions",
+                "align": "right"
             }
         ]
     },
     model : [
         {
-            name: "logoUrl",
-            key: "logoUrl",
-            label: "Logo",
-            type:'img',
-            grid: 12,
+            name: "url",
+            label: "url",
             width: 200,
             height: 200,
-            container: 'main_tag_logo'
+            grid: 12,
+            type: 'img',
+            container: 'tags_with_images',
+            "required" : {
+                value : '',
+                message: "url is required!"
+            }
         },
         {
             name: "name",
@@ -78,21 +79,16 @@ const globalMainTagMeta = {
             }
         },
         {
-            name: "description",
-            label: "Description",
-            type: 'text'
-        },
-        {
-            name: "color",
-            label: "Color",
-            type: 'color',
+            name: "type",
+            label: "Type",
+            type: 'text',
             "required" : {
                 value : '',
-                message: "Color is required!"
+                message: "Type id is required!"
             }
         },
         {
-            name: "subCategoryId",
+            name: "groupId",
             label: "Sub Category",
             type: 'select',
             "required" : {
@@ -100,7 +96,7 @@ const globalMainTagMeta = {
                 message: "Sub Category is required!"
             },
             "onItems": (value, data, field, props )=>{
-                return props.globalCategoryList? props.globalCategoryList: []
+                return props.globalCategoryItemList? props.globalCategoryItemList: []
             },
             "onDisplay" : (data)=>{
                 return <h7><img
@@ -115,4 +111,4 @@ const globalMainTagMeta = {
     ]
 }
 
-export default globalMainTagMeta
+export default globalImageLibraryMeta;

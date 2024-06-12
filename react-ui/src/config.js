@@ -19,6 +19,13 @@ const config = {
     ORDERING_SERVER_HOST: APP_HOST_SERVER+'/ordering',
     PAYMENT_SERVER_HOST: APP_HOST_SERVER+'/payment',
     resourseUrl: (clientUrl)=>{
+      if(clientUrl instanceof File){
+        return clientUrl;
+      }
+      if(!clientUrl && clientUrl==''){
+        return '';
+      }
+      console.log("clientUrl="+clientUrl)
       return clientUrl.startsWith('/')?  config.ITEM_SERVER_HOST+clientUrl : config.ITEM_SERVER_HOST+'/'+clientUrl;
     }
 };

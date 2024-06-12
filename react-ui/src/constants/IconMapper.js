@@ -13,7 +13,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ContentBoxIcon from '@mui/icons-material/ContentPaste';
 import OrganizationsBoxIcon from '@mui/icons-material/CorporateFare';
-import TagGroupIcon from '@mui/icons-material/LocalOffer';
+import TagLibraryIcon from '@mui/icons-material/LocalOffer';
 import TagItemIcon from '@mui/icons-material/Loyalty';
 import ImageIcon from '@mui/icons-material/ImageSearch';
 import MyMindsetVideosIcon from '@mui/icons-material/PlayCircleOutline';
@@ -62,12 +62,11 @@ export const IconMapper = {
     ProfileCenter: AccountBoxIcon,
     Content: ContentBoxIcon,
     Organizations: OrganizationsBoxIcon,
-    MainTag: TagGroupIcon,
-    SubTags: TagItemIcon,
+    Category_Tag: TagLibraryIcon,
     MainCategories: CategoryIcon,
     SubCategories: CategoryIcon,
-    Images: ImageIcon,
-    MyMindsetVideos: MyMindsetVideosIcon,
+    Category_Image: ImageIcon,
+    Mindsets: MyMindsetVideosIcon,
     UserList:IconUsers,
-    PromptTag: PromptIcon
+    Prompts: PromptIcon
 };

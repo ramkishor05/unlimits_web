@@ -22,11 +22,6 @@ const globalSubCategoryMeta = {
                 }
             },
             {
-                name: "description",
-                label: "Description",
-                type: 'text'
-            },
-            {
                 "id": "color",
                 "key": "color",
                 "name": "color",
@@ -56,7 +51,8 @@ const globalSubCategoryMeta = {
             },
             {
                 name: "actions",
-                label: "Actions"
+                label: "Actions",
+                "align": "right"
             }
         ]
     },
@@ -79,11 +75,6 @@ const globalSubCategoryMeta = {
                 value : '',
                 message: "Name is required!"
             }
-        },
-        {
-            name: "description",
-            label: "Description",
-            type: 'text'
         },
         {
             "id": "color",

@@ -42,7 +42,8 @@ const globalMindSetMeta = {
             },
             {
                 name: "actions",
-                label: "Actions"
+                label: "Actions",
+                "align": "right"
             }
         ]
     },

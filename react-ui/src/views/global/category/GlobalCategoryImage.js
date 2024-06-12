@@ -13,127 +13,6 @@ from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
 
-
-const globalTagListMeta = {
-    "table": {
-        headers : [
-            {
-                name: "url",
-                label: "File",
-                width: 30,
-                height: 30,
-                type: 'img',
-                "required" : {
-                    value : '',
-                    message: "File is required!"
-                }
-            },
-            {
-                name: "name",
-                label: "Name",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Name is required!"
-                }
-            },
-            {
-                name: "description",
-                label: "Description",
-                type: 'text'
-            },
-            {
-                name: "type",
-                label: "Type",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Type is required!"
-                }
-            },
-            {
-                name: "groupId",
-                "key": "groupId",
-                label: "Sub Category",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Sub category is required!"
-                },
-                "render":(value, row, header, props)=>{
-                    if(value){
-                        let findglobalCategoryItem=props.globalCategoryItemList.find(globalCategoryItem=>globalCategoryItem.id==value)
-                        return findglobalCategoryItem ? findglobalCategoryItem.name : value;
-                    }
-                    return value;
-                }
-            },
-            {
-                name: "actions",
-                label: "Actions"
-            }
-        ]
-    },
-    model : [
-        {
-            name: "url",
-            label: "url",
-            width: 200,
-            height: 200,
-            grid: 12,
-            type: 'img',
-            "required" : {
-                value : '',
-                message: "url is required!"
-            }
-        },
-        {
-            name: "name",
-            label: "Name",
-            type: 'text',
-            "required" : {
-                value : '',
-                message: "Name is required!"
-            }
-        },
-        {
-            name: "description",
-            label: "Description",
-            type: 'text'
-        },
-        {
-            name: "type",
-            label: "Type",
-            type: 'text',
-            "required" : {
-                value : '',
-                message: "Type id is required!"
-            }
-        },
-        {
-            name: "groupId",
-            label: "Sub Category",
-            type: 'select',
-            "required" : {
-                value : '',
-                message: "Sub Category is required!"
-            },
-            "onItems": (value, data, field, props )=>{
-                return props.globalCategoryItemList? props.globalCategoryItemList: []
-            },
-            "onDisplay" : (data)=>{
-                return <h7><img
-                        width={30}
-                        height={20}
-                        src={data.logoUrl}
-                    /> {data.name}</h7> 
-            },
-            "itemKey": "id",
-            "itemVal": "name"
-        }
-    ]
-}
-
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -204,7 +83,7 @@ class GlobalImageLibrary extends Component {
                             pageCount= {this.props.globalImageLibraryPageData.pageCount}
                             totalPages= {this.props.globalImageLibraryPageData.totalPages}
                             pageAction={this.props.getGlobalImageLibraryPageList}
-                            headers={globalTagListMeta.table.headers} 
+                            headers={this.props.metadata.table.headers} 
                             dataList={this.props.globalImageLibraryPageData.elements}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
@@ -219,7 +98,7 @@ class GlobalImageLibrary extends Component {
                             closeAction={()=> this.setState({saveModel: false})}
                             data={this.state.dataObject} 
                             type={this.state.type}
-                            fields= {globalTagListMeta.model}
+                            fields= {this.props.metadata.model}
                             saveAction = {this.saveObject}
                             {...this.props}
                             >

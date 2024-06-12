@@ -1,15 +1,11 @@
-import CustProductPage from '../metadata/products-meta'
-import businessMetas from '../metadata/business-meta'
 import globalMainCategoryMeta from '../metadata/GlobalMainCategoryMeta'
 import globalSubCategoryMeta from '../metadata/GlobalSubCategoryMeta'
-import globalSubTagMeta from '../metadata/GlobalSubTagMeta'
-import globalMainTagMeta from '../metadata/GlobalMainTagMeta'
+import globalTaglibraryMeta from '../metadata/GlobalTagLibraryMeta'
+import globalImageLibraryMeta from '../metadata/GlobalImageLibraryMeta'
 
 export const MataMapper = {
-    "/business/portal/items/products" :CustProductPage,
-    "/business/portal/organizations/business": businessMetas,
-    "/global/portal/content/main/categories": globalMainCategoryMeta,
+     "/global/portal/content/main/categories": globalMainCategoryMeta,
     "/global/portal/content/sub/categories": globalSubCategoryMeta,
-    "/global/portal/content/main/tags": globalMainTagMeta,
-    "/global/portal/content/sub/tags": globalSubTagMeta,
+    "/global/portal/content/tag/library": globalTaglibraryMeta,
+    "/global/portal/content/image/library": globalImageLibraryMeta
 }

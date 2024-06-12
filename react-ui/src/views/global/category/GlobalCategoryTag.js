@@ -8,7 +8,7 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalTagItemPageList, getGlobalTagGroupList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem } 
+import { getGlobalTagItemPageList, getGlobalCategoryList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem } 
 from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
@@ -31,11 +31,11 @@ class GlobalTagItem extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit sub tag", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Edit Tag Library", type:"Edit", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Sub tag", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Tag Library", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
@@ -53,9 +53,10 @@ class GlobalTagItem extends Component {
 
     };
 
-    clearAndRefresh = () => {
+    clearAndRefresh = async() => {
+        await this.props.getGlobalCategoryList();
+
         this.props.getGlobalTagItemPageList(0, config.pageSize);
-        this.props.getGlobalTagGroupList();
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
@@ -121,14 +122,14 @@ class GlobalTagItem extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalTagGroupList} = state.globalTagGroupReducer;
+    const { globalCategoryList} = state.globalCategoryReducer;
 
     const { globalTagItemList, globalTagItemPageData } = state.globalTagItemReducer;
 
-    return { globalTagItemList, globalTagItemPageData, globalTagGroupList };
+    return { globalTagItemList, globalTagItemPageData, globalSubCategoryList: globalCategoryList };
 };
 
 
-export default connect(mapStateToProps, { getGlobalTagItemPageList, getGlobalTagGroupList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem })(GlobalTagItem);
+export default connect(mapStateToProps, { getGlobalTagItemPageList, getGlobalCategoryList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem })(GlobalTagItem);
 
 

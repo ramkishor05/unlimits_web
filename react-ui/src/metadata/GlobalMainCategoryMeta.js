@@ -25,13 +25,6 @@ const globalMainCategoryMeta = {
                 }
             },
             {
-                "id": "description",
-                "key": "description",
-                "name": "description",
-                "label": "Description",
-                "type": "text"
-            },
-            {
                 "id": "color",
                 "key": "color",
                 "name": "color",
@@ -47,7 +40,7 @@ const globalMainCategoryMeta = {
             {
                 "name": "actions",
                 "label": "Actions",
-                "align": "center"
+                "align": "right"
             }
         ],
         "childrens":[
@@ -75,13 +68,6 @@ const globalMainCategoryMeta = {
                 value : '',
                 message: "Name is required!"
             }
-        },
-        {
-            "id": "description",
-            "key": "description",
-            "name": "description",
-            "label": "Description",
-            "type": "text"
         },
         {
             "id": "color",

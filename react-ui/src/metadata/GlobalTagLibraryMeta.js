@@ -1,18 +1,7 @@
-const globalSubTagMeta = {
-
+const globalTaglibraryMeta = {
     "table": {
-        name: 'Sub tags',
+        name: 'Tag library',
         headers : [
-            {
-                name: "logoUrl",
-                key: "logoUrl",
-                label: "Logo",
-                type:'img',
-                grid: 2,
-                width: 30,
-                height: 30,
-                container: 'sub_tag_logo'
-            },
             {
                 name: "name",
                 label: "Name",
@@ -21,11 +10,6 @@ const globalSubTagMeta = {
                     value : '',
                     message: "Name is required!"
                 }
-            },
-            {
-                name: "description",
-                label: "Description",
-                type: 'text'
             },
             {
                 name: "color",
@@ -38,37 +22,28 @@ const globalSubTagMeta = {
             },
             {
                 name: "groupId",
-                label: "Main Tag",
+                label: "Sub Category",
                 type: 'text',
                 "required" : {
                     value : '',
-                    message: "Main tag is required!"
+                    message: "Sub category is required!"
                 },
                 "render":(value, row, header, props)=>{
                     if(value){
-                        let globalTagGroup=props.globalTagGroupList.find(globalTagGroup=>globalTagGroup.id==value)
-                        return globalTagGroup ? globalTagGroup.name : value;
+                        let globalSubCategory=props.globalSubCategoryList.find(globalSubCategory=>globalSubCategory.id==value)
+                        return globalSubCategory ? globalSubCategory.name : value;
                     }
                     return value;
                 }
             },
             {
                 name: "actions",
-                label: "Actions"
+                label: "Actions",
+               "align": "right"
             }
         ]
     },
     model : [
-        {
-            name: "logoUrl",
-            key: "logoUrl",
-            label: "Logo",
-            type:'img',
-            grid: 12,
-            width: 200,
-            height: 200,
-            container: 'sub_tag_logo'
-        },
         {
             name: "name",
             label: "Name",
@@ -77,11 +52,6 @@ const globalSubTagMeta = {
                 value : '',
                 message: "Name is required!"
             }
-        },
-        {
-            name: "description",
-            label: "Description",
-            type: 'text'
         },
         {
             name: "color",
@@ -94,14 +64,14 @@ const globalSubTagMeta = {
         },
         {
             name: "groupId",
-            label: "Main Tag",
+            label: "Sub Category",
             type: 'select',
             "required" : {
                 value : '',
-                message: "Main tag id is required!"
+                message: "Sub Category is required!"
             },
             "onItems": (value, data, field, props )=>{
-                return props.globalTagGroupList? props.globalTagGroupList: []
+                return props.globalSubCategoryList? props.globalSubCategoryList: []
             },
             "onDisplay" : (data)=>{
                 return <h7><img
@@ -116,4 +86,4 @@ const globalSubTagMeta = {
     ]
 }
 
-export default globalSubTagMeta
+export default globalTaglibraryMeta
