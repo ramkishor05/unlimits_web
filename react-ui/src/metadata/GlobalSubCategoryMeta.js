@@ -67,7 +67,18 @@ const globalSubCategoryMeta = {
             grid: 12,
             width: 200,
             height: 200,
-            container: 'sub_category_logo'
+            container: 'sub_category',
+            onchange: (file, data, field, props, setData)=>{
+                if(data){
+                    data['content']=file;
+                    setData && setData(data);
+                }
+                else{
+                    data={};
+                    data['content']=file;
+                    setData && setData(data);
+                }
+            }
         }
     ]}
     ,

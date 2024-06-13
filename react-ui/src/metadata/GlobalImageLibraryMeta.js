@@ -70,18 +70,18 @@ const  globalImageLibraryMeta = {
                 value : '',
                 message: "url is required!"
             },
-            onchange: (file, data, field, props, setData)=>{
+            onchange: (value, data, field, props, setData)=>{
                 if(data){
-                    data['content']=file.value;
-                    data['name']=file.name;
-                    data['type']=file.type;
+                    data['content']=value.fileContent;
+                    data['name']=value.fileName;
+                    data['type']=value.fileType;
                     setData && setData(data);
                 }
                 else{
                     data={};
-                    data['content']=file.value;
-                    data['name']=file.name;
-                    data['type']=file.type;
+                    data['content']=value.fileContent;
+                    data['name']=value.fileName;
+                    data['type']=value.fileType;
                     setData && setData(data);
                 }
             }

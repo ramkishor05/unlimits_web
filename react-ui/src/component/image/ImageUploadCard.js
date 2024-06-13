@@ -60,7 +60,7 @@ class ImageUploadCard extends React.Component {
       });*/
       this.setState({
         selectedFile: reader.result
-      },this.props.setImage({value: reader.result, name: file.name, type: file.type }));
+      },this.props.setImage({fileContent: reader.result, fileName: file.name, fileType: file.type, folderName: this.props.container }));
     }.bind(this);
      // Would see a path?
 
@@ -88,7 +88,7 @@ class ImageUploadCard extends React.Component {
           height={height}
           style={{position: 'relative'}}
           className={classes.img}
-          src={this.state.selectedFile}
+          src={this.srcUrl(this.state.selectedFile)}
           onMouseOver={()=> this.setState({btn: true})}
         />
      

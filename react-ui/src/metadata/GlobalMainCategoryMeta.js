@@ -54,7 +54,18 @@ const globalMainCategoryMeta = {
                     label: "Image",
                     type:'img',
                     grid: 12,
-                    container: 'category_logo'
+                    container: 'main_category',
+                    onchange: (file, data, field, props, setData)=>{
+                        if(data){
+                            data['content']=file;
+                            setData && setData(data);
+                        }
+                        else{
+                            data={};
+                            data['content']=file
+                            setData && setData(data);
+                        }
+                    }
                 }
             ]
          },
