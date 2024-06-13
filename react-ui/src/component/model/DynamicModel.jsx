@@ -15,6 +15,7 @@ import { getValue, setChecked, setField, setValue } from '../utils/CommanUtil';
 import CountryOptions from '../dropdwons/CountryOptions';
 import { ColorPicker } from 'react-color-palette';
 import ColorField from '../fields/ColorField';
+import VedioUploadCard from '../vedio/VedioUploadCard';
 
 class DynamicModel extends React.Component {
 
@@ -140,14 +141,26 @@ class DynamicModel extends React.Component {
          return <ImageUploadCard name={field.name}
          container={field.container}
          value={getValue(data,field.name)} 
-         setUserProfileImge={(value)=> 
+         setImage={(value)=> 
             field.onchange ? 
-            field.onchange(value, data, field, props) :
+            field.onchange(value, data, field, props, this.setData) :
             setValue(value,field.name,field, data, this.setData, this.checkValidation)
          }
          {...field}
          >
          </ImageUploadCard>
+      case 'vedio':
+        return <VedioUploadCard name={field.name}
+        container={field.container}
+        value={getValue(data,field.name)} 
+        setVedio={(value)=> 
+           field.onchange ? 
+           field.onchange(value, data, field, props) :
+           setValue(value,field.name,field, data, this.setData, this.checkValidation)
+        }
+        {...field}
+        >
+        </VedioUploadCard>
       case 'qnt':
         return <QuantityField 
         field={field} {...props  } 
@@ -199,20 +212,41 @@ class DynamicModel extends React.Component {
     }
   }
   
-
   rendorFields = (fields, data, props)=>{
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={2} >
         {
           fields.map(field=>
-              (
-                <Grid key={field.name} item xs={12} xl={field.grid? field.grid: 6} sm={field.grid? field.grid: 6} >
-                  <Box width={field.width} height={field.height}>
+            <Grid key={field.name} item
+            xs={field.grid? field.grid: 12} 
+            xl={field.grid? field.grid: 12} 
+            sm={field.grid? field.grid: 12} 
+            >
+            
+              {
+                field.fields ? 
+                <Grid container spacing={2}>
                   {
-                    this.renderSwitch(field, data, props)
+                    field.fields.map(gridField=>
+                      <Grid item
+                      key={gridField.name}  
+                      xs={gridField.grid? gridField.grid: 12} 
+                      xl={gridField.grid? gridField.grid: 12} 
+                      sm={gridField.grid? gridField.grid: 12} >
+                        <Box component="section" width={gridField.width} height={gridField.height}>
+                          {
+                            this.renderSwitch(gridField, data, props)
+                          }
+                          </Box>
+                      </Grid>
+                    )
                   }
-                  </Box>
-              </Grid>)
+                </Grid>
+                : 
+                this.renderSwitch(field, data, props)
+              }
+              
+        </Grid>
           )
             }
         </Grid>)
@@ -227,11 +261,15 @@ class DynamicModel extends React.Component {
           open={this.props.openAction}
           onClose={this.props.closeAction}
           aria-labelledby="form-dialog-title"
+           maxWidth={'sm'}
+           fullWidth={true}
         >
           <DialogTitle id="form-dialog-title"><h2>{title}</h2></DialogTitle>
           <DialogContent>
             <DialogContentText>
+            <Box component="section" sx={{ m: 0}}>
                  {this.rendorFields(fields, this.state.data, this.props)}
+                 </Box>
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{padding:'25px'}}>

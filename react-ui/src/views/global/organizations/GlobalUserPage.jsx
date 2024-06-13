@@ -45,7 +45,8 @@ const mainheaders = [
     },
     {
         name: "actions",
-        label: "Actions"
+        label: "Actions",
+        "align": "right"
     }
 ];
 
@@ -154,15 +155,15 @@ class GlobalUserPage extends Component {
         row['enableAccess']=true;
       
         row['userRoleId']=row.userRole.id;
-       this.setState({ dataObject: row, title:"Edit user", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update User", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add user", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add User", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete user", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete User", type:"Delete", deleteModel: true  });
     };
     
      saveObject = async (type, row) => {
@@ -209,6 +210,8 @@ class GlobalUserPage extends Component {
                     >
                        <CollapsibleTable 
                             pageSize= {config.pageSize}
+                            pageCount= {0}
+                            totalPages= {1}
                             pageAction={this.props.getGlobalUserPageList}
                             headers={headers} 
                             dataList={this.props.globalUserList}
@@ -216,6 +219,7 @@ class GlobalUserPage extends Component {
                             deleteAction = {this._delete}
                             editAction = {this._edit}
                             printAction= {this._print}
+                            collapsible ={false}
                             >
 
                         </CollapsibleTable>

@@ -33,7 +33,8 @@ const headers = [
     },
     {
         name: "actions",
-        label: "Actions"
+        label: "Actions",
+        "align": "right"
     }
 ]
 
@@ -55,22 +56,22 @@ class GlobalUser extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit User list", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update User", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add User list", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add User", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete User list", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete User", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         
         if(type=='Add')
             this.props.addGlobalUser(row, this.clearAndRefresh)
-        if(type=='Edit')
+        if(type=='Update')
             this.props.editGlobalUser(row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalUser(row.id, this.clearAndRefresh)

@@ -94,9 +94,16 @@ const getValue=(data, keyStr)=>{
 
 function Row(props) {
   const classes = useStyles();
+  
   const { row, headers } = props;
   const [open, setOpen] = React.useState(false);
 
+  
+  const [pageNumber, setPageNumber] = React.useState(0);
+  const handlePageNumber = (event, pageNumber) => {
+    setPageNumber(pageNumber);
+    props.pageAction &&  props.pageAction(pageNumber-1,props.pageSize);
+  };
 
   return (
     <React.Fragment>
@@ -111,7 +118,7 @@ function Row(props) {
                     <TableCell key={row.id+'_data_main_'+header.name} align={header.align? header.align: 'center'} style={{fontWeight: 600}}>
                         <ButtonGroup>
                         {
-                           <Button color="primary" aria-label="Collapse"
+                         props.collapsible &&  <Button color="primary" aria-label="Collapse"
                               size="small" variant='outlined'
                               onClick={() => setOpen(!open)}
                           >
@@ -200,9 +207,19 @@ function Row(props) {
                  
                 }
                 </TableBody>
-                <TableFooter>
-                  <TablePagination  rowsPerPage={10} page={1} count={1} onPageChange={()=>{}} rowsPerPageOptions={[10, 50]}  />
+                {
+                  props.pageAction && props.totalPages && 
+                  <TableFooter style={{border : 0}} >
+                    <TableRow style={{border : 0}} >
+                      <TableCell colSpan={headers.length} sx={{border : 0, textAlign: 'right'}}  align='right' > 
+                      <div style={{border : 2, textAlign: 'right'}}>
+                      <Pagination count={props.totalPages} page={pageNumber}  boundaryCount={1}
+                        variant="outlined" shape="rounded" onChange={handlePageNumber}/>
+                        </div>
+                      </TableCell>
+                    </TableRow>
                 </TableFooter>
+                }
               </Table>
             </Box>
            </Collapse>
@@ -218,11 +235,10 @@ export default function CollapsibleTable(props) {
   const classes = useStyles();
   const {dataList, headers}=props;
 
-  const [pageCount, setPageCount] = React.useState(props.pageSize? props.pageSize:5);
   const [pageNumber, setPageNumber] = React.useState(0);
   const handlePageNumber = (event, pageNumber) => {
     setPageNumber(pageNumber);
-    props.pageAction &&  props.pageAction(pageNumber-1,pageCount);
+    props.pageAction &&  props.pageAction(pageNumber-1,props.pageCount);
   };
   return (
     <TableContainer component={Paper} >
@@ -258,7 +274,7 @@ export default function CollapsibleTable(props) {
                 <TableCell colSpan={headers.headers.length+1} sx={{border : 0, textAlign: 'right'}}  align='right' > 
                 <div style={{border : 2, textAlign: 'right'}}>
                 <Pagination 
-                  count={pageCount}
+                  count={props.pageCount}
                   page={pageNumber} 
                   size="small" 
                   siblingCount={0} 

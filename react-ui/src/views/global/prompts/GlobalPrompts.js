@@ -94,7 +94,7 @@ class GlobalPrompts extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit Prompt", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Prompt", type:"Update", saveModel: true  });
     }
 
     _add = () => {
@@ -109,7 +109,7 @@ class GlobalPrompts extends Component {
         
         if(type=='Add')
             this.props.addGlobalPrompt(row, this.clearAndRefresh)
-        if(type=='Edit')
+        if(type=='Update')
             this.props.editGlobalPrompt(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalPrompt(row.id, this.clearAndRefresh)

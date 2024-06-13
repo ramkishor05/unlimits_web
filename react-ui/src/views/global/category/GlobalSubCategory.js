@@ -33,22 +33,22 @@ class GlobalCategoryItem extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit category list", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Sub Category", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add category list", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Sub Category", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete category list", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete Sub Category", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         
         if(type=='Add')
             this.props.addGlobalCategory(row, this.clearAndRefresh)
-        if(type=='Edit')
+        if(type=='Update')
             this.props.editGlobalCategory(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalCategory(row.id, this.clearAndRefresh)

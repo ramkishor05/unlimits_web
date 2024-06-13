@@ -4,7 +4,7 @@ const  globalImageLibraryMeta = {
         headers : [
             {
                 name: "url",
-                label: "File",
+                label: "Image",
                 width: 30,
                 height: 30,
                 type: 'img',
@@ -57,8 +57,10 @@ const  globalImageLibraryMeta = {
     },
     model : [
         {
+            grid: 6,
+            fields:[{
             name: "url",
-            label: "url",
+            label: "Image",
             width: 200,
             height: 200,
             grid: 12,
@@ -67,9 +69,27 @@ const  globalImageLibraryMeta = {
             "required" : {
                 value : '',
                 message: "url is required!"
+            },
+            onchange: (file, data, field, props, setData)=>{
+                if(data){
+                    data['content']=file.value;
+                    data['name']=file.name;
+                    data['type']=file.type;
+                    setData && setData(data);
+                }
+                else{
+                    data={};
+                    data['content']=file.value;
+                    data['name']=file.name;
+                    data['type']=file.type;
+                    setData && setData(data);
+                }
             }
-        },
+        }]
+    },
         {
+            grid: 6,
+            fields:[ {
             name: "name",
             label: "Name",
             type: 'text',
@@ -107,7 +127,8 @@ const  globalImageLibraryMeta = {
             },
             "itemKey": "id",
             "itemVal": "name"
-        }
+        }]
+    }
     ]
 }
 

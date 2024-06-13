@@ -16,7 +16,7 @@ const styles = (theme) => ({
   input: {
     display: "none"
   },
-  img: {
+  vedio: {
     width: '100%',
     margin: "0",
     maxWidth: "100%",
@@ -24,7 +24,7 @@ const styles = (theme) => ({
   },
   btn : {
     position: "absolute",
-    transform: 'translate( -125%,70%)',
+    transform: 'translate( -255%,-150%)',
     backgroundColor: 'rgba(0,0,0,0.5)',
     color: 'white',
     fontSize: '16px',
@@ -36,7 +36,7 @@ const styles = (theme) => ({
   }
 });
 
-class ImageUploadCard extends React.Component {
+class VedioUploadCard extends React.Component {
   state = {
     mainState: "initial", // initial
     imageUploaded: 0,
@@ -51,16 +51,14 @@ class ImageUploadCard extends React.Component {
     reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-      /*GlobalResourceService.add(this.props.container+"/"+file.name, reader.result).then(url=>{
+      GlobalResourceService.add(this.props.container+"/"+file.name, reader.result).then(url=>{
        
         this.setState({
           selectedFile: url
         },this.props.setUserProfileImge(url));
         
-      });*/
-      this.setState({
-        selectedFile: reader.result
-      },this.props.setImage({value: reader.result, name: file.name, type: file.type }));
+        });
+      
     }.bind(this);
      // Would see a path?
 
@@ -83,14 +81,18 @@ class ImageUploadCard extends React.Component {
     const { classes, height } = this.props;
     return (
      <>
-        <img
+       
+       <video
           width="100%"
-          height={height}
+          maxHeight={height}
           style={{position: 'relative'}}
-          className={classes.img}
-          src={this.state.selectedFile}
+          className={classes.vedio}
           onMouseOver={()=> this.setState({btn: true})}
-        />
+        >
+           <source src={this.srcUrl(this.state.selectedFile)}/>
+
+      </video>
+     
      
       {this.state.btn &&
       <label htmlFor="button-file">
@@ -98,7 +100,7 @@ class ImageUploadCard extends React.Component {
             onMouseOut={()=> this.setState({btn: true})}>
           <UploadFileOutlined></UploadFileOutlined>
           <input
-            accept="image/*"
+            accept="vedio/*"
             className={classes.input}
             id="button-file"
             multiple
@@ -117,14 +119,16 @@ class ImageUploadCard extends React.Component {
 
     return (
       <>
-        <img
+        <video
           width="100%"
           maxHeight={height}
           style={{position: 'relative'}}
-          className={classes.img}
-          src={this.state.selectedFile}
+          className={classes.vedio}
           onMouseOver={()=> this.setState({btn: true})}
-        />
+        >
+           <source src={this.srcUrl(this.state.selectedFile)}/>
+
+      </video>
      
       {this.state.btn &&
       <label htmlFor="button-file">
@@ -132,7 +136,7 @@ class ImageUploadCard extends React.Component {
             onMouseOut={()=> this.setState({btn: true})}>
           <UploadFileOutlined fullWidth></UploadFileOutlined>
           <input
-            accept="image/*"
+            accept="vedio/*"
             className={classes.input}
             id="button-file"
             type="file"
@@ -157,4 +161,4 @@ class ImageUploadCard extends React.Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(ImageUploadCard);
+export default withStyles(styles, { withTheme: true })(VedioUploadCard);

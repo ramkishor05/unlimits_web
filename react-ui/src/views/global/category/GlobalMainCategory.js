@@ -30,22 +30,22 @@ class GlobalCategoryGroup extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit main category", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Main Category", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add main category", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Main Category", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete main category", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete Main Category", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         
         if(type=='Add')
             this.props.addGlobalCategoryGroup(row, this.clearAndRefresh)
-        if(type=='Edit')
+        if(type=='Update')
             this.props.editGlobalCategoryGroup(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalCategoryGroup(row.id, this.clearAndRefresh)

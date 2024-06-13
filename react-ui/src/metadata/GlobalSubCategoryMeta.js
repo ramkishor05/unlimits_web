@@ -5,7 +5,7 @@ const globalSubCategoryMeta = {
             {
                 name: "logoUrl",
                 key: "logoUrl",
-                label: "Logo",
+                label: "Image",
                 type:'img',
                 grid: 2,
                 width: 30,
@@ -58,16 +58,22 @@ const globalSubCategoryMeta = {
     },
     model : [
         {
+            grid: 6,
+            fields:[{
             name: "logoUrl",
             key: "logoUrl",
-            label: "Logo",
+            label: "Image",
             type:'img',
             grid: 12,
             width: 200,
             height: 200,
             container: 'sub_category_logo'
-        },
-        {
+        }
+    ]}
+    ,
+    {
+        grid: 6,
+        fields:[ {
             name: "name",
             label: "Name",
             type: 'text',
@@ -107,7 +113,8 @@ const globalSubCategoryMeta = {
             },
             "itemKey": "id",
             "itemVal": "name"
-        }
+        }]
+    }
     ]
 }
 

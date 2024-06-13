@@ -50,8 +50,6 @@ const useStyles = makeStyles({
 function DynamicTable (props){
     const classes = useStyles();
     
-    const [totalPages, setTotalPages] = React.useState(props.totalPages);
-    const [pageSize, setPageSize] = React.useState(props.pageSize);
     const [pageNumber, setPageNumber] = React.useState(0);
     const handlePageNumber = (event, pageNumber) => {
       setPageNumber(pageNumber);
@@ -85,6 +83,13 @@ function DynamicTable (props){
                 />
         case 'color':
             return <Button style={{backgroundColor: getValue(data,field.name), height:'80%'}} ></Button>
+        case 'vedio':
+          return <video width={field.width}
+          height={field.height} controls>
+            <source src="https://www.youtube.com/watch?v=qHbAP6mM8dI" type="video/mp4"/>
+            Your browser does not support the video tag.
+          </video>
+        
         default:
            return getValue(data,field.name);
         }
@@ -170,7 +175,7 @@ function DynamicTable (props){
                     <TableRow style={{border : 0}} >
                       <TableCell colSpan={headers.length} sx={{border : 0, textAlign: 'right'}}  align='right' > 
                       <div style={{border : 2, textAlign: 'right'}}>
-                      <Pagination count={totalPages} page={pageNumber}  boundaryCount={1}
+                      <Pagination count={props.totalPages} page={pageNumber}  boundaryCount={1}
                         variant="outlined" shape="rounded" onChange={handlePageNumber}/>
                         </div>
                       </TableCell>

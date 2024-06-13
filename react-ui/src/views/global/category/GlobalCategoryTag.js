@@ -31,7 +31,7 @@ class GlobalTagItem extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit Tag Library", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Tag Library", type:"Update", saveModel: true  });
     }
 
     _add = () => {
@@ -46,7 +46,7 @@ class GlobalTagItem extends Component {
         
         if(type=='Add')
             this.props.addGlobalTagItem(row, this.clearAndRefresh)
-        if(type=='Edit')
+        if(type=='Update')
             this.props.editGlobalTagItem(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalTagItem(row.id, this.clearAndRefresh)

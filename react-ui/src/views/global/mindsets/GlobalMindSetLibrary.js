@@ -18,6 +18,17 @@ const globalMindSetMeta = {
     "table": {
         headers : [
             {
+                name: "content",
+                label: "Vedio",
+                type: 'vedio',
+                width: 200,
+                height: 200,
+                "required" : {
+                    value : '',
+                    message: "URL is required!"
+                }
+            },
+            {
                 name: "name",
                 label: "Name",
                 type: 'text',
@@ -31,15 +42,7 @@ const globalMindSetMeta = {
                 label: "Description",
                 type: 'text'
             },
-            {
-                name: "content",
-                label: "URL",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "URL is required!"
-                }
-            },
+            
             {
                 name: "actions",
                 label: "Actions",
@@ -48,6 +51,17 @@ const globalMindSetMeta = {
         ]
     },
     model : [
+        {
+            name: "content",
+            label: "URL",
+            type: 'vedio',
+            width: 200,
+            height: 100,
+            "required" : {
+                value : '',
+                message: "URL is required!"
+            }
+        },
         {
             name: "name",
             label: "Name",
@@ -61,16 +75,6 @@ const globalMindSetMeta = {
             name: "description",
             label: "Description",
             type: 'text'
-        },
-        {
-            name: "content",
-            label: "URL",
-            type: 'text',
-            grid:12,
-            "required" : {
-                value : '',
-                message: "URL is required!"
-            }
         }
     ]
 }
@@ -93,7 +97,7 @@ class GlobalMindSetLibrary extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit MindSet Library", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update MindSet Library", type:"Update", saveModel: true  });
     }
 
     _add = () => {
@@ -108,8 +112,8 @@ class GlobalMindSetLibrary extends Component {
         
         if(type=='Add')
             this.props.addGlobalMindSetLibrary(row, this.clearAndRefresh)
-        if(type=='Edit')
-            this.props.editGlobalMindSetLibrary(row, this.clearAndRefresh)
+        if(type=='Update')
+            this.props.editGlobalMindSetLibrary(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalMindSetLibrary(row.id, this.clearAndRefresh)
 

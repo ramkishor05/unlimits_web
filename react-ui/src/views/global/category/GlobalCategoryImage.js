@@ -31,7 +31,7 @@ class GlobalImageLibrary extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Edit Image Library", type:"Edit", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Image Library", type:"Update", saveModel: true  });
     }
 
     _add = () => {
@@ -46,7 +46,7 @@ class GlobalImageLibrary extends Component {
         
         if(type=='Add')
             this.props.addGlobalImageLibrary(row, this.clearAndRefresh)
-        if(type=='Edit')
+        if(type=='Update')
             this.props.editGlobalImageLibrary(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalImageLibrary(row.id, this.clearAndRefresh)

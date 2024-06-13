@@ -6,7 +6,7 @@ const globalMainCategoryMeta = {
             {
                 name: "logoUrl",
                 key: "logoUrl",
-                label: "Logo",
+                label: "Image",
                 type:'img',
                 grid: 12,
                 width: 30,
@@ -42,44 +42,51 @@ const globalMainCategoryMeta = {
                 "label": "Actions",
                 "align": "right"
             }
-        ],
-        "childrens":[
-            
         ]
     },
     "model" :[
-        {
-            name: "logoUrl",
-            key: "logoUrl",
-            label: "Logo",
-            type:'img',
-            grid: 12,
-            width: 200,
-            height: 200,
-            container: 'category_logo'
-        },
-        {
-            "id": "name",
-            "key": "name",
-            "name": "name",
-            "label": "Name",
-            "type": "text",
-            "required" : {
-                value : '',
-                message: "Name is required!"
-            }
-        },
-        {
-            "id": "color",
-            "key": "color",
-            "name": "color",
-            "label": "Color",
-            "type": "color",
-            "required" : {
-                value : '',
-                message: "Color is required!"
-            }
-        }
+         {
+            grid: 6,
+            fields:[
+                {
+                    name: "logoUrl",
+                    key: "logoUrl",
+                    label: "Image",
+                    type:'img',
+                    grid: 12,
+                    container: 'category_logo'
+                }
+            ]
+         },
+         {
+            grid: 6,
+            fields:[
+                {
+                    "id": "name",
+                    "key": "name",
+                    "name": "name",
+                    "label": "Name",
+                    "type": "text",
+                    grid: 12,
+                    "required" : {
+                        value : '',
+                        message: "Name is required!"
+                    }
+                },
+                {
+                    "id": "color",
+                    "key": "color",
+                    "name": "color",
+                    "label": "Color",
+                    "type": "color",
+                    grid: 12,
+                    "required" : {
+                        value : '',
+                        message: "Color is required!"
+                    }
+                }
+            ]
+         }
     ]
 }
 
