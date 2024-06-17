@@ -6,7 +6,9 @@ export * from './GlobalTagGroupTypes';
 
 export * from './GlobalTagItemTypes';
 
-export * from './GlobalPromptTagTypes';
+export * from './GlobalPromptTypes';
+
+export * from './GlobalJournalTypes';
 
 export * from './GlobalImageLibraryTypes';
 

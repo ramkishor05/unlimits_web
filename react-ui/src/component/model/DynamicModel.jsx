@@ -155,10 +155,11 @@ class DynamicModel extends React.Component {
         value={getValue(data,field.name)} 
         setVedio={(value)=> 
            field.onchange ? 
-           field.onchange(value, data, field, props) :
+           field.onchange(value, data, field, props, this.setData) :
            setValue(value,field.name,field, data, this.setData, this.checkValidation)
         }
         {...field}
+        controls
         >
         </VedioUploadCard>
       case 'qnt':

@@ -9,6 +9,8 @@ export * from './GlobalTagItemActions';
 
 export * from './GlobalPromptActions';
 
+export * from './GlobalJournalActions';
+
 export * from './GlobalImageLibraryActions';
 
 export * from './GlobalMindSetLibraryActions';

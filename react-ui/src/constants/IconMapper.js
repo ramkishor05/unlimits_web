@@ -14,10 +14,10 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ContentBoxIcon from '@mui/icons-material/ContentPaste';
 import OrganizationsBoxIcon from '@mui/icons-material/CorporateFare';
 import TagLibraryIcon from '@mui/icons-material/LocalOffer';
-import TagItemIcon from '@mui/icons-material/Loyalty';
 import ImageIcon from '@mui/icons-material/ImageSearch';
 import MyMindsetVideosIcon from '@mui/icons-material/PlayCircleOutline';
 import PromptIcon from '@mui/icons-material/BookmarkAdded';
+import JournalsIcon from '@mui/icons-material/AutoStories';
 
 export const IconMapper = {
     Dashboard: IconDashboard,
@@ -68,5 +68,6 @@ export const IconMapper = {
     Category_Image: ImageIcon,
     Mindsets: MyMindsetVideosIcon,
     UserList:IconUsers,
-    Prompts: PromptIcon
+    Prompts: PromptIcon,
+    Journals: JournalsIcon
 };

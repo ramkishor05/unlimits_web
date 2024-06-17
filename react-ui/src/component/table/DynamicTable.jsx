@@ -73,20 +73,23 @@ function DynamicTable (props){
         switch(field.type) {
             
         case 'img':
-            let logo= getValue(data,field.name);
-            let resourseUrl= logo && logo!==""? config.resourseUrl(logo) :defaultImg;
+            let imageContent= getValue(data,field.name);
+            let imageResourseUrl= imageContent && imageContent!==""? config.resourseUrl(imageContent) :defaultImg;
             return  <img
                     width={field.width}
                     height={field.height}
                     className={classes.img}
-                    src={resourseUrl}
+                    src={imageResourseUrl}
                 />
         case 'color':
             return <Button style={{backgroundColor: getValue(data,field.name), height:'80%'}} ></Button>
         case 'vedio':
+          let vedioContent= getValue(data,field.name);
+            let vedioResourseUrl= vedioContent && vedioContent!==""? config.resourseUrl(vedioContent) :defaultImg;
           return <video width={field.width}
-          height={field.height} controls>
-            <source src="https://www.youtube.com/watch?v=qHbAP6mM8dI" type="video/mp4"/>
+              src={vedioResourseUrl} 
+              height={field.height} controls>
+            <source  src={vedioResourseUrl} />
             Your browser does not support the video tag.
           </video>
         

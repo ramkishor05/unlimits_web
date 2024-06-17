@@ -8,11 +8,10 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalPromptPageList, addGlobalPrompt, editGlobalPrompt, deleteGlobalPrompt } 
+import { getGlobalJournalPageList, addGlobalJournal, editGlobalJournal, deleteGlobalJournal } 
 from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
-
 
 const styles = theme => ({
     button: {
@@ -22,7 +21,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class GlobalPrompts extends Component {
+class GlobalJournals extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -32,44 +31,42 @@ class GlobalPrompts extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Update Prompt", type:"Update", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Journal", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Prompt", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Journal", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete Prompt", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete Journal", type:"Delete", deleteModel: true  });
     };
     
-    saveObject = (type, row) => {
+     saveObject = (type, row) => {
+        
         if(type=='Add')
-            this.props.addGlobalPrompt(row, this.clearAndRefresh)
+            this.props.addGlobalJournal(row, this.clearAndRefresh)
         if(type=='Update')
-            this.props.editGlobalPrompt(row.id,row, this.clearAndRefresh)
+            this.props.editGlobalJournal(row.id,row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteGlobalPrompt(row.id, this.clearAndRefresh)
+            this.props.deleteGlobalJournal(row.id, this.clearAndRefresh)
 
     };
 
-    _filter= (text) => {
-
-    }
-
     clearAndRefresh = () => {
-        this.props.getGlobalPromptPageList(0, config.pageSize);
+        this.props.getGlobalJournalPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
     componentDidMount() {
         this.clearAndRefresh();
     }
+
     render() {
         return (
             <>
                 
-                <MainCard title="Prompts" 
+                <MainCard title="Journals" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
@@ -83,10 +80,9 @@ class GlobalPrompts extends Component {
                     >
                         <DynamicTable 
                         headers={this.props.metadata.table.headers} 
-                        dataList={this.props.globalPromptPageData.elements}
+                        dataList={this.props.globalJournalPageData.elements}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
-                        filterAction={this._filter}
                         {...this.props}
                         ></DynamicTable>
                     </MainCard>
@@ -121,12 +117,13 @@ class GlobalPrompts extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalPromptPageData } = state.globalPromptReducer;
 
-    return { globalPromptPageData };
+    const { globalJournalPageData } = state.globalJournalReducer;
+
+    return { globalJournalPageData };
 };
 
 
-export default connect(mapStateToProps, { getGlobalPromptPageList, addGlobalPrompt, editGlobalPrompt, deleteGlobalPrompt })(GlobalPrompts);
+export default connect(mapStateToProps, { getGlobalJournalPageList, addGlobalJournal, editGlobalJournal, deleteGlobalJournal })(GlobalJournals);
 
 

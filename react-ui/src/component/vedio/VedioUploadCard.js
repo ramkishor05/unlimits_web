@@ -6,7 +6,6 @@ import defaultImg from '../../assets/images/product/no-image.svg'
 //Tabs
 import { withStyles } from "@material-ui/styles";
 import { UploadFileOutlined } from "@material-ui/icons";
-import GlobalResourceService from "../../services/GlobalResourceService";
 import config from "../../config";
 
 const styles = (theme) => ({
@@ -17,14 +16,14 @@ const styles = (theme) => ({
     display: "none"
   },
   vedio: {
-    width: '100%',
+    width: '200',
     margin: "0",
-    maxWidth: "100%",
+    maxWidth: "200",
     position: 'relative'
   },
   btn : {
     position: "absolute",
-    transform: 'translate( -255%,-150%)',
+    transform: 'translate( -125%,70%)',
     backgroundColor: 'rgba(0,0,0,0.5)',
     color: 'white',
     fontSize: '16px',
@@ -42,7 +41,7 @@ class VedioUploadCard extends React.Component {
     imageUploaded: 0,
     bytes: '',
     selectedFile: this.props.value,
-    btn: false
+    btn: true
   };
 
   handleUploadClick = (event) => {
@@ -51,14 +50,9 @@ class VedioUploadCard extends React.Component {
     reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
-      GlobalResourceService.add(this.props.container+"/"+file.name, reader.result).then(url=>{
-       
         this.setState({
-          selectedFile: url
-        },this.props.setUserProfileImge(url));
-        
-        });
-      
+          selectedFile: reader.result
+        },this.props.setVedio({fileContent: reader.result, fileName: file.name, fileType: file.type, folderName: this.props.container }));
     }.bind(this);
      // Would see a path?
 
@@ -78,20 +72,16 @@ class VedioUploadCard extends React.Component {
   }
 
   renderInitialState() {
-    const { classes, height } = this.props;
+    const { classes, height, width } = this.props;
     return (
      <>
        
-       <video
-          width="100%"
-          maxHeight={height}
-          style={{position: 'relative'}}
-          className={classes.vedio}
-          onMouseOver={()=> this.setState({btn: true})}
-        >
-           <source src={this.srcUrl(this.state.selectedFile)}/>
-
-      </video>
+      <video width={width}
+              src={this.state.selectedFile} 
+              height={height} controls>
+            <source  src={this.state.selectedFile} />
+            Your browser does not support the video tag.
+          </video>
      
      
       {this.state.btn &&
@@ -115,20 +105,17 @@ class VedioUploadCard extends React.Component {
   }
 
   renderUploadedState() {
-    const { classes, height } = this.props;
+    const { classes, height, width } = this.props;
 
     return (
       <>
-        <video
-          width="100%"
-          maxHeight={height}
-          style={{position: 'relative'}}
-          className={classes.vedio}
-          onMouseOver={()=> this.setState({btn: true})}
-        >
-           <source src={this.srcUrl(this.state.selectedFile)}/>
-
-      </video>
+        
+      <video width={width}
+              src={this.state.selectedFile} 
+              height={height} controls>
+            <source  src={this.srcUrl(this.state.selectedFile)} />
+            Your browser does not support the video tag.
+          </video>
      
       {this.state.btn &&
       <label htmlFor="button-file">

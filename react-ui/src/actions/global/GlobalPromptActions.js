@@ -1,13 +1,14 @@
 import { 
-   GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS,
-   GET_ALL_GLOBAL_PROMPT_TAG_FAIL,
+   GET_ALL_GLOBAL_PROMPT_SUCCESS,
+   GET_ALL_GLOBAL_PROMPT_FAIL,
    SHOW_LOADER,
    REMOVE_LOADER,
-   ADD_GLOBAL_PROMPT_TAG_SUCCESS,
-   EDIT_GLOBAL_PROMPT_TAG_SUCCESS,
-   RENDER_GLOBAL_PROMPT_TAG_TO_EDIT
+   ADD_GLOBAL_PROMPT_SUCCESS,
+   EDIT_GLOBAL_PROMPT_SUCCESS,
+   RENDER_GLOBAL_PROMPT_TO_EDIT
 } from '../../types';
 import GlobalPromptService from '../../services/GlobalPromptService';
+import { GET_ALL_GLOBAL_PROMPT_PAGE_FAIL, GET_ALL_GLOBAL_PROMPT_PAGE_SUCCESS } from '../../types/Global/GlobalPromptTypes';
 
 // Action creator for getting all items --<
 export const getGlobalPromptList = () => async dispatch => {
@@ -16,11 +17,11 @@ export const getGlobalPromptList = () => async dispatch => {
 
         const globalPromptList = await GlobalPromptService.getAll();
         if (globalPromptList) {
-            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptList });
+            dispatch({ type: GET_ALL_GLOBAL_PROMPT_SUCCESS, payload: globalPromptList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_PROMPT_FAIL });
         dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }
@@ -32,11 +33,11 @@ export const getGlobalPromptPageList = (pageNumber, pageCount) => async dispatch
 
         const globalPromptList = await GlobalPromptService.getPageList(pageNumber, pageCount);
         if (globalPromptList) {
-            dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_SUCCESS, payload: globalPromptList });
+            dispatch({ type: GET_ALL_GLOBAL_PROMPT_PAGE_SUCCESS, payload: globalPromptList });
         }
         dispatch({ type: REMOVE_LOADER });
     } catch(error) {
-        dispatch({ type: GET_ALL_GLOBAL_PROMPT_TAG_FAIL });
+        dispatch({ type: GET_ALL_GLOBAL_PROMPT_PAGE_FAIL });
         dispatch({ type: REMOVE_LOADER });
         //console.log(error);
     }
@@ -51,7 +52,7 @@ export const addGlobalPrompt = (data, refreshItemsList, clear, successNotificati
         const globalPrompt = await GlobalPromptService.add(data);
 
         if (globalPrompt) {
-            dispatch({ type: ADD_GLOBAL_PROMPT_TAG_SUCCESS });
+            dispatch({ type: ADD_GLOBAL_PROMPT_SUCCESS });
         }
 
         refreshItemsList && refreshItemsList();
@@ -72,7 +73,7 @@ export const addGlobalPrompt = (data, refreshItemsList, clear, successNotificati
 
 export const renderGlobalPromptToEdit = item => {
     return {
-        type: RENDER_GLOBAL_PROMPT_TAG_TO_EDIT,
+        type: RENDER_GLOBAL_PROMPT_TO_EDIT,
         payload: item,
     };
 };
@@ -85,7 +86,7 @@ export const editGlobalPrompt = (id, data, clearAndRefresh, successNotification,
         const globalPrompt = await GlobalPromptService.update(id, data);
 
         if (globalPrompt) {
-            dispatch({ type: EDIT_GLOBAL_PROMPT_TAG_SUCCESS });
+            dispatch({ type: EDIT_GLOBAL_PROMPT_SUCCESS });
             
             successNotification && successNotification();
 
@@ -107,7 +108,7 @@ export const updateGlobalPrompt = (id, data, clearAndRefresh, successNotificatio
         const globalPrompt = await GlobalPromptService.update(id, data);
 
         if (globalPrompt) {
-            dispatch({ type: EDIT_GLOBAL_PROMPT_TAG_SUCCESS });
+            dispatch({ type: EDIT_GLOBAL_PROMPT_SUCCESS });
             
             successNotification && successNotification();
 

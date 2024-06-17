@@ -7,10 +7,11 @@ import GlobalMenuItemsPage from "../views/global/menus/GlobalMenuItemsPage";
 import GlobalRoleMenuGroupsPage from "../views/global/menus/GlobalRoleMenuGroupsPage";
 import GlobalRoleMenuItemsPage from "../views/global/menus/GlobalRoleMenuItemsPage";
 import GlobalUserPage from "../views/global/organizations/GlobalUserPage";
-import GlobalPrompt from '../views/global/prompts/GlobalPrompts';
 import GlobalMindSetLibrary from '../views/global/mindsets/GlobalMindSetLibrary';
 import GlobalCategoryImage from "../views/global/category/GlobalCategoryImage";
 import GlobalCategoryTag from "../views/global/category/GlobalCategoryTag";
+import GlobalJournals from "../views/global/journals/GlobalJournals";
+import GlobalPrompts from "../views/global/prompts/GlobalPrompts";
 
 
 export const PageMapper = {
@@ -23,7 +24,8 @@ export const PageMapper = {
     "/global/portal/content/sub/categories": GlobalCategoryList,
     "/global/portal/content/tag/library": GlobalCategoryTag,
     "/global/portal/content/image/library": GlobalCategoryImage,
-    "/global/portal/content/prompts": GlobalPrompt,
+    "/global/portal/content/prompts": GlobalPrompts,
+    "/global/portal/content/journals": GlobalJournals,
     "/global/portal/content/midsets": GlobalMindSetLibrary,
     "/global/portal/user/profile": GlobalUserProfilePage,
     "/global/portal/organizations/users":GlobalUserPage

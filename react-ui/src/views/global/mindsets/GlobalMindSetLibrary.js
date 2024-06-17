@@ -18,7 +18,7 @@ const globalMindSetMeta = {
     "table": {
         headers : [
             {
-                name: "content",
+                name: "url",
                 label: "Vedio",
                 type: 'vedio',
                 width: 200,
@@ -52,16 +52,34 @@ const globalMindSetMeta = {
     },
     model : [
         {
-            name: "content",
+            grid: 6,
+            fields:[{
+            name: "url",
             label: "URL",
             type: 'vedio',
-            width: 200,
-            height: 100,
+            width: "200px",
+            height: "200px",
             "required" : {
                 value : '',
                 message: "URL is required!"
+            },
+            onchange: (file, data, field, props, setData)=>{
+                if(data){
+                    data['content']=file;
+                    setData && setData(data);
+                }
+                else{
+                    data={};
+                    data['content']=file;
+                    setData && setData(data);
+                }
             }
-        },
+        }]
+    }
+        ,
+        {
+            grid: 6,
+            fields:[
         {
             name: "name",
             label: "Name",
@@ -75,7 +93,8 @@ const globalMindSetMeta = {
             name: "description",
             label: "Description",
             type: 'text'
-        }
+        }]
+    }
     ]
 }
 
@@ -109,7 +128,7 @@ class GlobalMindSetLibrary extends Component {
     };
     
      saveObject = (type, row) => {
-        
+        console.log("row==",row)
         if(type=='Add')
             this.props.addGlobalMindSetLibrary(row, this.clearAndRefresh)
         if(type=='Update')
