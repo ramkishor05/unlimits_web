@@ -1,7 +1,7 @@
 import {axios} from './index';
 import config from '../config';
 
-const GLOBAL_CATEGORY_URL=`${config.ITEM_SERVER_HOST}/api/global/prompt`;
+const GLOBAL_CATEGORY_URL=`${config.ITEM_SERVER_HOST}/api/global/journal/libarary`;
 
 export default {
     getAll() {

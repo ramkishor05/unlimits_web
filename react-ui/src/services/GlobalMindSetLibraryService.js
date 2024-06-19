@@ -1,7 +1,7 @@
 import {axios} from './index';
 import config from '../config';
 
-const GLOBAL_CATEGORY_URL=`${config.ITEM_SERVER_HOST}/api/global/mindset/item`;
+const GLOBAL_CATEGORY_URL=`${config.ITEM_SERVER_HOST}/api/global/mindset/libarary`;
 
 export default {
     getAll() {
@@ -21,7 +21,8 @@ export default {
     },
     update(id, item) {
         item['id']=id;
-        return axios.post(GLOBAL_CATEGORY_URL, item)
+        console.log("item=",item)
+        return axios.put(GLOBAL_CATEGORY_URL, item)
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },

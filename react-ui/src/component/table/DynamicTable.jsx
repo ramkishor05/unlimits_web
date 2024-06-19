@@ -87,6 +87,7 @@ function DynamicTable (props){
           let vedioContent= getValue(data,field.name);
             let vedioResourseUrl= vedioContent && vedioContent!==""? config.resourseUrl(vedioContent) :defaultImg;
           return <video width={field.width}
+              preload="metadata"
               src={vedioResourseUrl} 
               height={field.height} controls>
             <source  src={vedioResourseUrl} />

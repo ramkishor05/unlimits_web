@@ -77,9 +77,9 @@ class VedioUploadCard extends React.Component {
      <>
        
       <video width={width}
-              src={this.state.selectedFile} 
+              src={this.srcUrl(this.state.selectedFile)} 
               height={height} controls>
-            <source  src={this.state.selectedFile} />
+            <source  src={this.srcUrl(this.state.selectedFile)}  />
             Your browser does not support the video tag.
           </video>
      
@@ -110,10 +110,10 @@ class VedioUploadCard extends React.Component {
     return (
       <>
         
-      <video width={width}
-              src={this.state.selectedFile} 
+      <video width={width} 
+              src={this.state.selectedFile}
               height={height} controls>
-            <source  src={this.srcUrl(this.state.selectedFile)} />
+            <source  src={this.state.selectedFile}/>
             Your browser does not support the video tag.
           </video>
      

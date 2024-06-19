@@ -9,14 +9,14 @@ import {
    GET_ALL_GLOBAL_TAG_ITEM_PAGE_SUCCESS,
    GET_ALL_GLOBAL_TAG_ITEM_PAGE_FAIL
 } from '../../types';
-import GlobalTagItemService from '../../services/GlobalTagItemService';
+import GlobalTagLibararyService from '../../services/GlobalTagLibararyService';
 
 // Action creator for getting all items --<
 export const getGlobalTagItemList = () => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalTagItemList = await GlobalTagItemService.getAll();
+        const globalTagItemList = await GlobalTagLibararyService.getAll();
         if (globalTagItemList) {
             dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_SUCCESS, payload: globalTagItemList });
         }
@@ -34,7 +34,7 @@ export const getGlobalTagItemPageList = (pageNumber, pageCount) => async dispatc
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalTagItemList = await GlobalTagItemService.getPageList(pageNumber, pageCount);
+        const globalTagItemList = await GlobalTagLibararyService.getPageList(pageNumber, pageCount);
         if (globalTagItemList) {
             dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_PAGE_SUCCESS, payload: globalTagItemList });
         }
@@ -52,7 +52,7 @@ export const addGlobalTagItem = (data, refreshItemsList, clear, successNotificat
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalTagItem = await GlobalTagItemService.add(data);
+        const globalTagItem = await GlobalTagLibararyService.add(data);
 
         if (globalTagItem) {
             dispatch({ type: ADD_GLOBAL_TAG_ITEM_SUCCESS });
@@ -86,7 +86,7 @@ export const editGlobalTagItem = (id, data, clearAndRefresh, successNotification
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalTagItem = await GlobalTagItemService.update(id, data);
+        const globalTagItem = await GlobalTagLibararyService.update(id, data);
 
         if (globalTagItem) {
             dispatch({ type: EDIT_GLOBAL_TAG_ITEM_SUCCESS });
@@ -108,7 +108,7 @@ export const updateGlobalTagItem = (id, data, clearAndRefresh, successNotificati
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalTagItem = await GlobalTagItemService.update(id, data);
+        const globalTagItem = await GlobalTagLibararyService.update(id, data);
 
         if (globalTagItem) {
             dispatch({ type: EDIT_GLOBAL_TAG_ITEM_SUCCESS });
@@ -130,7 +130,7 @@ export const deleteGlobalTagItem = (id, refresh) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const deleted_global_category = await GlobalTagItemService.delete(id);
+        const deleted_global_category = await GlobalTagLibararyService.delete(id);
 
         if (deleted_global_category) {
             refresh && refresh();

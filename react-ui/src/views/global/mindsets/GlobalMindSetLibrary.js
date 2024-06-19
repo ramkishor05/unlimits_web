@@ -22,7 +22,7 @@ const globalMindSetMeta = {
                 label: "Vedio",
                 type: 'vedio',
                 width: 200,
-                height: 200,
+                height: 150,
                 "required" : {
                     value : '',
                     message: "URL is required!"
@@ -66,11 +66,15 @@ const globalMindSetMeta = {
             onchange: (file, data, field, props, setData)=>{
                 if(data){
                     data['content']=file;
+                    data['name']=file.fileName;
+                    data['type']=file.fileType;
                     setData && setData(data);
                 }
                 else{
                     data={};
                     data['content']=file;
+                    data['name']=file.fileName;
+                    data['type']=file.fileType;
                     setData && setData(data);
                 }
             }

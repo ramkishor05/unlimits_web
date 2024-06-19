@@ -9,14 +9,14 @@ import {
    EDIT_GLOBAL_JOURNAL_SUCCESS,
    RENDER_GLOBAL_JOURNAL_TO_EDIT
 } from '../../types';
-import GlobalJournalService from '../../services/GlobalJournalService';
+import GlobalJournalLibararyService from '../../services/GlobalJournalLibararyService';
 
 // Action creator for getting all items --<
 export const getGlobalJournalList = () => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalJournalList = await GlobalJournalService.getAll();
+        const globalJournalList = await GlobalJournalLibararyService.getAll();
         if (globalJournalList) {
             dispatch({ type: GET_ALL_GLOBAL_JOURNAL_SUCCESS, payload: globalJournalList });
         }
@@ -32,7 +32,7 @@ export const getGlobalJournalPageList = (pageNumber, pageCount) => async dispatc
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalJournalList = await GlobalJournalService.getPageList(pageNumber, pageCount);
+        const globalJournalList = await GlobalJournalLibararyService.getPageList(pageNumber, pageCount);
         if (globalJournalList) {
             dispatch({ type: GET_ALL_GLOBAL_JOURNAL_PAGE_SUCCESS, payload: globalJournalList });
         }
@@ -50,7 +50,7 @@ export const addGlobalJournal = (data, refreshItemsList, clear, successNotificat
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalJournal = await GlobalJournalService.add(data);
+        const globalJournal = await GlobalJournalLibararyService.add(data);
 
         if (globalJournal) {
             dispatch({ type: ADD_GLOBAL_JOURNAL_SUCCESS });
@@ -84,7 +84,7 @@ export const editGlobalJournal = (id, data, clearAndRefresh, successNotification
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalJournal = await GlobalJournalService.update(id, data);
+        const globalJournal = await GlobalJournalLibararyService.update(id, data);
 
         if (globalJournal) {
             dispatch({ type: EDIT_GLOBAL_JOURNAL_SUCCESS });
@@ -106,7 +106,7 @@ export const updateGlobalJournal = (id, data, clearAndRefresh, successNotificati
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalJournal = await GlobalJournalService.update(id, data);
+        const globalJournal = await GlobalJournalLibararyService.update(id, data);
 
         if (globalJournal) {
             dispatch({ type: EDIT_GLOBAL_JOURNAL_SUCCESS });
@@ -128,7 +128,7 @@ export const deleteGlobalJournal = (id, refresh) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const deleted_global_category = await GlobalJournalService.delete(id);
+        const deleted_global_category = await GlobalJournalLibararyService.delete(id);
 
         if (deleted_global_category) {
             refresh && refresh();

@@ -9,14 +9,14 @@ import {
    GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS,
    GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_FAIL
 } from '../../types';
-import GlobalCategoryGroupService from '../../services/GlobalCategoryGroupService';
+import GlobalMainCategoryService from '../../services/GlobalMainCategoryService';
 
 // Action creator for getting all items --<
 export const getGlobalCategoryGroupList = () => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalCategoryGroupList = await GlobalCategoryGroupService.getAll();
+        const globalCategoryGroupList = await GlobalMainCategoryService.getAll();
         if (globalCategoryGroupList) {
             dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_SUCCESS, payload: globalCategoryGroupList });
         }
@@ -35,7 +35,7 @@ export const getGlobalCategoryGroupPageList = (pageNumber,pageCount) => async di
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalCategoryGroupList = await GlobalCategoryGroupService.getPageList(pageNumber,pageCount);
+        const globalCategoryGroupList = await GlobalMainCategoryService.getPageList(pageNumber,pageCount);
         if (globalCategoryGroupList) {
             dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS, payload: globalCategoryGroupList });
         }
@@ -57,7 +57,7 @@ export const addGlobalCategoryGroup = (data, refreshItemsList, clear, successNot
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalCategoryGroup = await GlobalCategoryGroupService.add(data);
+        const globalCategoryGroup = await GlobalMainCategoryService.add(data);
 
         if (globalCategoryGroup) {
             dispatch({ type: ADD_GLOBAL_CATEGERY_GROUP_SUCCESS });
@@ -92,7 +92,7 @@ export const editGlobalCategoryGroup = (id, data, clearAndRefresh, successNotifi
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalCategoryGroup = await GlobalCategoryGroupService.update(id, data);
+        const globalCategoryGroup = await GlobalMainCategoryService.update(id, data);
 
         if (globalCategoryGroup) {
             dispatch({ type: EDIT_GLOBAL_CATEGERY_GROUP_SUCCESS });
@@ -115,7 +115,7 @@ export const updateGlobalCategoryGroup = (id, data, clearAndRefresh, successNoti
 
         dispatch({ type: SHOW_LOADER });
 
-        const globalCategoryGroup = await GlobalCategoryGroupService.update(id, data);
+        const globalCategoryGroup = await GlobalMainCategoryService.update(id, data);
 
         if (globalCategoryGroup) {
             dispatch({ type: EDIT_GLOBAL_CATEGERY_GROUP_SUCCESS });
@@ -137,7 +137,7 @@ export const deleteGlobalCategoryGroup = (id, refresh) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const deleted_global_category_group = await GlobalCategoryGroupService.delete(id);
+        const deleted_global_category_group = await GlobalMainCategoryService.delete(id);
 
         if (deleted_global_category_group) {
             refresh && refresh();
