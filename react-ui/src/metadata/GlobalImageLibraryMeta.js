@@ -32,8 +32,8 @@ const  globalImageLibraryMeta = {
                 }
             },
             {
-                name: "groupId",
-                "key": "groupId",
+                name: "subCategoryId",
+                "key": "subCategoryId",
                 label: "Sub Category",
                 type: 'text',
                 "required" : {
@@ -44,6 +44,24 @@ const  globalImageLibraryMeta = {
                     if(value){
                         let findglobalCategoryItem=props.globalCategoryItemList.find(globalCategoryItem=>globalCategoryItem.id==value)
                         return findglobalCategoryItem ? findglobalCategoryItem.name : value;
+                    }
+                    return value;
+                }
+            },
+            {
+                name: "tagLibararyId",
+                "key": "tagLibararyId",
+                label: "Tag",
+                type: 'text',
+                "required" : {
+                    value : '',
+                    message: "Tag is required!"
+                },
+                "render":(value, row, header, props)=>{
+                    if(value){
+                        let subCategoryId=row['subCategoryId']
+                        let findglobalTagItem=props.globalTagItemList.find(globalTagItem=>globalTagItem.id==value && globalTagItem.subCategoryId==subCategoryId)
+                        return findglobalTagItem ? findglobalTagItem.name : value;
                     }
                     return value;
                 }
@@ -108,7 +126,7 @@ const  globalImageLibraryMeta = {
             }
         },
         {
-            name: "groupId",
+            name: "subCategoryId",
             label: "Sub Category",
             type: 'select',
             "required" : {
@@ -127,7 +145,31 @@ const  globalImageLibraryMeta = {
             },
             "itemKey": "id",
             "itemVal": "name"
-        }]
+        },
+        ,
+        {
+            name: "tagLibararyId",
+            label: "Tag Libarary",
+            type: 'select',
+            "required" : {
+                value : '',
+                message: "Tag Libarary is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                let subCategoryId=data['subCategoryId']?   data['subCategoryId']: 0;
+                return props.globalTagItemList? props.globalTagItemList.filter(globalTagItem=>globalTagItem.subCategoryId===subCategoryId): []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name"
+        }
+      ]
     }
     ]
 }

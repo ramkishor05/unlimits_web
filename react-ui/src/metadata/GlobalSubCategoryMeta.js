@@ -33,8 +33,8 @@ const globalSubCategoryMeta = {
                 }
             },
             {
-                name: "groupId",
-                "key": "groupId",
+                name: "mainCategoryId",
+                "key": "mainCategoryId",
                 label: "Main Category",
                 type: 'text',
                 "required" : {
@@ -105,7 +105,7 @@ const globalSubCategoryMeta = {
             }
         },
         {
-            name: "groupId",
+            name: "mainCategoryId",
             label: "Main Category",
             type: 'select',
             "required" : {

@@ -1,7 +1,7 @@
 import config from '../config';
 import {axios} from './index';
 
-const VENDOR_URL=config.CRM_SERVER_HOST+"/api/vendor";
+const VENDOR_URL=config.CRM_SERVER_HOST+"/api/global/vendor";
 
 const headers = {
     'Content-Type': 'application/json',

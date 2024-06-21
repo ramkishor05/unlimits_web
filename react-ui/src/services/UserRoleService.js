@@ -1,7 +1,7 @@
 import config from '../config';
 import {axios} from './index';
 
-var endpoint = config.AUTH_SERVER_HOST+`/api/user/role`;
+var endpoint = config.AUTH_SERVER_HOST+`/api/global/user/role`;
 
 const headers = {
     'Content-Type': 'application/json'

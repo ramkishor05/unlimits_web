@@ -8,7 +8,7 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalCategoryList, getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary } 
+import { getGlobalTagItemList, getGlobalCategoryList, getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary } 
 from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
@@ -54,6 +54,7 @@ class GlobalImageLibrary extends Component {
     };
 
     clearAndRefresh = async() => {
+        await this.props.getGlobalTagItemList();
         await this.props.getGlobalCategoryList()
         this.props.getGlobalImageLibraryPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
@@ -123,12 +124,15 @@ class GlobalImageLibrary extends Component {
 const mapStateToProps = state => {
     const { globalCategoryList} = state.globalCategoryReducer;
 
+    const { globalTagItemList, globalTagItemPageData } = state.globalTagItemReducer;
+
+
     const { globalImageLibraryList, globalImageLibraryPageData } = state.globalImageLibraryReducer;
 
-    return { globalImageLibraryList, globalImageLibraryPageData , globalCategoryItemList: globalCategoryList};
+    return { globalImageLibraryList, globalTagItemList, globalImageLibraryPageData , globalCategoryItemList: globalCategoryList};
 };
 
 
-export default connect(mapStateToProps, {getGlobalCategoryList, getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary })(GlobalImageLibrary);
+export default connect(mapStateToProps, {getGlobalTagItemList, getGlobalCategoryList, getGlobalImageLibraryPageList, addGlobalImageLibrary, editGlobalImageLibrary, deleteGlobalImageLibrary })(GlobalImageLibrary);
 
 

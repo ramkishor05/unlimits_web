@@ -17,7 +17,7 @@ axios.interceptors.request.use(async config => {
     config.headers.common['ngrok-skip-browser-warning']="OK";
     let account = await JSON.parse(localStorage.getItem('pos-account'));
     if (account) {
-        if(account.token && account.token!==''){
+        if(account.token && account.token!=='' && account.token!=='null'){
              config.headers.common.Authorization = account.token;
         } else{
             delete config.headers.common.Authorization;

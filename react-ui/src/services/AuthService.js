@@ -1,7 +1,7 @@
 import config from '../config';
 import {axios} from './index';
 
-var endpoint = config.AUTH_SERVER_HOST+`/api/auth`;
+var endpoint = config.AUTH_SERVER_HOST+`/api/global/authentication`;
 
 let headers={
     'authority':"ADMIN",

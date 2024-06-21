@@ -1,7 +1,7 @@
 import config from '../config';
 import {axios} from './index';
 
-var endpoint = config.AUTH_SERVER_HOST+`/api/user`;
+var endpoint = config.AUTH_SERVER_HOST+`/api/global/user`;
 
 var custendpoint = config.AUTH_SERVER_HOST+`/api/cust/user`;
 

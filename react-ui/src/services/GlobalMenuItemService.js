@@ -1,7 +1,7 @@
 import config from '../config';
 import {axios} from './index';
 
-const USER_MENU_URL=config.AUTH_SERVER_HOST+"/api/menu/item";
+const USER_MENU_URL=config.AUTH_SERVER_HOST+"/api/global/menu/item";
 
 const headers = {
     'Content-Type': 'application/json'

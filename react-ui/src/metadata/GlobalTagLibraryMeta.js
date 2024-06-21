@@ -21,7 +21,7 @@ const globalTaglibraryMeta = {
                 }
             },
             {
-                name: "groupId",
+                name: "subCategoryId",
                 label: "Sub Category",
                 type: 'text',
                 "required" : {
@@ -63,7 +63,7 @@ const globalTaglibraryMeta = {
             }
         },
         {
-            name: "groupId",
+            name: "subCategoryId",
             label: "Sub Category",
             type: 'select',
             "required" : {
