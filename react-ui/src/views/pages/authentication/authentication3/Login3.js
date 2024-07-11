@@ -58,14 +58,14 @@ const Login = () => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Grid item container direction="column" alignItems="center" xs={12}>
-                                            <Typography
+                                            {/* <Typography
                                                 component={RouterLink}
                                                 to="/pages/register/register3"
                                                 variant="subtitle1"
                                                 sx={{ textDecoration: 'none' }}
                                             >
                                                 Don't have an account?
-                                            </Typography>
+                                            </Typography> */}
                                         </Grid>
                                     </Grid>
                                 </Grid>
