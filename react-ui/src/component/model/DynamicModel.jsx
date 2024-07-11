@@ -11,11 +11,15 @@ import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../image/ImageUploadCard';
 import { connect } from 'react-redux';
-import { getValue, setChecked, setField, setValue } from '../utils/CommanUtil';
+import { getValue, setChecked, setValue } from '../utils/CommanUtil';
 import CountryOptions from '../dropdwons/CountryOptions';
-import { ColorPicker } from 'react-color-palette';
 import ColorField from '../fields/ColorField';
 import VedioUploadCard from '../vedio/VedioUploadCard';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateField } from '@mui/x-date-pickers/DateField';
+import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers-pro';
 
 class DynamicModel extends React.Component {
 
@@ -190,6 +194,28 @@ class DynamicModel extends React.Component {
       case 'color':
           <ColorField
           field={field} {...props}  ></ColorField>
+      case 'date':
+       return <FormControl  fullWidth>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+          helperText={this.errorMessage(field)}
+          error={this.isError(field)}
+          key={field.id}
+          variant={ 'standard'}
+          id={field.id}
+          label={field.required ?  field.label + " ( * )" : field.label+ " ( optional )" }
+          name={field.name}
+          value={dayjs(getValue(data,field.name).replace(", 12:00 AM",""))}
+          defaultValue={dayjs(getValue(data,field.name).replace(", 12:00 AM",""),field.format)}
+          onChange={(event)=>{
+            setValue(event.format(field.format)+", 12:00 AM" , field.name, field, data, this.setData, this.checkValidation)}
+          }
+          format= { field.format? field.format: ""}
+          sx={'date'===field.type ? {border:0, borderStyle: 'groove'}:{}}
+          >
+        </DatePicker>
+        </LocalizationProvider>
+        </FormControl>
       default:
         return <FormControl  fullWidth>
           <TextField
@@ -208,6 +234,7 @@ class DynamicModel extends React.Component {
           onChange={(event)=>
             setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)}
            sx={'textarea'===field.type ? {border:1, borderStyle: 'groove'}:{}}
+           format= { field.format? field.format: ""}
           >
         </TextField></FormControl>
     }
