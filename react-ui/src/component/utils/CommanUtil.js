@@ -50,7 +50,7 @@
     }
     let targetObject= findTargetObject(data,name);
     let targetKey= findTargetKey(name);
-    return targetObject[targetKey];
+    return targetObject[targetKey]? targetObject[targetKey]: '';
   }
 
   export const setField= (value, name,  field, data, props, setData, checkValidation)=>{

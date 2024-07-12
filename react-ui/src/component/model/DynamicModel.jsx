@@ -19,7 +19,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import dayjs from 'dayjs';
-import { DatePicker } from '@mui/x-date-pickers-pro';
+import { DatePicker } from '@mui/x-date-pickers';
 
 class DynamicModel extends React.Component {
 
@@ -295,7 +295,7 @@ class DynamicModel extends React.Component {
           <DialogTitle id="form-dialog-title"><h2>{title}</h2></DialogTitle>
           <DialogContent>
             <DialogContentText>
-            <Box component="section" sx={{ m: 0}}>
+            <Box component="section" sx={{ m: 0, mt: 3}}>
                  {this.rendorFields(fields, this.state.data, this.props)}
                  </Box>
             </DialogContentText>
