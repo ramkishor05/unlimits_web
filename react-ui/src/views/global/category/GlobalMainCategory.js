@@ -10,6 +10,9 @@ import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 import { getGlobalCategoryGroupPageList, addGlobalCategoryGroup, editGlobalCategoryGroup, deleteGlobalCategoryGroup } from '../../../actions';
 import config from '../../../config';
+import FilterModel from '../../../component/model/FilterModel';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import AddIcon from '@mui/icons-material/Add';
 
 const styles = theme => ({
     button: {
@@ -24,6 +27,7 @@ class GlobalCategoryGroup extends Component {
     state={
         saveModel: false,
         deleteModel: false,
+        filterModel: false,
         dataObject: {},
         title: "",
         type: ""
@@ -40,21 +44,34 @@ class GlobalCategoryGroup extends Component {
     _delete = row => {
         this.setState({ dataObject: row, title:"Delete Main Category", type:"Delete", deleteModel: true  });
     };
+
+    _filter = () => {
+        this.setState({ dataObject: {}, title:"Filters", type:"Filter", filterModel: true  });
+    };
     
      saveObject = (type, row) => {
-        
-        if(type=='Add')
+        console.log("filters: ", row)
+        if(type=='Add'){
             this.props.addGlobalCategoryGroup(row, this.clearAndRefresh)
-        if(type=='Update')
+        }
+            
+        if(type=='Update'){
             this.props.editGlobalCategoryGroup(row.id,row, this.clearAndRefresh)
-        if(type=='Delete')
+        }
+            
+        if(type=='Delete'){
             this.props.deleteGlobalCategoryGroup(row.id, this.clearAndRefresh)
-
+        }
+            
+        if(type=='Filter'){
+            this.props.getGlobalCategoryGroupPageList(0, config.pageSize, row);
+            this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: true });
+        }
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalCategoryGroupPageList(0, config.pageSize);
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+        this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: false });
+        this.props.getGlobalCategoryGroupPageList(0, config.pageSize, this.state.dataObject);
     }
     
     componentDidMount() {
@@ -67,13 +84,22 @@ class GlobalCategoryGroup extends Component {
                 
                     <MainCard title={this.props.metadata.table.name} 
                         button ={
+                            <>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            className={styles.button}
+                            onClick={this._filter}
+                            >
+                              <FilterListIcon/>
+                            </Button>
                             <Button variant="outlined" 
                             color="primary" 
                             className={styles.button}
                             onClick={this._add}
                             >
-                                Add
+                               <AddIcon/>
                             </Button>
+                            </>
                         }
                         content = {false}
                     >
@@ -100,6 +126,18 @@ class GlobalCategoryGroup extends Component {
                         saveAction = {this.saveObject}
                         >
                         </DynamicModel>
+                    }
+                    {this.state.filterModel &&   this.props.metadata.filter &&
+                        <FilterModel
+                        title={this.state.title}
+                        openAction={this.state.filterModel}
+                        closeAction={()=> this.setState({filterModel: false})}
+                        data={this.state.dataObject} 
+                        type={this.state.type}
+                        fields= {this.props.metadata.filter}
+                        saveAction = {this.saveObject}
+                        >
+                        </FilterModel>
                     }
                     <ConfirmModel
                     openAction={this.state.deleteModel}

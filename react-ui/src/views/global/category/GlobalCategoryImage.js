@@ -13,6 +13,10 @@ from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
 
+import FilterModel from '../../../component/model/FilterModel';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import AddIcon from '@mui/icons-material/Add';
+
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -25,6 +29,7 @@ class GlobalImageLibrary extends Component {
     state={
         saveModel: false,
         deleteModel: false,
+        filterModel: false,
         dataObject: {},
         title: "",
         type: ""
@@ -41,6 +46,10 @@ class GlobalImageLibrary extends Component {
     _delete = row => {
         this.setState({ dataObject: row, title:"Delete Image Library", type:"Delete", deleteModel: true  });
     };
+
+    _filter = () => {
+        this.setState({ dataObject: {}, title:"Filters", type:"Filter", filterModel: true  });
+    };
     
      saveObject = (type, row) => {
         
@@ -50,7 +59,10 @@ class GlobalImageLibrary extends Component {
             this.props.editGlobalImageLibrary(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalImageLibrary(row.id, this.clearAndRefresh)
-
+        if(type=='Filter'){
+            this.props.getGlobalImageLibraryPageList(0, config.pageSize, row);
+            this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: true });
+        }
     };
 
     clearAndRefresh = async() => {
@@ -69,13 +81,22 @@ class GlobalImageLibrary extends Component {
                 
                 <MainCard title="Image Library" 
                         button ={
+                            <>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            className={styles.button}
+                            onClick={this._filter}
+                            >
+                              <FilterListIcon/>
+                            </Button>
                             <Button variant="outlined" 
                             color="primary" 
                             className={styles.button}
                             onClick={this._add}
                             >
-                                Add
+                               <AddIcon/>
                             </Button>
+                            </>
                         }
                         content = {false}
                     >
@@ -105,6 +126,18 @@ class GlobalImageLibrary extends Component {
                             >
                             </DynamicModel>
                 }
+                {this.state.filterModel &&   this.props.metadata.filter &&
+                        <FilterModel
+                        title={this.state.title}
+                        openAction={this.state.filterModel}
+                        closeAction={()=> this.setState({filterModel: false})}
+                        data={this.state.dataObject} 
+                        type={this.state.type}
+                        fields= {this.props.metadata.filter}
+                        saveAction = {this.saveObject}
+                        >
+                        </FilterModel>
+                    }
                 <ConfirmModel
                 openAction={this.state.deleteModel}
                 closeAction={()=> this.setState({deleteModel: false})}

@@ -7,8 +7,9 @@ export default function ColorField(props) {
 
     return (
         <ColorPicker
-          color={getValue(data,field.name)}
-          onChange={(event)=> setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)} hideHSV dark >
+          hideInput
+          color={getValue(data,field.name, 'color')}
+          onChange={(event)=> setValue(event.target.value, field.name, field, data, this.setData, this.checkValidation)} hideHSV= {true} dark >
           </ColorPicker>
     )
 };

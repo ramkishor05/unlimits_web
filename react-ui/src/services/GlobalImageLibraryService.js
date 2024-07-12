@@ -30,8 +30,8 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
-    getPageList(pageNumber,pageCount) {
-        return axios.get(GLOBAL_CATEGORY_URL+"/page/data"+`/${pageNumber}/count/${pageCount}`)
+    getPageList(pageNumber,pageCount,filters) {
+        return axios.get(GLOBAL_CATEGORY_URL+"/page/data"+`/${pageNumber}/count/${pageCount}`, { params: { ...filters } })
                     .then(response => Promise.resolve(response.data.data))
                     .catch(error => Promise.reject(error));
     }

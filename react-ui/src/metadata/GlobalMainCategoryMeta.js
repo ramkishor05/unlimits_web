@@ -78,7 +78,7 @@ const globalMainCategoryMeta = {
                     "name": "name",
                     "label": "Name",
                     "type": "text",
-                    grid: 12,
+                    "grid": 12,
                     "required" : {
                         value : '',
                         message: "Name is required!"
@@ -90,11 +90,34 @@ const globalMainCategoryMeta = {
                     "name": "color",
                     "label": "Color",
                     "type": "color",
-                    grid: 12,
+                    "grid": 12,
                     "required" : {
                         value : '',
                         message: "Color is required!"
                     }
+                }
+            ]
+         }
+    ],
+    "filter" :[
+         {
+            grid: 12,
+            fields:[
+                {
+                    "id": "name",
+                    "key": "name",
+                    "name": "name",
+                    "label": "Name",
+                    "type": "text",
+                    "grid": 6
+                },
+                {
+                    "id": "color",
+                    "key": "color",
+                    "name": "color",
+                    "label": "Color",
+                    "type": "text",
+                    "grid": 6
                 }
             ]
          }

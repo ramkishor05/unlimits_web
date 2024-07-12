@@ -83,6 +83,36 @@ const globalTaglibraryMeta = {
             "itemKey": "id",
             "itemVal": "name"
         }
+    ],
+    
+    filter : [
+        {
+            name: "name",
+            label: "Name",
+            type: 'text'
+        },
+        {
+            name: "color",
+            label: "Color",
+            type: 'color'
+        },
+        {
+            name: "subCategoryId",
+            label: "Sub Category",
+            type: 'select',
+            "onItems": (value, data, field, props )=>{
+                return props.globalSubCategoryList? props.globalSubCategoryList: []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name"
+        }
     ]
 }
 

@@ -126,6 +126,41 @@ const globalSubCategoryMeta = {
             "itemVal": "name"
         }]
     }
+    ],
+    filter : [
+        
+    {
+        grid: 12,
+        fields:[ {
+            name: "name",
+            label: "Name",
+            type: 'text'
+        },
+        {
+            "id": "color",
+            "key": "color",
+            "name": "color",
+            "label": "Color",
+            "type": "text"
+        },
+        {
+            name: "mainCategoryId",
+            label: "Main Category",
+            type: 'select',
+            "onItems": (value, data, field, props )=>{
+                return props.globalCategoryGroupList? props.globalCategoryGroupList: []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name"
+        }]
+    }
     ]
 }
 

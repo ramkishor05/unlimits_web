@@ -1,7 +1,5 @@
 import React, { Component} from 'react';
 
-import { Fab } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 
 
@@ -15,6 +13,11 @@ from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
 
+
+import FilterModel from '../../../component/model/FilterModel';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import AddIcon from '@mui/icons-material/Add';
+
 const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
@@ -27,6 +30,7 @@ class GlobalCategoryItem extends Component {
     state={
         saveModel: false,
         deleteModel: false,
+        filterModel: false,
         dataObject: {},
         title: "",
         type: ""
@@ -43,6 +47,10 @@ class GlobalCategoryItem extends Component {
     _delete = row => {
         this.setState({ dataObject: row, title:"Delete Sub Category", type:"Delete", deleteModel: true  });
     };
+
+    _filter = () => {
+        this.setState({ dataObject: {}, title:"Filters", type:"Filter", filterModel: true  });
+    };
     
      saveObject = (type, row) => {
         
@@ -52,7 +60,10 @@ class GlobalCategoryItem extends Component {
             this.props.editGlobalCategory(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
             this.props.deleteGlobalCategory(row.id, this.clearAndRefresh)
-
+        if(type=='Filter'){
+            this.props.getGlobalCategoryPageList(0, config.pageSize, row);
+            this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: true });
+        }
     };
 
     clearAndRefresh = () => {
@@ -70,13 +81,22 @@ class GlobalCategoryItem extends Component {
                 
                 <MainCard title={this.props.metadata.table.name} 
                         button ={
+                            <>
+                            <Button variant="outlined" 
+                            color="primary" 
+                            className={styles.button}
+                            onClick={this._filter}
+                            >
+                              <FilterListIcon/>
+                            </Button>
                             <Button variant="outlined" 
                             color="primary" 
                             className={styles.button}
                             onClick={this._add}
                             >
-                                Add
+                               <AddIcon/>
                             </Button>
+                            </>
                         }
                         content = {false}
                     >
@@ -106,6 +126,18 @@ class GlobalCategoryItem extends Component {
                         >
                         </DynamicModel>
                 }
+                {this.state.filterModel &&   this.props.metadata.filter &&
+                        <FilterModel
+                        title={this.state.title}
+                        openAction={this.state.filterModel}
+                        closeAction={()=> this.setState({filterModel: false})}
+                        data={this.state.dataObject} 
+                        type={this.state.type}
+                        fields= {this.props.metadata.filter}
+                        saveAction = {this.saveObject}
+                        >
+                        </FilterModel>
+                    }
                 <ConfirmModel
                 openAction={this.state.deleteModel}
                 closeAction={()=> this.setState({deleteModel: false})}

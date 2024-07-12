@@ -171,7 +171,62 @@ const  globalImageLibraryMeta = {
         }
       ]
     }
+    ],
+
+    filter : [
+        
+        {
+            grid: 12,
+            fields:[ {
+            name: "name",
+            label: "Name",
+            type: 'text'
+        },
+        {
+            name: "type",
+            label: "Type",
+            type: 'text'
+        },
+        {
+            name: "subCategoryId",
+            label: "Sub Category",
+            type: 'select',
+            "onItems": (value, data, field, props )=>{
+                return props.globalCategoryItemList? props.globalCategoryItemList: []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name"
+        },
+        ,
+        {
+            name: "tagLibararyId",
+            label: "Tag Libarary",
+            type: 'select',
+            "onItems": (value, data, field, props )=>{
+                let subCategoryId=data['subCategoryId']?   data['subCategoryId']: 0;
+                return props.globalTagItemList? props.globalTagItemList.filter(globalTagItem=>globalTagItem.subCategoryId===subCategoryId): []
+            },
+            "onDisplay" : (data)=>{
+                return <h7><img
+                        width={30}
+                        height={20}
+                        src={data.logoUrl}
+                    /> {data.name}</h7> 
+            },
+            "itemKey": "id",
+            "itemVal": "name"
+        }
+      ]
+    }
     ]
+    
 }
 
 export default globalImageLibraryMeta;

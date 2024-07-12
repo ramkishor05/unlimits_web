@@ -44,13 +44,13 @@
     }
   }
 
-  export const getValue=(data, name)=>{
+  export const getValue=(data, name, type)=>{
     if(!name){
       return '';
     }
     let targetObject= findTargetObject(data,name);
     let targetKey= findTargetKey(name);
-    return targetObject[targetKey]? targetObject[targetKey]: '';
+    return targetObject[targetKey]? targetObject[targetKey]: 'color'===type ? null: '';
   }
 
   export const setField= (value, name,  field, data, props, setData, checkValidation)=>{

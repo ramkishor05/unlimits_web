@@ -17,10 +17,11 @@ import ColorField from '../fields/ColorField';
 import VedioUploadCard from '../vedio/VedioUploadCard';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateField } from '@mui/x-date-pickers/DateField';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 
-class DynamicModel extends React.Component {
+class FilterModel extends React.Component {
 
   state={
     data:{},
@@ -190,7 +191,7 @@ class DynamicModel extends React.Component {
         isError={this.isError}
         checkValidation={this.checkValidation}
         ></CountryOptions></FormControl> 
-      
+     
       case 'date':
        return <FormControl  fullWidth>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -322,4 +323,4 @@ const mapStateToProps = state => {
   return { user, custBusinessList, show_business_loader , loader};
 };
 
-export default connect(mapStateToProps, { })(DynamicModel);
+export default connect(mapStateToProps, { })(FilterModel);

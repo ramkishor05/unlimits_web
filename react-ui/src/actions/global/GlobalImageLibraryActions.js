@@ -29,11 +29,11 @@ export const getGlobalImageLibraryList = () => async dispatch => {
 };
 
 // Action creator for getting all items --<
-export const getGlobalImageLibraryPageList = (pageNumber,pageCount) => async dispatch => {
+export const getGlobalImageLibraryPageList = (pageNumber,pageCount, filters) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalPromptTagList = await GlobalImageLibraryService.getPageList(pageNumber,pageCount);
+        const globalPromptTagList = await GlobalImageLibraryService.getPageList(pageNumber,pageCount, filters);
         if (globalPromptTagList) {
             dispatch({ type: GET_ALL_GLOBAL_IMAGE_LIBRARY_PAGE_SUCCESS, payload: globalPromptTagList });
         }

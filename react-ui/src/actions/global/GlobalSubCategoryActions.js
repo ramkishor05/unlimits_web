@@ -28,11 +28,11 @@ export const getGlobalCategoryList = () => async dispatch => {
     }
 };
 
-export const getGlobalCategoryPageList = (pageNumber, pageCount) => async dispatch => {
+export const getGlobalCategoryPageList = (pageNumber, pageCount, filters) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalCategoryList = await GlobalSubCategoryService.getPageList(pageNumber, pageCount);
+        const globalCategoryList = await GlobalSubCategoryService.getPageList(pageNumber, pageCount, filters);
         if (globalCategoryList) {
             dispatch({ type: GET_ALL_GLOBAL_CATEGERY_PAGE_SUCCESS, payload: globalCategoryList });
         }

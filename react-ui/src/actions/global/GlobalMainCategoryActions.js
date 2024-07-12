@@ -31,11 +31,11 @@ export const getGlobalCategoryGroupList = () => async dispatch => {
 };
 
 // Action creator for getting all items --<
-export const getGlobalCategoryGroupPageList = (pageNumber,pageCount) => async dispatch => {
+export const getGlobalCategoryGroupPageList = (pageNumber,pageCount, filters) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalCategoryGroupList = await GlobalMainCategoryService.getPageList(pageNumber,pageCount);
+        const globalCategoryGroupList = await GlobalMainCategoryService.getPageList(pageNumber,pageCount, filters);
         if (globalCategoryGroupList) {
             dispatch({ type: GET_ALL_GLOBAL_CATEGERY_GROUP_PAGE_SUCCESS, payload: globalCategoryGroupList });
         }

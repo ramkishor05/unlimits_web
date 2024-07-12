@@ -23,6 +23,7 @@ const MainCard = React.forwardRef(
             content = true,
             contentClass,
             button,
+            filter,
             subheader,
             contentSX,
             darkTitle,
@@ -54,6 +55,8 @@ const MainCard = React.forwardRef(
                 {!darkTitle && title && <CardHeader sx={headerSX} title={title} 
                 style={{padding:8 }}
                 action={
+                    <>
+                    {
                     button
                         ? <div style={{
                             display: 'flex',
@@ -72,6 +75,26 @@ const MainCard = React.forwardRef(
                             </div>
                         </div>
                         : null
+                    } { filter
+                        ? <div style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            alignItems: 'baseline',
+                            justifyContent: 'flex-end'
+                        }}>                 
+                            <div style={{ 
+                                display: 'flex',
+                                alignItems: 'baseline',
+                                justifyContent: 'flex-end'
+                            }}>
+                                { 
+                                    filter 
+                                }
+                            </div>
+                        </div>
+                        : null
+                            }
+                    </>
                 } subheader={subheader} />
                    }
                 {darkTitle && title && (

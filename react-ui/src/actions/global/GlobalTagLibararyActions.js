@@ -30,11 +30,11 @@ export const getGlobalTagItemList = () => async dispatch => {
 
 
 
-export const getGlobalTagItemPageList = (pageNumber, pageCount) => async dispatch => {
+export const getGlobalTagItemPageList = (pageNumber, pageCount, filters) => async dispatch => {
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const globalTagItemList = await GlobalTagLibararyService.getPageList(pageNumber, pageCount);
+        const globalTagItemList = await GlobalTagLibararyService.getPageList(pageNumber, pageCount, filters);
         if (globalTagItemList) {
             dispatch({ type: GET_ALL_GLOBAL_TAG_ITEM_PAGE_SUCCESS, payload: globalTagItemList });
         }
