@@ -32,8 +32,11 @@ class GlobalTagItem extends Component {
         deleteModel: false,
         filterModel: false,
         dataObject: {},
+        filterObject: {},
         title: "",
-        type: ""
+        type: "",
+        pageSize: 7,
+        pageNumber: 0
     }
     
     _edit = row => {
@@ -49,7 +52,7 @@ class GlobalTagItem extends Component {
     };
 
     _filter = () => {
-        this.setState({ dataObject: {}, title:"Filters", type:"Filter", filterModel: true  });
+        this.setState({ filterObject: {...this.state.filterObject}, title:"Filters", type:"Filter", filterModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -61,17 +64,21 @@ class GlobalTagItem extends Component {
         if(type=='Delete')
             this.props.deleteGlobalTagItem(row.id, this.clearAndRefresh)
         if(type=='Filter'){
-            this.props.getGlobalTagItemPageList(0, config.pageSize, row);
-            this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: true });
+            this.props.getGlobalTagItemPageList(this.state.pageNumber, this.state.pageSize, row);
+            this.setState({ filterObject:{...row}, saveModel: false, deleteModel:false , filterModel: true });
         }
 
     };
 
     clearAndRefresh = async() => {
         await this.props.getGlobalCategoryList();
-
-        this.props.getGlobalTagItemPageList(0, config.pageSize);
+        this.props.getGlobalTagItemPageList(this.state.pageNumber, this.state.pageSize, this.state.filterObject);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+    }
+
+    pageAction= async(pageNumber,pageSize )=>{
+        this.setState({...this.state, pageNumber, pageSize})
+        await this.clearAndRefresh();
     }
     
     componentDidMount() {
@@ -103,11 +110,12 @@ class GlobalTagItem extends Component {
                         content = {false}
                     >
                         <DynamicTable 
-                        pageSize= {config.pageSize}
+                        pageSize= {this.state.pageSize}
                         pageCount= {this.props.globalTagItemPageData.pageCount}
                         totalPages= {this.props.globalTagItemPageData.totalPages}
-                        pageAction={this.props.getGlobalTagItemPageList}
+                        pageAction={this.pageAction}
                         headers={this.props.metadata.table.headers} 
+                        pageField={this.props.metadata.table.pageField} 
                         dataList={this.props.globalTagItemPageData.elements}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
@@ -137,6 +145,7 @@ class GlobalTagItem extends Component {
                         type={this.state.type}
                         fields= {this.props.metadata.filter}
                         saveAction = {this.saveObject}
+                        {...this.props}
                         >
                         </FilterModel>
                     }

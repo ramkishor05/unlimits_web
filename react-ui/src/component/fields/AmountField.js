@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormControl, Icon, MenuItem, Select, TextField } from '@material-ui/core';
+import { MenuItem, Select, TextField } from '@material-ui/core';
 import { getValue, setValue } from '../utils/CommanUtil';
 
 export default function AmountField(props) {

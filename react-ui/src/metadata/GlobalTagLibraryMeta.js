@@ -1,3 +1,21 @@
+const types=[
+    {
+        id: 1,
+        name: "VISUALISE_WITH_WORDS",
+        desc: "Visualise With Words"
+    },
+    {
+        id: 0,
+        name: "VISUALISE_WITH_IMAGES",
+        desc: "Visualise With Images"
+    },
+    ,
+    {
+        id: 2,
+        name: "VISUALISE_WITH_EXAMPLES",
+        desc: "Visualise With Examples"
+    }
+]
 const globalTaglibraryMeta = {
     "table": {
         name: 'Tag library',
@@ -5,29 +23,28 @@ const globalTaglibraryMeta = {
             {
                 name: "name",
                 label: "Name",
-                type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Name is required!"
-                }
+                type: 'text'
             },
             {
                 name: "color",
                 label: "Color",
-                type: 'color',
-                "required" : {
-                    value : '',
-                    message: "Color is required!"
+                type: 'color'
+            },
+            {
+                name: "type",
+                label: "Type",
+                type: 'text',
+                "render":(value, row, header, props)=>{
+                    if(value){
+                        return types.find(type=>type.name==value).desc;
+                    }
+                    return value;
                 }
             },
             {
                 name: "subCategoryId",
                 label: "Sub Category",
                 type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Sub category is required!"
-                },
                 "render":(value, row, header, props)=>{
                     if(value){
                         let globalSubCategory=props.globalSubCategoryList.find(globalSubCategory=>globalSubCategory.id==value)
@@ -41,7 +58,15 @@ const globalTaglibraryMeta = {
                 label: "Actions",
                "align": "right"
             }
-        ]
+        ],
+        pageField: {
+            name: "pageSize",
+            label: "Page Size",
+            type: 'select',
+            "onItems": (value, data, field, props )=>{
+                return [5,7,10,20,50,100]
+            }
+        }
     },
     model : [
         {
@@ -61,6 +86,20 @@ const globalTaglibraryMeta = {
                 value : '',
                 message: "Color is required!"
             }
+        },
+        {
+            name: "type",
+            label: "Type",
+            type: 'select',
+            "required" : {
+                value : '',
+                message: "Type is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                return types
+            },
+            "itemKey": "name",
+            "itemVal": "desc"
         },
         {
             name: "subCategoryId",
@@ -94,7 +133,21 @@ const globalTaglibraryMeta = {
         {
             name: "color",
             label: "Color",
-            type: 'color'
+            type: 'text'
+        },
+        {
+            name: "type",
+            label: "Type",
+            type: 'select',
+            "required" : {
+                value : '',
+                message: "Type is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                return types
+            },
+            "itemKey": "name",
+            "itemVal": "desc"
         },
         {
             name: "subCategoryId",

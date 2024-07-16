@@ -222,7 +222,7 @@ class FilterModel extends React.Component {
           key={field.id}
           variant={ 'standard'}
           id={field.id}
-          label={field.required ?  field.label + " ( * )" : field.label+ " ( optional )" }
+          label={field.required ?  field.label + " ( * )" :  field.label }
           name={field.name}
           type={'textarea'===field.type? 'text':  field.type}
           multiline={'textarea'===field.type}

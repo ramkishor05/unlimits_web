@@ -1,4 +1,21 @@
-
+const types=[
+    {
+        id: 1,
+        name: "VISUALISE_WITH_WORDS",
+        desc: "Visualise With Words"
+    },
+    {
+        id: 0,
+        name: "VISUALISE_WITH_IMAGES",
+        desc: "Visualise With Images"
+    },
+    ,
+    {
+        id: 2,
+        name: "VISUALISE_WITH_EXAMPLES",
+        desc: "Visualise With Examples"
+    }
+]
 const  globalImageLibraryMeta = {
     "table": {
         headers : [
@@ -26,9 +43,11 @@ const  globalImageLibraryMeta = {
                 name: "type",
                 label: "Type",
                 type: 'text',
-                "required" : {
-                    value : '',
-                    message: "Type is required!"
+                "render":(value, row, header, props)=>{
+                    if(value){
+                        return types.find(type=>type.name==value).desc;
+                    }
+                    return value;
                 }
             },
             {
@@ -71,7 +90,15 @@ const  globalImageLibraryMeta = {
                 label: "Actions",
                 "align": "right"
             }
-        ]
+        ],
+        pageField: {
+            name: "pageSize",
+            label: "Page Size",
+            type: 'select',
+            "onItems": (value, data, field, props )=>{
+                return [5,7,10,20,50,100]
+            }
+        }
     },
     model : [
         {
@@ -119,11 +146,16 @@ const  globalImageLibraryMeta = {
         {
             name: "type",
             label: "Type",
-            type: 'text',
+            type: 'select',
             "required" : {
                 value : '',
-                message: "Type id is required!"
-            }
+                message: "Type is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                return types
+            },
+            "itemKey": "name",
+            "itemVal": "desc"
         },
         {
             name: "subCategoryId",
@@ -185,7 +217,16 @@ const  globalImageLibraryMeta = {
         {
             name: "type",
             label: "Type",
-            type: 'text'
+            type: 'select',
+            "required" : {
+                value : '',
+                message: "Type is required!"
+            },
+            "onItems": (value, data, field, props )=>{
+                return types
+            },
+            "itemKey": "name",
+            "itemVal": "desc"
         },
         {
             name: "subCategoryId",

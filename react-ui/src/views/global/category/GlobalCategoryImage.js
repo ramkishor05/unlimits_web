@@ -32,7 +32,10 @@ class GlobalImageLibrary extends Component {
         filterModel: false,
         dataObject: {},
         title: "",
-        type: ""
+        type: "",
+        pageNumber: 0,
+        pageSize: 7,
+        filterObject: {},
     }
     
     _edit = row => {
@@ -60,16 +63,21 @@ class GlobalImageLibrary extends Component {
         if(type=='Delete')
             this.props.deleteGlobalImageLibrary(row.id, this.clearAndRefresh)
         if(type=='Filter'){
-            this.props.getGlobalImageLibraryPageList(0, config.pageSize, row);
-            this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: true });
+            this.props.getGlobalImageLibraryPageList(this.state.pageNumber, this.state.pageSize, row);
+            this.setState({ filterObject: row, saveModel: false, deleteModel:false , filterModel: true });
         }
     };
 
     clearAndRefresh = async() => {
         await this.props.getGlobalTagItemList();
         await this.props.getGlobalCategoryList()
-        this.props.getGlobalImageLibraryPageList(0, config.pageSize);
+        this.props.getGlobalImageLibraryPageList(this.state.pageNumber, this.state.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+    }
+
+    pageAction= async(pageNumber,pageSize )=>{
+        this.setState({...this.state, pageNumber, pageSize})
+        await this.clearAndRefresh();
     }
     
     componentDidMount() {
@@ -104,8 +112,9 @@ class GlobalImageLibrary extends Component {
                             pageSize= {config.pageSize}
                             pageCount= {this.props.globalImageLibraryPageData.pageCount}
                             totalPages= {this.props.globalImageLibraryPageData.totalPages}
-                            pageAction={this.props.getGlobalImageLibraryPageList}
+                            pageAction={this.pageAction}
                             headers={this.props.metadata.table.headers} 
+                            pageField={this.props.metadata.table.pageField} 
                             dataList={this.props.globalImageLibraryPageData.elements}
                             deleteAction = {this._delete}
                             editAction = {this._edit}
@@ -131,10 +140,11 @@ class GlobalImageLibrary extends Component {
                         title={this.state.title}
                         openAction={this.state.filterModel}
                         closeAction={()=> this.setState({filterModel: false})}
-                        data={this.state.dataObject} 
+                        data={this.state.filterObject} 
                         type={this.state.type}
                         fields= {this.props.metadata.filter}
                         saveAction = {this.saveObject}
+                        {...this.props}
                         >
                         </FilterModel>
                     }
@@ -155,14 +165,14 @@ class GlobalImageLibrary extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalCategoryList} = state.globalCategoryReducer;
+    const globalCategoryItemList = state.globalCategoryReducer.globalCategoryList;
 
-    const { globalTagItemList, globalTagItemPageData } = state.globalTagItemReducer;
+    const { globalTagItemList } = state.globalTagItemReducer;
 
 
     const { globalImageLibraryList, globalImageLibraryPageData } = state.globalImageLibraryReducer;
 
-    return { globalImageLibraryList, globalTagItemList, globalImageLibraryPageData , globalCategoryItemList: globalCategoryList};
+    return { globalImageLibraryList, globalTagItemList, globalImageLibraryPageData , globalCategoryItemList};
 };
 
 

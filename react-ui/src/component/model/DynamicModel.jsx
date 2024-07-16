@@ -200,7 +200,7 @@ class DynamicModel extends React.Component {
           key={field.id}
           variant={ 'standard'}
           id={field.id}
-          label={field.required ?  field.label + " ( * )" : field.label+ " ( optional )" }
+          label={field.required ?  field.label + " ( * )" : field.label }
           name={field.name}
           value={dayjs(getValue(data,field.name).replace(", 12:00 AM",""))}
           defaultValue={dayjs(getValue(data,field.name).replace(", 12:00 AM",""),field.format)}
@@ -221,7 +221,7 @@ class DynamicModel extends React.Component {
           key={field.id}
           variant={ 'standard'}
           id={field.id}
-          label={field.required ?  field.label + " ( * )" : field.label+ " ( optional )" }
+          label={field.required ?  field.label + " ( * )" : field.label }
           name={field.name}
           type={'textarea'===field.type? 'text':  field.type}
           multiline={'textarea'===field.type}

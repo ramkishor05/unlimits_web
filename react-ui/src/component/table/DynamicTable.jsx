@@ -5,7 +5,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Button, ButtonGroup, Fab, Grid, Pagination, TableFooter, TablePagination} from '@material-ui/core';
+import { Button, ButtonGroup, Fab, Grid, MenuItem, Pagination, Select, TableFooter, TablePagination} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PrintIcon from '@mui/icons-material/PrintOutlined';
@@ -49,12 +49,17 @@ const useStyles = makeStyles({
 
 function DynamicTable (props){
     const classes = useStyles();
-    
+    const [pageSize, setPageSize] = React.useState(props.pageSize);
     const [pageNumber, setPageNumber] = React.useState(0);
     const handlePageNumber = (event, pageNumber) => {
       setPageNumber(pageNumber);
-      props.pageAction &&  props.pageAction(pageNumber-1,props.pageSize);
+      props.pageAction &&  props.pageAction(pageNumber-1,pageSize);
     };
+
+    const updatePageSize = (pageSize)=>{
+      setPageSize(pageSize);
+      props.pageAction &&  props.pageAction(pageNumber,pageSize);
+    }
     const getValue=(data, keyStr)=>{
         let keys=keyStr.split("\.");
         let val=data;
@@ -99,7 +104,7 @@ function DynamicTable (props){
         }
     }
 
-    const {headers, dataList} = props;
+    const {headers, dataList, pageField} = props;
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table" className={classes.table}>
@@ -175,13 +180,42 @@ function DynamicTable (props){
                 </TableBody>
                 {
                   props.pageAction && 
-                  <TableFooter style={{border : 0}} >
-                    <TableRow style={{border : 0}} >
-                      <TableCell colSpan={headers.length} sx={{border : 0, textAlign: 'right'}}  align='right' > 
-                      <div style={{border : 2, textAlign: 'right'}}>
-                      <Pagination count={props.totalPages} page={pageNumber}  boundaryCount={1}
-                        variant="outlined" shape="rounded" onChange={handlePageNumber}/>
-                        </div>
+                  <TableFooter style={{border : 0, textAlign: 'right'}} >
+                    <TableRow style={{border : 0, textAlign: 'right'}} >
+
+                      <TableCell colSpan={headers.length} sx={{border : 0, textAlign: 'right', alignContent: 'flex-end'}}  align='right' > 
+                      <Grid container style={{border : 2, textAlign: 'right'}}>
+                      <Grid item>
+                         {
+                        
+                        pageField &&
+
+                        <Select
+                          variant='standard'
+                          labelId={pageField.name+"-label"}
+                          id={pageField.name}
+                          value={pageSize}
+                          defaultValue={pageSize}
+                          label={pageField.label}
+                          onChange={(event)=>updatePageSize(event.target.value)}
+                        >
+                            {
+                             pageField.onItems && pageField.onItems (null,null, pageField, props ).
+                              map(item=> 
+                              
+                                <MenuItem key={item} value={item}>{item}</MenuItem>
+                              )
+                            }
+
+                        </Select>
+                      }
+                      </Grid>
+                      <Grid item>
+                          <Pagination count={props.totalPages} page={pageNumber} 
+                            sx={{paddingLeft: 0, paddingRight:0}}
+                            variant="outlined" shape="rounded" onChange={handlePageNumber}/>
+                       </Grid>
+                       </Grid>
                       </TableCell>
                     </TableRow>
                 </TableFooter>
