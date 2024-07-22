@@ -18,6 +18,8 @@ import ImageIcon from '@mui/icons-material/ImageSearch';
 import MyMindsetVideosIcon from '@mui/icons-material/PlayCircleOutline';
 import PromptIcon from '@mui/icons-material/BookmarkAdded';
 import JournalsIcon from '@mui/icons-material/AutoStories';
+import ReProgramsIcon from '@mui/icons-material/Headphones';
+import AffirmationsIcon from '@mui/icons-material/PlayArrow';
 
 export const IconMapper = {
     Dashboard: IconDashboard,
@@ -67,6 +69,8 @@ export const IconMapper = {
     SubCategories: CategoryIcon,
     Category_Image: ImageIcon,
     Mindsets: MyMindsetVideosIcon,
+    RePrograms: ReProgramsIcon,
+    Affirmations: AffirmationsIcon,
     UserList:IconUsers,
     Prompts: PromptIcon,
     Journals: JournalsIcon

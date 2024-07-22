@@ -9,12 +9,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Box, ButtonGroup, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
-import ImageUploadCard from '../image/ImageUploadCard';
+import ImageUploadCard from '../media/ImageUploadCard';
 import { connect } from 'react-redux';
 import { getValue, setChecked, setValue } from '../utils/CommanUtil';
 import CountryOptions from '../dropdwons/CountryOptions';
-import ColorField from '../fields/ColorField';
-import VedioUploadCard from '../vedio/VedioUploadCard';
+import VideoUploadCard from '../media/VideoUploadCard';
+import AudioUploadCard from '../media/AudioUploadCard';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -143,7 +143,7 @@ class DynamicModel extends React.Component {
       case 'img':
          return <ImageUploadCard name={field.name}
          container={field.container}
-         value={getValue(data,field.name)} 
+         image={getValue(data,field.name)} 
          setImage={(value)=> 
             field.onchange ? 
             field.onchange(value, data, field, props, this.setData) :
@@ -152,11 +152,13 @@ class DynamicModel extends React.Component {
          {...field}
          >
          </ImageUploadCard>
-      case 'vedio':
-        return <VedioUploadCard name={field.name}
+      case 'video':
+        return <VideoUploadCard name={field.name}
         container={field.container}
-        value={getValue(data,field.name)} 
-        setVedio={(value)=> 
+        video={getValue(data,field.name)} 
+        poster={getValue(data,"posterUrl")}
+        accept ={ "video/*"}
+        setVideo={(value)=> 
            field.onchange ? 
            field.onchange(value, data, field, props, this.setData) :
            setValue(value,field.name,field, data, this.setData, this.checkValidation)
@@ -164,7 +166,23 @@ class DynamicModel extends React.Component {
         {...field}
         controls
         >
-        </VedioUploadCard>
+        </VideoUploadCard>
+
+    case 'audio':
+        return <VideoUploadCard name={field.name}
+        container={field.container}
+        video={getValue(data,field.name)} 
+        poster={getValue(data,"posterUrl")}
+        accept ={ "audio/*"}
+        setVideo={(value)=> 
+           field.onchange ? 
+           field.onchange(value, data, field, props, this.setData) :
+           setValue(value,field.name,field, data, this.setData, this.checkValidation)
+        }
+        {...field}
+        controls
+        >
+        </VideoUploadCard>
       case 'qnt':
         return <QuantityField 
         field={field} {...props  } 
@@ -286,7 +304,7 @@ class DynamicModel extends React.Component {
           open={this.props.openAction}
           onClose={this.props.closeAction}
           aria-labelledby="form-dialog-title"
-           maxWidth={'sm'}
+           maxWidth={'md'}
            fullWidth={true}
         >
           <DialogTitle id="form-dialog-title"><h2>{title}</h2></DialogTitle>

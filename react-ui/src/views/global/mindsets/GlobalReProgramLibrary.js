@@ -8,19 +8,19 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalMindSetLibraryPageList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary } 
+import { getGlobalReProgramLibraryPageList, addGlobalReProgramLibrary, editGlobalReProgramLibrary, deleteGlobalReProgramLibrary } 
 from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
 
 
-const globalMindSetMeta = {
+const globalReProgramMeta = {
     "table": {
         headers : [
             {
                 name: "musicUrl",
-                label: "Video",
-                type: 'video',
+                label: "Audio",
+                type: 'audio',
                 width: 200,
                 height: 150,
                 "required" : {
@@ -43,7 +43,7 @@ const globalMindSetMeta = {
                 type: 'text',
                 "required" : {
                     value : '',
-                    message: "Name is required!"
+                    message: "Title is required!"
                 }
             },
             {
@@ -65,7 +65,7 @@ const globalMindSetMeta = {
             fields:[{
             name: "musicUrl",
             label: "URL",
-            type: 'video',
+            type: 'audio',
             width: "200px",
             height: "200px",
             "required" : {
@@ -125,7 +125,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class GlobalMindSetLibrary extends Component {
+class GlobalReProgramLibrary extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -135,30 +135,30 @@ class GlobalMindSetLibrary extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Update MindSet Library", type:"Update", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update ReProgram Library", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add MindSet Library", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add ReProgram Library", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete MindSet Library", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete ReProgram Library", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         console.log("row==",row)
         if(type=='Add')
-            this.props.addGlobalMindSetLibrary(row, this.clearAndRefresh)
+            this.props.addGlobalReProgramLibrary(row, this.clearAndRefresh)
         if(type=='Update')
-            this.props.editGlobalMindSetLibrary(row.id, row, this.clearAndRefresh)
+            this.props.editGlobalReProgramLibrary(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteGlobalMindSetLibrary(row.id, this.clearAndRefresh)
+            this.props.deleteGlobalReProgramLibrary(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalMindSetLibraryPageList(0, config.pageSize);
+        this.props.getGlobalReProgramLibraryPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
@@ -169,7 +169,7 @@ class GlobalMindSetLibrary extends Component {
         return (
             <>
                 
-                <MainCard title="Mindset Library" 
+                <MainCard title="Reprogram Library" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
@@ -183,11 +183,11 @@ class GlobalMindSetLibrary extends Component {
                     >
                         <DynamicTable 
                         pageSize= {config.pageSize}
-                        pageCount= {this.props.globalMindSetLibraryPageData.pageCount}
-                        totalPages= {this.props.globalMindSetLibraryPageData.totalPages}
-                        pageAction={this.props.getGlobalMindSetLibraryPageList}
-                        headers={globalMindSetMeta.table.headers} 
-                        dataList={this.props.globalMindSetLibraryPageData.elements}
+                        pageCount= {this.props.globalReProgramLibraryPageData.pageCount}
+                        totalPages= {this.props.globalReProgramLibraryPageData.totalPages}
+                        pageAction={this.props.getGlobalReProgramLibraryPageList}
+                        headers={globalReProgramMeta.table.headers} 
+                        dataList={this.props.globalReProgramLibraryPageData.elements}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         {...this.props}
@@ -201,7 +201,7 @@ class GlobalMindSetLibrary extends Component {
                             closeAction={()=> this.setState({saveModel: false})}
                             data={this.state.dataObject} 
                             type={this.state.type}
-                            fields= {globalMindSetMeta.model}
+                            fields= {globalReProgramMeta.model}
                             saveAction = {this.saveObject}
                             {...this.props}
                             >
@@ -224,12 +224,12 @@ class GlobalMindSetLibrary extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalMindSetLibraryList, globalMindSetLibraryPageData } = state.globalMindSetLibraryReducer;
+    const { globalReProgramLibraryList, globalReProgramLibraryPageData } = state.globalReProgramLibraryReducer;
 
-    return { globalMindSetLibraryList, globalMindSetLibraryPageData };
+    return { globalReProgramLibraryList, globalReProgramLibraryPageData };
 };
 
 
-export default connect(mapStateToProps, { getGlobalMindSetLibraryPageList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary })(GlobalMindSetLibrary);
+export default connect(mapStateToProps, { getGlobalReProgramLibraryPageList, addGlobalReProgramLibrary, editGlobalReProgramLibrary, deleteGlobalReProgramLibrary })(GlobalReProgramLibrary);
 
 

@@ -57,7 +57,7 @@ const CustUserProfile = (props) => {
                   <CardContent>
                   <Grid container spacing={1}>
                     <Grid item xl={3} xs={4} xm={3}>
-                        <ImageUploadCard name="pictureURL" value={userProfile?.pictureURL} setUserProfileImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
+                        <ImageUploadCard name="pictureURL" image={userProfile?.pictureURL} setImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
                     </Grid>
                     <Grid item xl={6} xs={2} xm={6}>
                     </Grid>

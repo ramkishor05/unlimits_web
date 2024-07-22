@@ -12,6 +12,9 @@ import GlobalCategoryImage from "../views/global/category/GlobalCategoryImage";
 import GlobalCategoryTag from "../views/global/category/GlobalCategoryTag";
 import GlobalJournals from "../views/global/journals/GlobalJournals";
 import GlobalPrompts from "../views/global/prompts/GlobalPrompts";
+import GlobalReProgramLibrary from "../views/global/mindsets/GlobalReProgramLibrary";
+import GlobalAffirmationLibrary from "../views/global/mindsets/GlobalAffirmationLibrary";
+
 
 
 export const PageMapper = {
@@ -27,6 +30,8 @@ export const PageMapper = {
     "/global/portal/content/prompts": GlobalPrompts,
     "/global/portal/content/journals": GlobalJournals,
     "/global/portal/content/midsets": GlobalMindSetLibrary,
+    "/global/portal/content/reprograms": GlobalReProgramLibrary,
+    "/global/portal/content/affirmations": GlobalAffirmationLibrary,
     "/global/portal/user/profile": GlobalUserProfilePage,
     "/global/portal/organizations/users":GlobalUserPage
 }

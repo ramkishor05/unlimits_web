@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { updateUserProfile, getUserProfile } from '../../../actions';
 import { EditOutlined } from '@material-ui/icons';
-import ImageUploadCard from '../../../component/image/ImageUploadCard';
+import ImageUploadCard from '../../../component/media/ImageUploadCard';
 import { useEffect } from 'react';
 
 //==============================|| SAMPLE PAGE ||==============================//
@@ -51,7 +51,7 @@ const GlobalUserProfile = () => {
                   <CardContent>
                   <Grid container spacing={1}>
                     <Grid item xl={3} xs={4} xm={3}>
-                        <ImageUploadCard name="pictureURL" value={userProfile?.pictureURL} setUserProfileImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
+                        <ImageUploadCard name="pictureURL" image={userProfile?.pictureURL} setImge={(value)=> setUserProfileImge(value,'pictureURL')}></ImageUploadCard>
                     </Grid>
                     <Grid item xl={6} xs={8} xm={6}>
                     <Grid container spacing={3}>

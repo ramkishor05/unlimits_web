@@ -6,29 +6,32 @@ import defaultImg from '../../assets/images/product/no-image.svg'
 //Tabs
 import { withStyles } from "@material-ui/styles";
 import { UploadFileOutlined } from "@material-ui/icons";
-import GlobalResourceService from "../../services/GlobalResourceService";
-import config from "../../config";
 
 const styles = (theme) => ({
   root: {
-    width: '100%'
+    width: '100%',
+    maxWidth: "100%"
   },
   input: {
     display: "none"
   },
   img: {
-    width: '100%',
+    width: '200px',
+    height: '140px',
     margin: "0",
-    maxWidth: "100%",
-    position: 'relative'
+    padding: 0,
+    maxWidth: "200px",
+    minWidth: "140px",
+    position: 'relative',
+    border: '10px'
   },
   btn : {
     position: "absolute",
     transform: 'translate( -125%,70%)',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgb(157 140 201 / 50%)',
     color: 'white',
     fontSize: '16px',
-    padding: '7px 57px',
+    padding: '7px 60px',
     border: 'none',
     cursor: 'pointer',
     borderRadius: '20px',
@@ -41,7 +44,7 @@ class ImageUploadCard extends React.Component {
     mainState: "initial", // initial
     imageUploaded: 0,
     bytes: '',
-    selectedFile: this.props.value,
+    selectedFile: this.props.image,
     btn: false
   };
 
@@ -73,8 +76,8 @@ class ImageUploadCard extends React.Component {
   };
 
   srcUrl=(selectedFile)=>{
-    if(selectedFile && selectedFile!=="" && defaultImg!==selectedFile){
-      return config.resourseUrl(selectedFile);
+    if(selectedFile){
+      return selectedFile;
     }
     return defaultImg;
   }
@@ -84,12 +87,13 @@ class ImageUploadCard extends React.Component {
     return (
      <>
         <img
-          width="100%"
-          height={height}
-          style={{position: 'relative'}}
+         // width="100%"
+          //height={height}
+          //style={{position: 'relative'}}
           className={classes.img}
           src={this.srcUrl(this.state.selectedFile)}
           onMouseOver={()=> this.setState({btn: true})}
+          fullWidth
         />
      
       {this.state.btn &&
@@ -118,9 +122,9 @@ class ImageUploadCard extends React.Component {
     return (
       <>
         <img
-          width="100%"
-          maxHeight={height}
-          style={{position: 'relative'}}
+          //width="100%"
+         // maxHeight={height}
+          //style={{position: 'relative'}}
           className={classes.img}
           src={this.state.selectedFile}
           onMouseOver={()=> this.setState({btn: true})}

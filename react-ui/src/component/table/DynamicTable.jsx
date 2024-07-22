@@ -79,7 +79,7 @@ function DynamicTable (props){
             
         case 'img':
             let imageContent= getValue(data,field.name);
-            let imageResourseUrl= imageContent && imageContent!==""? config.resourseUrl(imageContent) :defaultImg;
+            let imageResourseUrl= imageContent && imageContent!==""? imageContent :defaultImg;
             return  <img
                     width={field.width}
                     height={field.height}
@@ -88,17 +88,28 @@ function DynamicTable (props){
                 />
         case 'color':
             return <Button style={{backgroundColor: getValue(data,field.name), height:'80%'}} ></Button>
-        case 'vedio':
-          let vedioContent= getValue(data,field.name);
-            let vedioResourseUrl= vedioContent && vedioContent!==""? config.resourseUrl(vedioContent) :defaultImg;
+        case 'video':
+          let videoContent= getValue(data,field.name);
+            let videoResourseUrl= videoContent && videoContent!==""? videoContent :defaultImg;
           return <video width={field.width}
               preload="metadata"
-              src={vedioResourseUrl} 
+              src={videoResourseUrl} 
+              poster={getValue(data,"posterUrl")}
               height={field.height} controls>
-            <source  src={vedioResourseUrl} />
+            <source  src={videoResourseUrl} />
             Your browser does not support the video tag.
           </video>
-        
+        case 'audio':
+          let audioContent= getValue(data,field.name);
+            let audioResourseUrl= audioContent && audioContent!==""? audioContent :defaultImg;
+          return <video width={field.width}
+              preload="metadata"
+              src={audioResourseUrl} 
+              poster={getValue(data,"posterUrl")}
+              height={field.height} controls>
+            <source  src={audioResourseUrl} />
+            Your browser does not support the video tag.
+          </video>
         default:
            return getValue(data,field.name);
         }

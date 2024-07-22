@@ -14,6 +14,10 @@ export * from './GlobalImageLibraryTypes';
 
 export * from './GlobalMindSetLibraryTypes';
 
+export * from './GlobalReProgramLibraryTypes';
+
+export * from './GlobalAffirmationLibraryTypes';
+
 export * from './GlobalUnitGroupActionTypes';
 
 export * from './GlobalUnitActionTypes';

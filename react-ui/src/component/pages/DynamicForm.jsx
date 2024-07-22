@@ -142,9 +142,9 @@ class DynamicForm extends React.Component {
          label={field.label}
        />
       case 'img':
-        return <ImageUploadCard name="pictureURL" 
-        value={getValue(data,field.name)} 
-        setUserProfileImge={(value)=> 
+        return <ImageUploadCard name={field.name}
+        image={getValue(data,field.name)} 
+        setImge={(value)=> 
            field.onchange ? 
            field.onchange(value, data, field, props) :
            setValue(value,field.name,field, data, this.setData, this.checkValidation)

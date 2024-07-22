@@ -8,19 +8,18 @@ import DynamicTable from '../../../component/table/DynamicTable';
 import DynamicModel from '../../../component/model/DynamicModel';
 import ConfirmModel from '../../../component/model/ConfirmModel';
 
-import { getGlobalMindSetLibraryPageList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary } 
+import { getGlobalAffirmationLibraryPageList, addGlobalAffirmationLibrary, editGlobalAffirmationLibrary, deleteGlobalAffirmationLibrary } 
 from '../../../actions';
 import { connect } from 'react-redux';
 import config from '../../../config';
 
-
-const globalMindSetMeta = {
+const globalAffirmationMeta = {
     "table": {
         headers : [
             {
                 name: "musicUrl",
-                label: "Video",
-                type: 'video',
+                label: "Audio",
+                type: 'audio',
                 width: 200,
                 height: 150,
                 "required" : {
@@ -65,7 +64,7 @@ const globalMindSetMeta = {
             fields:[{
             name: "musicUrl",
             label: "URL",
-            type: 'video',
+            type: 'audio',
             width: "200px",
             height: "200px",
             "required" : {
@@ -89,6 +88,7 @@ const globalMindSetMeta = {
         {
             grid: 6,
             fields:[
+                
         {
             name: "name",
             label: "Name",
@@ -125,7 +125,7 @@ const styles = theme => ({
       display: 'none',
     },
 });
-class GlobalMindSetLibrary extends Component {
+class GlobalAffirmationLibrary extends Component {
     state={
         saveModel: false,
         deleteModel: false,
@@ -135,30 +135,30 @@ class GlobalMindSetLibrary extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Update MindSet Library", type:"Update", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Affirmation Library", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add MindSet Library", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Affirmation Library", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete MindSet Library", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete Affirmation Library", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
         console.log("row==",row)
         if(type=='Add')
-            this.props.addGlobalMindSetLibrary(row, this.clearAndRefresh)
+            this.props.addGlobalAffirmationLibrary(row, this.clearAndRefresh)
         if(type=='Update')
-            this.props.editGlobalMindSetLibrary(row.id, row, this.clearAndRefresh)
+            this.props.editGlobalAffirmationLibrary(row.id, row, this.clearAndRefresh)
         if(type=='Delete')
-            this.props.deleteGlobalMindSetLibrary(row.id, this.clearAndRefresh)
+            this.props.deleteGlobalAffirmationLibrary(row.id, this.clearAndRefresh)
 
     };
 
     clearAndRefresh = () => {
-        this.props.getGlobalMindSetLibraryPageList(0, config.pageSize);
+        this.props.getGlobalAffirmationLibraryPageList(0, config.pageSize);
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
     
@@ -169,7 +169,7 @@ class GlobalMindSetLibrary extends Component {
         return (
             <>
                 
-                <MainCard title="Mindset Library" 
+                <MainCard title="Affirmation Library" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
@@ -183,11 +183,11 @@ class GlobalMindSetLibrary extends Component {
                     >
                         <DynamicTable 
                         pageSize= {config.pageSize}
-                        pageCount= {this.props.globalMindSetLibraryPageData.pageCount}
-                        totalPages= {this.props.globalMindSetLibraryPageData.totalPages}
-                        pageAction={this.props.getGlobalMindSetLibraryPageList}
-                        headers={globalMindSetMeta.table.headers} 
-                        dataList={this.props.globalMindSetLibraryPageData.elements}
+                        pageCount= {this.props.globalAffirmationLibraryPageData.pageCount}
+                        totalPages= {this.props.globalAffirmationLibraryPageData.totalPages}
+                        pageAction={this.props.getGlobalAffirmationLibraryPageList}
+                        headers={globalAffirmationMeta.table.headers} 
+                        dataList={this.props.globalAffirmationLibraryPageData.elements}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
                         {...this.props}
@@ -201,7 +201,7 @@ class GlobalMindSetLibrary extends Component {
                             closeAction={()=> this.setState({saveModel: false})}
                             data={this.state.dataObject} 
                             type={this.state.type}
-                            fields= {globalMindSetMeta.model}
+                            fields= {globalAffirmationMeta.model}
                             saveAction = {this.saveObject}
                             {...this.props}
                             >
@@ -224,12 +224,12 @@ class GlobalMindSetLibrary extends Component {
 
 
 const mapStateToProps = state => {
-    const { globalMindSetLibraryList, globalMindSetLibraryPageData } = state.globalMindSetLibraryReducer;
+    const { globalAffirmationLibraryList, globalAffirmationLibraryPageData } = state.globalAffirmationLibraryReducer;
 
-    return { globalMindSetLibraryList, globalMindSetLibraryPageData };
+    return { globalAffirmationLibraryList, globalAffirmationLibraryPageData };
 };
 
 
-export default connect(mapStateToProps, { getGlobalMindSetLibraryPageList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary })(GlobalMindSetLibrary);
+export default connect(mapStateToProps, { getGlobalAffirmationLibraryPageList, addGlobalAffirmationLibrary, editGlobalAffirmationLibrary, deleteGlobalAffirmationLibrary })(GlobalAffirmationLibrary);
 
 

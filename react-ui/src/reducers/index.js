@@ -55,6 +55,9 @@ import GlobalCountryReducer from './global/GlobalCountryReducer';
 import CustTransationReducer from './cust/CustTransationReducer';
 import GlobalImageLibraryReducer from './global/GlobalImageLibraryReducer';
 import GlobalMindSetLibraryReducer from './global/GlobalMindSetLibraryReducer';
+import GlobalReProgramLibraryReducer from './global/GlobalReProgramLibraryReducer';
+import GlobalAffirmationLibraryReducer from './global/GlobalAffirmationLibraryReducer';
+
 
 
 //-----------------------|| COMBINE REDUCER ||-----------------------//
@@ -87,6 +90,8 @@ const reducer = combineReducers({
     globalPromptReducer: GlobalPromptReducer,
     globalJournalReducer: GlobalJournalReducer,
     globalMindSetLibraryReducer: GlobalMindSetLibraryReducer,
+    globalReProgramLibraryReducer: GlobalReProgramLibraryReducer,
+    globalAffirmationLibraryReducer: GlobalAffirmationLibraryReducer,
     globalImageLibraryReducer: GlobalImageLibraryReducer,
     globalCountryReducer: GlobalCountryReducer,
     globalCurrencyGroupReducer: GlobalCurrencyGroupReducer,

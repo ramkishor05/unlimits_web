@@ -9,17 +9,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Box, ButtonGroup, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
-import ImageUploadCard from '../image/ImageUploadCard';
+import ImageUploadCard from '../media/ImageUploadCard';
 import { connect } from 'react-redux';
 import { getValue, setChecked, setValue } from '../utils/CommanUtil';
 import CountryOptions from '../dropdwons/CountryOptions';
-import ColorField from '../fields/ColorField';
-import VedioUploadCard from '../vedio/VedioUploadCard';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateField } from '@mui/x-date-pickers/DateField';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
+import VideoUploadCard from '../media/VideoUploadCard';
 
 class FilterModel extends React.Component {
 
@@ -144,7 +142,7 @@ class FilterModel extends React.Component {
       case 'img':
          return <ImageUploadCard name={field.name}
          container={field.container}
-         value={getValue(data,field.name)} 
+         image={getValue(data,field.name)} 
          setImage={(value)=> 
             field.onchange ? 
             field.onchange(value, data, field, props, this.setData) :
@@ -153,11 +151,12 @@ class FilterModel extends React.Component {
          {...field}
          >
          </ImageUploadCard>
-      case 'vedio':
-        return <VedioUploadCard name={field.name}
+      case 'video':
+        return <VideoUploadCard name={field.name}
         container={field.container}
-        value={getValue(data,field.name)} 
-        setVedio={(value)=> 
+        video={getValue(data,field.name)} 
+        poster={getValue(data,"posterUrl")}
+        setVideo={(value)=> 
            field.onchange ? 
            field.onchange(value, data, field, props, this.setData) :
            setValue(value,field.name,field, data, this.setData, this.checkValidation)
@@ -165,7 +164,7 @@ class FilterModel extends React.Component {
         {...field}
         controls
         >
-        </VedioUploadCard>
+        </VideoUploadCard>
       case 'qnt':
         return <QuantityField 
         field={field} {...props  } 

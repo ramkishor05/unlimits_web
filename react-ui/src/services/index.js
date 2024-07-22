@@ -41,14 +41,16 @@ axios.interceptors.request.use(async config => {
             delete config.headers.common.userId;
         }
         
-	     config.headers['authority']="ADMIN";
-	     config.headers["Content-Type"]= 'application/json';
-	     config.headers['Access-Control-Allow-Origin']= '*';
-	     config.headers['Access-Control-Allow-Headers']='Content-Type';
-	     config.headers['Access-Control-Allow-Credentials']= true;
-	     config.headers['Accept']='*';
-	     config.headers["no-cors"]= ''
+	    
     }
+    config.headers['authority']="ADMIN";
+    config.headers["Content-Type"]= 'application/json';
+    config.headers['access-control-allow-origin']= '*';
+    config.headers['Access-Control-Allow-Origin']= '*';
+    config.headers['Access-Control-Allow-Headers']='Content-Type';
+    config.headers['Access-Control-Allow-Credentials']= true;
+    config.headers['Accept']='*';
+    config.headers["no-cors"]= ''
     return config;
 });
 

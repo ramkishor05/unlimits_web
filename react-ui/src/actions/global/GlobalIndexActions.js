@@ -15,6 +15,10 @@ export * from './GlobalImageLibraryActions';
 
 export * from './GlobalMindSetLibraryActions';
 
+export * from './GlobalReProgramLibraryActions';
+
+export * from './GlobalAffirmationLibraryActions';
+
 export * from './GlobalUnitGroupActions';
 
 export * from './GlobalUnitActions';
