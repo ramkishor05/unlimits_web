@@ -75,6 +75,11 @@ class GlobalImageLibrary extends Component {
         this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
     }
 
+    clearFilter=  async() => {
+        this.setState({ filterObject: {}, saveModel: false,deleteModel:false , filterModel: false  });
+        this.props.getGlobalImageLibraryPageList(this.state.pageNumber, this.state.pageSize, this.state.filterObject);
+    }
+
     pageAction= async(pageNumber,pageSize )=>{
         this.setState({...this.state, pageNumber, pageSize})
         await this.clearAndRefresh();
@@ -140,6 +145,7 @@ class GlobalImageLibrary extends Component {
                         title={this.state.title}
                         openAction={this.state.filterModel}
                         closeAction={()=> this.setState({filterModel: false})}
+                        clearAction={this.clearFilter}
                         data={this.state.filterObject} 
                         type={this.state.type}
                         fields= {this.props.metadata.filter}

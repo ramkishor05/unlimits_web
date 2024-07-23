@@ -139,32 +139,6 @@ class FilterModel extends React.Component {
          }
          label={field.label}
        />
-      case 'img':
-         return <ImageUploadCard name={field.name}
-         container={field.container}
-         image={getValue(data,field.name)} 
-         setImage={(value)=> 
-            field.onchange ? 
-            field.onchange(value, data, field, props, this.setData) :
-            setValue(value,field.name,field, data, this.setData, this.checkValidation)
-         }
-         {...field}
-         >
-         </ImageUploadCard>
-      case 'video':
-        return <VideoUploadCard name={field.name}
-        container={field.container}
-        video={getValue(data,field.name)} 
-        poster={getValue(data,"posterUrl")}
-        setVideo={(value)=> 
-           field.onchange ? 
-           field.onchange(value, data, field, props, this.setData) :
-           setValue(value,field.name,field, data, this.setData, this.checkValidation)
-        }
-        {...field}
-        controls
-        >
-        </VideoUploadCard>
       case 'qnt':
         return <QuantityField 
         field={field} {...props  } 
@@ -302,6 +276,10 @@ class FilterModel extends React.Component {
                 <Button variant='outlined' size='small' color="error"
                  onClick={this.props.closeAction} >
                   Cancel
+                </Button>
+                <Button variant='outlined' size='small' color="secondary"
+                 onClick={this.props.clearAction} >
+                  Clear
                 </Button>
                 <Button variant='outlined' size='small' color="primary" disabled={loader} 
                   onClick={(event)=>this.saveForm(fields, type, data)} >
