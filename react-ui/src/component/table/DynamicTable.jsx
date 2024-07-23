@@ -11,7 +11,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import PrintIcon from '@mui/icons-material/PrintOutlined';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import config from '../../config';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import defaultImg from '../../assets/images/product/no-image.svg'
 const useStyles = makeStyles({
     table: {
@@ -51,6 +52,9 @@ function DynamicTable (props){
     const classes = useStyles();
     const [pageSize, setPageSize] = React.useState(props.pageSize);
     const [pageNumber, setPageNumber] = React.useState(0);
+
+    const [sort, setSort] = React.useState({});
+
     const handlePageNumber = (event, pageNumber) => {
       setPageNumber(pageNumber);
       props.pageAction &&  props.pageAction(pageNumber-1,pageSize);
@@ -60,6 +64,43 @@ function DynamicTable (props){
       setPageSize(pageSize);
       props.pageAction &&  props.pageAction(pageNumber,pageSize);
     }
+
+    const handleSort= (orderBy, sortable) =>{
+      if(sortable){
+        var sortOrder= sort[orderBy];
+        if(props.sortAction){
+          props.sortAction(orderBy, sortOrder , props.dataList);
+        } else{
+          props.dataList.sort((data1,data2)=>{
+            let value1=getValue(data1,orderBy).toString();
+            let value2=getValue(data2,orderBy).toString();
+            return sortOrder=='desc' ? value2.localeCompare(value1): value1.localeCompare(value2);
+          })
+        }
+        var sorting={...sort};
+        if(!sortOrder){
+          sorting[orderBy]='asc';
+        } else
+        if(sortOrder=='asc'){
+          sorting[orderBy]='desc';
+        } else
+        if(sortOrder=='desc'){
+          sorting[orderBy]='asc';
+        }
+        setSort({...sorting});
+      }
+    }
+
+    const renderArrow = (orderBy, sortable)=>{
+      if(sortable){
+        var sortOrder= sort[orderBy];
+        return !sortOrder || sortOrder=='asc' ? <KeyboardArrowDownIcon/> : <KeyboardArrowUpIcon/>;
+      } else{
+         return "";
+      }
+       
+    }
+
     const getValue=(data, keyStr)=>{
         let keys=keyStr.split("\.");
         let val=data;
@@ -135,7 +176,16 @@ function DynamicTable (props){
                             <TableCell component="th" scope="row" 
                             key={header.name} align={header.align? header.align: 'left'} 
                             style={{width: header.width, fontWeight: 600}}
-                            >{header.label}</TableCell>
+                            onClick={ (event)=> handleSort(header.name, header.sortable)}
+                            >
+                               {
+                                renderArrow(header.name, header.sortable)
+                               }
+                              {
+                              header.label
+                              }
+                              
+                              </TableCell>
                         )
                     }
                 </TableRow>

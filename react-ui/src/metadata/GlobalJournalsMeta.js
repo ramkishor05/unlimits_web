@@ -5,12 +5,14 @@ const globalJournalsMeta = {
                 name: "journalDate",
                 label: "Journal Date",
                 type: 'text',
+                sortable: true,
                 "required" : {
                     value : '',
                     message: "Date is required!"
                 }
             },{
                 name: "name",
+                sortable: true,
                 label: "Journal Question",
                 type: 'text',
                 "required" : {

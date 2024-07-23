@@ -11,7 +11,6 @@ import ConfirmModel from '../../../component/model/ConfirmModel';
 import { getGlobalTagItemPageList, getGlobalCategoryList, addGlobalTagItem, editGlobalTagItem, deleteGlobalTagItem } 
 from '../../../actions';
 import { connect } from 'react-redux';
-import config from '../../../config';
 
 
 import FilterModel from '../../../component/model/FilterModel';
@@ -52,7 +51,7 @@ class GlobalTagItem extends Component {
     };
 
     _filter = () => {
-        this.setState({ filterObject: {...this.state.filterObject}, title:"Filters", type:"Filter", filterModel: true  });
+        this.setState({ title:"Filters", type:"Filter", filterModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -64,16 +63,19 @@ class GlobalTagItem extends Component {
         if(type=='Delete')
             this.props.deleteGlobalTagItem(row.id, this.clearAndRefresh)
         if(type=='Filter'){
+            this.setState({...this.state, filterObject: row, filterModel: false });
             this.props.getGlobalTagItemPageList(this.state.pageNumber, this.state.pageSize, row);
-            this.setState({ filterObject:{...row}, saveModel: false, deleteModel:false , filterModel: true });
         }
-
     };
 
     clearAndRefresh = async() => {
-        await this.props.getGlobalCategoryList();
+        this.setState({ ...this.state, dataObject: {}, saveModel: false, deleteModel:false , filterModel: false });
         this.props.getGlobalTagItemPageList(this.state.pageNumber, this.state.pageSize, this.state.filterObject);
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+    }
+    
+    clearFilter=  async() => {
+        this.setState({...this.state, filterObject: {}, filterModel: false });
+        this.props.getGlobalTagItemPageList(this.state.pageNumber, this.state.pageSize);
     }
 
     pageAction= async(pageNumber,pageSize )=>{
@@ -81,9 +83,10 @@ class GlobalTagItem extends Component {
         await this.clearAndRefresh();
     }
     
-    componentDidMount() {
-        this.clearAndRefresh();
+    async componentDidMount() {
+        await this.clearAndRefresh();
     }
+
     render() {
         return (
             <>
@@ -149,15 +152,18 @@ class GlobalTagItem extends Component {
                         >
                         </FilterModel>
                     }
-                <ConfirmModel
-                openAction={this.state.deleteModel}
-                closeAction={()=> this.setState({deleteModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                message= 'Do you want to delete'
-                saveAction = {this.saveObject}
-                >
-                </ConfirmModel>
+                 {this.state.deleteModel &&  
+                    <ConfirmModel
+                        openAction={this.state.deleteModel}
+                        closeAction={()=> this.setState({deleteModel: false})}
+                        data={this.state.dataObject} 
+                        type={this.state.type}
+                        message= 'Do you want to delete'
+                        saveAction = {this.saveObject}
+                        {...this.props}
+                    >
+                    </ConfirmModel>
+    }
             </>
         );
     };

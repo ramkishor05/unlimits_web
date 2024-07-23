@@ -19,6 +19,7 @@ const globalMainCategoryMeta = {
                 "name": "name",
                 "label": "Name",
                 "type": "text",
+                sortable: true,
                 "required" : {
                     value : '',
                     message: "Title is required!"
@@ -30,6 +31,7 @@ const globalMainCategoryMeta = {
                 "name": "color",
                 "label": "Color",
                 "type": "color",
+                sortable: true,
                 width: 50,
                 height: 50,
                 "required" : {

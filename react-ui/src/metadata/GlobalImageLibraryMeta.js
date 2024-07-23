@@ -30,12 +30,14 @@ const globalImageLibraryMeta = {
         {
             name: "name",
             label: "Name",
-            type: 'text'
+            type: 'text',
+            sortable: true
         },
         {
             name: "type",
             label: "Type",
             type: 'text',
+            sortable: true,
             "render": (value, row, header, props) => {
                 if (value) {
                     return types.find(type => type.name == value).desc;
@@ -48,6 +50,7 @@ const globalImageLibraryMeta = {
             "key": "subCategoryId",
             label: "Sub Category",
             type: 'text',
+            sortable: true,
             "render": (value, row, header, props) => {
                 if (value) {
                     let findglobalCategoryItem = props.globalCategoryItemList.find(globalCategoryItem => globalCategoryItem.id == value)
@@ -61,6 +64,7 @@ const globalImageLibraryMeta = {
             "key": "tagLibararyId",
             label: "Tag",
             type: 'text',
+            sortable: true,
             "render": (value, row, header, props) => {
                 if (value) {
                     let subCategoryId = row['subCategoryId']
@@ -201,7 +205,8 @@ filter: [
         fields: [{
                 name: "name",
                 label: "Name",
-                type: 'text'
+                type: 'text',
+                sortable: true
             },
             {
                 name: "type",

@@ -27,31 +27,33 @@ const styles = theme => ({
 });
 class GlobalImageLibrary extends Component {
     state={
-        saveModel: false,
-        deleteModel: false,
-        filterModel: false,
-        dataObject: {},
         title: "",
         type: "",
+
+        saveModel: false,
+        deleteModel: false,
+        dataObject: {},
+    
         pageNumber: 0,
         pageSize: 7,
+        filterModel: false,
         filterObject: {},
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Update Image Library", type:"Update", saveModel: true  });
+       this.setState({ ...this.state, dataObject: row, title:"Update Image Library", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Image Library", type:"Add", saveModel: true  });
+       this.setState({ ...this.state, dataObject: {}, title:"Add Image Library", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete Image Library", type:"Delete", deleteModel: true  });
+        this.setState({ ...this.state, dataObject: row, title:"Delete Image Library", type:"Delete", deleteModel: true  });
     };
 
     _filter = () => {
-        this.setState({ dataObject: {}, title:"Filters", type:"Filter", filterModel: true  });
+        this.setState({ ...this.state, title:"Filters", type:"Filter", filterModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -72,7 +74,7 @@ class GlobalImageLibrary extends Component {
         await this.props.getGlobalTagItemList();
         await this.props.getGlobalCategoryList()
         this.props.getGlobalImageLibraryPageList(this.state.pageNumber, this.state.pageSize);
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+        this.setState({ dataObject: {}, saveModel: false,deleteModel:false , filterModel: false  });
     }
 
     clearFilter=  async() => {
@@ -85,9 +87,10 @@ class GlobalImageLibrary extends Component {
         await this.clearAndRefresh();
     }
     
-    componentDidMount() {
-        this.clearAndRefresh();
+    async componentDidMount() {
+        await this.clearAndRefresh();
     }
+
     render() {
         return (
             <>
@@ -154,15 +157,19 @@ class GlobalImageLibrary extends Component {
                         >
                         </FilterModel>
                     }
-                <ConfirmModel
-                openAction={this.state.deleteModel}
-                closeAction={()=> this.setState({deleteModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                message= 'Do you want to delete'
-                saveAction = {this.saveObject}
-                >
-                </ConfirmModel>
+               {
+                this.state.deleteModel &&  
+                        <ConfirmModel
+                            openAction={this.state.deleteModel}
+                            closeAction={()=> this.setState({deleteModel: false})}
+                            data={this.state.dataObject} 
+                            type={this.state.type}
+                            message= 'Do you want to delete'
+                            saveAction = {this.saveObject}
+                            {...this.props}
+                        >
+                        </ConfirmModel>
+                }
             </>
         );
     };

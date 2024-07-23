@@ -16,6 +16,7 @@ const globalSubCategoryMeta = {
                 name: "name",
                 label: "Name",
                 type: 'text',
+                sortable: true,
                 "required" : {
                     value : '',
                     message: "Name is required!"
@@ -27,6 +28,7 @@ const globalSubCategoryMeta = {
                 "name": "color",
                 "label": "Color",
                 "type": "color",
+                sortable: true,
                 "required" : {
                     value : '',
                     message: "Color is required!"
@@ -37,6 +39,7 @@ const globalSubCategoryMeta = {
                 "key": "mainCategoryId",
                 label: "Main Category",
                 type: 'text',
+                sortable: true,
                 "required" : {
                     value : '',
                     message: "Main category is required!"

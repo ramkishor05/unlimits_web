@@ -29,28 +29,30 @@ class GlobalCategoryGroup extends Component {
         deleteModel: false,
         filterModel: false,
         dataObject: {},
+        filterObject: {},
         title: "",
-        type: ""
+        type: "",
+        pageNumber: 0,
+        pageSize: 7
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Update Main Category", type:"Update", saveModel: true  });
+       this.setState({ ...this.state, dataObject: row, title:"Update Main Category", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Main Category", type:"Add", saveModel: true  });
+       this.setState({ ...this.state, dataObject: {}, title:"Add Main Category", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete Main Category", type:"Delete", deleteModel: true  });
+        this.setState({ ...this.state, dataObject: row, title:"Delete Main Category", type:"Delete", deleteModel: true  });
     };
 
     _filter = () => {
-        this.setState({ dataObject: {}, title:"Filters", type:"Filter", filterModel: true  });
+        this.setState({ ...this.state, title:"Filters", type:"Filter", filterModel: true  });
     };
     
      saveObject = (type, row) => {
-        console.log("filters: ", row)
         if(type=='Add'){
             this.props.addGlobalCategoryGroup(row, this.clearAndRefresh)
         }
@@ -64,18 +66,23 @@ class GlobalCategoryGroup extends Component {
         }
             
         if(type=='Filter'){
-            this.props.getGlobalCategoryGroupPageList(0, config.pageSize, row);
-            this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: true });
+            this.setState({...this.state, filterObject: row, filterModel: false });
+            this.props.getGlobalCategoryGroupPageList(this.state.pageNumber, this.state.pageSize, row);
         }
     };
 
     clearAndRefresh = () => {
-        this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: false });
-        this.props.getGlobalCategoryGroupPageList(0, config.pageSize, this.state.dataObject);
+        this.setState({ ...this.state, dataObject: {}, saveModel: false, deleteModel:false , filterModel: false });
+        this.props.getGlobalCategoryGroupPageList(this.state.pageNumber, this.state.pageSize, this.state.filterObject);
     }
     
     componentDidMount() {
         this.clearAndRefresh();
+    }
+
+    clearFilter=  async() => {
+        this.setState({...this.state, filterObject: {}, filterModel: false });
+        this.props.getGlobalCategoryGroupPageList(this.state.pageNumber, this.state.pageSize);
     }
 
     render() {
@@ -132,22 +139,25 @@ class GlobalCategoryGroup extends Component {
                         title={this.state.title}
                         openAction={this.state.filterModel}
                         closeAction={()=> this.setState({filterModel: false})}
-                        data={this.state.dataObject} 
+                        clearAction ={this.clearFilter}
+                        data={this.state.filterObject} 
                         type={this.state.type}
                         fields= {this.props.metadata.filter}
                         saveAction = {this.saveObject}
                         >
                         </FilterModel>
                     }
+                   {this.state.deleteModel &&   
                     <ConfirmModel
-                    openAction={this.state.deleteModel}
-                    closeAction={()=> this.setState({deleteModel: false})}
-                    data={this.state.dataObject} 
-                    type={this.state.type}
-                    message= 'Do you want to delete'
-                    saveAction = {this.saveObject}
-                    >
+                        openAction={this.state.deleteModel}
+                        closeAction={()=> this.setState({deleteModel: false})}
+                        data={this.state.dataObject} 
+                        type={this.state.type}
+                        message= 'Do you want to delete'
+                        saveAction = {this.saveObject}
+                        >
                     </ConfirmModel>
+                 }
             </>
         );
     };

@@ -5,6 +5,7 @@ const globalPromptsMeta={
                 name: "name",
                 label: "Name",
                 type: 'text',
+                sortable: true,
                 "required" : {
                     value : '',
                     message: "Name is required!"
@@ -14,6 +15,7 @@ const globalPromptsMeta={
                 name: "description",
                 label: "Description",
                 type: 'text',
+                sortable: true,
                 row: 10,
                 col:10
             },
@@ -21,6 +23,7 @@ const globalPromptsMeta={
                 name: "type",
                 label: "Type",
                 type: 'text',
+                sortable: true,
                 "required" : {
                     value : '',
                     message: "Type is required!"

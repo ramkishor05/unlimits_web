@@ -23,17 +23,20 @@ const globalTaglibraryMeta = {
             {
                 name: "name",
                 label: "Name",
-                type: 'text'
+                type: 'text',
+                sortable: true
             },
             {
                 name: "color",
                 label: "Color",
-                type: 'color'
+                type: 'color',
+                sortable: true
             },
             {
                 name: "type",
                 label: "Type",
                 type: 'text',
+                sortable: true,
                 "render":(value, row, header, props)=>{
                     if(value){
                         return types.find(type=>type.name==value).desc;
@@ -45,6 +48,7 @@ const globalTaglibraryMeta = {
                 name: "subCategoryId",
                 label: "Sub Category",
                 type: 'text',
+                sortable: true,
                 "render":(value, row, header, props)=>{
                     if(value){
                         let globalSubCategory=props.globalSubCategoryList.find(globalSubCategory=>globalSubCategory.id==value)

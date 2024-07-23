@@ -17,6 +17,7 @@ import config from '../../../config';
 import FilterModel from '../../../component/model/FilterModel';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddIcon from '@mui/icons-material/Add';
+import { getValue } from '../../../component/utils/CommanUtil';
 
 const styles = theme => ({
     button: {
@@ -51,6 +52,18 @@ class GlobalCategoryItem extends Component {
     _filter = () => {
         this.setState({ dataObject: {}, title:"Filters", type:"Filter", filterModel: true  });
     };
+
+    _sort= (orderBy, sortOrder, dataList) =>{
+        console.log(orderBy, sortOrder, dataList)
+
+        /*dataList.sort((data1,data2)=>{
+            let value1=getValue(data1,orderBy).toString();
+            let value2=getValue(data2,orderBy).toString();
+            return sortOrder=='desc' ? value2.localeCompare(value1): value1.localeCompare(value2);
+          })*/
+        
+         this.props.getGlobalCategoryPageList(0, config.pageSize, {orderBy, sortOrder });
+     }
     
      saveObject = (type, row) => {
         
@@ -69,7 +82,7 @@ class GlobalCategoryItem extends Component {
     clearAndRefresh = () => {
         this.props.getGlobalCategoryGroupList();
         this.props.getGlobalCategoryPageList(0, config.pageSize);
-        this.setState({ dataObject: {}, saveModel: false,deleteModel:false  });
+        this.setState({ dataObject: {}, saveModel: false, deleteModel:false  });
     }
     
     componentDidMount() {
@@ -109,6 +122,7 @@ class GlobalCategoryItem extends Component {
                         dataList={this.props.globalCategoryItemPageData.elements}
                         deleteAction = {this._delete}
                         editAction = {this._edit}
+                        //sortAction = {this._sort}
                         {...this.props}
                         ></DynamicTable>
                     </MainCard>
@@ -135,18 +149,22 @@ class GlobalCategoryItem extends Component {
                         type={this.state.type}
                         fields= {this.props.metadata.filter}
                         saveAction = {this.saveObject}
+                        {...this.props}
                         >
                         </FilterModel>
                     }
+               {this.state.deleteModel &&    
                 <ConfirmModel
-                openAction={this.state.deleteModel}
-                closeAction={()=> this.setState({deleteModel: false})}
-                data={this.state.dataObject} 
-                type={this.state.type}
-                message= 'Do you want to delete'
-                saveAction = {this.saveObject}
-                >
+                    openAction={this.state.deleteModel}
+                    closeAction={()=> this.setState({deleteModel: false})}
+                    data={this.state.dataObject} 
+                    type={this.state.type}
+                    message= 'Do you want to delete'
+                    saveAction = {this.saveObject}
+                    {...this.props}
+                    >
                 </ConfirmModel>
+    }
             </>
         );
     };
