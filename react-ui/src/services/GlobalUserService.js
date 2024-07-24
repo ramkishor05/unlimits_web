@@ -9,7 +9,10 @@ const headers = {
 
 export default {
     getAll() {
-        return axios.get(VENDOR_USER_URL,{headers: headers})
+        return axios.get(VENDOR_USER_URL,{
+            headers: headers,
+            params: { type:  "USER"}
+        })
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
@@ -35,8 +38,11 @@ export default {
                     .catch(error => Promise.reject(error));
     },
     getPageList(pageNumber,pageCount) {
-        return axios.get(VENDOR_USER_URL+"/page/list"+`/${pageNumber}/count/${pageCount}`)
-                    .then(response => Promise.resolve(response.data.data))
-                    .catch(error => Promise.reject(error));
+        return axios.get(VENDOR_USER_URL+"/page/data"+`/${pageNumber}/count/${pageCount}`,{
+            headers: headers,
+            params: { type:  "USER"}
+        })
+        .then(response => Promise.resolve(response.data.data))
+        .catch(error => Promise.reject(error));
     }
 };
