@@ -61,6 +61,25 @@ const globalPromptsMeta={
             rows: 10,
             grid: 12
         }
+    ],
+    filter : [
+        {
+            name: "name",
+            label: "Name",
+            type: 'text'
+        },
+        {
+            name: "type",
+            label: "Type",
+            type: 'text'
+        },
+        {
+            name: "description",
+            label: "Description",
+            type: 'textarea',
+            rows: 10,
+            grid: 12
+        }
     ]
 }
 

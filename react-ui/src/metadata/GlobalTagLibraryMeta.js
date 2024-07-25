@@ -143,10 +143,6 @@ const globalTaglibraryMeta = {
             name: "type",
             label: "Type",
             type: 'select',
-            "required" : {
-                value : '',
-                message: "Type is required!"
-            },
             "onItems": (value, data, field, props )=>{
                 return types
             },

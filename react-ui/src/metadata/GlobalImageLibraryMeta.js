@@ -126,20 +126,6 @@ model: [{
                 }
             },
             {
-                name: "type",
-                label: "Type",
-                type: 'select',
-                "required": {
-                    value: '',
-                    message: "Type is required!"
-                },
-                "onItems": (value, data, field, props) => {
-                    return types
-                },
-                "itemKey": "name",
-                "itemVal": "desc"
-            },
-            {
                 name: "subCategoryId",
                 label: "Sub Category",
                 type: 'select',
@@ -207,16 +193,6 @@ filter: [
                 label: "Name",
                 type: 'text',
                 sortable: true
-            },
-            {
-                name: "type",
-                label: "Type",
-                type: 'select',
-                "onItems": (value, data, field, props) => {
-                    return types
-                },
-                "itemKey": "name",
-                "itemVal": "desc"
             },
             {
                 name: "subCategoryId",

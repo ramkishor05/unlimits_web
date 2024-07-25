@@ -252,16 +252,6 @@ const Dashboard = () => {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item xs={12}>
-                <Grid container spacing={gridSpacing}>
-                    <Grid item xs={12} md={8}>
-                        <TotalGrowthBarChart isLoading={isLoading} custDashboard={custDashboard}/>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <PopularCard isLoading={isLoading} custDashboard={custDashboard} showMore={showMore}/>
-                    </Grid>
-                </Grid>
-            </Grid>
         </Grid>
         
     );

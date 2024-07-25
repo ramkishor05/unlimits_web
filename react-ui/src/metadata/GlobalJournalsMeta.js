@@ -1,3 +1,5 @@
+import { Filter } from "@material-ui/icons";
+
 const globalJournalsMeta = {
     "table": {
         headers : [
@@ -45,6 +47,19 @@ const globalJournalsMeta = {
                 value : '',
                 message: "Question is required!"
             }
+        }
+    ],
+    filter : [
+        {
+            name: "journalDate",
+            label: "Journal Date",
+            type: 'date',
+            format:"MM/DD/YY"
+        },
+        {
+            name: "name",
+            label: "Journal Question",
+            type: 'text'
         }
     ]
 }
