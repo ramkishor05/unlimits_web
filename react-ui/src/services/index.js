@@ -11,16 +11,12 @@ export const axios = Axios.create({
 
 // Intercept each request and set the bearer token for user
 axios.interceptors.request.use(async config => {
-   // config.headers.common['Content-Type']= 'application/json';
-   // config.headers.common['Access-Control-Allow-Origin']= '*';
-   // config.headers.common['Access-Control-Allow-Headers']= 'Content-Type';
-   // config.headers.common['ngrok-skip-browser-warning']="OK";
     let account = await JSON.parse(localStorage.getItem('pos-account'));
     if (account) {
         if(account.token && account.token!=='' && account.token!=='null'){
              config.headers.common['Authorization'] = account.token;
         } else{
-            delete config.headers.common['Authorization'];
+            delete config.headers.common.Authorization;
         }/*
         if(account.ownerId && account.ownerId!==''){
             config.headers.common.ownerId = account.ownerId;
@@ -43,14 +39,26 @@ axios.interceptors.request.use(async config => {
         */
 	    
     }
-    //config.headers['authority']="ADMIN";
-    //config.headers["Content-Type"]= 'application/json';
-    //config.headers['access-control-allow-origin']= '*';
-    //config.headers['Access-Control-Allow-Origin']= '*';
-    //config.headers['Access-Control-Allow-Headers']='Content-Type';
-   // config.headers['Access-Control-Allow-Credentials']= true;
-    //config.headers['Accept']='*';
-   // config.headers["no-cors"]= ''
+    config.headers.common["Content-Type"]= 'application/json';
+    config.headers.common['Accept']='*';
+    config.headers.common['access-control-allow-origin']= "*";
+    config.headers.common["Content-Type"]= 'application/json';
+    config.headers.common['Access-Control-Allow-Origin']= "*";
+    config.headers.common['Access-Control-Allow-Headers']='Content-Type';
+    config.headers.common['Access-Control-Allow-Credentials']= true;
+    config.headers.common['Accept']='*';
+    config.headers.common["no-cors"]= ''
     return config;
 });
+
+axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        console.log('call the refresh token api here')
+        // Handle 401 error, e.g., redirect to login or refresh token
+      }
+      return Promise.reject(error)
+    },
+  )
 

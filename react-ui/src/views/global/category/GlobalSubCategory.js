@@ -17,7 +17,6 @@ import config from '../../../config';
 import FilterModel from '../../../component/model/FilterModel';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddIcon from '@mui/icons-material/Add';
-import { getValue } from '../../../component/utils/CommanUtil';
 
 const styles = theme => ({
     button: {
@@ -59,7 +58,7 @@ class GlobalCategoryItem extends Component {
         /*dataList.sort((data1,data2)=>{
             let value1=getValue(data1,orderBy).toString();
             let value2=getValue(data2,orderBy).toString();
-            return sortOrder=='desc' ? value2.localeCompare(value1): value1.localeCompare(value2);
+            return sortOrder==='desc' ? value2.localeCompare(value1): value1.localeCompare(value2);
           })*/
         
          this.props.getGlobalCategoryPageList(0, config.pageSize, {orderBy, sortOrder });
@@ -67,13 +66,13 @@ class GlobalCategoryItem extends Component {
     
      saveObject = (type, row) => {
         
-        if(type=='Add')
+        if(type==='Add')
             this.props.addGlobalCategory(row, this.clearAndRefresh)
-        if(type=='Update')
+        if(type==='Update')
             this.props.editGlobalCategory(row.id, row, this.clearAndRefresh)
-        if(type=='Delete')
+        if(type==='Delete')
             this.props.deleteGlobalCategory(row.id, this.clearAndRefresh)
-        if(type=='Filter'){
+        if(type==='Filter'){
             this.props.getGlobalCategoryPageList(0, config.pageSize, row);
             this.setState({ dataObject: {}, saveModel: false, deleteModel:false , filterModel: true });
         }

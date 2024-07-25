@@ -1,3 +1,5 @@
+export * from './GlobalUserTypes';
+
 export * from './GlobalCategoryGroupTypes';
 
 export * from './GlobalCategorySubTypes';

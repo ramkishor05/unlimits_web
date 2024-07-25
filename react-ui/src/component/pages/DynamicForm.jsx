@@ -8,7 +8,7 @@ import ImageUploadCard from '../image/ImageUploadCard';
 import { connect } from 'react-redux';
 import MainCard from '../cards/MainCard';
 
-import { getValue, setChecked, setValue } from '../utils/CommanUtil';
+import { getValue, setChecked, setValue } from '../utils/ReflectionUtil';
 import CountryOptions from '../dropdwons/CountryOptions';
 import { Close } from '@material-ui/icons';
 

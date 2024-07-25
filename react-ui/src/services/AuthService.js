@@ -4,13 +4,11 @@ import {axios} from './index';
 var endpoint = config.AUTH_SERVER_HOST+`/api/global/authentication`;
 
 let headers={
-    'authority':"ADMIN",
     "Content-Type": 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers':'Content-Type',
     'Access-Control-Allow-Credentials': true,
-    'Accept':'*',
-    "no-cors": ''
+    'Accept':'*'
 }
 
 export default {
