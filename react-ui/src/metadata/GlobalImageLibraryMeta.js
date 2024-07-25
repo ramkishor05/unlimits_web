@@ -7,7 +7,7 @@ const types = [{
     id: 0,
     name: "VISUALISE_WITH_IMAGES",
     desc: "Visualise With Images"
-}, ,
+},
 {
     id: 2,
     name: "VISUALISE_WITH_EXAMPLES",
@@ -40,7 +40,7 @@ const globalImageLibraryMeta = {
             sortable: true,
             "render": (value, row, header, props) => {
                 if (value) {
-                    return types.find(type => type.name == value).desc;
+                    return types.find(type => type.name === value).desc;
                 }
                 return value;
             }
@@ -53,7 +53,7 @@ const globalImageLibraryMeta = {
             sortable: true,
             "render": (value, row, header, props) => {
                 if (value) {
-                    let findglobalCategoryItem = props.globalCategoryItemList.find(globalCategoryItem => globalCategoryItem.id == value)
+                    let findglobalCategoryItem = props.globalCategoryItemList.find(globalCategoryItem => globalCategoryItem.id === value)
                     return findglobalCategoryItem ? findglobalCategoryItem.name : value;
                 }
                 return value;
@@ -68,7 +68,7 @@ const globalImageLibraryMeta = {
             "render": (value, row, header, props) => {
                 if (value) {
                     let subCategoryId = row['subCategoryId']
-                    let findglobalTagItem = props.globalTagItemList.find(globalTagItem => globalTagItem.id == value && globalTagItem.subCategoryId == subCategoryId)
+                    let findglobalTagItem = props.globalTagItemList.find(globalTagItem => globalTagItem.id === value && globalTagItem.subCategoryId === subCategoryId)
                     return findglobalTagItem ? findglobalTagItem.name : value;
                 }
                 return value;
@@ -151,7 +151,7 @@ model: [{
                     return props.globalCategoryItemList ? props.globalCategoryItemList : []
                 },
                 "onDisplay": (data) => {
-                    return < h7 > < img
+                    return < h7 > < img alt='Logo'
                     width = {
                         30
                     }
@@ -165,7 +165,7 @@ model: [{
                 },
                 "itemKey": "id",
                 "itemVal": "name"
-            }, ,
+            },
             {
                 name: "tagLibararyId",
                 label: "Tag Libarary",
@@ -179,7 +179,7 @@ model: [{
                     return props.globalTagItemList ? props.globalTagItemList.filter(globalTagItem => globalTagItem.subCategoryId === subCategoryId) : []
                 },
                 "onDisplay": (data) => {
-                    return < h7 > < img
+                    return < h7 > < img alt='Logo'
                     width = {
                         30
                     }
@@ -226,7 +226,7 @@ filter: [
                     return props.globalCategoryItemList ? props.globalCategoryItemList : []
                 },
                 "onDisplay": (data) => {
-                    return < h7 > < img
+                    return < h7 > < img alt='Logo'
                     width = {
                         30
                     }
@@ -240,7 +240,7 @@ filter: [
                 },
                 "itemKey": "id",
                 "itemVal": "name"
-            }, ,
+            },
             {
                 name: "tagLibararyId",
                 label: "Tag Libarary",
@@ -250,7 +250,7 @@ filter: [
                     return props.globalTagItemList ? props.globalTagItemList.filter(globalTagItem => globalTagItem.subCategoryId === subCategoryId) : []
                 },
                 "onDisplay": (data) => {
-                    return < h7 > < img
+                    return < h7 > < img alt='Logo'
                     width = {
                         30
                     }

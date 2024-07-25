@@ -28,12 +28,12 @@ export const getGlobalUserList = () => async dispatch => {
     }
 };
 
-export const getGlobalUserPageList = (pageNumber, pageCount) => async dispatch => {
+export const getGlobalUserPageList = (pageNumber, pageCount, filters) => async dispatch => {
 
     try {
         dispatch({ type: SHOW_LOADER });
 
-        const vendorUsers = await GlobalUserService.getPageList(pageNumber, pageCount);
+        const vendorUsers = await GlobalUserService.getPageList(pageNumber, pageCount, filters);
 
         if (vendorUsers) {
             dispatch({ type: GET_ALL_GLOBAL_USER_PAGE_SUCCESS, payload: vendorUsers });

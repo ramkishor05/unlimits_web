@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { MenuItem, Select, TextField } from '@material-ui/core';
-import { getValue, setValue } from '../utils/CommanUtil';
+import { getValue, setValue } from '../utils/ReflectionUtil';
+import { useEffect } from 'react';
 
 export default function AmountField(props) {
   const {field, data, errorMessage, isError,setData, checkValidation }=props;
@@ -13,19 +14,17 @@ export default function AmountField(props) {
     } else{
       value=getValue(data,field.name);
     }
-    console.log("init value =",value)
-    console.log(" va,ue =",getValue(data,field.name))
     return value;
   }
 
-  React.useEffect(()=>{
+ useEffect(()=>{
     if(field.prefix){
       init(field.prefix, data);
     }
     if(field.postfix){
       init(field.postfix, data);
     }
-  },[])
+  })
 
   const getInputProps = (field, data)=>{
     let inputprops={};

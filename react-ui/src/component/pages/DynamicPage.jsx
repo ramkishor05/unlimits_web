@@ -57,13 +57,13 @@ class DynamicPage extends Component {
      };
      
       saveObject = (type, row) => {
-         if(type=='Add')
+         if(type==='Add')
              this.props.add(row, this.clearAndRefresh)
-         if(type=='Update')
+         if(type==='Update')
              this.props.edit(row.id, row, this.clearAndRefresh)
-         if(type=='Delete')
+         if(type==='Delete')
              this.props.delete(row.id, this.clearAndRefresh)
-         if(type=='Filter'){
+         if(type==='Filter'){
              this.props.getPageList(this.state.pageNumber, this.state.pageSize, row);
              this.setState({ filterObject: row, saveModel: false, deleteModel:false , filterModel: true });
          }

@@ -4,11 +4,7 @@ import DynamicPage from '../../../component/pages/DynamicPage';
 
 
 class GlobalUserPage extends DynamicPage{
-
-    constructor(props){
-        super(props)
-    }
-
+    
     clearAndRefresh = async() => {
         await this.props.getUserRoleList();
         this.props.getPageList(this.state.pageNumber, this.state.pageSize);

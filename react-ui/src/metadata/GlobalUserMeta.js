@@ -1,5 +1,36 @@
 import { Grid } from "@material-ui/core";
 
+import defaultImg from '../assets/images/product/no-image.svg' 
+
+const fullName =( row) =>{
+    let finalname="";
+    let userProfile= row?.userProfile;
+    if(userProfile){
+        if(userProfile.fullName){
+            return userProfile.fullName;
+        }
+        if(userProfile.firstName){
+            finalname+=userProfile.firstName;
+            if(userProfile.lastName){
+                finalname+=userProfile.lastName;
+            }
+        }else{
+            if(userProfile.lastName){
+                finalname+=userProfile.lastName;
+            }
+        }
+    }
+    return finalname;
+}
+
+const phohograph =( row) =>{
+    let userProfile= row?.userProfile;
+    if(userProfile && userProfile.pictureURL){
+        return userProfile.pictureURL;
+    }
+    return defaultImg;
+}
+
 const globalUserMeta = {
     "table": {
         title: 'User',
@@ -7,19 +38,27 @@ const globalUserMeta = {
         headers : [
             {
                 name: "username",
-                label: "Username",
+                label: "User#",
                 type: 'text',
                 render: (value, row, header, props ) =>{
                     return <Grid container>
                             <Grid item>
-                              <img style={{textAlign :'center'}} src={value} width={60} height={60}></img>
+                              <img style={{textAlign :'center'}} 
+                              alt='Phohograph' 
+                              src={phohograph(row)} 
+                              width={60} 
+                              height={60}></img>
                             </Grid> 
                             <Grid item>
-                                <h5>{row.username}</h5>
-                                <h6>{row.registeredEmail}</h6>
+                                {fullName(row)}
                             </Grid>
                         </Grid> 
                 }
+            },
+            {
+                name: "registeredEmail",
+                label: "Registered Email",
+                type: 'text'
             },
             {
                 name: "registeredMobile",
@@ -27,14 +66,12 @@ const globalUserMeta = {
                 type: 'text'
             },
             {
-                name: "type",
+                name: "userRole",
                 label: "User Type",
-                type: 'text'
-            },
-            {
-                name: "userRole.roleId",
-                label: "User Role",
-                type: 'text'
+                type: 'text',
+                render: (userRole, row, header, props ) =>{
+                    return userRole?.roleName;
+                }
             },
             {
                 name: "actions",
@@ -60,7 +97,7 @@ const globalUserMeta = {
             height:200,
             grid:12,
             render: (value, row, header, props ) =>{
-                return <img style={{textAlign :'center'}} src={value} width={50} height={50}></img>
+                return <img style={{textAlign :'center'}} alt='Phohograph' src={value} width={50} height={50}></img>
             }
         },
         {
@@ -81,15 +118,6 @@ const globalUserMeta = {
             name: "registeredMobile",
             label: "Registered mobile",
             type: 'text'
-        },
-        {
-            name: "type",
-            label: "User Type",
-            type: 'text',
-            "required" : {
-                value : '',
-                message: "User type is required!"
-            }
         },
         {
             name: "userRoleId",
@@ -120,19 +148,10 @@ const globalUserMeta = {
             type: 'text'
         },
         {
-            name: "type",
-            label: "User Type",
-            type: 'text'
-        },
-        {
             name: "userRoleId",
             key: "userRoleId",
             label: "User Role",
             type: 'select',
-            "required" : {
-                value : '',
-                message: "User role is required!"
-            },
             onItems: (value, row, header, props ) =>{
                 return props.userRoleList? props.userRoleList: [];
             },

@@ -37,10 +37,10 @@ export default {
                     .then(response => Promise.resolve(response.data))
                     .catch(error => Promise.reject(error));
     },
-    getPageList(pageNumber,pageCount) {
+    getPageList(pageNumber,pageCount, filters) {
         return axios.get(VENDOR_USER_URL+"/page/data"+`/${pageNumber}/count/${pageCount}`,{
             headers: headers,
-            params: { type:  "USER"}
+            params: filters
         })
         .then(response => Promise.resolve(response.data.data))
         .catch(error => Promise.reject(error));

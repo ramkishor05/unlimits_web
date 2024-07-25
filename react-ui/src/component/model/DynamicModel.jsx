@@ -6,15 +6,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Box, ButtonGroup, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
+import { Box, ButtonGroup, FormControl, FormControlLabel, FormHelperText, FormLabel, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
 import ImageUploadCard from '../media/ImageUploadCard';
 import { connect } from 'react-redux';
-import { getValue, setChecked, setValue } from '../utils/CommanUtil';
+import { getValue, setChecked, setValue } from '../utils/ReflectionUtil';
 import CountryOptions from '../dropdwons/CountryOptions';
 import VideoUploadCard from '../media/VideoUploadCard';
-import AudioUploadCard from '../media/AudioUploadCard';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -40,7 +39,7 @@ class DynamicModel extends React.Component {
   checkValidation = (field, value)=>{
     const validationMap=this.state.validationMap;
     let status=true;
-    if(field.required && (value=='' || undefined==value|| null===value) ){
+    if(field.required && (value==='' || undefined===value|| null===value) ){
       validationMap[field.name]=field.required.message;
       status= false;
     } else{
@@ -95,10 +94,10 @@ class DynamicModel extends React.Component {
         return <Box 
         >{field.label}</Box>;
       case 'select':
-        return  <FormControl fullWidth 
+        return  <Box  
         error={this.isError(field)}>
-        <InputLabel htmlFor={field.name} id={field.name+"-label"}>{field.label}</InputLabel>
-        <Select
+        <InputLabel  htmlFor={field.name+"-label"} id={field.name+"-label"}>{field.label}</InputLabel >
+        <Select fullWidth
           variant='standard'
           labelId={field.name+"-label"}
           id={field.name}
@@ -125,7 +124,7 @@ class DynamicModel extends React.Component {
         this.isError(field) && 
         <FormHelperText >{this.errorMessage(field)}</FormHelperText>
         }
-      </FormControl>;
+      </Box>;
       case 'switch':
          return <FormControlLabel
          control={

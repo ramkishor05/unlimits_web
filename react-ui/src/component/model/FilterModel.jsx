@@ -9,15 +9,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Box, ButtonGroup, FormControl, FormControlLabel, FormHelperText, Grid, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import AmountField from '../fields/AmountField';
 import QuantityField from '../fields/QuantityField';
-import ImageUploadCard from '../media/ImageUploadCard';
 import { connect } from 'react-redux';
-import { getValue, setChecked, setValue } from '../utils/CommanUtil';
+import { getValue, setChecked, setValue } from '../utils/ReflectionUtil';
 import CountryOptions from '../dropdwons/CountryOptions';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
-import VideoUploadCard from '../media/VideoUploadCard';
 
 class FilterModel extends React.Component {
 
@@ -39,7 +37,7 @@ class FilterModel extends React.Component {
   checkValidation = (field, value)=>{
     const validationMap=this.state.validationMap;
     let status=true;
-    if(field.required && (value=='' || undefined==value|| null===value) ){
+    if(field.required && (value==='' || undefined===value|| null===value) ){
       validationMap[field.name]=field.required.message;
       status= false;
     } else{
@@ -73,8 +71,6 @@ class FilterModel extends React.Component {
     };
     if(Object.keys(this.state.validationMap).length === 0){
       this.props.saveAction(type, data);
-    }else{
-      console.log("this.state.validationMap=",this.state.validationMap)
     }
   }
 
