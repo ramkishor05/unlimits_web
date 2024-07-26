@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // material-ui
 import { Typography } from '@material-ui/core';
 
 // project imports
 import NavGroup from './NavGroup';
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import NavItem from './NavItem';
 
 //-----------------------|| SIDEBAR MENU LIST ||-----------------------//
 
@@ -15,6 +14,8 @@ const MenuList = () => {
     const userMenuGroupReducer = useSelector((state) => state.userMenuGroupReducer);   
     return userMenuGroupReducer.userMenuGroups.map((item) => {
         switch (item.type) {
+            case 'item':
+                return <NavItem key={item.id} item={item} />;
             case 'group':
                 return <NavGroup key={item.id} item={item} />;
             default:

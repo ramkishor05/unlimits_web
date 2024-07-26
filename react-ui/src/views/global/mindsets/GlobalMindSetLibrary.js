@@ -135,15 +135,15 @@ class GlobalMindSetLibrary extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Update MindSet Library", type:"Update", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update My MindSet Video", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add MindSet Library", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add My MindSet Video", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete MindSet Library", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete My MindSet Video", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -169,7 +169,7 @@ class GlobalMindSetLibrary extends Component {
         return (
             <>
                 
-                <MainCard title="Mindset Library" 
+                <MainCard title="My MindSet Videos" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 
@@ -226,10 +226,18 @@ class GlobalMindSetLibrary extends Component {
 const mapStateToProps = state => {
     const { globalMindSetLibraryList, globalMindSetLibraryPageData } = state.globalMindSetLibraryReducer;
 
-    return { globalMindSetLibraryList, globalMindSetLibraryPageData };
+    return { 
+        globalMindSetLibraryList, 
+        globalMindSetLibraryPageData 
+    };
 };
 
 
-export default connect(mapStateToProps, { getGlobalMindSetLibraryPageList, addGlobalMindSetLibrary, editGlobalMindSetLibrary, deleteGlobalMindSetLibrary })(GlobalMindSetLibrary);
+export default connect(mapStateToProps, { 
+    getGlobalMindSetLibraryPageList,
+    addGlobalMindSetLibrary, 
+    editGlobalMindSetLibrary, 
+    deleteGlobalMindSetLibrary 
+})(GlobalMindSetLibrary);
 
 

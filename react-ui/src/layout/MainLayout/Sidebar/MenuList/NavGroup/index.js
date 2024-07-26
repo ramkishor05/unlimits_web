@@ -34,8 +34,21 @@ const NavGroup = ({ item ,filter }) => {
     const level=1;
     const classes = useStyles();
 
+    if(item.menuItems.length==1){
+        let menu= item.menuItems[0]
+        item.type=menu.type;
+        item.url=menu.url;
+        item.title=menu.title;
+        item.icon=menu.icon;
+        item.orderSequence=menu.orderSequence;
+        if(menu.menuItems && menu.menuItems.length>0){
+            item.menuItems=menu.menuItems
+        }
+       
+    }
+
     // menu list collapse & items
-    const items = filter? filter(item.menuItems).map((menu) => {
+    let items = filter? filter(item.menuItems).map((menu) => {
         switch (menu.type) {
             case 'collapse':
                 return <NavCollapse key={menu.id} menu={menu} level={1} />;
@@ -62,6 +75,7 @@ const NavGroup = ({ item ,filter }) => {
                 );
         }
     }) :[];
+
 
     const Icon = IconMapper[item.icon];
     const itemIcon = IconMapper[item.icon] ? (
@@ -91,7 +105,7 @@ const NavGroup = ({ item ,filter }) => {
                            {
                             item.url && !item.disabled && items.length>1 ? 
                             <Link to={item.url}  >
-                            {itemIcon}{item.title}
+                            {itemIcon} {item.title}
                            </Link>
                            : <>
                            {itemIcon}{item.title}
@@ -108,7 +122,7 @@ const NavGroup = ({ item ,filter }) => {
                     )
                 }
             >
-                {items}
+                {items.length>1 && items}
             </List>
 
             {/* group divider */}

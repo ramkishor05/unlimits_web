@@ -20,9 +20,10 @@ import PromptIcon from '@mui/icons-material/BookmarkAdded';
 import JournalsIcon from '@mui/icons-material/AutoStories';
 import ReProgramsIcon from '@mui/icons-material/Headphones';
 import AffirmationsIcon from '@mui/icons-material/PlayArrow';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export const IconMapper = {
-    Dashboard: IconDashboard,
+    Dashboard: DashboardIcon,
     Analytics: IconDeviceAnalytics,
     Help: IconHelp,
     Sitemap: IconSitemap,

@@ -3,16 +3,7 @@ const globalMainCategoryMeta = {
     "table": {
          name: 'Main categories',
         "headers": [
-            {
-                name: "logoUrl",
-                key: "logoUrl",
-                label: "Image",
-                type:'img',
-                grid: 12,
-                width: 30,
-                height: 30,
-                container: 'category_logo'
-            },
+           
             {
                 "id": "name",
                 "key": "name",
@@ -47,32 +38,9 @@ const globalMainCategoryMeta = {
         ]
     },
     "model" :[
+         
          {
-            grid: 6,
-            fields:[
-                {
-                    name: "logoUrl",
-                    key: "logoUrl",
-                    label: "Image",
-                    type:'img',
-                    grid: 12,
-                    container: 'main_category',
-                    onchange: (file, data, field, props, setData)=>{
-                        if(data){
-                            data['content']=file;
-                            setData && setData(data);
-                        }
-                        else{
-                            data={};
-                            data['content']=file
-                            setData && setData(data);
-                        }
-                    }
-                }
-            ]
-         },
-         {
-            grid: 6,
+            grid: 12,
             fields:[
                 {
                     "id": "name",
@@ -80,7 +48,7 @@ const globalMainCategoryMeta = {
                     "name": "name",
                     "label": "Name",
                     "type": "text",
-                    "grid": 12,
+                    "grid": 6,
                     "required" : {
                         value : '',
                         message: "Name is required!"
@@ -92,7 +60,7 @@ const globalMainCategoryMeta = {
                     "name": "color",
                     "label": "Color",
                     "type": "color",
-                    "grid": 12,
+                    "grid": 6,
                     "required" : {
                         value : '',
                         message: "Color is required!"

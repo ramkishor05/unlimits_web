@@ -16,7 +16,15 @@ const mapStateToProps = state => {
     const { userRoleList } = state.userRoleReducer
 
     const { globalUserPageData } = state.globalUserReducer;
-    return { dataList: globalUserPageData.elements, userRoleList };
+
+
+    return { 
+        dataList: globalUserPageData.elements,
+        pageNumber: globalUserPageData.pageNumber,
+        pageSize: globalUserPageData.pageSize,
+        totalPages: globalUserPageData.totalPages,
+        userRoleList 
+    };
 };
 
 export default connect(mapStateToProps, { 

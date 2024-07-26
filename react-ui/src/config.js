@@ -14,7 +14,7 @@ const config = {
     pageSize: 7,
     APP_HOST_SERVER: APP_HOST_SERVER,
     ITEM_SERVER_HOST: APP_HOST_SERVER+'/content',
-    AUTH_SERVER_HOST: 'http://localhost:2222',
+    AUTH_SERVER_HOST: APP_HOST_SERVER+'/auth',
     CRM_SERVER_HOST: APP_HOST_SERVER+'/crm',
     ORDERING_SERVER_HOST: APP_HOST_SERVER+'/ordering',
     PAYMENT_SERVER_HOST: APP_HOST_SERVER+'/payment',
@@ -25,7 +25,6 @@ const config = {
       if(!clientUrl && clientUrl==''){
         return '';
       }
-      console.log("clientUrl="+clientUrl)
       return clientUrl.startsWith('/')?  config.ITEM_SERVER_HOST+clientUrl : config.ITEM_SERVER_HOST+'/'+clientUrl;
     }
 };

@@ -135,15 +135,15 @@ class GlobalReProgramLibrary extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Update ReProgram Library", type:"Update", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Reprogram", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add ReProgram Library", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Reprogram", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete ReProgram Library", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete Reprogram", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -169,7 +169,7 @@ class GlobalReProgramLibrary extends Component {
         return (
             <>
                 
-                <MainCard title="Reprogram Library" 
+                <MainCard title="Reprogram" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 

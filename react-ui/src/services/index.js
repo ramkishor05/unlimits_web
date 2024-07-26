@@ -45,7 +45,6 @@ axios.interceptors.request.use(async config => {
     config.headers.common["Content-Type"]= 'application/json';
     config.headers.common['Access-Control-Allow-Origin']= "*";
     config.headers.common['Access-Control-Allow-Headers']='Content-Type';
-    config.headers.common['Access-Control-Allow-Credentials']= true;
     config.headers.common['Accept']='*';
     config.headers.common["no-cors"]= ''
     return config;

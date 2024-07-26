@@ -135,15 +135,15 @@ class GlobalAffirmationLibrary extends Component {
     }
     
     _edit = row => {
-       this.setState({ dataObject: row, title:"Update Affirmation Library", type:"Update", saveModel: true  });
+       this.setState({ dataObject: row, title:"Update Affirmation", type:"Update", saveModel: true  });
     }
 
     _add = () => {
-       this.setState({ dataObject: {}, title:"Add Affirmation Library", type:"Add", saveModel: true  });
+       this.setState({ dataObject: {}, title:"Add Affirmation", type:"Add", saveModel: true  });
     }
 
     _delete = row => {
-        this.setState({ dataObject: row, title:"Delete Affirmation Library", type:"Delete", deleteModel: true  });
+        this.setState({ dataObject: row, title:"Delete Affirmation", type:"Delete", deleteModel: true  });
     };
     
      saveObject = (type, row) => {
@@ -169,7 +169,7 @@ class GlobalAffirmationLibrary extends Component {
         return (
             <>
                 
-                <MainCard title="Affirmation Library" 
+                <MainCard title="Affirmation" 
                         button ={
                             <Button variant="outlined" 
                             color="primary" 

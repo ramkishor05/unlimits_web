@@ -33,7 +33,7 @@ const MainRoutes = () => {
         }
         for(let menuGroupIndex in menuGroups){
             let menuGroup= menuGroups[menuGroupIndex];
-            if(!menuGroup.disabled)
+            if(!menuGroup.disabled && menuGroup.menuItems.length>1)
             list.push(<Route key={menuGroup.id} exact path={menuGroup.url} render={(props) => <MainPage menuGroup={menuGroup} {...props}></MainPage>} />)
             for(let menuItemIdex in menuGroups[menuGroupIndex].menuItems){
                 let menuItem= menuGroups[menuGroupIndex].menuItems[menuItemIdex];
