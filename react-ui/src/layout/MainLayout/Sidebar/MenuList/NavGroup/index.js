@@ -96,7 +96,7 @@ const NavGroup = ({ item ,filter }) => {
     return (
         <React.Fragment>
             <List 
-              style={{'disabled': item.disabled}}
+              style={{'disabled': item.disabled, padding:"0px 9px 0px"}}
                 subheader={
                     item.title && (
                         <>
