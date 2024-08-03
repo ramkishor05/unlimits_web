@@ -68,9 +68,17 @@ class DynamicPage extends Component {
              this.setState({ filterObject: row, saveModel: false, deleteModel:false , filterModel: true });
          }
      };
+
+     sortAction=(orderBy, sortOrder , dataList)=>{
+        this.setState({...this.state, filterObject:{
+            ...this.state.filterObject,
+            orderBy, sortOrder
+        }})
+        this.props.getPageList(this.state.pageNumber, this.state.pageSize, {... this.state.filterObject, orderBy, sortOrder });
+     }
  
      clearAndRefresh = async() => {
-         this.props.getPageList(this.state.pageNumber, this.state.pageSize);
+         this.props.getPageList(this.state.pageNumber, this.state.pageSize, this.state.filterObject);
          this.setState({ dataObject: {}, saveModel: false,deleteModel:false , filterModel: false  });
      }
  
