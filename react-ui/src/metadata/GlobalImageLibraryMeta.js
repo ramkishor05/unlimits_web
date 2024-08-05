@@ -21,11 +21,7 @@ const globalImageLibraryMeta = {
             label: "Image",
             width: 30,
             height: 30,
-            type: 'img',
-            "required": {
-                value: '',
-                message: "File is required!"
-            }
+            type: 'img'
         },
         {
             name: "name",
@@ -37,13 +33,7 @@ const globalImageLibraryMeta = {
             name: "type",
             label: "Type",
             type: 'text',
-            sortable: true,
-            "render": (value, row, header, props) => {
-                if (value) {
-                    return types.find(type => type.name === value).desc;
-                }
-                return value;
-            }
+            sortable: true
         },
         {
             name: "subCategoryId",
@@ -55,21 +45,6 @@ const globalImageLibraryMeta = {
                 if (value) {
                     let findglobalCategoryItem = props.globalCategoryItemList.find(globalCategoryItem => globalCategoryItem.id === value)
                     return findglobalCategoryItem ? findglobalCategoryItem.name : value;
-                }
-                return value;
-            }
-        },
-        {
-            name: "tagLibararyId",
-            "key": "tagLibararyId",
-            label: "Tag",
-            type: 'text',
-            sortable: true,
-            "render": (value, row, header, props) => {
-                if (value) {
-                    let subCategoryId = row['subCategoryId']
-                    let findglobalTagItem = props.globalTagItemList.find(globalTagItem => globalTagItem.id === value && globalTagItem.subCategoryId === subCategoryId)
-                    return findglobalTagItem ? findglobalTagItem.name : value;
                 }
                 return value;
             }
@@ -126,6 +101,11 @@ model: [{
                 }
             },
             {
+                name: "type",
+                label: "Type",
+                type: 'text'
+            },
+            {
                 name: "subCategoryId",
                 label: "Sub Category",
                 type: 'select',
@@ -135,34 +115,6 @@ model: [{
                 },
                 "onItems": (value, data, field, props) => {
                     return props.globalCategoryItemList ? props.globalCategoryItemList : []
-                },
-                "onDisplay": (data) => {
-                    return < h7 > < img alt='Logo'
-                    width = {
-                        30
-                    }
-                    height = {
-                        20
-                    }
-                    src = {
-                        data.logoUrl
-                    }
-                    /> {data.name}</h7 >
-                },
-                "itemKey": "id",
-                "itemVal": "name"
-            },
-            {
-                name: "tagLibararyId",
-                label: "Tag Libarary",
-                type: 'select',
-                "required": {
-                    value: '',
-                    message: "Tag Libarary is required!"
-                },
-                "onItems": (value, data, field, props) => {
-                    let subCategoryId = data['subCategoryId'] ? data['subCategoryId'] : 0;
-                    return props.globalTagItemList ? props.globalTagItemList.filter(globalTagItem => globalTagItem.subCategoryId === subCategoryId) : []
                 },
                 "onDisplay": (data) => {
                     return < h7 > < img alt='Logo'
@@ -191,8 +143,12 @@ filter: [
         fields: [{
                 name: "name",
                 label: "Name",
-                type: 'text',
-                sortable: true
+                type: 'text'
+            },
+            {
+                name: "type",
+                label: "Type",
+                type: 'text'
             },
             {
                 name: "subCategoryId",
@@ -200,30 +156,6 @@ filter: [
                 type: 'select',
                 "onItems": (value, data, field, props) => {
                     return props.globalCategoryItemList ? props.globalCategoryItemList : []
-                },
-                "onDisplay": (data) => {
-                    return < h7 > < img alt='Logo'
-                    width = {
-                        30
-                    }
-                    height = {
-                        20
-                    }
-                    src = {
-                        data.logoUrl
-                    }
-                    /> {data.name}</h7 >
-                },
-                "itemKey": "id",
-                "itemVal": "name"
-            },
-            {
-                name: "tagLibararyId",
-                label: "Tag Libarary",
-                type: 'select',
-                "onItems": (value, data, field, props) => {
-                    let subCategoryId = data['subCategoryId'] ? data['subCategoryId'] : 0;
-                    return props.globalTagItemList ? props.globalTagItemList.filter(globalTagItem => globalTagItem.subCategoryId === subCategoryId) : []
                 },
                 "onDisplay": (data) => {
                     return < h7 > < img alt='Logo'
