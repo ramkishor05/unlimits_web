@@ -1,19 +1,19 @@
 const types=[
     {
         id: 1,
-        name: "VISUALISE_WITH_WORDS",
-        desc: "Visualise With Words"
+        name: "WORDS",
+        desc: "Words"
     },
     {
         id: 0,
-        name: "VISUALISE_WITH_IMAGES",
-        desc: "Visualise With Images"
+        name: "IMAGES",
+        desc: "Images"
     },
     ,
     {
         id: 2,
-        name: "VISUALISE_WITH_EXAMPLES",
-        desc: "Visualise With Examples"
+        name: "EXAMPLES",
+        desc: "Examples"
     }
 ]
 const globalTaglibraryMeta = {
@@ -31,18 +31,6 @@ const globalTaglibraryMeta = {
                 label: "Color",
                 type: 'color',
                 sortable: true
-            },
-            {
-                name: "type",
-                label: "Type",
-                type: 'text',
-                sortable: true,
-                "render":(value, row, header, props)=>{
-                    if(value){
-                        return types.find(type=>type.name==value).desc;
-                    }
-                    return value;
-                }
             },
             {
                 name: "subCategoryId",
